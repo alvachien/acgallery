@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmitOnError": false,
+    "noImplicitAny": false,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es6",
+    "outDir": "../wwwroot/app/js/"
+  },
+
+  "exclude": [
+      "node_modules/**/*.d.ts",
+      "wwwroot",
+      "typings/main",
+      "typings/main.d.ts"
+  ]
+}

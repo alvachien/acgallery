@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <script>document.write('<base href="' + document.location + '" />');</script>
+        <title>AC Gallery</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="app/css/stylesheet.css" type="text/css" />
+
+        <!-- 1. Load libraries -->
+        <!-- Polyfill(s) for older browsers -->
+
+        <script src="libs/js/core-js/client/shim.min.js"></script>
+        <script src="libs/js/zone.js/dist/zone.js"></script>
+        <script src="libs/js/reflect-metadata/Reflect.js"></script>
+        <script src="libs/js/systemjs/dist/system.src.js"></script>
+
+        <!-- 2. Configure SystemJS -->
+        <script src="libs/js/systemjs.config.js"></script>
+        <script>
+            System.import('app/boot').catch(function (err) {
+                console.error(err);
+            });
+        </script>
+    </head>
+
+    <!-- 3. Display the application -->
+    <body>
+        <my-app>Loading...</my-app>
+    </body>
+</html>
