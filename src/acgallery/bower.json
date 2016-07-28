@@ -1,12 +1,10 @@
 {
   "name": "acgallery",
   "private": true,
+
   "dependencies": {
-    "bootstrap": "3.3.6",
-    "components-font-awesome": "4.5.0",
     "alertify.js": "0.3.11",
-    "jquery": "2.2.3",
-    "bootswatch": "3.3.6"
+    "font-awesome": "4.6.1"
   },
   "resolutions": {
     "jquery": "^3.1.0"

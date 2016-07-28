@@ -9,14 +9,16 @@
         'app': 'app/js', // 'dist',
 
         '@angular': 'libs/js/@angular',
+        '@ng-bootstrap': 'libs/js/@ng-bootstrap',
         'angular2-in-memory-web-api': 'libs/js/angular2-in-memory-web-api',
         'rxjs': 'libs/js/rxjs'
     };
 
     // packages tells the System loader how to load when no filename and/or no extension
     var packages = {
-        'app': { main: 'main.js', defaultExtension: 'js' },
+        'app': { main: 'app.js', defaultExtension: 'js' },
         'rxjs': { defaultExtension: 'js' },
+        '@ng-bootstrap/ng-bootstrap': { main: 'index.js', defaultExtension: 'js' },
         'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
     };
 

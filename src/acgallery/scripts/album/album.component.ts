@@ -1,15 +1,20 @@
-﻿import { Component, OnInit }        from '@angular/core';
-import { Album }            from './album';
-import { Router } from '@angular/router';
-import { AlbumService } from './album.service';
+﻿import { Component, OnInit }                from '@angular/core';
+import { Album }                            from './album';
+import { AlbumService }                     from './album.service';
+import { Router, ROUTER_DIRECTIVES }        from '@angular/router';
+import { NGB_DIRECTIVES, NGB_PRECOMPILE }   from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'my-album',
-    templateUrl: 'app/views/album.html',
-    styleUrls: ['app/css/album.component.css'],
+    directives: [
+        ROUTER_DIRECTIVES,
+        NGB_DIRECTIVES
+    ],
+    precompile: [NGB_PRECOMPILE],
+    templateUrl: 'app/views/albums.html',
     providers: [
         AlbumService
-    ]
+    ],
 })
 
 export class AlbumComponent implements OnInit {
@@ -19,7 +24,8 @@ export class AlbumComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private albumService: AlbumService) { }
+        private albumService: AlbumService) {
+    }
 
     getAlbumes() {
         this.albumService.getMockedData().then(albumes => this.albumes = albumes);
@@ -32,7 +38,7 @@ export class AlbumComponent implements OnInit {
     onSelect(album: Album) { this.selectedAlbum = album; }
 
     gotoDetail() {
-        this.router.navigate(['/detail', this.selectedAlbum.id]);
+        this.router.navigate(['/albumdetail', this.selectedAlbum.Id]);
     }
 }
 

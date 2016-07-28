@@ -8,20 +8,11 @@ import { AboutComponent } from './about/about.component';
 
 @Component({
     selector: 'my-app',
-    template: `
-        <h1>{{title}}</h1>
-        <nav>
-            <a href='' [routerLink]="['/home']" routerLinkActive="active">Home</a>
-            <a href='' [routerLink]="['/albums']" routerLinkActive="active">Albums</a>
-            <a href='' [routerLink]="['/about']" routerLinkActive="active">About</a>
-        </nav>
-        <router-outlet></router-outlet>
-  `,
-    styleUrls: ['app/css/app.component.css'],
+    templateUrl: 'app/views/main.html',
     directives: [ROUTER_DIRECTIVES],
     precompile: [HomeComponent, AlbumComponent, AlbumDetailComponent, AboutComponent]
 })
 
 export class AppComponent {
-    title = 'AC Gallery';
+    title = 'AC Photo Gallery';
 }

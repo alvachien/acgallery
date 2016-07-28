@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { AlbumComponent } from './album/album.component';
 import { AlbumDetailComponent } from './album/album.detail.component';
 import { AboutComponent } from './about/about.component';
+import { CreditsComponent } from './credits/credits.component';
 
 const routes: RouterConfig = [
     {
@@ -16,7 +17,7 @@ const routes: RouterConfig = [
         component: HomeComponent
     },
     {
-        path: 'detail/:id',
+        path: 'albumdetail/:id',
         component: AlbumDetailComponent
     },
     {
@@ -26,6 +27,10 @@ const routes: RouterConfig = [
     {
         path: 'about',
         component: AboutComponent
+    },
+    {
+        path: 'credits',
+        component: CreditsComponent
     }
 ];
 

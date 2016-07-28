@@ -37,15 +37,17 @@ gulp.task('setup-vendors', function (done) {
         'rxjs/**/*.js',
         'zone.js/dist/*.js',
         '@angular/**/*.js',
-        'angular2-in-memory-web-api/**/*.js'
+        '@ng-bootstrap/ng-bootstrap/**/*.js',
+        'angular2-in-memory-web-api/**/*.js',
+        'jquery/dist/jquery*.js',
+        'bootstrap/dist/js/bootstrap*.js',
+        'tether/dist/js/tether*.js'
         ], {
             cwd: "node_modules/**"
         })
         .pipe(gulp.dest(paths.jsVendors));
 
     gulp.src([
-        'jquery/dist/jquery*.js',
-        'bootstrap/dist/js/bootstrap*.js',
         'alertify.js/lib/alertify.min.js',
         ], {
             cwd: "bower_components/**"
@@ -54,12 +56,13 @@ gulp.task('setup-vendors', function (done) {
 
     gulp.src([
       'systemjs.config.js'
-    ]).pipe(gulp.dest(paths.jsVendors));
+    ]).pipe(gulp.dest(paths.tsOutput));
 
     gulp.src([
-      paths.bower + 'bootstrap/dist/css/bootstrap.css',
+      paths.npm + 'tether/dist/css/tether*.css',
+      paths.npm + 'bootstrap/dist/css/bootstrap.css',
       paths.npm + 'fancybox/dist/css/jquery.fancybox.css',
-      paths.bower + 'components-font-awesome/css/font-awesome.css',
+      paths.bower + 'font-awesome/css/font-awesome.css',
       paths.bower + 'alertify.js/themes/alertify.core.css',
       paths.bower + 'alertify.js/themes/alertify.bootstrap.css',
       paths.bower + 'alertify.js/themes/alertify.default.css'
@@ -80,24 +83,25 @@ gulp.task('setup-vendors', function (done) {
       paths.bower + 'bootstrap/fonts/glyphicons-halflings-regular.ttf',
       paths.bower + 'bootstrap/fonts/glyphicons-halflings-regular.woff',
       paths.bower + 'bootstrap/fonts/glyphicons-halflings-regular.woff2',
-      paths.bower + 'components-font-awesome/fonts/FontAwesome.otf',
-      paths.bower + 'components-font-awesome/fonts/fontawesome-webfont.eot',
-      paths.bower + 'components-font-awesome/fonts/fontawesome-webfont.svg',
-      paths.bower + 'components-font-awesome/fonts/fontawesome-webfont.ttf',
-      paths.bower + 'components-font-awesome/fonts/fontawesome-webfont.woff',
-      paths.bower + 'components-font-awesome/fonts/fontawesome-webfont.woff2',
+      paths.bower + 'font-awesome/fonts/FontAwesome.otf',
+      paths.bower + 'font-awesome/fonts/fontawesome-webfont.eot',
+      paths.bower + 'font-awesome/fonts/fontawesome-webfont.svg',
+      paths.bower + 'font-awesome/fonts/fontawesome-webfont.ttf',
+      paths.bower + 'font-awesome/fonts/fontawesome-webfont.woff',
+      paths.bower + 'font-awesome/fonts/fontawesome-webfont.woff2',
     ]).pipe(gulp.dest(paths.fontsVendors));
-
 });
 
-gulp.task('before-compile', function () {
-    gulp.src([
-        'css/**/*.css'
-    ]).pipe(gulp.dest(paths.cssApp));
-
+gulp.task('before-compile-view', function () {
     gulp.src([
         'views/**/*.html'
     ]).pipe(gulp.dest(paths.viewsApp));
+});
+
+gulp.task('before-compile-css', function () {
+    gulp.src([
+        'css/**/*.css'
+    ]).pipe(gulp.dest(paths.cssApp));
 });
 
 gulp.task('compile-typescript', function (done) {
@@ -108,14 +112,21 @@ gulp.task('compile-typescript', function (done) {
     return tsResult.js.pipe(gulp.dest(paths.tsOutput));
 });
 
+gulp.task('watch.views', ['before-compile-view'], function () {
+    return gulp.watch('views/*.html', ['before-compile-view']);
+});
+gulp.task('watch.css', ['before-compile-css'], function () {
+    return gulp.watch('css/*.css', ['before-compile-css']);
+});
+
 gulp.task('watch.ts', ['compile-typescript'], function () {
     return gulp.watch('scripts/*.ts', ['compile-typescript']);
 });
 
-gulp.task('watch', ['watch.ts']);
+gulp.task('watch', ['watch.ts', 'watch.views', 'watch.css']);
 
 gulp.task('clean-lib', function () {
     return del([lib]);
 });
 
-gulp.task('build', ['setup-vendors', 'before-compile', 'compile-typescript']);
+gulp.task('build', ['setup-vendors', 'before-compile-view', 'before-compile-css', 'compile-typescript']);

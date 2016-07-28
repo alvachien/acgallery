@@ -1,7 +1,37 @@
-﻿<h1>{{title}}</h1>
-<nav>
-    <a [routerLink]="['/home']" routerLinkActive="active">Home</a>
-    <a [routerLink]="['/albums']" routerLinkActive="active">Albums</a>
-    <a [routerLink]="['/about']" routerLinkActive="active">About</a>
+﻿<nav class="navbar navbar-light bg-faded navbar-fixed-top">
+    <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
+        &#9776;
+    </button>
+    <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+        <a class="navbar-brand" [routerLink]="['/Home']" routerLinkActive="active"><i class="fa fa-home fa-fw"></i>&nbsp;AC Photo Gallery</a>
+        <ul class="nav navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/albums']" routerLinkActive="active"><i class="fa fa-picture-o fa-fw"></i>&nbsp;Albums</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/about']" routerLinkActive="active"><i class="fa fa-adjust fa-fw"></i>&nbsp;About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/credits']" routerLinkActive="active">Credits</a>
+            </li>
+            <li class="nav-item btn-group">
+                <a class="dropdown-toggle nav-link" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-pencil-square-o fa-fw"></i>&nbsp;Blog<b class="caret"></b>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <a class="dropdown-item" href="https://github.com/alvachien" target="_blank"><i class="fa fa-github fa-fw"></i>&nbsp;Github</a>
+                    <a class="dropdown-item" href="https://www.flickr.com/photos/alvachien" target="_blank"><i class="fa fa-flickr fa-fw"></i>&nbsp;Flickr</a>
+                    <a class="dropdown-item" href="https://www.facebook.com/alva.chien" target="_blank"><i class="fa fa-facebook fa-fw"></i>&nbsp;Facebook</a>
+                    <a class="dropdown-item" href="http://www.alvachien.com/alvablog/" target="_blank"><i class="fa fa-home fa-fw"></i>&nbsp;Official Website</a>
+                </div>
+            </li>
+        </ul>
+        <!--<form class="form-inline navbar-form pull-right">
+            <input class="form-control" type="text" placeholder="Search">
+        </form>-->
+    </div>
 </nav>
-<router-outlet></router-outlet>
+
+<div>
+    <router-outlet></router-outlet>
+</div>
