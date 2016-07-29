@@ -14,12 +14,15 @@ namespace acgallery
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvcCore()
+                .AddJsonFormatters();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseMvc();
         }
     }
 }

@@ -1,28 +1,20 @@
 ﻿import { provideRouter, RouterConfig }  from '@angular/router';
 
-import { HomeComponent } from './home/home.component';
-import { AlbumComponent } from './album/album.component';
-import { AlbumDetailComponent } from './album/album.detail.component';
+import { HomeRoutes } from './home/home.routers';
+import { AlbumRoutes } from './album/album.routers';
+import { PhotoRoutes } from './photo/photo.routers';
 import { AboutComponent } from './about/about.component';
 import { CreditsComponent } from './credits/credits.component';
+import { PageNotFoundComponent } from './pagenotfound.component';
 
-const routes: RouterConfig = [
+export const routes: RouterConfig = [
+    ...HomeRoutes,
+    ...AlbumRoutes,
+    ...PhotoRoutes,
     {
         path: '',
         redirectTo: '/home',
         pathMatch: 'full'
-    },
-    {
-        path: 'home',
-        component: HomeComponent
-    },
-    {
-        path: 'albumdetail/:id',
-        component: AlbumDetailComponent
-    },
-    {
-        path: 'albums',
-        component: AlbumComponent
     },
     {
         path: 'about',
@@ -31,6 +23,10 @@ const routes: RouterConfig = [
     {
         path: 'credits',
         component: CreditsComponent
+    },
+    {
+        path: '**',
+        component: PageNotFoundComponent
     }
 ];
 

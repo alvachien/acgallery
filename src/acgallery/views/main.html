@@ -6,7 +6,16 @@
         <a class="navbar-brand" [routerLink]="['/Home']" routerLinkActive="active"><i class="fa fa-home fa-fw"></i>&nbsp;AC Photo Gallery</a>
         <ul class="nav navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/albums']" routerLinkActive="active"><i class="fa fa-picture-o fa-fw"></i>&nbsp;Albums</a>
+                <a class="nav-link" [routerLink]="['/album']" routerLinkActive="active"><i class="fa fa-picture-o fa-fw"></i>&nbsp;Albums</a>
+            </li>
+            <li class="nav-item btn-group">
+                <a class="dropdown-toggle nav-link" type="button" id="dropdownMenuPhoto" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-photo fa-fw"></i>&nbsp;Photo<b class="caret"></b>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuPhoto">
+                    <a class="dropdown-item" [routerLink]="['/photo']" routerLinkActive="active">Photos</a>
+                    <a class="dropdown-item" [routerLink]="['/photo/upload']" routerLinkActive="active">Upload</a>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link" [routerLink]="['/about']" routerLinkActive="active"><i class="fa fa-adjust fa-fw"></i>&nbsp;About</a>

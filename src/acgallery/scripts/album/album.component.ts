@@ -1,44 +1,10 @@
 ﻿import { Component, OnInit }                from '@angular/core';
-import { Album }                            from './album';
 import { AlbumService }                     from './album.service';
 import { Router, ROUTER_DIRECTIVES }        from '@angular/router';
-import { NGB_DIRECTIVES, NGB_PRECOMPILE }   from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-    selector: 'my-album',
-    directives: [
-        ROUTER_DIRECTIVES,
-        NGB_DIRECTIVES
-    ],
-    precompile: [NGB_PRECOMPILE],
-    templateUrl: 'app/views/albums.html',
-    providers: [
-        AlbumService
-    ],
+    templateUrl: 'app/views/album/album.html',
+    directives: [ROUTER_DIRECTIVES],
+    providers: [AlbumService]
 })
-
-export class AlbumComponent implements OnInit {
-    title = 'Photo Albums';
-    selectedAlbum: Album;
-    albumes: Album[];
-
-    constructor(
-        private router: Router,
-        private albumService: AlbumService) {
-    }
-
-    getAlbumes() {
-        this.albumService.getMockedData().then(albumes => this.albumes = albumes);
-    }
-
-    ngOnInit() {
-        this.getAlbumes();
-    }
-
-    onSelect(album: Album) { this.selectedAlbum = album; }
-
-    gotoDetail() {
-        this.router.navigate(['/albumdetail', this.selectedAlbum.Id]);
-    }
-}
-
+export class AlbumComponent { }
