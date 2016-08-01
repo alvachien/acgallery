@@ -9,6 +9,14 @@ using System.IO;
 
 namespace acgallery
 {
+    public class FileUploadResult
+    {
+        public String FileUrl { get; set; }
+        public String FileFormat { get; set; }
+        public DateTime UploadedTime { get; set; }
+        public String OrgFileName { get; set; }
+    }
+
     [Route("api/[controller]")]
     public class FileController : Controller
     {
@@ -23,18 +31,57 @@ namespace acgallery
         public async Task<IActionResult> Index(ICollection<IFormFile> files)
         {
             var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot/uploads");
-            foreach (var file in files)
+            if (!Directory.Exists(uploads))
             {
-                if (file.Length > 0)
+                Directory.CreateDirectory(uploads);
+            }
+            List<FileUploadResult> listResults = new List<FileUploadResult>();
+
+            if (files.Count > 0)
+            {
+                foreach (var file in files)
                 {
-                    using (var fileStream = new FileStream(Path.Combine(uploads, file.FileName), FileMode.Create))
+                    if (file.Length > 0)
                     {
-                        await file.CopyToAsync(fileStream);
+                        var nid = Guid.NewGuid();
+                        String nfilename = nid.ToString() + ".jpg";
+                        listResults.Add(new FileUploadResult
+                        {
+                            FileUrl = "/uploads/" + nfilename,
+                            OrgFileName = file.FileName,
+                            UploadedTime = DateTime.Now
+                        });
+                        using (var fileStream = new FileStream(Path.Combine(uploads, nfilename), FileMode.Create))
+                        {
+                            await file.CopyToAsync(fileStream);
+                        }
+                    }
+                }
+            } 
+            else if (Request.Form.Files.Count > 0)
+            {
+                foreach (var file in Request.Form.Files)
+                {
+                    if (file.Length > 0)
+                    {
+                        var nid = Guid.NewGuid();
+                        String nfilename = nid.ToString() + ".jpg";
+                        listResults.Add(new FileUploadResult
+                        {
+                            FileUrl = "/uploads/" + nfilename,
+                            OrgFileName = file.FileName,
+                            UploadedTime = DateTime.Now
+                        });
+
+                        using (var fileStream = new FileStream(Path.Combine(uploads, nfilename), FileMode.Create))
+                        {
+                            await file.CopyToAsync(fileStream);
+                        }
                     }
                 }
             }
 
-            return View();
+            return new ObjectResult(listResults);
         }
     }
 }

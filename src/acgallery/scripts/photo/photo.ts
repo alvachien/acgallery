@@ -9,9 +9,9 @@
     constructor(id: number,
         title: string,
         uri: string,
-        albumId: number,
-        albumTitle: string,
-        dateUploaded: Date) {
+        albumId?: number,
+        albumTitle?: string,
+        dateUploaded?: Date) {
         this.Id = id;
         this.Title = title;
         this.Uri = uri;

@@ -26,6 +26,11 @@ export class PhotoListComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.getPhotos();
+    }
+
+    getPhotos() {
+        this.photoService.getMockdata().then(photos => this.photoes = photos);
     }
 }
 

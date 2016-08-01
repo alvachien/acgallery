@@ -1,6 +1,7 @@
 ﻿import { Injectable }   from '@angular/core';
 import { Observable }   from 'rxjs/Rx';
 import { Photo }        from './photo';
+import { MockedPhoto }  from './photo.mockdata';
 
 @Injectable()
 export class PhotoService {
@@ -14,7 +15,7 @@ export class PhotoService {
         }).share();
     }
 
-    private makeFileRequest(url: string, params: string[], files: File[]): Observable<number> {
+    public makeFileRequest(url: string, params: string[], files: File[]): Observable<Array<any>> {
         return Observable.create(observer => {
             let formData: FormData = new FormData(),
                 xhr: XMLHttpRequest = new XMLHttpRequest();
@@ -26,7 +27,8 @@ export class PhotoService {
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
-                        observer.next(JSON.parse(xhr.response));
+                        let respObj = JSON.parse(xhr.response);
+                        observer.next(respObj);
                         observer.complete();
                     } else {
                         observer.error(xhr.response);
@@ -43,5 +45,9 @@ export class PhotoService {
             xhr.open('POST', url, true);
             xhr.send(formData);
         });
+    }
+
+    public getMockdata() {
+        return Promise.resolve(MockedPhoto);
     }
 }

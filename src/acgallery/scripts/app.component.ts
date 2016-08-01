@@ -2,15 +2,15 @@
 import { ROUTER_DIRECTIVES } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
-import { AlbumComponent } from './album/album.component';
-import { AlbumDetailComponent } from './album/album.detail.component';
 import { AboutComponent } from './about/about.component';
+import { AlbumComponent } from './album/album.component';
+import { PhotoComponent } from './photo/photo.component';
 
 @Component({
     selector: 'my-app',
     templateUrl: 'app/views/main.html',
     directives: [ROUTER_DIRECTIVES],
-    precompile: [HomeComponent, AlbumComponent, AlbumDetailComponent, AboutComponent]
+    precompile: [HomeComponent, AboutComponent, AlbumComponent, PhotoComponent]
 })
 
 export class AppComponent {

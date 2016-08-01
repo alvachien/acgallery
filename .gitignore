@@ -249,3 +249,4 @@ bower_components/
 typings/
 /src/acgallery/wwwroot/app
 /src/acgallery/wwwroot/libs
+/src/acgallery/wwwroot/uploads

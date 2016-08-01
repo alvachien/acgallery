@@ -12,13 +12,13 @@ import { PhotoService }                     from './photo.service';
         NGB_DIRECTIVES
     ],
     precompile: [NGB_PRECOMPILE],
+    providers: [ PhotoService ]
 })
 
 export class PhotoUploadComponent implements OnInit {
 
-
     public selectedFiles: any;
-    public service: any;
+    public service: PhotoService;
 
     constructor(
         private router: Router,
@@ -36,15 +36,20 @@ export class PhotoUploadComponent implements OnInit {
 
     onChange(event) {
         console.log('onChange');
-        var files = event.srcElement.files;
-        console.log(files);
-
-        this.selectedFiles = files;
+        this.selectedFiles = event.srcElement.files;
     }
 
     onSubmit(event) {
-        this.service.makeFileRequest('http://localhost:8182/upload', [], this.selectedFiles).subscribe(() => {
-            console.log('sent');
+        this.service.makeFileRequest('api/file', [], this.selectedFiles).subscribe(value => {
+            console.log(value);
+
+            // Todo
+            if (value.length > 0) {
+                for (let i = 0; i < value.length; i++) {
+                    let nfile = value[i];
+                    // Update the database
+                }
+            }
         });        
     }
 }
