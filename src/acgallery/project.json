@@ -50,6 +50,7 @@
   "scripts": {
     "postpublish": [
       "npm install",
+      "bower install",
       "typings install",
       "gulp --gulpfile gulpfile.js build",
       "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
