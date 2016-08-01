@@ -48,11 +48,13 @@
   },
 
   "scripts": {
-    "postpublish": [
+    "prepublish": [
       "npm install",
       "bower install",
       "typings install",
-      "gulp --gulpfile gulpfile.js build",
+      "gulp --gulpfile gulpfile.js build"
+    ],
+    "postpublish": [
       "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
     ]
   }
