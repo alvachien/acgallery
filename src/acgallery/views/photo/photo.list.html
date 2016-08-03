@@ -1,15 +1,9 @@
-﻿<div class="row album-box" *ngFor="let photo of photoes">
-    <div class="col-md-1 text-center">
-        <p>
-            <i class="fa fa-camera fa-4x"></i>
-        </p>
-        <p>{{photo.Title}}</p>
+﻿<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-4 col-xs-6 picture-box" *ngFor="let photo of photoes">
+            <a class="fancybox" rel="gallery" href="{{photo.Uri}}">
+                <img src="{{photo.Uri}}" alt="{{photo.Title}}" class="img img-responsive full-width thumbnail" />
+            </a>
+        </div>
     </div>
-
-    <div class="col-md-5">
-        <a class="fancybox" rel="gallery" href="{{photo.Uri}}" title="{{photo.Title}}">
-            <img class="media-object img-responsive album-thumbnail" src="{{photo.Uri}}" alt="" />
-        </a>
-    </div>
-    <hr />
 </div>

@@ -20,6 +20,13 @@ namespace acgallery
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole();
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseMvc();

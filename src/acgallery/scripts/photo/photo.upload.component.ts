@@ -47,7 +47,8 @@ export class PhotoUploadComponent implements OnInit {
             if (value.length > 0) {
                 for (let i = 0; i < value.length; i++) {
                     let nfile = value[i];
-                    // Update the database
+                    // Update the database                   
+
                 }
             }
         });        
