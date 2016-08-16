@@ -3,31 +3,28 @@ import { Photo }                            from './photo';
 import { Router, ROUTER_DIRECTIVES }        from '@angular/router';
 import { NGB_DIRECTIVES, NGB_PRECOMPILE }   from '@ng-bootstrap/ng-bootstrap';
 import { PhotoService }                     from './photo.service';
+import { Observable }                       from 'rxjs/Observable';
+import { Http, Response, RequestOptions }   from '@angular/http';
+import '../rxjs-operators';
 
 @Component({
     selector: 'my-photo-upload',
-    templateUrl: 'app/views/photo/photo.upload.html',
-    directives: [
-        ROUTER_DIRECTIVES,
-        NGB_DIRECTIVES
-    ],
-    precompile: [NGB_PRECOMPILE],
-    providers: [ PhotoService ]
+    templateUrl: 'app/views/photo/photo.upload.html'
 })
 
 export class PhotoUploadComponent implements OnInit {
 
     public selectedFiles: any;
-    public service: PhotoService;
+    public progressNum: number;
 
     constructor(
         private router: Router,
-        private psservice: PhotoService) {
-        this.service = psservice;
+        private photoservice: PhotoService) {
 
-        this.service.progress$.subscribe(
+        this.photoservice.progress$.subscribe(
             data => {
                 console.log('progress = ' + data);
+                this.progressNum = data;
             });
     }
 
@@ -40,7 +37,7 @@ export class PhotoUploadComponent implements OnInit {
     }
 
     onSubmit(event) {
-        this.service.makeFileRequest('api/file', [], this.selectedFiles).subscribe(value => {
+        this.photoservice.makeFileRequest([], this.selectedFiles).subscribe(value => {
             console.log(value);
 
             // Todo

@@ -62,41 +62,73 @@ namespace acgallery
 
             // parse the output into tags
             this.Clear();
-            while (output.Length > 0)
+            try
             {
-                int epos = output.IndexOf('\r');
-
-                if (epos < 0)
-                    epos = output.Length;
-                string tmp = output.Substring(0, epos);
-                int tpos1 = tmp.IndexOf('\t');
-                int tpos2 = tmp.IndexOf('\t', tpos1 + 1);
-
-                if (tpos1 > 0 && tpos2 > 0)
+                while (output.Length > 0)
                 {
-                    string taggroup = tmp.Substring(0, tpos1);
-                    ++tpos1;
-                    string tagname = tmp.Substring(tpos1, tpos2 - tpos1);
-                    ++tpos2;
-                    string tagvalue = tmp.Substring(tpos2, tmp.Length - tpos2);
+                    int epos = output.IndexOf('\r');
 
-                    // special processing for tags with binary data 
-                    tpos1 = tagvalue.IndexOf(", use -b option to extract");
-                    if (tpos1 >= 0)
-                        tagvalue.Remove(tpos1, 26);
+                    if (epos < 0)
+                        epos = output.Length;
+                    string tmp = output.Substring(0, epos);
+                    int tpos1 = tmp.IndexOf('\t');
+                    int tpos2 = tmp.IndexOf('\t', tpos1 + 1);
 
-                    ExifTagItem itm;
-                    itm.name = tagname;
-                    itm.value = tagvalue;
-                    itm.group = taggroup;
-                    this.Add(itm);
+                    if (tpos1 > 0 && tpos2 > 0)
+                    {
+                        string taggroup = tmp.Substring(0, tpos1);
+                        ++tpos1;
+                        string tagname = tmp.Substring(tpos1, tpos2 - tpos1);
+                        ++tpos2;
+                        string tagvalue = tmp.Substring(tpos2, tmp.Length - tpos2);
+
+                        // special processing for tags with binary data 
+                        tpos1 = tagvalue.IndexOf(", use -b option to extract");
+                        if (tpos1 >= 0)
+                            tagvalue.Remove(tpos1, 26);
+
+                        ExifTagItem itm;
+                        itm.name = tagname;
+                        itm.value = tagvalue;
+                        itm.group = taggroup;
+                        this.Add(itm);
+                    }
+
+                    // is \r followed by \n ?
+                    if (epos < output.Length)
+                        epos += (output[epos + 1] == '\n') ? 2 : 1;
+                    output = output.Substring(epos, output.Length - epos);
                 }
-
-                // is \r followed by \n ?
-                if (epos < output.Length)
-                    epos += (output[epos + 1] == '\n') ? 2 : 1;
-                output = output.Substring(epos, output.Length - epos);
             }
+            catch (Exception exp)
+            {
+                System.Diagnostics.Debug.WriteLine(exp.Message);
+            }
+        }
+
+        public Boolean IsThumbnailExists(String strFolder, String filename, String thumbfile)
+        {
+            if (this.Count <= 0) return false;
+            var q_items = from tagItem in this
+                          where tagItem.name == "Thumbnail Image"
+                          select tagItem;
+            return q_items.Count() > 0;
+            //{
+            //    string toolPath = GetAppPath();
+            //    toolPath += "/exiftool.exe ";
+            //    string argStr = "";
+            //    argStr += " -b -ThumbnailImage " + filename + " > " + thumbfile;
+
+            //    string output = OpenExtract(toolPath, argStr, strFolder, filename, thumbfile);
+            //    // Discard the outputs;
+            //    if (output.Length > 0)
+            //    {
+            //        // Do nothing
+            //    }
+
+            //    return File.Exists(thumbfile);
+            //}
+            //return false;
         }
 
         public bool HasExifData()
@@ -198,7 +230,7 @@ namespace acgallery
         private string Open(string app, string cmd)
         {
             //string program = "\"%COMSPEC%\"";
-            string args = "/c [command]";
+            string args = "/C [command]";
             this.psi = new ProcessStartInfo(
                 //Environment.ExpandEnvironmentVariables(program),
                 app,
@@ -232,6 +264,63 @@ namespace acgallery
             }
 
             string output = stdOut + stdErr;
+
+            return output;
+        }
+        private string OpenExtract(string app, string cmd, String strFolder, String strfile, String strThumbfile)
+        {
+            //string program = "\"%COMSPEC%\"";
+            String strDir = Directory.GetCurrentDirectory();
+            Directory.SetCurrentDirectory(strFolder);
+
+            try
+            {
+                string args = "[command]";
+                this.psi = new ProcessStartInfo(
+                    //Environment.ExpandEnvironmentVariables(program),
+                    app,
+                    args.Replace("[command]", cmd)
+                );
+                this.psi.CreateNoWindow = true;
+                this.psi.UseShellExecute = false;
+                this.psi.RedirectStandardOutput = false;
+                this.psi.RedirectStandardError = true;
+
+                //Thread thread_ReadStandardOut = new Thread(new ThreadStart(Thread_ReadStandardOut));
+                Thread thread_ReadStandardError = new Thread(new ThreadStart(Thread_ReadStandardError));
+
+                activeProcess = Process.Start(psi);
+                //if (psi.RedirectStandardOutput)
+                //{
+                //    thread_ReadStandardOut.Start();
+                //}
+                if (psi.RedirectStandardError)
+                {
+                    thread_ReadStandardError.Start();
+                }
+                activeProcess.WaitForExit();
+                //thread_ReadStandardOut.Join();
+                thread_ReadStandardError.Join();
+
+                if (!String.IsNullOrEmpty(stdErr))
+                {
+                    System.Diagnostics.Debug.WriteLine(stdErr);
+                }
+
+                // Write the file           
+                //byte[] bytes = new byte[stdOut.Length * sizeof(char)];
+                //System.Buffer.BlockCopy(stdOut.ToCharArray(), 0, bytes, 0, bytes.Length);
+                //File.WriteAllBytes(strfile, bytes);
+
+                Directory.SetCurrentDirectory(strDir);
+
+            }
+            catch (Exception exp)
+            {
+                System.Diagnostics.Debug.WriteLine(exp.Message);
+            }
+
+            string output = "";
 
             return output;
         }

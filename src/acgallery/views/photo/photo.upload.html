@@ -1,8 +1,33 @@
 ﻿<div class="container">
-    <div class="row">
-        <input type="file" (change)="onChange($event)" />
+    <div class="col-md-3">
+        <div class="row">
+            <input type="file" (change)="onChange($event)" multiple />
+        </div>
     </div>
-    <div class="row">
-        <input type="submit" (click)="onSubmit($event)" />
+
+    <div class="col-md-9" style="margin-bottom: 40px">
+
+        <h3>Upload queue</h3>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="80%">Name</th>
+                    <th>Size</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let file of selectedFiles; let i = index">
+                    <td><strong>{{file.name}}</strong></td>
+                    <td nowrap>{{file.size}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div>{{progressNum}}</div>
+        </div>
+        <div class="row">
+            <input type="submit" (click)="onSubmit($event)" />
+        </div>
     </div>
 </div>

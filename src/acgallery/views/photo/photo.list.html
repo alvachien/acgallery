@@ -1,8 +1,8 @@
 ﻿<div class="container">
     <div class="row">
         <div class="col-lg-3 col-md-4 col-xs-6 picture-box" *ngFor="let photo of photoes">
-            <a class="fancybox" rel="gallery" href="{{photo.Uri}}">
-                <img src="{{photo.Uri}}" alt="{{photo.Title}}" class="img img-responsive full-width thumbnail" />
+            <a class="fancybox" rel="gallery" href="{{photo.fileUrl}}">
+                <img src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" class="img img-responsive full-width thumbnail" />
             </a>
         </div>
     </div>

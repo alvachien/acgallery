@@ -39,6 +39,7 @@ gulp.task('setup-vendors', function (done) {
         '@angular/**/*.js',
         '@ng-bootstrap/ng-bootstrap/**/*.js',
         'angular2-in-memory-web-api/**/*.js',
+        'ng2-file-upload/**/*.js',
         'jquery/dist/jquery*.js',
         'bootstrap/dist/js/bootstrap*.js',
         'tether/dist/js/tether*.js'

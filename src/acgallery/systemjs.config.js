@@ -11,15 +11,18 @@
         '@angular': 'libs/js/@angular',
         '@ng-bootstrap': 'libs/js/@ng-bootstrap',
         'angular2-in-memory-web-api': 'libs/js/angular2-in-memory-web-api',
-        'rxjs': 'libs/js/rxjs'
+        'rxjs': 'libs/js/rxjs',
+        'ng2-file-upload': 'libs/js/ng2-file-upload',
     };
 
     // packages tells the System loader how to load when no filename and/or no extension
     var packages = {
-        'app': { main: 'app.js', defaultExtension: 'js' },
+        'app': { main: 'boot.js', defaultExtension: 'js' },
+
         'rxjs': { defaultExtension: 'js' },
         '@ng-bootstrap/ng-bootstrap': { main: 'index.js', defaultExtension: 'js' },
         'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
+        'ng2-file-upload': { main: 'ng2-file-upload.js', defaultExtension: 'js' },
     };
 
     var ngPackageNames = [

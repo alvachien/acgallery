@@ -1,8 +1,34 @@
-﻿<div class="container">
-    <h1>Album Detail</h1>
+﻿<div *ngIf="album" class="container">
+    <form (ngSubmit)="onSubmit()" #albumForm="ngForm">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title"
+                   required
+                   [(ngModel)]="album.Title" name="title"
+                   #title="ngModel">
+            <div [hidden]="title.valid || title.pristine"
+                 class="alert alert-danger">
+                Title is required
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="desp">Desp</label>
+            <input type="text" class="form-control" id="desp"
+                   [(ngModel)]="album.Desp" name="desp">
+        </div>
+
+        <button type="submit" class="btn btn-default" [disabled]="!albumForm.form.valid">Submit</button>
+        <button type="button" class="btn btn-default" (click)="newAlbum()">New Album</button>
+    </form>
+
+    <br /> 
     <hr />
 
-    <p>
-        Todo!~
-    </p>
+    <div class="row">
+        <div class="col-lg-3 col-md-4 col-xs-6 picture-box" *ngFor="let photo of album.Photoes">
+            <a class="fancybox" rel="gallery" href="{{photo.fileUrl}}">
+                <img src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" class="img img-responsive full-width thumbnail" />
+            </a>
+        </div>
+    </div>
 </div>

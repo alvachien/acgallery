@@ -1,4 +1,4 @@
-﻿{
+{
   "dependencies": {
     "Microsoft.NETCore.App": {
       "version": "1.0.0",
@@ -10,7 +10,9 @@
     "Microsoft.AspNetCore.Mvc": "1.0.0",
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
-    "Magick.NET.Core-Q8": "7.0.0.0102"
+    "Magick.NET.Core-Q8": "7.0.2.600",
+    "System.Data.Common": "4.1.0",
+    "System.Data.SqlClient": "4.1.0"
   },
 
   "tools": {

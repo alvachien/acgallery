@@ -1,22 +1,27 @@
 ﻿export class Album {
-    Id: number;
-    Title: string;
-    Description: string;
-    Thumbnail: string;
-    DateCreated: Date;
-    TotalPhotos: number;
+    public Id: number;
+    public Title: string;
+    public Desp: string;
+    public Thumbnail: string;
+    public CreatedAt: Date;
+    public CreatedBy: string;
+    public PhotoCount: number;
+
+    public Photoes: any;
 
     constructor(id: number,
         title: string,
-        description: string,
-        thumbnail: string,
+        desp: string,
+        thumnail: string,
         dateCreated: Date,
-        totalPhotos: number) {
+        createdby: string,
+        photocnt: number) {
         this.Id = id;
         this.Title = title;
-        this.Description = description;
-        this.Thumbnail = thumbnail;
-        this.DateCreated = dateCreated;
-        this.TotalPhotos = totalPhotos;
+        this.Desp = desp;
+        this.Thumbnail = thumnail;
+        this.CreatedAt = dateCreated;
+        this.CreatedBy = createdby;
+        this.PhotoCount = photocnt;
     }
 }
