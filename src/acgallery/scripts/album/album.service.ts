@@ -11,7 +11,7 @@ export class AlbumService {
     constructor(private http: Http) {
     }
 
-    private albumUrl: string = 'api/album';  // URL to web API
+    private albumUrl: string = 'http://achihapi.azurewebsites.net/api/album';  // URL to web API
 
     getAlbums(): Observable<Album[]> {
         return this.http.get(this.albumUrl)

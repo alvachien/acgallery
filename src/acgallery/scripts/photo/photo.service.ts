@@ -10,7 +10,7 @@ export class PhotoService {
     public progress: number;
     public progressObserver: any;
     public progress$ : any;
-    private fileUrl:string = 'api/file';  // URL to web API
+    private fileUrl: string = 'http://achihapi.azurewebsites.net/api/file';  // URL to web API
 
     constructor(private http: Http) {
         this.progress$ = Observable.create(observer => {

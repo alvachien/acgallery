@@ -23,7 +23,7 @@
     "@angular/upgrade": "2.0.0-rc.5",
 
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.0",
-    "angular2-in-memory-web-api": "0.0.14",
+    "angular2-in-memory-web-api": "0.0.15",
     "ng2-file-upload": "^1.0.3",
     "bootstrap": "^4.0.0-alpha.2",
     "core-js": "^2.4.0",

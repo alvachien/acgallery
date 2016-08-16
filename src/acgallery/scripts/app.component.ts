@@ -8,4 +8,5 @@ export class AppComponent {
     title = 'AC Photo Gallery';
 }
 
-export const environment: string = 'Development';
+//export const environment: string = 'Development';
+export const environment: string = 'Productive';
