@@ -48,6 +48,27 @@ namespace acgallery
             _logger = logger;
         }
 
+        [HttpGet]
+        public List<PhotoViewModel> Get()
+        {
+            var client = new HttpClient();
+            try
+            {
+                client.BaseAddress = new Uri("http://achihapi.azurewebsites.net/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                String str = client.GetStringAsync("api/photo").Result;
+
+                return JsonConvert.DeserializeObject<List<PhotoViewModel>>(str);
+            }
+            catch (Exception exp)
+            {
+                System.Diagnostics.Debug.WriteLine(exp.Message);
+            }
+
+            return new List<PhotoViewModel>();
+        }
+
         [HttpPost]
         public async Task<IActionResult> UploadPhotos(ICollection<IFormFile> files)
         {
