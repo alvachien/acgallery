@@ -4,14 +4,14 @@ import { Http, Headers, Response, RequestOptions, URLSearchParams }   from '@ang
 import '../rxjs-operators';
 import { Album } from './album';
 import { Photo } from '../photo/photo';
-import { MockedAlbum } from './album.mockdata';
+import { AlbumAPIUrl } from '../app.setting';
 
 @Injectable()
 export class AlbumService {
     constructor(private http: Http) {
     }
 
-    private albumUrl: string = 'http://achihapi.azurewebsites.net/api/album';  // URL to web API
+    private albumUrl: string = AlbumAPIUrl;  // URL to web API
 
     getAlbums(): Observable<Album[]> {
         return this.http.get(this.albumUrl)
@@ -79,9 +79,5 @@ export class AlbumService {
             error.status ? `${error.status} - ${error.statusText}` : 'Server error';
         console.error(errMsg); // log to console instead
         return Observable.throw(errMsg);
-    }
-
-    getMockedData() {
-        return Promise.resolve(MockedAlbum);
     }
 }

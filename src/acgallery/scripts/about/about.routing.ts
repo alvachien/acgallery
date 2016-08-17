@@ -5,7 +5,7 @@ export const aboutRoutes: Routes = [
     { path: 'about', component: AboutComponent }
 ];
 
-export const authProviders = [
+export const aboutProviders = [
     //AuthGuard,
     //AuthService
 ];

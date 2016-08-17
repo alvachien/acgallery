@@ -1,7 +1,6 @@
 ﻿import { Injectable }       from '@angular/core';
 import { Observable }       from 'rxjs/Observable';
 import { Photo }            from './photo';
-import { MockedPhoto }      from './photo.mockdata';
 import { Http, Headers,Response, RequestOptions }   from '@angular/http';
 import '../rxjs-operators';
 
@@ -93,9 +92,5 @@ export class PhotoService {
             error.status ? `${error.status} - ${error.statusText}` : 'Server error';
         console.error(errMsg); // log to console instead
         return Observable.throw(errMsg);
-    }
-
-    public getMockdata() {
-        return Promise.resolve(MockedPhoto);
     }
 }

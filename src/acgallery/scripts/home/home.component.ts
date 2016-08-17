@@ -1,20 +1,11 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
     selector: 'my-app-home',
-    templateUrl: 'app/views/home.html',
-    providers: [
-    ]
+    templateUrl: 'app/views/home.html'
 })
 
 export class HomeComponent implements OnInit {
-    title = 'Home page';
-
-    constructor(
-        private router: Router) {
-    }
-
     ngOnInit() {
     }
 

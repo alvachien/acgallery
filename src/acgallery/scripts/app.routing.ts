@@ -1,6 +1,7 @@
 ﻿import { Routes, RouterModule }     from '@angular/router';
 import { albumRoutes }              from './album/album.routing';
 import { photoRoutes }              from './photo/photo.routing';
+import { homeRoutes }               from './home/home.routing';
 import { aboutRoutes }              from './about/about.routing';
 import { creditsRoutes }            from './credits/credits.routing';
 //import { loginRoutes,
@@ -11,7 +12,7 @@ import { creditsRoutes }            from './credits/credits.routing';
 const mainRoutes: Routes = [
     {
         path: '',
-        redirectTo: '/album',
+        redirectTo: '/home',
         pathMatch: 'full'
     },
     {
@@ -26,6 +27,7 @@ const mainRoutes: Routes = [
 
 const appRoutes: Routes = [
     ...mainRoutes,
+    ...homeRoutes,
     ...aboutRoutes,
     ...creditsRoutes
 ];
