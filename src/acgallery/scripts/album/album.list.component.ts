@@ -2,7 +2,6 @@
 import { ActivatedRoute, Router }           from '@angular/router';
 import { Album }                            from './album';
 import { AlbumService }                     from './album.service';
-import { NGB_DIRECTIVES, NGB_PRECOMPILE }   from '@ng-bootstrap/ng-bootstrap';
 import { Subscription }                     from 'rxjs/Subscription';
 
 @Component({

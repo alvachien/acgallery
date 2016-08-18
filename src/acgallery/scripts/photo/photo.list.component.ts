@@ -2,7 +2,6 @@
 import { ActivatedRoute, Router }           from '@angular/router';
 import { Photo }                            from './photo';
 import { PhotoService }                     from './photo.service';
-import { NGB_DIRECTIVES, NGB_PRECOMPILE }   from '@ng-bootstrap/ng-bootstrap';
 import { Subscription }                     from 'rxjs/Subscription';
 
 @Component({
