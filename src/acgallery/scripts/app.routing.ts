@@ -12,7 +12,7 @@ import { creditsRoutes }            from './credits/credits.routing';
 const mainRoutes: Routes = [
     {
         path: '',
-        redirectTo: '/home',
+        redirectTo: '/photo',
         pathMatch: 'full'
     },
     {

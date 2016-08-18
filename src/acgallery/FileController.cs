@@ -51,6 +51,59 @@ namespace acgallery
         [HttpGet]
         public List<PhotoViewModel> Get()
         {
+#if DEBUG
+            List<PhotoViewModel> listVMs = new List<PhotoViewModel>();
+            String connStr = @"Data Source=QIANH-PC2A;Initial Catalog=ACGallery;Integrated Security=SSPI;";
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+
+                String cmdText = @"SELECT [PhotoID]
+                          ,[Title]
+                          ,[Desp]
+                          ,[UploadedAt]
+                          ,[UploadedBy]
+                          ,[OrgFileName]
+                          ,[PhotoUrl]
+                          ,[PhotoThumbUrl]
+                          ,[IsOrgThumb]
+                          ,[ThumbCreatedBy]
+                          ,[CameraMaker]
+                          ,[CameraModel]
+                          ,[LensModel]
+                          ,[AVNumber]
+                          ,[ShutterSpeed]
+                          ,[ISONumber]
+                          ,[IsPublic]
+                          ,[EXIFInfo]
+                      FROM [ACGallery].[dbo].[Photo]";
+                SqlCommand cmd = new SqlCommand(cmdText, conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while(reader.Read())
+                    {
+                        PhotoViewModel vm = new PhotoViewModel();
+                        vm.PhotoId = reader.GetString(0);
+                        vm.Title = reader.GetString(1);
+                        if (!reader.IsDBNull(2))
+                            vm.Desp = reader.GetString(2);
+                        if (!reader.IsDBNull(3))
+                            vm.UploadedTime = reader.GetDateTime(3);
+                        // UploadedBy
+                        if (!reader.IsDBNull(5))
+                            vm.OrgFileName = reader.GetString(5);                        
+                        vm.FileUrl = reader.GetString(6);
+                        if (!reader.IsDBNull(7))
+                            vm.ThumbnailFileUrl = reader.GetString(7);
+
+                        listVMs.Add(vm);
+                    }
+                }
+            }
+
+            return listVMs;
+#else
             var client = new HttpClient();
             try
             {
@@ -67,6 +120,7 @@ namespace acgallery
             }
 
             return new List<PhotoViewModel>();
+#endif
         }
 
         [HttpPost]
@@ -193,6 +247,8 @@ namespace acgallery
             foreach (var par in rst.ExifTags)
                 vmobj.ExifTags.Add(par);
 
+#if DEBUG
+#else
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("http://achihapi.azurewebsites.net/");
@@ -201,6 +257,7 @@ namespace acgallery
                 await client.PostAsync("api/photo", new StringContent(JsonConvert.SerializeObject(vmobj).ToString(),
                     Encoding.UTF8, "application/json"));
             }
+#endif
 
             return Json(true);
         }
