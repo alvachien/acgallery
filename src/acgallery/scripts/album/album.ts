@@ -9,7 +9,10 @@
 
     public Photoes: any;
 
-    constructor(id: number,
+    constructor() {
+    }
+
+    init(id: number,
         title: string,
         desp: string,
         thumnail: string,

@@ -1,0 +1,26 @@
+﻿<div class="container">
+    <form (ngSubmit)="onSubmit()" #albumForm="ngForm">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title"
+                   required
+                   [(ngModel)]="album.Title" name="title"
+                   #title="ngModel">
+            <div [hidden]="title.valid || title.pristine"
+                 class="alert alert-danger">
+                Title is required
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="desp">Desp</label>
+            <input type="text" class="form-control" id="desp"
+                   [(ngModel)]="album.Desp" name="desp">
+        </div>
+
+        <button type="submit" class="btn btn-default" [disabled]="!albumForm.form.valid">Submit</button>
+        <button type="button" class="btn btn-default" (click)="newAlbum()">New Album</button>
+    </form>
+
+    <br />
+    <hr />
+</div>

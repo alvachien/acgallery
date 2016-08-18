@@ -13,8 +13,14 @@
             <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
                 <a class="navbar-brand" href="#">AC Photo Gallery</a>
                 <ul class="nav navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" [routerLink]="['/album']" routerLinkActive="active"><i class="fa fa-picture-o fa-fw"></i>&nbsp;Albums</a>
+                    <li class="nav-item btn-group">
+                        <a class="dropdown-toggle nav-link" id="dropdownMenuAlbum" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-picture-o fa-fw"></i>&nbsp;Albums<b class="caret"></b>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuPhoto">
+                            <a class="dropdown-item" [routerLink]="['/album']" routerLinkActive="active">Album</a>
+                            <a class="dropdown-item" [routerLink]="['/album/create']" routerLinkActive="active">Create an album</a>
+                        </div>
                     </li>
                     <li class="nav-item btn-group">
                         <a class="dropdown-toggle nav-link" id="dropdownMenuPhoto" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

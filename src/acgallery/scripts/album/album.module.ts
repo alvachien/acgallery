@@ -8,6 +8,7 @@ import { AlbumDetailResolve }       from './album.detail.resolve.service';
 import { AlbumComponent }           from './album.component';
 import { AlbumListComponent }       from './album.list.component';
 import { AlbumDetailComponent }     from './album.detail.component';
+import { AlbumCreateComponent }     from './album.create.component';
 import { albumRouting }             from './album.routing';
 
 @NgModule({
@@ -19,12 +20,13 @@ import { albumRouting }             from './album.routing';
     declarations: [
         AlbumComponent,
         AlbumListComponent,
-        AlbumDetailComponent
+        AlbumDetailComponent,
+        AlbumCreateComponent
     ],
 
     providers: [
         AlbumService,
-        AlbumDetailResolve
+        //AlbumDetailResolve
     ]
 })
 export class AlbumModule { }

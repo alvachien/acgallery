@@ -40,7 +40,8 @@ export class AlbumService {
     private extractSingleData(res: Response) {
         let body = res.json();
         if (body) {
-            let alm2 = new Album(body.id, body.title, body.desp, body.firstPhotoThumnailUrl, body.createdAt, body.createdBy, body.photoCount);
+            let alm2 = new Album();
+            alm2.init(body.id, body.title, body.desp, body.firstPhotoThumnailUrl, body.createdAt, body.createdBy, body.photoCount);
             alm2.Photoes = [];
             for (var i = 0; i < body.photoList.length; i++) {
                 let pto = new Photo();
@@ -63,7 +64,9 @@ export class AlbumService {
         if (body && body instanceof Array) {
             let almes = new Array<Album>();
             for (let alm of body) {
-                let alm2 = new Album(alm.id, alm.title, alm.desp, alm.firstPhotoThumnailUrl, alm.createdAt, alm.createdBy, alm.photoCount);
+                let alm2 = new Album();
+                alm2.init(body.id, body.title, body.desp, body.firstPhotoThumnailUrl, body.createdAt, body.createdBy, body.photoCount);
+
                 almes.push(alm2);
             }
             return almes;
