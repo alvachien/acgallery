@@ -503,21 +503,23 @@ namespace acgallery
                 cmd.Parameters.AddWithValue("@PhotoID", vmobj.PhotoId);
                 cmd.Parameters.AddWithValue("@Title", vmobj.Title);
                 cmd.Parameters.AddWithValue("@Desp", vmobj.Desp);
-                cmd.Parameters.AddWithValue("@UploadedAt", vmobj.UploadedTime);
+                cmd.Parameters.AddWithValue("@UploadedAt", DateTime.Now);
                 cmd.Parameters.AddWithValue("@UploadedBy", "Tester");
                 cmd.Parameters.AddWithValue("@OrgFileName", vmobj.OrgFileName);
-                cmd.Parameters.AddWithValue("PhotoUrl", vmobj.FileUrl);
+                cmd.Parameters.AddWithValue("@PhotoUrl", vmobj.FileUrl);
                 cmd.Parameters.AddWithValue("@PhotoThumbUrl", vmobj.ThumbnailFileUrl);
                 cmd.Parameters.AddWithValue("@IsOrgThumb", vmobj.IsOrgThumbnail);
-                cmd.Parameters.AddWithValue("@ThumbCreatedBy", 2);
-                cmd.Parameters.AddWithValue("@CameraMaker", DBNull.Value);
-                cmd.Parameters.AddWithValue("@CameraModel", DBNull.Value);
-                cmd.Parameters.AddWithValue("@LensModel", DBNull.Value);
-                cmd.Parameters.AddWithValue("@AVNumber", DBNull.Value);
-                cmd.Parameters.AddWithValue("@ShutterSpeed", DBNull.Value);
-                cmd.Parameters.AddWithValue("@ISONumber", DBNull.Value);
-                cmd.Parameters.AddWithValue("@IsPublic", 1);
-                cmd.Parameters.AddWithValue("@EXIFInfo", DBNull.Value);
+                cmd.Parameters.AddWithValue("@ThumbCreatedBy", 2); // 1 for ExifTool, 2 stands for others
+                cmd.Parameters.AddWithValue("@CameraMaker", "To-do");
+                cmd.Parameters.AddWithValue("@CameraModel", "To-do");
+                cmd.Parameters.AddWithValue("@LensModel", "To-do");
+                cmd.Parameters.AddWithValue("@AVNumber", "To-do");
+                cmd.Parameters.AddWithValue("@ShutterSpeed", "To-do");
+                cmd.Parameters.AddWithValue("@IsPublic", true);
+                cmd.Parameters.AddWithValue("@ISONumber", 0);
+
+                String strJson = Newtonsoft.Json.JsonConvert.SerializeObject(vmobj.ExifTags);
+                cmd.Parameters.AddWithValue("@EXIF", strJson);
 
                 cmd.ExecuteNonQuery();
             }

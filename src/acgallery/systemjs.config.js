@@ -54,6 +54,35 @@
     // No umd for router yet. It has now.
     //packages['@angular/router'] = { main: 'index.js', defaultExtension: 'js' };
 
+    var ngBootstrapPackageNames = [
+      'accordion',
+      'alert',
+      'bundles',
+      'buttons',
+      'carousel',
+      'collapse',
+      'dropdown',
+      'esm',
+      'modal',
+      'pagination',
+      'popover',
+      'progressbar',
+      'rating',
+      'tabset',
+      'timepicker',
+      'tooltip',
+      'typeahead',
+      'util'
+    ];
+
+    // Individual files
+    function packBootstrapIndex(pkgName) {
+        packages['@ng-bootstrap/ng-bootstrap/' + pkgName] = { main: 'index.js', defaultExtension: 'js' };
+    }
+
+    // Add package entries for angular packages
+    ngBootstrapPackageNames.forEach(packBootstrapIndex);
+
     var config = {
         map: map,
         packages: packages

@@ -1,7 +1,7 @@
 ﻿<div class="container">
     <div class="col-md-3">
         <div class="row">
-            <input type="file" (change)="onChange($event)" multiple />
+            <input type="file" (change)="onChange($event)" multiple accept="image/jpeg, image/png, image/tiff" />
         </div>
     </div>
 
@@ -24,10 +24,10 @@
             </tbody>
         </table>
         <div class="row">
-            <div>{{progressNum}}</div>
+            <ngb-progressbar type="success" [value]="progressNum"></ngb-progressbar>
         </div>
         <div class="row">
-            <input type="submit" (click)="onSubmit($event)" />
+            <input type="submit" [disabled]="!selectedFiles || selectedFiles.length <= 0" (click)="onSubmit($event)" />
         </div>
     </div>
 </div>

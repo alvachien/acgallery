@@ -1,9 +1,16 @@
-﻿<div class="container">
-    <div class="row">
-        <div class="col-lg-3 col-md-4 col-xs-6 picture-box" *ngFor="let photo of photoes">
-            <a class="fancybox" rel="gallery" href="{{photo.fileUrl}}">
-                <img src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" class="img img-responsive full-width thumbnail" />
-            </a>
+﻿<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Photoes List</h3>
+    </div>
+    <div class="panel-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-xs-6 picture-box" *ngFor="let photo of photoes">
+                    <a class="fancybox" rel="gallery" href="{{photo.fileUrl}}">
+                        <img src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" class="img img-responsive full-width thumbnail" />
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -13,13 +13,14 @@ import { CreditsComponent } from './credits/credits.component';
 import { AboutComponent } from './about/about.component';
 
 import { DialogService }  from './dialog.service';
-
+import { NgbModule }      from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
+        NgbModule,
         routing,
         AlbumModule,
         PhotoModule
