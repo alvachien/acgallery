@@ -27,7 +27,7 @@
             <ngb-progressbar type="success" [value]="progressNum"></ngb-progressbar>
         </div>
         <div class="row">
-            <input type="submit" [disabled]="!selectedFiles || selectedFiles.length <= 0" (click)="onSubmit($event)" />
+            <input type="submit" [disabled]="!selectedFiles || selectedFiles.length <= 0 || isUploading" (click)="onSubmit($event)" />
         </div>
     </div>
 </div>

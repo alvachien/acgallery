@@ -14,6 +14,7 @@ import { AboutComponent } from './about/about.component';
 
 import { DialogService }  from './dialog.service';
 import { NgbModule }      from '@ng-bootstrap/ng-bootstrap';
+import { HomeComponent }  from './home/home.component';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import { NgbModule }      from '@ng-bootstrap/ng-bootstrap';
     declarations: [
         AppComponent,
         CreditsComponent,
-        AboutComponent
+        AboutComponent,
+        HomeComponent
     ],
     providers: [
         appRoutingProviders,

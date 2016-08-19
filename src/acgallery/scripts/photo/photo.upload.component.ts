@@ -16,6 +16,7 @@ export class PhotoUploadComponent implements OnInit {
 
     public selectedFiles: any;
     public progressNum: number = 0;
+    public isUploading: boolean = false;
 
     constructor(
         private zone: NgZone,
@@ -43,9 +44,9 @@ export class PhotoUploadComponent implements OnInit {
         // Check the file size
         let checksuccess: boolean = true;
         for (let i = 0; i < this.selectedFiles.length; i++) {
-            if (this.selectedFiles[i].size >= 2097152 || this.selectedFiles[i].size <= 614400) {
+            if (this.selectedFiles[i].size >= 2097152 || this.selectedFiles[i].size <= 409600) {
                 checksuccess = false;
-                this.dlgservice.confirm("File is larger than 2MB or less than 600KB! ");
+                this.dlgservice.confirm("File " + this.selectedFiles[i].name + " with size (" + this.selectedFiles[i].size + ") which is larger than 2MB or less than 400KB! ");
                 break;
             }
         }
@@ -56,10 +57,13 @@ export class PhotoUploadComponent implements OnInit {
     }
 
     onSubmit(event) {
+        this.isUploading = true;
+
         this.photoservice.makeFileRequest([], this.selectedFiles).subscribe(value => {
             console.log(value);
 
             // Just navigate to Photos page
+            this.isUploading = false;
             this.router.navigate(['/photo']);
 
             //// Todo

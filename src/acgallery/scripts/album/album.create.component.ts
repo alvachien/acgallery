@@ -3,6 +3,7 @@ import { ActivatedRoute, Router }           from '@angular/router';
 import { Album }                            from './album';
 import { AlbumService }                     from './album.service';
 import { Subscription }                     from 'rxjs/Subscription';
+import { DialogService }                    from '../dialog.service';
 
 @Component({
     selector: 'my-album-create',
@@ -15,7 +16,8 @@ export class AlbumCreateComponent implements OnInit, OnDestroy {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private albumService: AlbumService) {
+        private albumService: AlbumService,
+        private dialogService: DialogService) {
         this.album = new Album();
     }
 
@@ -23,6 +25,26 @@ export class AlbumCreateComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
+    }
+
+    onSubmit() {
+        // Do the basic check
+        if (!this.album.Title) {
+            this.dialogService.confirm("Title is a must!");
+            return;
+        }
+        this.album.CreatedAt = new Date();
+        this.album.CreatedBy = "Tester";        
+        this.albumService.createAlbum(this.album).subscribe(x => {
+            if (x) {
+                // Navigate to the albums list page
+                this.router.navigate(['/album']);
+            }
+        });
+    }
+
+    newAlbum() {
+        this.album = new Album();
     }
 }
 

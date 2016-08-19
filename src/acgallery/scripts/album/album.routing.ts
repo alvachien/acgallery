@@ -15,14 +15,14 @@ export const albumRoutes: Routes = [
                 path: 'create',
                 component: AlbumCreateComponent
             },
-            //{
-            //    path: ':id',
-            //    component: AlbumDetailComponent,
-            //    //canDeactivate: [CanDeactivateGuard],
-            //    //resolve: {
-            //    //    album: AlbumDetailResolve
-            //    //}
-            //},
+            {
+                path: 'detail/:id',
+                component: AlbumDetailComponent,
+                //canDeactivate: [CanDeactivateGuard],
+                //resolve: {
+                //    album: AlbumDetailResolve
+                //}
+            },
             {
                 path: '',
                 component: AlbumListComponent

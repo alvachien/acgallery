@@ -28,7 +28,7 @@ export class PhotoListComponent implements OnInit, OnDestroy {
                 this.getPhotos();
             });
 
-        this.getPhotos();
+        //this.getPhotos();
     }
 
     ngOnDestroy() {

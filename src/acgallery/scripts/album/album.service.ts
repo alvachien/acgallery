@@ -37,6 +37,16 @@ export class AlbumService {
             //);        
     }
 
+    createAlbum(album: Album) {
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        var data = JSON && JSON.stringify(album);
+
+        return this.http.post(this.albumUrl, data, { headers: headers })
+            .map(response => response.json());
+    }
+
     private extractSingleData(res: Response) {
         let body = res.json();
         if (body) {

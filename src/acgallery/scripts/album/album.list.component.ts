@@ -50,7 +50,7 @@ export class AlbumListComponent implements OnInit, OnDestroy {
 
     onSelect(album: Album) {
         // Navigate with Absolute link
-        this.router.navigate(['/album', album.Id]);
+        this.router.navigate(['/album/detail', album.Id]);
     }
 }
 

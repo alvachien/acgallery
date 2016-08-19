@@ -15,18 +15,26 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 namespace acgallery
 {
     public class PhotoViewModelBase
     {
+        [Required]
+        [StringLength(40)]
         public String PhotoId { get; set; }
+        [StringLength(50)]
         public String Title { get; set; }
+        [StringLength(100)]
         public String Desp { get; set;  }
+        [StringLength(100)]
         public String FileUrl { get; set; }
+        [StringLength(100)]
         public String ThumbnailFileUrl { get; set; }
         public String FileFormat { get; set; }
         public DateTime UploadedTime { get; set; }
+        [StringLength(100)]
         public String OrgFileName { get; set; }
         public Boolean IsOrgThumbnail { get; set; }
     }
@@ -40,11 +48,16 @@ namespace acgallery
     public class AlbumViewModel
     {
         public Int32 Id { get; set; }
+        [Required]
+        [StringLength(50)]
         public String Title { get; set; }
+        [StringLength(100)]
         public String Desp { get; set; }
+        [StringLength(50)]
         public String CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public Boolean IsPublic { get; set; }
+        [StringLength(50)]
         public String AccessCode { get; set; }
 
         public Int32 PhotoCount { get; set; }
@@ -238,6 +251,74 @@ namespace acgallery
 
             return NotFound();
         }
+
+        // POST api/album
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody]AlbumViewModel vm)
+        {
+            if (vm == null)
+            {
+                return BadRequest("No data is inputted");
+            }
+
+            if (TryValidateModel(vm))
+            {
+                // Check existence
+                //Boolean bExists = _dbContext.KnowledgeType.Any(x => x.Id == vm.ID);
+                //if (bExists)
+                //{
+                //    return BadRequest("ID exists already");
+                //}
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+            // Create it into DB            
+            try
+            {
+                using(SqlConnection conn = new SqlConnection(connStr))
+                {
+                    String cmdText = @"INSERT INTO [dbo].[Album]
+                               ([Title]
+                               ,[Desp]
+                               ,[CreatedBy]
+                               ,[CreateAt]
+                               ,[IsPublic]
+                               ,[AccessCode])
+                         VALUES
+                               (@Title
+                               ,@Desp
+                               ,@CreatedBy
+                               ,@CreatedAt
+                               ,@IsPublic
+                               ,@AccessCode
+                                )";
+                    await conn.OpenAsync();
+
+                    SqlCommand cmd = new SqlCommand(cmdText, conn);
+                    cmd.Parameters.AddWithValue("@Title", vm.Title);
+                    cmd.Parameters.AddWithValue("@Desp", String.IsNullOrEmpty(vm.Desp) ? String.Empty : vm.Desp);
+                    cmd.Parameters.AddWithValue("@CreatedBy", vm.CreatedBy);
+                    cmd.Parameters.AddWithValue("@CreatedAt", vm.CreatedAt);
+                    cmd.Parameters.AddWithValue("@IsPublic", vm.IsPublic);
+                    cmd.Parameters.AddWithValue("@AccessCode", String.IsNullOrEmpty(vm.AccessCode)? String.Empty: vm.AccessCode);
+
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+            catch(Exception exp)
+            {
+                System.Diagnostics.Debug.WriteLine(exp.Message);
+            }
+
+            return Json(true);
+        }
+
+        // PUT api/album/5
+
+        // DELETE api/album/5
     }
 #endif
 
@@ -456,9 +537,11 @@ namespace acgallery
                 vmobj.ExifTags.Add(par);
 
 #if DEBUG
-            using (SqlConnection conn = new SqlConnection(connStr))
+            try
             {
-                String cmdText = @"INSERT INTO [dbo].[Photo]
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    String cmdText = @"INSERT INTO [dbo].[Photo]
                        ([PhotoID]
                        ,[Title]
                        ,[Desp]
@@ -478,7 +561,7 @@ namespace acgallery
                        ,[IsPublic]
                        ,[EXIFInfo])
                  VALUES
-                       (@PhotoID, 
+                       (@PhotoID 
                        ,@Title
                        ,@Desp
                        ,@UploadedAt
@@ -495,33 +578,38 @@ namespace acgallery
                        ,@ShutterSpeed
                        ,@ISONumber
                        ,@IsPublic
-                       ,@EXIFInfo
+                       ,@EXIF
                         )";
 
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(cmdText, conn);
-                cmd.Parameters.AddWithValue("@PhotoID", vmobj.PhotoId);
-                cmd.Parameters.AddWithValue("@Title", vmobj.Title);
-                cmd.Parameters.AddWithValue("@Desp", vmobj.Desp);
-                cmd.Parameters.AddWithValue("@UploadedAt", DateTime.Now);
-                cmd.Parameters.AddWithValue("@UploadedBy", "Tester");
-                cmd.Parameters.AddWithValue("@OrgFileName", vmobj.OrgFileName);
-                cmd.Parameters.AddWithValue("@PhotoUrl", vmobj.FileUrl);
-                cmd.Parameters.AddWithValue("@PhotoThumbUrl", vmobj.ThumbnailFileUrl);
-                cmd.Parameters.AddWithValue("@IsOrgThumb", vmobj.IsOrgThumbnail);
-                cmd.Parameters.AddWithValue("@ThumbCreatedBy", 2); // 1 for ExifTool, 2 stands for others
-                cmd.Parameters.AddWithValue("@CameraMaker", "To-do");
-                cmd.Parameters.AddWithValue("@CameraModel", "To-do");
-                cmd.Parameters.AddWithValue("@LensModel", "To-do");
-                cmd.Parameters.AddWithValue("@AVNumber", "To-do");
-                cmd.Parameters.AddWithValue("@ShutterSpeed", "To-do");
-                cmd.Parameters.AddWithValue("@IsPublic", true);
-                cmd.Parameters.AddWithValue("@ISONumber", 0);
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(cmdText, conn);
+                    cmd.Parameters.AddWithValue("@PhotoID", vmobj.PhotoId);
+                    cmd.Parameters.AddWithValue("@Title", vmobj.Title);
+                    cmd.Parameters.AddWithValue("@Desp", vmobj.Desp);
+                    cmd.Parameters.AddWithValue("@UploadedAt", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@UploadedBy", "Tester");
+                    cmd.Parameters.AddWithValue("@OrgFileName", vmobj.OrgFileName);
+                    cmd.Parameters.AddWithValue("@PhotoUrl", vmobj.FileUrl);
+                    cmd.Parameters.AddWithValue("@PhotoThumbUrl", vmobj.ThumbnailFileUrl);
+                    cmd.Parameters.AddWithValue("@IsOrgThumb", vmobj.IsOrgThumbnail);
+                    cmd.Parameters.AddWithValue("@ThumbCreatedBy", 2); // 1 for ExifTool, 2 stands for others
+                    cmd.Parameters.AddWithValue("@CameraMaker", "To-do");
+                    cmd.Parameters.AddWithValue("@CameraModel", "To-do");
+                    cmd.Parameters.AddWithValue("@LensModel", "To-do");
+                    cmd.Parameters.AddWithValue("@AVNumber", "To-do");
+                    cmd.Parameters.AddWithValue("@ShutterSpeed", "To-do");
+                    cmd.Parameters.AddWithValue("@IsPublic", true);
+                    cmd.Parameters.AddWithValue("@ISONumber", 0);
 
-                String strJson = Newtonsoft.Json.JsonConvert.SerializeObject(vmobj.ExifTags);
-                cmd.Parameters.AddWithValue("@EXIF", strJson);
+                    String strJson = Newtonsoft.Json.JsonConvert.SerializeObject(vmobj.ExifTags);
+                    cmd.Parameters.AddWithValue("@EXIF", strJson);
 
-                cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception exp)
+            {
+                System.Diagnostics.Debug.WriteLine(exp.Message);
             }
 #else
             using (var client = new HttpClient())
