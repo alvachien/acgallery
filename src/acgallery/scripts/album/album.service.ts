@@ -65,7 +65,7 @@ export class AlbumService {
             let almes = new Array<Album>();
             for (let alm of body) {
                 let alm2 = new Album();
-                alm2.init(body.id, body.title, body.desp, body.firstPhotoThumnailUrl, body.createdAt, body.createdBy, body.photoCount);
+                alm2.init(alm.id, alm.title, alm.desp, alm.firstPhotoThumnailUrl, alm.createdAt, alm.createdBy, alm.photoCount);
 
                 almes.push(alm2);
             }
