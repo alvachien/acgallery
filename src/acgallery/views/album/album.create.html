@@ -23,4 +23,24 @@
 
     <br />
     <hr />
+    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+        <button type="button" class="btn btn-secondary">Add</button>
+        <button type="button" class="btn btn-secondary">Remove</button>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Title</th>
+                <th>Desp</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let photo of album.photoes">
+                <td><img src="{{photo.thumbnailFileUrl}}" class="img-rounded"></td>
+                <td>{{photo.title}}</td>
+                <td>{{photo.desp}}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>

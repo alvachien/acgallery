@@ -3,31 +3,19 @@
         <h3 class="panel-title">Album List</h3>
     </div>
     <div class="panel-body">
-        <div class="row album-box" *ngFor="let album of albumes">
-            <div class="col-md-1 text-center">
-                <p>
-                    <i class="fa fa-camera fa-4x"></i>
-                </p>
-                <p>{{album.CreatedAt}}</p>
+        <div class="card-deck-wrapper">
+            <div class="card-deck">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 card card-block text-xs-center" *ngFor="let album of albumes">
+                    <img class="card-img-top img img-responsive full-width thumbnail" src="{{album.Thumbnail}}" alt="Album Image">
+                    <div class="card-block">
+                        <h4 class="card-title">{{album.Title}}</h4>
+                        <p class="card-text">{{album.Desp}}</p>
+                        <div class="card-block">
+                            <a (click)="onSelect(album)" class="btn btn-primary">View {{album.PhotoCount}} Photos</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="col-md-5">
-                <a class="fancybox" rel="gallery" href="{{album.Thumbnail}}" title="{{album.Title}}">
-                    <img class="media-object img-responsive album-thumbnail" src="{{album.Thumbnail}}" alt="{{album.Title}}" style="display: block; width: 100% !important;height: auto !important;" />
-                </a>
-            </div>
-
-            <div class="col-md-6">
-                <h3>
-                    <a (click)="onSelect(album)">{{album.Title}}</a>
-                </h3>
-                <p>
-                    Photos: <span class="badge">{{album.PhotoCount}}</span>
-                </p>
-                <p>{{album.Desp}}</p>
-                <!--<a *ngIf="album.PhotoCount > 0" class="btn btn-primary" [routerLink]="[routes.albumPhotos.name, {id: album.Id}]">View photos <i class="fa fa-angle-right"></i></a>-->
-            </div>
-            <hr />
         </div>
     </div>
 </div>

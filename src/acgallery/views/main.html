@@ -11,23 +11,25 @@
                 &#9776;
             </button>
             <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
-                <a class="navbar-brand" href="#">AC Photo Gallery</a>
+                <a class="navbar-brand" [routerLink]="['/home']" routerLinkActive="active">AC Photo Gallery</a>
                 <ul class="nav navbar-nav">
-                    <li class="nav-item btn-group">
-                        <a class="dropdown-toggle nav-link" id="dropdownMenuAlbum" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-picture-o fa-fw"></i>&nbsp;Album<b class="caret"></b>
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuPhoto">
+                        <div class="dropdown-menu">
                             <a class="dropdown-item" [routerLink]="['/album']" routerLinkActive="active">Albums</a>
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" [routerLink]="['/album/create']" routerLinkActive="active">Create an album</a>
                         </div>
                     </li>
-                    <li class="nav-item btn-group">
-                        <a class="dropdown-toggle nav-link" id="dropdownMenuPhoto" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-photo fa-fw"></i>&nbsp;Photo<b class="caret"></b>
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuPhoto">
+                        <div class="dropdown-menu">
                             <a class="dropdown-item" [routerLink]="['/photo']" routerLinkActive="active">Photoes</a>
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" [routerLink]="['/photo/upload']" routerLinkActive="active">Upload</a>
                         </div>
                     </li>
@@ -37,12 +39,14 @@
                     <li class="nav-item">
                         <a class="nav-link" [routerLink]="['/about']" routerLinkActive="active"><i class="fa fa-adjust fa-fw"></i>&nbsp;About</a>
                     </li>
-                    <li class="nav-item btn-group">
-                        <a class="dropdown-toggle nav-link" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-pencil-square-o fa-fw"></i>&nbsp;Contact Me<b class="caret"></b>
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuContactMe">
+                        <div class="dropdown-menu">
                             <a class="dropdown-item" href="http://www.alvachien.com/alvablog/" target="_blank"><i class="fa fa-home fa-fw"></i>&nbsp;Official Website</a>
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header">Social Websites</h6>
                             <a class="dropdown-item" href="https://github.com/alvachien" target="_blank"><i class="fa fa-github fa-fw"></i>&nbsp;Github</a>
                             <a class="dropdown-item" href="https://www.flickr.com/photos/alvachien" target="_blank"><i class="fa fa-flickr fa-fw"></i>&nbsp;Flickr</a>
                             <a class="dropdown-item" href="https://www.facebook.com/alva.chien" target="_blank"><i class="fa fa-facebook fa-fw"></i>&nbsp;Facebook</a>

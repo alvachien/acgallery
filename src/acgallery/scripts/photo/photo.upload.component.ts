@@ -26,7 +26,7 @@ export class PhotoUploadComponent implements OnInit {
 
         this.photoservice.progress$.subscribe(
             data => {
-                console.log('progress = ' + data);
+                //console.log('progress = ' + data);
                 //this.progressNum = data;
                 this.zone.run(() => {
                     this.progressNum = +data;
@@ -60,7 +60,7 @@ export class PhotoUploadComponent implements OnInit {
         this.isUploading = true;
 
         this.photoservice.makeFileRequest([], this.selectedFiles).subscribe(value => {
-            console.log(value);
+            //console.log(value);
 
             // Just navigate to Photos page
             this.isUploading = false;
