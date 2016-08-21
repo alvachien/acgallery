@@ -17,6 +17,16 @@ export class PhotoService {
         });
     }
 
+    public updateFileMetadata(photo: Photo) {
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        var data = JSON && JSON.stringify(photo);
+
+        return this.http.put(this.fileUrl, data, { headers: headers })
+            .map(response => response.json());
+    }
+
     public makeFileRequest(params: string[], files: File[]): Observable<Array<any>> {
         ////let body = JSON.stringify({ name });
         //let headers = new Headers({ 'Content-Type': undefined });

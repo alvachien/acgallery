@@ -3,6 +3,7 @@ import { ActivatedRoute, Router }           from '@angular/router';
 import { Photo }                            from './photo';
 import { PhotoService }                     from './photo.service';
 import { Subscription }                     from 'rxjs/Subscription';
+import { DialogService }                    from '../dialog.service';
 
 @Component({
     selector: 'my-photo-list',
@@ -10,15 +11,17 @@ import { Subscription }                     from 'rxjs/Subscription';
 })
 
 export class PhotoListComponent implements OnInit, OnDestroy {
-    photoes: Photo[];
-    errorMessage: any;
+    public photoes: Photo[];
+    public errorMessage: any;
     private selectedId: string;
     private sub: Subscription;
+    public selectedPhoto: Photo;
 
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private photoService: PhotoService) {
+        private photoService: PhotoService,
+        private dialogService: DialogService) {
     }
 
     ngOnInit() {
@@ -42,6 +45,26 @@ export class PhotoListComponent implements OnInit, OnDestroy {
             photoes => this.photoes = photoes,
             error => this.errorMessage = <any>error
         );
+    }
+
+    onSetSelectedPhoto(photo: Photo) {
+        this.selectedPhoto = photo;
+    }
+
+    onSavePhotoMetadata() {
+        // Verify the title and desp
+        if (!this.selectedPhoto.title) {
+            this.dialogService.confirm("Title is a must!");
+            return;
+        }
+
+        this.photoService.updateFileMetadata(this.selectedPhoto).subscribe(x => {
+            if (x) {
+                // Navigate to the albums list page
+                //this.router.navigate(['/photo']);
+                this.dialogService.confirm("Updated successfully!");
+            }
+        });
     }
 }
 

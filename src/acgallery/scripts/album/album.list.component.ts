@@ -3,6 +3,7 @@ import { ActivatedRoute, Router }           from '@angular/router';
 import { Album }                            from './album';
 import { AlbumService }                     from './album.service';
 import { Subscription }                     from 'rxjs/Subscription';
+import { DialogService }                    from '../dialog.service';
 
 @Component({
     selector: 'my-album-list',
@@ -14,11 +15,13 @@ export class AlbumListComponent implements OnInit, OnDestroy {
     private sub: Subscription;
     albumes: Album[];
     errorMessage: any;
+    public selectedAlbum: Album;
 
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private albumService: AlbumService) {
+        private albumService: AlbumService,
+        private dialogService: DialogService) {
     }
 
     isSelected(album: Album) {
@@ -48,7 +51,26 @@ export class AlbumListComponent implements OnInit, OnDestroy {
         }
     }
 
-    onSelect(album: Album) {
+    onSetSelect(album: Album) {
+        this.selectedAlbum = album;
+    }
+
+    onSaveAlbumMetadata() {
+        // Verify the title and desp
+        if (!this.selectedAlbum.Title) {
+            this.dialogService.confirm("Title is a must!");
+            return;
+        }
+
+        this.albumService.updateMetadata(this.selectedAlbum).subscribe(x => {
+            if (x) {
+                //this.onViewAlbumDetail(this.selectedAlbum);
+                this.dialogService.confirm("Updated successfully!");
+            }
+        });
+    }
+
+    onViewAlbumDetail(album: Album) {
         // Navigate with Absolute link
         this.router.navigate(['/album/detail', album.Id]);
     }

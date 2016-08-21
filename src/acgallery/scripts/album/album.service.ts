@@ -47,11 +47,23 @@ export class AlbumService {
             .map(response => response.json());
     }
 
+    public updateMetadata(album: Album) {
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        var data = JSON && JSON.stringify(album);
+
+        return this.http.put(this.albumUrl, data, { headers: headers })
+            .map(response => response.json());
+    }
+
+
     private extractSingleData(res: Response) {
         let body = res.json();
         if (body) {
             let alm2 = new Album();
-            alm2.init(body.id, body.title, body.desp, body.firstPhotoThumnailUrl, body.createdAt, body.createdBy, body.photoCount);
+            alm2.init(body.id, body.title, body.desp, body.firstPhotoThumnailUrl, body.createdAt, body.createdBy,
+                body.isPublic, body.accessCode, body.photoCount);
             alm2.Photoes = [];
             for (var i = 0; i < body.photoList.length; i++) {
                 let pto = new Photo();
@@ -75,7 +87,8 @@ export class AlbumService {
             let almes = new Array<Album>();
             for (let alm of body) {
                 let alm2 = new Album();
-                alm2.init(alm.id, alm.title, alm.desp, alm.firstPhotoThumnailUrl, alm.createdAt, alm.createdBy, alm.photoCount);
+                alm2.init(alm.id, alm.title, alm.desp, alm.firstPhotoThumnailUrl, alm.createdAt, alm.createdBy,
+                    alm.isPublic, alm.accessCode, alm.photoCount);
 
                 almes.push(alm2);
             }

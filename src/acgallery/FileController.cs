@@ -27,7 +27,7 @@ namespace acgallery
         [StringLength(50)]
         public String Title { get; set; }
         [StringLength(100)]
-        public String Desp { get; set;  }
+        public String Desp { get; set; }
         [StringLength(100)]
         public String FileUrl { get; set; }
         [StringLength(100)]
@@ -37,6 +37,7 @@ namespace acgallery
         [StringLength(100)]
         public String OrgFileName { get; set; }
         public Boolean IsOrgThumbnail { get; set; }
+        public Boolean IsPublic { get; set; }
     }
 
     public class PhotoViewModel : PhotoViewModelBase
@@ -66,7 +67,7 @@ namespace acgallery
     }
     public class AlbumWithPhotoViewModel : AlbumViewModel
     {
-        public List<PhotoViewModelBase> PhotoList = new List<PhotoViewModelBase>();
+        public List<PhotoViewModel> PhotoList = new List<PhotoViewModel>();
     }
 
     [Route("api/album")]
@@ -210,7 +211,7 @@ namespace acgallery
                     {
                         while (reader.Read())
                         {
-                            PhotoViewModelBase pvm = new PhotoViewModelBase();
+                            PhotoViewModel pvm = new PhotoViewModel();
                             //cmd.Parameters.AddWithValue("@PhotoID", nid.ToString("N"));   // 1
                             pvm.PhotoId = reader.GetString(0);
                             //cmd.Parameters.AddWithValue("@Title", nid.ToString("N"));     // 2
@@ -230,6 +231,10 @@ namespace acgallery
                             //cmd.Parameters.AddWithValue("@PhotoThumbUrl", rst.ThumbnailFileUrl); // 8
                             if (!reader.IsDBNull(7)) // 8 - 1
                                 pvm.ThumbnailFileUrl = reader.GetString(7);
+                            if (!reader.IsDBNull(16))
+                                pvm.IsPublic = reader.GetBoolean(16);
+                            if (!reader.IsDBNull(17))
+                                pvm.ExifTags = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ExifTagItem>>(reader.GetString(17));
 
                             avm.PhotoList.Add(pvm);
                         }
@@ -278,7 +283,7 @@ namespace acgallery
             // Create it into DB            
             try
             {
-                using(SqlConnection conn = new SqlConnection(connStr))
+                using (SqlConnection conn = new SqlConnection(connStr))
                 {
                     String cmdText = @"INSERT INTO [dbo].[Album]
                                ([Title]
@@ -303,12 +308,12 @@ namespace acgallery
                     cmd.Parameters.AddWithValue("@CreatedBy", vm.CreatedBy);
                     cmd.Parameters.AddWithValue("@CreatedAt", vm.CreatedAt);
                     cmd.Parameters.AddWithValue("@IsPublic", vm.IsPublic);
-                    cmd.Parameters.AddWithValue("@AccessCode", String.IsNullOrEmpty(vm.AccessCode)? String.Empty: vm.AccessCode);
+                    cmd.Parameters.AddWithValue("@AccessCode", String.IsNullOrEmpty(vm.AccessCode) ? String.Empty : vm.AccessCode);
 
                     await cmd.ExecuteNonQueryAsync();
                 }
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
                 System.Diagnostics.Debug.WriteLine(exp.Message);
             }
@@ -317,6 +322,61 @@ namespace acgallery
         }
 
         // PUT api/album/5
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] AlbumViewModel vm)
+        {
+            if (vm == null)
+            {
+                return BadRequest("No data is inputted");
+            }
+
+            if (vm.Title != null)
+                vm.Title = vm.Title.Trim();
+            if (String.IsNullOrEmpty(vm.Title))
+            {
+                return BadRequest("Title is a must!");
+            }
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    String cmdText = @"UPDATE [Album]
+                               SET [Title] = @Title
+                                  ,[Desp] = @Desp
+                                  ,[IsPublic] = @IsPublic
+                                  ,[AccessCode] = @AccessCode
+                             WHERE [AlbumID] = @Id
+                            ";
+
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(cmdText, conn);
+                    cmd.Parameters.AddWithValue("@Id", vm.Id);
+                    cmd.Parameters.AddWithValue("@Title", vm.Title);
+                    if (String.IsNullOrEmpty(vm.Desp))
+                        cmd.Parameters.AddWithValue("@Desp", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@Desp", vm.Desp);
+                    cmd.Parameters.AddWithValue("@IsPublic", vm.IsPublic);
+                    if (vm.AccessCode == null)
+                        cmd.Parameters.AddWithValue("@AccessCode", DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@AccessCode", vm.AccessCode);
+
+                    await cmd.ExecuteNonQueryAsync();
+                    return new ObjectResult(true);
+                }
+            }
+            catch (Exception exp)
+            {
+                System.Diagnostics.Debug.WriteLine(exp.Message);
+            }
+            finally
+            {
+            }
+
+            return new ObjectResult(false);
+        }
 
         // DELETE api/album/5
     }
@@ -370,7 +430,7 @@ namespace acgallery
                 SqlDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
                 {
-                    while(reader.Read())
+                    while (reader.Read())
                     {
                         PhotoViewModel vm = new PhotoViewModel();
                         vm.PhotoId = reader.GetString(0);
@@ -381,10 +441,14 @@ namespace acgallery
                             vm.UploadedTime = reader.GetDateTime(3);
                         // UploadedBy
                         if (!reader.IsDBNull(5))
-                            vm.OrgFileName = reader.GetString(5);                        
+                            vm.OrgFileName = reader.GetString(5);
                         vm.FileUrl = reader.GetString(6);
                         if (!reader.IsDBNull(7))
                             vm.ThumbnailFileUrl = reader.GetString(7);
+                        if (!reader.IsDBNull(16))
+                            vm.IsPublic = reader.GetBoolean(16);
+                        if (!reader.IsDBNull(17))
+                            vm.ExifTags = JsonConvert.DeserializeObject<List<ExifTagItem>>(reader.GetString(17));
 
                         listVMs.Add(vm);
                     }
@@ -474,7 +538,8 @@ namespace acgallery
                     foreach (var item in wrap)
                     {
                         System.Diagnostics.Debug.WriteLine("{0}, {1}, {2}", item.group, item.name, item.value);
-                        rst.ExifTags.Add(item);
+                        if (item.group != "File")
+                            rst.ExifTags.Add(item);
                     }
                     listResults.Add(rst);
                 }
@@ -624,5 +689,70 @@ namespace acgallery
 
             return Json(true);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateMetadata([FromBody]PhotoViewModel vm)
+        {
+            if (vm == null)
+            {
+                return BadRequest("No data is inputted");
+            }
+
+            vm.Title = vm.Title.Trim();
+            if (String.IsNullOrEmpty(vm.Title))
+            {
+                return BadRequest("Title is a must!");
+            }
+
+#if DEBUG
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    String cmdText = @"UPDATE [Photo]
+                               SET [Title] = @Title
+                                  ,[Desp] = @Desp
+                             WHERE [PhotoID] = @PhotoID
+                            ";
+
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(cmdText, conn);
+                    cmd.Parameters.AddWithValue("@PhotoID", vm.PhotoId);
+                    cmd.Parameters.AddWithValue("@Title", vm.Title);
+                    cmd.Parameters.AddWithValue("@Desp", vm.Desp);
+
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+            catch (Exception exp)
+            {
+                System.Diagnostics.Debug.WriteLine(exp.Message);
+            }
+            finally
+            {
+
+            }
+
+            return new ObjectResult(true);
+#else
+            var client = new HttpClient();
+            try
+            {
+                client.BaseAddress = new Uri("http://achihapi.azurewebsites.net/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                await client.PutAsync("api/photo", new StringContent(JsonConvert.SerializeObject(vm).ToString(),
+                    Encoding.UTF8, "application/json"));
+            }
+            catch (Exception exp)
+            {
+                System.Diagnostics.Debug.WriteLine(exp.Message);
+            }
+
+            return new ObjectResult(true);
+#endif
+
+        }
     }
 }
+

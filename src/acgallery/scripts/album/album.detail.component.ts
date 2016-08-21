@@ -5,6 +5,8 @@ import { AlbumService }           from './album.service';
 import { DialogService }          from '../dialog.service';
 import { Observable }             from 'rxjs/Observable';
 import { FormBuilder, Validators } from '@angular/common';
+import { Photo }                  from '../photo/photo';
+import { PhotoService }           from '../photo/photo.service';
 
 @Component({
     selector: 'my-album-detail',
@@ -13,12 +15,14 @@ import { FormBuilder, Validators } from '@angular/common';
 
 export class AlbumDetailComponent implements OnInit {
     album: Album;
+    public selectedPhoto: Photo;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         public dialogService: DialogService,
-        private albumService: AlbumService) {
+        private albumService: AlbumService,
+        private photoService: PhotoService ) {
     }
 
     ngOnInit() {
@@ -55,5 +59,24 @@ export class AlbumDetailComponent implements OnInit {
         // Add a totally useless `foo` parameter for kicks.
         // Absolute link
         this.router.navigate(['/album', { id: albumid, foo: 'foo' }]);
+    }
+
+    onSetSelectedPhoto(photo: Photo) {
+        this.selectedPhoto = photo;
+    }
+
+    onSavePhotoMetadata() {
+        // Verify the title and desp
+        if (!this.selectedPhoto.title) {
+            this.dialogService.confirm("Title is a must!");
+            return;
+        }
+
+        this.photoService.updateFileMetadata(this.selectedPhoto).subscribe(x => {
+            if (x) {
+                // Navigate to the albums list page
+                this.dialogService.confirm("Metadata updated!");
+            }
+        });
     }
 }
