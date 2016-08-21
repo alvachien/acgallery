@@ -747,6 +747,7 @@ namespace acgallery
             catch (Exception exp)
             {
                 System.Diagnostics.Debug.WriteLine(exp.Message);
+                return new ObjectResult(false);
             }
 
             return new ObjectResult(true);
