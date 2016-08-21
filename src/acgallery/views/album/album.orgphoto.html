@@ -1,0 +1,44 @@
+﻿<div *ngIf="album" class="container">
+    <div class="row">
+        <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5">
+            <table class="table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th></th>
+                        <th>Title</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let photo of album.Photoes">
+                        <td><img src="{{photo.thumbnailFileUrl}}" /></td>
+                        <td>{{photo.title}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-1 col-md-1 col-xs-1 col-sm-1">
+            <div class="row">
+                <a class="btn btn-link">></a>
+            </div>
+            <div class="row">
+                <a class="btn btn-link"><</a>
+            </div>
+        </div>
+        <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5">
+            <table class="table">
+                <thead class="thead-default">
+                    <tr>
+                        <th></th>
+                        <th>Title</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let photo of album.Photoes">
+                        <td><img src="{{photo.thumbnailFileUrl}}" /></td>
+                        <td>{{photo.title}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

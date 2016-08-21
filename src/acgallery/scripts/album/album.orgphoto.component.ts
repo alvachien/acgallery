@@ -9,20 +9,20 @@ import { Photo }                  from '../photo/photo';
 import { PhotoService }           from '../photo/photo.service';
 
 @Component({
-    selector: 'my-album-detail',
-    templateUrl: 'app/views/album/album.detail.html'
+    selector: 'my-album-orgphoto',
+    templateUrl: 'app/views/album/album.orgphoto.html'
 })
 
-export class AlbumDetailComponent implements OnInit {
+export class AlbumOrgPhotoComponent implements OnInit {
     public album: Album;
-    public selectedPhoto: Photo;
+    public allPhotos: Photo[];
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         public dialogService: DialogService,
         private albumService: AlbumService,
-        private photoService: PhotoService ) {
+        private photoService: PhotoService) {
     }
 
     ngOnInit() {
@@ -32,24 +32,7 @@ export class AlbumDetailComponent implements OnInit {
         this.route.params.forEach((next: { id: number }) => {
             this.albumService.getAlbum(next.id).subscribe(album => this.album = album);
         });
-    }
-
-    cancel() {
-        this.gotoAlbumes();
-    }
-
-    save() {
-        this.gotoAlbumes();
-    }
-
-    canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-        // Allow synchronous navigation (`true`) if no crisis or the crisis is unchanged
-        if (!this.album) {
-            return true;
-        }
-        // Otherwise ask the user with the dialog service and return its
-        // promise which resolves to true or false when the user decides
-        return this.dialogService.confirm('Discard changes?');
+        this.photoService.getFiles().subscribe(photos => this.allPhotos = photos);
     }
 
     gotoAlbumes() {
@@ -59,24 +42,5 @@ export class AlbumDetailComponent implements OnInit {
         // Add a totally useless `foo` parameter for kicks.
         // Absolute link
         this.router.navigate(['/album', { id: albumid, foo: 'foo' }]);
-    }
-
-    onSetSelectedPhoto(photo: Photo) {
-        this.selectedPhoto = photo;
-    }
-
-    onSavePhotoMetadata() {
-        // Verify the title and desp
-        if (!this.selectedPhoto.title) {
-            this.dialogService.confirm("Title is a must!");
-            return;
-        }
-
-        this.photoService.updateFileMetadata(this.selectedPhoto).subscribe(x => {
-            if (x) {
-                // Navigate to the albums list page
-                this.dialogService.confirm("Metadata updated!");
-            }
-        });
     }
 }

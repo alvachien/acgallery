@@ -74,5 +74,9 @@ export class AlbumListComponent implements OnInit, OnDestroy {
         // Navigate with Absolute link
         this.router.navigate(['/album/detail', album.Id]);
     }
+
+    onOrgAlbumPhoto(album: Album) {
+        this.router.navigate(['/album/orgphoto', album.Id]);
+    }
 }
 

@@ -14,10 +14,10 @@
                             <a class="btn btn-link" (click)="onSetSelect(album)" data-toggle="modal" data-target="#modalAlbum">
                                 Change
                             </a>
-                            <a class="btn btn-link" (click)="onViewAlbumDetail(album)">View Photos</a>
+                            <a class="btn btn-link" (click)="onOrgAlbumPhoto(album)">Organize Photos</a>
                         </div>
                         <div class="card-block">
-                            <p class="card-text"><small class="text-muted">{{album.PhotoCount}} Photoes</small></p>
+                            <a class="btn btn-link" (click)="onViewAlbumDetail(album)"><small class="text-muted">View {{album.PhotoCount}} Photoes</small></a>
                         </div>
                     </div>
                 </div>
@@ -70,5 +70,6 @@
                 </div> <!-- /.modal-content -->
             </div> <!-- /.modal-dialog -->
         </div> <!-- /.modal -->
+
     </div>
 </div>

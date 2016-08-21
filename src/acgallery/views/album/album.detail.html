@@ -16,28 +16,28 @@
             <input type="text" class="form-control" id="desp"
                    [(ngModel)]="album.Desp" name="desp">
         </div>
-
-        <button type="submit" class="btn btn-default" [disabled]="!albumForm.form.valid">Submit</button>
-        <button type="button" class="btn btn-default" (click)="newAlbum()">New Album</button>
     </form>
 
-    <br /> 
     <hr />
 
     <div class="panel-body">
-        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" *ngFor="let photo of album.Photoes">
-            <div class="card card-block text-xs-center">
-                <a class="fancybox" rel="gallery" href="{{photo.fileUrl}}">
-                    <img class="card-img-top img img-responsive full-width thumbnail" src="{{photo.thumbnailFileUrl}}" alt="Album Image">
-                </a>
-                <div class="card-block">
-                    <h4 class="card-title">{{photo.title}}</h4>
-                    <p class="card-text">{{photo.desp}}</p>
+        <div class="card-deck-wrapper">
+            <div class="card-deck">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 card card-block text-xs-center" *ngFor="let photo of album.Photoes">
+                    <a class="fancybox" rel="gallery" href="{{photo.fileUrl}}">
+                        <img src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" class="img img-responsive full-width thumbnail" style="display: block; width: 100% !important;height: auto !important;" />
+                    </a>
                     <div class="card-block">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Org File: {{photo.orgFileName}}</li>
-                            <li class="list-group-item">Uploaded at: {{photo.uploadedTime}}</li>
-                        </ul>
+                        <h4 class="card-title">{{photo.title}}</h4>
+                        <p class="card-text">{{photo.desp}}</p>
+                        <div class="card-block">
+                            <a class="btn btn-link" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhoto">
+                                Change
+                            </a>
+                            <a class="btn btn-link" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhotoExif">
+                                EXIF
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

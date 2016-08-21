@@ -72,6 +72,9 @@ export class AlbumService {
                 pto.thumbnailFileUrl = body.photoList[i].thumbnailFileUrl;
                 pto.title = body.photoList[i].title;
                 pto.desp = body.photoList[i].desp;
+
+                pto.exifTags = body.photoList[i].exifTags;
+
                 alm2.Photoes.push(pto);
             }
 
