@@ -30,6 +30,7 @@ namespace acgallery
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseMvc();
+            app.UseNotFoundMiddleware();
         }
     }
 }
