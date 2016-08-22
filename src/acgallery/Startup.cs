@@ -37,7 +37,7 @@ namespace acgallery
                     new { controller = "Home", action = "Index" });
             });
 
-            app.UseNotFoundMiddleware();
+            //app.UseNotFoundMiddleware();
         }
     }
 }
