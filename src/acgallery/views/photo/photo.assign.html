@@ -1,0 +1,48 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5">
+            <table class="table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>Title</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let album of assignedAlbum">
+                        <td><div class="checkbox"><input type="checkbox"></div></td>
+                        <td><img src="{{album.Thumbnail}}" class="img-rounded pull-xs-left" alt="..."></td>
+                        <td>{{album.Title}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-1 col-md-1 col-xs-1 col-sm-1">
+            <div class="row">
+                <a class="btn btn-danger">></a>
+            </div>
+            <div class="row">
+                <a class="btn btn-primary"><</a>
+            </div>
+        </div>
+        <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5">
+            <table class="table">
+                <thead class="thead-default">
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>Title</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let album of allAlbum">
+                        <td><div class="checkbox"><input type="checkbox"></div></td>
+                        <td><img src="{{album.Thumbnail}}" class="img-rounded pull-xs-left" alt="..."></td>
+                        <td>{{album.Title}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

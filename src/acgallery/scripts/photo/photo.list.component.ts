@@ -66,5 +66,9 @@ export class PhotoListComponent implements OnInit, OnDestroy {
             }
         });
     }
+
+    onAssignAlbum(photo) {
+        this.router.navigate(['/photo/assignalbum', photo.photoId]);
+    }
 }
 

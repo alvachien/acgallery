@@ -19,6 +19,14 @@ export class AlbumService {
             .catch(this.handleError);
     }
 
+    getAlbumsContainsPhoto(pid: string): Observable<Album[]> {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('photoid', pid);
+        return this.http.get(this.albumUrl, { search: params })
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
     getAlbum(id: number | string): Observable<Album> {
         //let params: URLSearchParams = new URLSearchParams();
         //params.set('id', id.toString());
@@ -67,7 +75,7 @@ export class AlbumService {
             alm2.Photoes = [];
             for (var i = 0; i < body.photoList.length; i++) {
                 let pto = new Photo();
-                pto.id = body.photoList[i].photoId;
+                pto.photoId = body.photoList[i].photoId;
                 pto.fileUrl = body.photoList[i].fileUrl;
                 pto.thumbnailFileUrl = body.photoList[i].thumbnailFileUrl;
                 pto.title = body.photoList[i].title;

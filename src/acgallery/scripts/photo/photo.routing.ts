@@ -2,6 +2,7 @@
 import { PhotoComponent }       from './photo.component';
 import { PhotoListComponent }   from './photo.list.component';
 import { PhotoUploadComponent } from './photo.upload.component';
+import { PhotoAssignAlbumComponent } from './photo.assignalbum.component';
 
 export const photoRoutes: Routes = [
     {
@@ -11,6 +12,10 @@ export const photoRoutes: Routes = [
             {
                 path: 'upload',
                 component: PhotoUploadComponent
+            },
+            {
+                path: 'assignalbum/:photoid',
+                component: PhotoAssignAlbumComponent
             },
             {
                 path: '',

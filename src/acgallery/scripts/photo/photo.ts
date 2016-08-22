@@ -8,7 +8,7 @@ export class Photo {
 
     public title: string;
     public desp: string;
-    public id: string;
+    public photoId: string;
 
     public fileUrl: string;
     public thumbnailFileUrl: string;

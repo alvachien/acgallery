@@ -7,6 +7,7 @@ import { PhotoService }             from './photo.service';
 import { PhotoComponent }           from './photo.component';
 import { PhotoListComponent }       from './photo.list.component';
 import { PhotoUploadComponent }     from './photo.upload.component';
+import { PhotoAssignAlbumComponent } from './photo.assignalbum.component';
 import { photoRouting }             from './photo.routing';
 import { NgbModule }                from '@ng-bootstrap/ng-bootstrap';
 
@@ -21,7 +22,8 @@ import { NgbModule }                from '@ng-bootstrap/ng-bootstrap';
     declarations: [
         PhotoComponent,
         PhotoListComponent,
-        PhotoUploadComponent
+        PhotoUploadComponent,
+        PhotoAssignAlbumComponent
     ],
 
     providers: [
