@@ -12,7 +12,7 @@ var paths = {
     npm: './node_modules/',
     bower: './bower_components/',
 
-    tsSource: './scripts/**/*.ts',
+    tsSource: './app/scripts/**/*.ts',
     tsOutput: app + 'js/',
     tsDef: lib + 'definitions/',
 
@@ -26,7 +26,7 @@ var paths = {
     fontsVendors: lib + 'fonts'
 };
 
-var tsProject = ts.createProject('scripts/tsconfig.json');
+var tsProject = ts.createProject('app/scripts/tsconfig.json');
 
 gulp.task('setup-vendors', function (done) {
     gulp.src([
@@ -95,33 +95,33 @@ gulp.task('setup-vendors', function (done) {
 
 gulp.task('before-compile-view', function () {
     gulp.src([
-        'views/**/*.html'
+        'app/views/**/*.html'
     ]).pipe(gulp.dest(paths.viewsApp));
 });
 
 gulp.task('before-compile-css', function () {
     gulp.src([
-        'css/**/*.css'
+        'app/css/**/*.css'
     ]).pipe(gulp.dest(paths.cssApp));
 });
 
 gulp.task('compile-typescript', function (done) {
     var tsResult = gulp.src([
-       "scripts/**/*.ts"
+       "app/scripts/**/*.ts"
     ])
      .pipe(ts(tsProject), undefined, ts.reporter.fullReporter());
     return tsResult.js.pipe(gulp.dest(paths.tsOutput));
 });
 
 gulp.task('watch.views', ['before-compile-view'], function () {
-    return gulp.watch('views/*.html', ['before-compile-view']);
+    return gulp.watch('app/views/*.html', ['before-compile-view']);
 });
 gulp.task('watch.css', ['before-compile-css'], function () {
-    return gulp.watch('css/*.css', ['before-compile-css']);
+    return gulp.watch('app/css/*.css', ['before-compile-css']);
 });
 
 gulp.task('watch.ts', ['compile-typescript'], function () {
-    return gulp.watch('scripts/*.ts', ['compile-typescript']);
+    return gulp.watch('app/scripts/*.ts', ['compile-typescript']);
 });
 
 gulp.task('watch', ['watch.ts', 'watch.views', 'watch.css']);

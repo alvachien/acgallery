@@ -23,14 +23,18 @@ namespace acgallery
 
             await _next(httpContext);
 
-            if (httpContext.Response.StatusCode == 404 && !path.StartsWith("/api") && !path.StartsWith("/index.html") && !path.StartsWith("/libs") && !path.StartsWith("/app"))
+            if (httpContext.Response.StatusCode == 404)
             {
-                string indexPath = "/index.html";
-                //string fullPath = httpContext.Request.PathBase +
-                //                  correctedPath + httpContext.Request.QueryString;
-                httpContext.Response.Redirect(indexPath, permanent: true);
-                return;
+                System.Diagnostics.Debug.WriteLine("Failed: " + httpContext.Request.Path);
             }
+            //if (httpContext.Response.StatusCode == 404 && !path.StartsWith("/api") && !path.StartsWith("/index.html") && !path.StartsWith("/libs") && !path.StartsWith("/app"))
+            //{
+            //    string indexPath = "/index.html";
+            //    //string fullPath = httpContext.Request.PathBase +
+            //    //                  correctedPath + httpContext.Request.QueryString;
+            //    httpContext.Response.Redirect(indexPath, permanent: true);
+            //    return;
+            //}
         }
     }
 

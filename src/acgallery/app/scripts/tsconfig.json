@@ -9,7 +9,7 @@
     "removeComments": false,
     "sourceMap": true,
     "target": "es6",
-    "outDir": "../wwwroot/app/js/"
+    "outDir": "../../wwwroot/app/js/"
   },
 
   "exclude": [

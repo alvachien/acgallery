@@ -46,7 +46,7 @@ export class PhotoUploadComponent implements OnInit {
         for (let i = 0; i < this.selectedFiles.length; i++) {
             if (this.selectedFiles[i].size >= 3145728 || this.selectedFiles[i].size <= 409600) {
                 checksuccess = false;
-                this.dlgservice.confirm("File " + this.selectedFiles[i].name + " with size (" + this.selectedFiles[i].size + ") which is larger than 3MB or less than 400KB! ");
+                this.dlgservice.confirm("File " + this.selectedFiles[i].name + " with size (" + this.selectedFiles[i].size / 1024 + " KB) which is larger than 3MB or less than 400KB! ");
                 break;
             }
         }
