@@ -1,6 +1,7 @@
 ﻿import { Component, OnInit }      from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Album }                  from '../album/album';
+import { Album, SelectableAlbum,
+    AlbumPhotoByPhoto }           from '../album/album';
 import { AlbumService }           from '../album/album.service';
 import { DialogService }          from '../dialog.service';
 import { Observable }             from 'rxjs/Observable';
@@ -16,8 +17,8 @@ import '../rxjs-operators';
 
 export class PhotoAssignAlbumComponent implements OnInit {
     public photoid: string;
-    public allAlbum: Album[];
-    public assignedAlbum: Album[];
+    public allAlbum: SelectableAlbum[];
+    public assignedAlbum: SelectableAlbum[];
 
     constructor(
         private route: ActivatedRoute,
@@ -35,25 +36,90 @@ export class PhotoAssignAlbumComponent implements OnInit {
                 this.albumService.getAlbums(),
                 this.albumService.getAlbumsContainsPhoto(this.photoid)
             ).subscribe(res => {
-                this.allAlbum = res[0];
-                this.assignedAlbum = res[1];
+                var all = res[0];
+                var assigned = res[1];
 
-                if (this.assignedAlbum.length > 0) {
-                    for (let i = 0; i < this.assignedAlbum.length; i++) {                        
+                if (assigned.length > 0) {
+                    for (let i = 0; i < assigned.length; i++) {                        
                         let foundIdx = -1;
-                        for (let j = 0; j < this.allAlbum.length; j++) {
-                            if (this.allAlbum[j].Id === this.assignedAlbum[i].Id) {
+                        for (let j = 0; j < all.length; j++) {
+                            if (all[j].Id === assigned[i].Id) {
                                 foundIdx = j;
                                 break;
                             }
                         }
 
                         if (foundIdx != -1) {
-                            this.allAlbum.splice(foundIdx, 1);
+                            all.splice(foundIdx, 1);
                         }
                     }
                 }
+
+                this.assignedAlbum = new Array<SelectableAlbum>();
+                this.allAlbum = new Array<SelectableAlbum>();
+                for (let k = 0; k < assigned.length; k++) {
+                    var alb = <SelectableAlbum>assigned[k];
+                    this.assignedAlbum.push(alb);
+                }
+
+                for (let k = 0; k < all.length; k++) {
+                    var alb = <SelectableAlbum>all[k];
+                    this.allAlbum.push(alb);
+                }
             });
         });
+    }
+
+    onAddAssignedAlbum() {
+        let tmpAlbum = new Array<SelectableAlbum>();
+        for (let i = this.allAlbum.length - 1; i >= 0; i--) {
+            if (this.allAlbum[i].IsSelected) {
+                tmpAlbum.push(this.allAlbum[i]);
+                this.allAlbum.splice(i, 1);
+            }
+        }
+        if (tmpAlbum.length > 0) {
+            for (let k = 0; k < tmpAlbum.length; k++) {
+                this.assignedAlbum.push(tmpAlbum[k]);
+            }            
+        }
+    }
+
+    onRemoveAssignedAlbum() {
+        let tmpAlbum = new Array<SelectableAlbum>();
+        for (let i = this.assignedAlbum.length - 1; i >= 0; i--) {
+            if (this.assignedAlbum[i].IsSelected) {
+                tmpAlbum.push(this.assignedAlbum[i]);
+                this.assignedAlbum.splice(i, 1);
+            }
+        }
+        if (tmpAlbum.length > 0) {
+            for (let k = 0; k < tmpAlbum.length; k++) {
+                this.allAlbum.push(tmpAlbum[k]);
+            }
+        }
+    }
+
+    onSubmit() {
+        let apba = new AlbumPhotoByPhoto();
+        apba.PhotoID = this.photoid;
+        apba.AlbumIDList = new Array<number>();
+        for (let i = 0; i < this.assignedAlbum.length; i++) {
+            apba.AlbumIDList.push(this.assignedAlbum[i].Id);
+        }
+        this.albumService.updateAlbumPhotoByPhoto(apba).subscribe(
+            x => {
+                if (x) {
+                    this.dialogService.confirm("Save successfully")
+                        .then(function () {
+                            this.router.navigate(['/photo']);
+                        });                    
+                }
+            }
+        );
+    }
+
+    onCancel() {
+        this.router.navigate(['/photo']);
     }
 }

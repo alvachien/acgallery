@@ -9,6 +9,7 @@ import { AlbumComponent }           from './album.component';
 import { AlbumListComponent }       from './album.list.component';
 import { AlbumDetailComponent }     from './album.detail.component';
 import { AlbumCreateComponent }     from './album.create.component';
+import { AlbumOrgPhotoComponent }   from './album.orgphoto.component';
 import { albumRouting }             from './album.routing';
 
 @NgModule({
@@ -21,7 +22,8 @@ import { albumRouting }             from './album.routing';
         AlbumComponent,
         AlbumListComponent,
         AlbumDetailComponent,
-        AlbumCreateComponent
+        AlbumCreateComponent,
+        AlbumOrgPhotoComponent
     ],
 
     providers: [

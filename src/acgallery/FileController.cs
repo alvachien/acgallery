@@ -69,6 +69,29 @@ namespace acgallery
     {
         public List<PhotoViewModel> PhotoList = new List<PhotoViewModel>();
     }
+    public class AlbumPhotoLinkViewModel
+    {
+        [Required]
+        public Int32 AlbumID { get; set; }
+        [Required]
+        [StringLength(40)]
+        public String PhotoID { get; set; }
+    }
+
+    public class AlbumPhotoByAlbumViewModel
+    {
+        [Required]
+        public Int32 AlbumID { get; set; }
+        public List<String> PhotoIDList = new List<string>();
+    }
+
+    public class AlbumPhotoByPhotoViewModel
+    {
+        [Required]
+        [StringLength(40)]
+        public String PhotoID { get; set; }
+        public List<Int32> AlbumIDList = new List<Int32>();
+    }
 
     [Route("api/album")]
     public class AlbumController : Controller
@@ -402,6 +425,118 @@ namespace acgallery
         }
 
         // DELETE api/album/5
+    }
+
+    [Route("api/albumphotobyalbum")]
+    public class AlbumPhotoByAlbumController : Controller
+    {
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody]AlbumPhotoByAlbumViewModel vm)
+        {
+            if (vm == null)
+            {
+                return BadRequest("No data is inputted");
+            }
+
+            if (TryValidateModel(vm))
+            {
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+            // Create it into DB            
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(AlbumController.connStr))
+                {
+                    List<String> listCmds = new List<string>();
+                    // Delete the records from album                    
+                    String cmdText = @"DELETE FROM [dbo].[AlbumPhoto] WHERE [AlbumID] = " + vm.AlbumID.ToString();
+                    listCmds.Add(cmdText);
+
+                    foreach(String pid in vm.PhotoIDList)
+                    {
+                        cmdText = @"INSERT INTO [dbo].[AlbumPhoto]
+                               ([AlbumID]
+                               ,[PhotoID])
+                         VALUES(" + vm.AlbumID.ToString()
+                         + @", N'" + pid
+                         + @"')";
+                        listCmds.Add(cmdText);
+                    }
+                    String allQueries = String.Join(";", listCmds);
+                    await conn.OpenAsync();
+
+                    SqlCommand cmd = new SqlCommand(allQueries, conn);
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+            catch (Exception exp)
+            {
+                System.Diagnostics.Debug.WriteLine(exp.Message);
+                return Json(false);
+            }
+
+            return Json(true);
+        }
+    }
+
+    [Route("api/albumphotobyphoto")]
+    public class AlbumPhotoByPhotoController : Controller
+    {
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody]AlbumPhotoByPhotoViewModel vm)
+        {
+            if (vm == null)
+            {
+                return BadRequest("No data is inputted");
+            }
+
+            if (TryValidateModel(vm))
+            {
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+            // Create it into DB            
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(AlbumController.connStr))
+                {
+                    List<String> listCmds = new List<string>();
+                    // Delete the records from album                    
+                    String cmdText = @"DELETE FROM [dbo].[AlbumPhoto] WHERE [PhotoID] = N'" + vm.PhotoID + "'";
+                    listCmds.Add(cmdText);
+
+                    foreach (Int32 aid in vm.AlbumIDList)
+                    {
+                        cmdText = @"INSERT INTO [dbo].[AlbumPhoto]
+                               ([AlbumID]
+                               ,[PhotoID])
+                         VALUES(" + aid.ToString()
+                        + @", N'" + vm.PhotoID
+                         + @"')";
+                        listCmds.Add(cmdText);
+                    }
+                    String allQueries = String.Join(";", listCmds);
+                    await conn.OpenAsync();
+
+                    SqlCommand cmd = new SqlCommand(allQueries, conn);
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+            catch (Exception exp)
+            {
+                System.Diagnostics.Debug.WriteLine(exp.Message);
+                return Json(false);
+            }
+
+            return Json(true);
+        }
     }
 #endif
 

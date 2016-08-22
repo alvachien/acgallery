@@ -20,3 +20,8 @@ export class Photo {
     constructor() {
     }
 }
+
+export class SelectablePhoto extends Photo {
+    public IsSelected: boolean;
+}
+

@@ -1,6 +1,13 @@
 ﻿<div class="container">
     <div class="row">
+        <button type="button" class="btn btn-primary" (click)="onSubmit()">Save</button>
+        <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+    </div>
+    <div class="row">
         <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5">
+            <div class="row">
+                Assigned albums
+            </div>
             <table class="table">
                 <thead class="thead-inverse">
                     <tr>
@@ -11,7 +18,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let album of assignedAlbum">
-                        <td><div class="checkbox"><input type="checkbox"></div></td>
+                        <td><div class="checkbox"><input type="checkbox" [(ngModel)]="album.IsSelected"></div></td>
                         <td><img src="{{album.Thumbnail}}" class="img-rounded pull-xs-left" alt="..."></td>
                         <td>{{album.Title}}</td>
                     </tr>
@@ -19,14 +26,21 @@
             </table>
         </div>
         <div class="col-lg-1 col-md-1 col-xs-1 col-sm-1">
+            <br />
+            <br />
+            <br />
+            <br />
             <div class="row">
-                <a class="btn btn-danger">></a>
+                <a class="btn btn-outline-danger" (click)="onRemoveAssignedAlbum()">></a>
             </div>
             <div class="row">
-                <a class="btn btn-primary"><</a>
+                <a class="btn btn-outline-primary" (click)="onAddAssignedAlbum()"><</a>
             </div>
         </div>
         <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5">
+            <div class="row">
+                Available albums
+            </div>
             <table class="table">
                 <thead class="thead-default">
                     <tr>
@@ -37,7 +51,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let album of allAlbum">
-                        <td><div class="checkbox"><input type="checkbox"></div></td>
+                        <td><div class="checkbox"><input type="checkbox" [(ngModel)]="album.IsSelected"></div></td>
                         <td><img src="{{album.Thumbnail}}" class="img-rounded pull-xs-left" alt="..."></td>
                         <td>{{album.Title}}</td>
                     </tr>

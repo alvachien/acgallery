@@ -36,3 +36,17 @@
         this.PhotoCount = photocnt;
     }
 }
+
+export class SelectableAlbum extends Album {
+    public IsSelected: boolean;
+}
+
+export class AlbumPhotoByAlbum {
+    public AlbumId: number;
+    public PhotoIDList: string[];
+}
+
+export class AlbumPhotoByPhoto {
+    public PhotoID: string;
+    public AlbumIDList: number[];
+}

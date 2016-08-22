@@ -2,9 +2,11 @@
 import { Observable } from 'rxjs/Observable';
 import { Http, Headers, Response, RequestOptions, URLSearchParams }   from '@angular/http';
 import '../rxjs-operators';
-import { Album } from './album';
+import { Album, SelectableAlbum, AlbumPhotoByAlbum,
+    AlbumPhotoByPhoto }  from './album';
 import { Photo } from '../photo/photo';
-import { AlbumAPIUrl } from '../app.setting';
+import { AlbumAPIUrl, AlbumPhotoByAlbumAPIUrl,
+    AlbumPhotoByPhotoAPIUrl } from '../app.setting';
 
 @Injectable()
 export class AlbumService {
@@ -52,6 +54,26 @@ export class AlbumService {
         var data = JSON && JSON.stringify(album);
 
         return this.http.post(this.albumUrl, data, { headers: headers })
+            .map(response => response.json());
+    }
+
+    public updateAlbumPhotoByAlbum(apba: AlbumPhotoByAlbum) {
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        var data = JSON && JSON.stringify(apba);
+
+        return this.http.post(AlbumPhotoByAlbumAPIUrl, data, { headers: headers })
+            .map(response => response.json());
+    }
+
+    public updateAlbumPhotoByPhoto(apbp: AlbumPhotoByPhoto) {
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        var data = JSON && JSON.stringify(apbp);
+
+        return this.http.post(AlbumPhotoByPhotoAPIUrl, data, { headers: headers })
             .map(response => response.json());
     }
 
