@@ -4,6 +4,10 @@
       "version": "1.0.0",
       "type": "platform"
     },
+    "Microsoft.AspNetCore.Razor.Tools": {
+      "version": "1.0.0-preview2-final",
+      "type": "build"
+    },
     "Microsoft.AspNetCore.StaticFiles": "1.0.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
@@ -45,6 +49,7 @@
   "publishOptions": {
     "include": [
       "wwwroot",
+      "Views",
       "web.config",
       "exiftool.exe"
     ],
