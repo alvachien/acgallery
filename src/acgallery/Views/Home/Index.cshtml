@@ -62,17 +62,17 @@
     <script src="app/js/oidc-client.js"></script>
     <script>
         var settings = {
-            authority: "http://localhost:41016/",
+            authority: "http://acidserver.azurewebsites.net/",
             client_id: "acgallery.app",
-            redirect_uri: "http://localhost:1601/Home/Callback",
+            redirect_uri: "http://acgallery.azurewebsites.net/Home/Callback",
             response_type: "id_token token",
             scope: "openid profile api.hihapi"
         };
-        window.oidcmgr = new Oidc.UserManager(settings);
-        window.oidcmgr.getUser().then(function (u) {
+        window["oidcmgr"] = new Oidc.UserManager(settings);
+        window["oidcmgr"].getUser().then(function (u) {
             if (u) {
                 //log("User loaded", u);
-                window.user = u;
+                window["user"] = u;
             }
             else {
                 //log("no user loaded");
