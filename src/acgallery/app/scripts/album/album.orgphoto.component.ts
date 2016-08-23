@@ -43,7 +43,7 @@ export class AlbumOrgPhotoComponent implements OnInit {
                     for (let i = 0; i < album.Photoes.length; i++) {
                         let foundIdx = -1;
                         for (let j = 0; j < all.length; j++) {
-                            if (all[j].Id === album.Photoes[i].Id) {
+                            if (all[j].photoId === album.Photoes[i].photoId) {
                                 foundIdx = j;
                                 break;
                             }

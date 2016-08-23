@@ -13,6 +13,11 @@ namespace acgallery
         {
             return View();
         }
+
+        public IActionResult Callback()
+        {
+            return View();
+        }
     }
 }
 

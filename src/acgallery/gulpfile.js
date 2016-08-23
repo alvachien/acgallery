@@ -59,7 +59,8 @@ gulp.task('setup-vendors', function (done) {
         .pipe(gulp.dest(paths.jsVendors));
 
     gulp.src([
-      'systemjs.config.js'
+      'systemjs.config.js',
+      'oidc-client.js'
     ]).pipe(gulp.dest(paths.tsOutput));
 
     gulp.src([
