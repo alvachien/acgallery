@@ -1,4 +1,5 @@
-﻿import { Component, OnInit, OnDestroy }     from '@angular/core';
+﻿import { Component, OnInit, OnDestroy,
+    NgZone  }     from '@angular/core';
 import { ActivatedRoute, Router }           from '@angular/router';
 import { Photo }                            from './photo';
 import { PhotoService }                     from './photo.service';
@@ -11,13 +12,13 @@ import { DialogService }                    from '../dialog.service';
 })
 
 export class PhotoListComponent implements OnInit, OnDestroy {
-    public photoes: Photo[];
+    public photos: Photo[];
     public errorMessage: any;
-    private selectedId: string;
     private sub: Subscription;
     public selectedPhoto: Photo;
 
     constructor(
+        private zone: NgZone,
         private router: Router,
         private route: ActivatedRoute,
         private photoService: PhotoService,
@@ -30,8 +31,6 @@ export class PhotoListComponent implements OnInit, OnDestroy {
             .subscribe(params => {
                 this.getPhotos();
             });
-
-        //this.getPhotos();
     }
 
     ngOnDestroy() {
@@ -42,7 +41,9 @@ export class PhotoListComponent implements OnInit, OnDestroy {
 
     getPhotos() {
         this.photoService.getFiles().subscribe(
-            photoes => this.photoes = photoes,
+            photos => this.zone.run(() => {
+                    this.photos = photos;
+                    }),
             error => this.errorMessage = <any>error
         );
     }

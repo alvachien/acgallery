@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <base href="/">
+    <title>AC Photo Gallery</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="libs/css/tether.min.css" rel="stylesheet" />
+    <link href="libs/css/tether-theme-basic.min.css" rel="stylesheet" />
+    <link href="libs/css/tether-theme-arrows.min.css" rel="stylesheet" />
+    <link href="libs/css/bootstrap.css" rel="stylesheet" />
+    <link href="libs/css/font-awesome.css" rel="stylesheet" />
+    <link href="libs/css/jquery.fancybox.css" rel="stylesheet" />
+    <link href="libs/css/alertify.core.css" rel="stylesheet" />
+    <link href="libs/css/alertify.bootstrap.css" rel="stylesheet" />
+    <link href="libs/css/alertify.default.css" rel="stylesheet" />
+    <link href="app/css/stylesheet.css" rel="stylesheet" />
+
+    <!-- 1. Load libraries -->
+    <!-- Polyfill(s) for older browsers -->
+    <script src="libs/js/jquery/dist/jquery.min.js"></script>
+    <script src="libs/js/tether/dist/js/tether.min.js"></script>
+    <script src="libs/js/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="libs/js/core-js/client/shim.min.js"></script>
+    <script src="libs/js/zone.js/dist/zone.js"></script>
+    <script src="libs/js/reflect-metadata/Reflect.js"></script>
+    <script src="libs/js/systemjs/dist/system.src.js"></script>
+    <script src="libs/js/fancybox/dist/js/jquery.fancybox.pack.js"></script>
+    <script src="libs/js/alertify.js/lib/alertify.min.js"></script>
+
+    <!-- 2. Configure SystemJS -->
+    <script src="systemjs.config.js"></script>
+    <script>
+            System.import('app/boot').catch(function (err) {
+                console.error(err);
+            });
+            $(document).ready(function () {
+                $('.fancybox').fancybox();
+            });
+    </script>
+</head>
+
+<!-- 3. Display the application -->
+<body>
+    <div id="nav-separator"></div>
+    <my-app>Loading...</my-app>
+</body>
+</html>

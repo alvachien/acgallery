@@ -4,10 +4,8 @@ import { photoRoutes }              from './photo/photo.routing';
 import { homeRoutes }               from './home/home.routing';
 import { aboutRoutes }              from './about/about.routing';
 import { creditsRoutes }            from './credits/credits.routing';
-//import { loginRoutes,
-//    authProviders }  from './login.routing';
-
-//import { CanDeactivateGuard } from './can-deactivate-guard.service';
+import { forbiddenRoutes }          from './forbidden/forbidden.routing';
+import { unauthorizedRoutes }       from './unauthorized/unauthorized.routing';
 
 const mainRoutes: Routes = [
     {
@@ -29,7 +27,9 @@ const appRoutes: Routes = [
     ...mainRoutes,
     ...homeRoutes,
     ...aboutRoutes,
-    ...creditsRoutes
+    ...creditsRoutes,
+    ...forbiddenRoutes,
+    ...unauthorizedRoutes
 ];
 
 export const appRoutingProviders: any[] = [

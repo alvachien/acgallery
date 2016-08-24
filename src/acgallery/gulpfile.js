@@ -3,7 +3,8 @@ var gulp = require('gulp'),
     ts = require('gulp-typescript'),
     fs = require("fs"),
     del = require('del'),
-    path = require('path');
+    path = require('path'),
+    runSequence = require('run-sequence');;
 
 var lib = "./wwwroot/libs/";
 var app = "./wwwroot/app/";
@@ -14,16 +15,14 @@ var paths = {
 
     tsSource: './app/scripts/**/*.ts',
     tsOutput: app + 'js/',
-    tsDef: lib + 'definitions/',
 
     cssApp: app + 'css/',
     viewsApp: app + 'views/',
 
-    jsVendors: lib + 'js',
-    jsRxJSVendors: lib + 'js/rxjs',
-    cssVendors: lib + 'css',
-    imgVendors: lib + 'img',
-    fontsVendors: lib + 'fonts'
+    jsVendors: lib + 'js/',
+    cssVendors: lib + 'css/',
+    imgVendors: lib + 'img/',
+    fontsVendors: lib + 'fonts/'
 };
 
 var tsProject = ts.createProject('app/scripts/tsconfig.json');
@@ -34,13 +33,10 @@ gulp.task('setup-vendors', function (done) {
         'core-js/client/**',
         'systemjs/dist/system.src.js',
         'reflect-metadata/*.js',
-        'reflect-metadata/*.js.map',
         'rxjs/**/*.js',
-        'rxjs/**/*.js.map',
         'zone.js/dist/*.js',
         '@angular/**/*.js',
         '@ng-bootstrap/ng-bootstrap/**/*.js',
-        '@ng-bootstrap/ng-bootstrap/**/*.js.map',
         'angular2-in-memory-web-api/**/*.js',
         'ng2-file-upload/**/*.js',
         'jquery/dist/jquery*.js',
@@ -59,14 +55,8 @@ gulp.task('setup-vendors', function (done) {
         .pipe(gulp.dest(paths.jsVendors));
 
     gulp.src([
-      'systemjs.config.js',
-      'oidc-client.js'
-    ]).pipe(gulp.dest(paths.tsOutput));
-
-    gulp.src([
       paths.npm + 'tether/dist/css/tether*.css',
       paths.npm + 'bootstrap/dist/css/bootstrap.css',
-      paths.npm + 'bootstrap/dist/css/bootstrap.css.map',
       paths.npm + 'fancybox/dist/css/jquery.fancybox.css',
       paths.bower + 'font-awesome/css/font-awesome.css',
       paths.bower + 'alertify.js/themes/alertify.core.css',
@@ -98,13 +88,20 @@ gulp.task('setup-vendors', function (done) {
     ]).pipe(gulp.dest(paths.fontsVendors));
 });
 
-gulp.task('before-compile-view', function () {
+gulp.task('setup-environment', function (done) {
+    gulp.src([
+      'systemjs.config.js',
+      'app/index.html',
+    ]).pipe(gulp.dest('./wwwroot/'));
+});
+
+gulp.task('build-view', function () {
     gulp.src([
         'app/views/**/*.html'
     ]).pipe(gulp.dest(paths.viewsApp));
 });
 
-gulp.task('before-compile-css', function () {
+gulp.task('build-css', function () {
     gulp.src([
         'app/css/**/*.css'
     ]).pipe(gulp.dest(paths.cssApp));
@@ -126,7 +123,7 @@ gulp.task('watch.css', ['before-compile-css'], function () {
 });
 
 gulp.task('watch.ts', ['compile-typescript'], function () {
-    return gulp.watch('app/scripts/*.ts', ['compile-typescript']);
+    return gulp.watch('app/scripts/**/*.ts', ['compile-typescript']);
 });
 
 gulp.task('watch', ['watch.ts', 'watch.views', 'watch.css']);
@@ -134,5 +131,13 @@ gulp.task('watch', ['watch.ts', 'watch.views', 'watch.css']);
 gulp.task('clean-lib', function () {
     return del([lib]);
 });
+gulp.task('clean-app', function () {
+    return del([app]);
+});
 
-gulp.task('build', ['setup-vendors', 'before-compile-view', 'before-compile-css', 'compile-typescript']);
+gulp.task('build-clean', ['clean-lib', 'clean-app']);
+
+gulp.task('build', function () {
+    runSequence('build-clean',
+              ['setup-vendors', 'setup-environment', 'build-view', 'build-css', 'compile-typescript']);
+});

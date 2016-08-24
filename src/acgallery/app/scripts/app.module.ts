@@ -11,8 +11,11 @@ import { PhotoModule }    from './photo/photo.module';
 
 import { CreditsComponent } from './credits/credits.component';
 import { AboutComponent } from './about/about.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 import { DialogService }  from './dialog.service';
+import { LoginService }   from './login.service';
 import { NgbModule }      from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent }  from './home/home.component';
 
@@ -30,11 +33,14 @@ import { HomeComponent }  from './home/home.component';
         AppComponent,
         CreditsComponent,
         AboutComponent,
-        HomeComponent
+        HomeComponent,
+        ForbiddenComponent,
+        UnauthorizedComponent
     ],
     providers: [
         appRoutingProviders,
-        DialogService
+        DialogService,
+        LoginService
     ],
     bootstrap: [AppComponent]
 })

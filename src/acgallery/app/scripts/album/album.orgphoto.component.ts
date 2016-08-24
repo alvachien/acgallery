@@ -1,4 +1,5 @@
-﻿import { Component, OnInit }      from '@angular/core';
+﻿import { Component, OnInit,
+        NgZone }      from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Album,
     AlbumPhotoByAlbum }           from './album';
@@ -21,6 +22,7 @@ export class AlbumOrgPhotoComponent implements OnInit {
     public assignedPhoto: SelectablePhoto[];
 
     constructor(
+        private zone: NgZone,
         private route: ActivatedRoute,
         private router: Router,
         public dialogService: DialogService,
@@ -55,17 +57,19 @@ export class AlbumOrgPhotoComponent implements OnInit {
                     }
                 }
 
-                this.assignedPhoto = new Array<SelectablePhoto>();
-                this.allPhoto = new Array<SelectablePhoto>();
-                for (let k = 0; k < album.Photoes.length; k++) {
-                    var alb = <SelectablePhoto>album.Photoes[k];
-                    this.assignedPhoto.push(alb);
-                }
+                this.zone.run(() => {
+                    this.assignedPhoto = new Array<SelectablePhoto>();
+                    this.allPhoto = new Array<SelectablePhoto>();
+                    for (let k = 0; k < album.Photoes.length; k++) {
+                        var alb = <SelectablePhoto>album.Photoes[k];
+                        this.assignedPhoto.push(alb);
+                    }
 
-                for (let k = 0; k < all.length; k++) {
-                    var alb = <SelectablePhoto>all[k];
-                    this.allPhoto.push(alb);
-                }
+                    for (let k = 0; k < all.length; k++) {
+                        var alb = <SelectablePhoto>all[k];
+                        this.allPhoto.push(alb);
+                    }
+                });
             });
         });
     }

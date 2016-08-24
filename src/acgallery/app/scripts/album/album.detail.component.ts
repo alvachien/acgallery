@@ -1,4 +1,5 @@
-﻿import { Component, OnInit }      from '@angular/core';
+﻿import { Component, OnInit,
+        NgZone }      from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Album }                  from './album';
 import { AlbumService }           from './album.service';
@@ -18,6 +19,7 @@ export class AlbumDetailComponent implements OnInit {
     public selectedPhoto: Photo;
 
     constructor(
+        private zone: NgZone,
         private route: ActivatedRoute,
         private router: Router,
         public dialogService: DialogService,
@@ -30,16 +32,8 @@ export class AlbumDetailComponent implements OnInit {
         //    this.album = data.album;
         //});
         this.route.params.forEach((next: { id: number }) => {
-            this.albumService.getAlbum(next.id).subscribe(album => this.album = album);
+            this.albumService.getAlbum(next.id).subscribe(album => this.zone.run(() => { this.album = album }));
         });
-    }
-
-    cancel() {
-        this.gotoAlbumes();
-    }
-
-    save() {
-        this.gotoAlbumes();
     }
 
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {

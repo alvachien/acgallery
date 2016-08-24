@@ -41,6 +41,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-typescript": "^2.13.6",
     "gulp-tsc": "^1.2.0",
-    "del": "^2.2.2"
+    "del": "^2.2.2",
+    "run-sequence": "^1.2.2"
   }
 }
