@@ -6,16 +6,59 @@ import { LoginService }             from './login.service';
     templateUrl: 'app/views/main.html'
 })
 export class AppComponent implements OnInit {
- 
-    constructor(public loginService: LoginService) {  
+
+    public isLoggedIn: boolean;
+    public titleLogin: string;
+
+    constructor(public loginService: LoginService) {
+        this.isLoggedIn = false;
+        this.titleLogin = 'Log In';
     }
 
     ngOnInit() {
-        console.log("ngOnInit loginService.AuthorizedCallback");
+        //if (this.loginService.CurrentUser) {
+        //    this.loginService.IsAuthorized = true;
+        //} else {
+        //    $scope.mgr.getUser().then(function (u) {
+        //        if (u) {
+        //            $log.info("User loaded", u);
+        //            $rootScope.User = u;
+        //            $rootScope.isLoggedIn = true;
+        //        }
+        //        else {
+        //            $log.info("no user loaded");
+        //        }
+        //    });
+        //}
 
-        if (window.location.hash) {
-            this.loginService.AuthorizedCallback();
+        //console.log("ngOnInit loginService.AuthorizedCallback");
+
+        //if (window.location.hash) {
+        //    this.loginService.AuthorizedCallback();
+        //}
+
+        this.isLoggedIn = this.loginService.IsAuthorized;
+        if (this.isLoggedIn) {
+            //this.titleLogin = this.loginService.CurrentUser;
         }
-    } 
- }
+    }
+
+    public onLogin() {
+        if (this.loginService.IsAuthorized) {
+            this.doLogout();
+        } else {
+            this.doLogin();
+        }
+    }
+
+    private doLogin() {
+        console.log("Do login logic");
+        this.loginService.Authorize();
+    }
+
+    private doLogout() {
+        console.log("Do logout logic");
+        this.loginService.Logoff();
+    }
+}
 

@@ -46,10 +46,10 @@ namespace acgallery
                 await next();
             });
 
-            //if (env.IsDevelopment())
-            //{
+            if (env.IsDevelopment())
+            {
                 app.UseDeveloperExceptionPage();
-            //}
+            }
 
             app.UseDefaultFiles();
             app.UseStaticFiles();

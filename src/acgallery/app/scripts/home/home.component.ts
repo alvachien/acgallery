@@ -12,14 +12,4 @@ export class HomeComponent implements OnInit {
 
     ngOnInit() {
     }
-
-    public onLogin() {
-        console.log("Do login logic");
-        this.loginService.Authorize();
-    }
-
-    public onLogout() {
-        console.log("Do logout logic");
-        this.loginService.Logoff();
-    }
 }

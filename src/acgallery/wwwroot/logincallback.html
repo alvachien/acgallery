@@ -2,12 +2,12 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>AC Photo Gallery</title>
 </head>
 <body>
-    <h1 id="waiting">Waiting...</h1>
+    <h1 id="waiting">Loading...</h1>
     <div id="error"></div>
-    <script src="oidc-client.js"></script>
+    <script src="libs/js/oidc-client/dist/oidc-client.min.js"></script>
     <script>
         //Oidc.Log.logger = console;
         new Oidc.UserManager().signinRedirectCallback().then(function (user) {
@@ -16,7 +16,7 @@
                 document.getElementById("error").innerText = "No sign-in request pending.";
             }
             else {
-                window.location = "index.html";
+                window.location = "/index.html";
             }
         })
         .catch(function (er) {

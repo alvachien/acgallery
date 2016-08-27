@@ -41,7 +41,8 @@ gulp.task('setup-vendors', function (done) {
         'ng2-file-upload/**/*.js',
         'jquery/dist/jquery*.js',
         'bootstrap/dist/js/bootstrap*.js',
-        'tether/dist/js/tether*.js'
+        'tether/dist/js/tether*.js',
+        'oidc-client/dist/*.js',
         ], {
             cwd: "node_modules/**"
         })
@@ -92,6 +93,8 @@ gulp.task('setup-environment', function (done) {
     gulp.src([
       'systemjs.config.js',
       'app/index.html',
+      'app/logincallback.html',
+      'app/logoutcallback.html'
     ]).pipe(gulp.dest('./wwwroot/'));
 });
 
