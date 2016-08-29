@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
     private doLogin() {
         console.log("Perform login logic");
         //this.loginService.Login();
-        this.authService.Login();
+        this.authService.doLogin();
     }
 
     private doLogout() {

@@ -48,7 +48,7 @@ export class AuthService {
        });
     }
 
-   public Login() {
+   public doLogin() {
        if (environment === "Development") {
            console.log("Start the login...");
        }
