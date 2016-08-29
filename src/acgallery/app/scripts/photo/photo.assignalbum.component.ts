@@ -9,6 +9,7 @@ import { FormBuilder, Validators } from '@angular/common';
 import { Photo }                  from './photo';
 import { PhotoService }           from './photo.service';
 import '../rxjs-operators';
+import { AuthService }            from '../auth.service';
 
 @Component({
     selector: 'my-photo-assignalbum',

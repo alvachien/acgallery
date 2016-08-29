@@ -4,53 +4,15 @@ import { Injectable }               from '@angular/core';
 import 'rxjs/add/operator/map';
 import { BehaviorSubject }          from 'rxjs/BehaviorSubject';
 import { Observable }               from 'rxjs/Observable';
+import { UserInfo }                 from './user.service';
 declare var Oidc: any;
 
-export class AuthContent {
-    public isAuthorized: boolean;
-    private currentUser: any;
-
-    public cleanContent() {
-        this.currentUser = null;
-        this.isAuthorized = false;
-    }
-    public setContent(user) {
-        if (user) {
-            this.currentUser = user;
-            this.isAuthorized = true;
-        } else {
-            this.cleanContent();
-        }
-    }
-
-    public getUserName(): string {
-        if (this.isAuthorized && this.currentUser && this.currentUser.profile && this.currentUser.profile.name) {
-            return this.currentUser.profile.name;
-        }
-
-        return "";
-    }
-    public getUserMaxUploadKBSize(): number {
-        if (this.isAuthorized && this.currentUser && this.currentUser.profile && this.currentUser.profile.GalleryPhotoUploadMaxSize) {
-            return +this.currentUser.profile.GalleryPhotoUploadMaxSize;
-        }
-
-        return 0;        
-    }
-    public getUserMinUploadKBSize(): number {
-        if (this.isAuthorized && this.currentUser && this.currentUser.profile && this.currentUser.profile.GalleryPhotoUploadMinSize) {
-            return +this.currentUser.profile.GalleryPhotoUploadMinSize;
-        }
-
-        return 0;
-    }
-}
 
 @Injectable()
 export class AuthService {
-    private _authContent: BehaviorSubject<AuthContent> = new BehaviorSubject(new AuthContent());
+    private _authContent: BehaviorSubject<UserInfo> = new BehaviorSubject(new UserInfo());
 
-    public authContent: Observable<AuthContent> = this._authContent.asObservable();
+    public authContent: Observable<UserInfo> = this._authContent.asObservable();
 
     private mgr: any;
 

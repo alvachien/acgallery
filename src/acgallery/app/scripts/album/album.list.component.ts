@@ -5,6 +5,8 @@ import { Album }                            from './album';
 import { AlbumService }                     from './album.service';
 import { Subscription }                     from 'rxjs/Subscription';
 import { DialogService }                    from '../dialog.service';
+import '../rxjs-operators';
+import { AuthService }                      from '../auth.service';
 
 @Component({
     selector: 'my-album-list',

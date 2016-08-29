@@ -5,6 +5,8 @@ import { Photo }                            from './photo';
 import { PhotoService }                     from './photo.service';
 import { Subscription }                     from 'rxjs/Subscription';
 import { DialogService }                    from '../dialog.service';
+import '../rxjs-operators';
+import { AuthService }                      from '../auth.service';
 
 @Component({
     selector: 'my-photo-list',

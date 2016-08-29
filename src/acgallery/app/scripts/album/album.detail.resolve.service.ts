@@ -4,6 +4,7 @@ import { Router, Resolve,
 import { Observable }             from 'rxjs/Observable';
 import { Album }                  from './album';
 import { AlbumService }           from './album.service';
+import '../rxjs-operators';
 
 @Injectable()
 export class AlbumDetailResolve implements Resolve<Album> {

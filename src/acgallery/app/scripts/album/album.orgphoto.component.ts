@@ -10,6 +10,7 @@ import { FormBuilder, Validators } from '@angular/common';
 import { Photo, SelectablePhoto } from '../photo/photo';
 import { PhotoService }           from '../photo/photo.service';
 import '../rxjs-operators';
+import { AuthService }            from '../auth.service';
 
 @Component({
     selector: 'my-album-orgphoto',
