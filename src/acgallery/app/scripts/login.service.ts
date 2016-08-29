@@ -2,8 +2,10 @@
     ACGalleryHost, environment  }   from './app.setting';
 import { Injectable }               from '@angular/core';
 import { Http, Response, Headers }  from '@angular/http';
-import 'rxjs/add/operator/map';
 import { Observable }               from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/observable/fromPromise';
 import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 declare var Oidc: any;
 
@@ -17,6 +19,7 @@ export class LoginService {
     private mgr: any;
     public IsAuthorized: boolean;
     public CurrentUser: any;
+    public loginObservable: any;
 
     constructor(private _http: Http, private _router: Router) {
 
@@ -38,27 +41,28 @@ export class LoginService {
         };
 
         this.mgr = new Oidc.UserManager(settings);
-        this.mgr.getUser().then(function (u) {
-            if (u) {
-                this.CurrentUser = u;
-                this.IsAuthorized = true;
-            }
-            else {
-                //$log.info("no user loaded");
-                this.CurrentUser = null;
-                this.IsAuthorized = false;
-            }
-        });
+        var that = this;
+        var promise1 = this.mgr.getUser();
+        this.loginObservable = Observable.fromPromise(promise1);
+            //.subscribe(x => {
+            //    if (x) {
+            //        that.CurrentUser = x;
+            //        that.IsAuthorized = true;
+            //    }
+            //    else {
+            //        that.CurrentUser = null;
+            //        that.IsAuthorized = false;
+            //    }
+            //});
 
         this.mgr.events.addUserUnloaded((e) => {
             if (environment === "Development") {
                 console.log("user unloaded");
             }
-            this.IsAuthorized = false;
-            this.CurrentUser = null;
+            that.IsAuthorized = false;
+            that.CurrentUser = null;
         });
     }
-
 
     //public GetToken(): any {
     //    return this.retrieve("authorizationData");
@@ -92,7 +96,7 @@ export class LoginService {
     //    }
     //}
 
-    public Authorize() {
+    public Login() {
         //this.ResetAuthorizationData();
 
         if (environment === "Development") {
@@ -144,8 +148,6 @@ export class LoginService {
         //        $log.info("no user loaded");
         //    }
         //});
-
-
     }
 
     public AuthorizedCallback() {
@@ -250,6 +252,15 @@ export class LoginService {
         // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://myapp.com
         if (environment === "Development") {
             console.log("BEGIN Authorize, no auth data");
+        }
+
+        if (this.mgr) {
+            this.mgr.signoutRedirect().then(function () {
+                console.info("redirecting for logout...");
+            })
+            .catch(function (er) {
+                console.error("Sign-out error", er);
+            });
         }
 
         //var authorizationUrl = IDServerUrl + '/connect/endsession';

@@ -9,13 +9,14 @@ import { routing,
 import { AlbumModule }    from './album/album.module';
 import { PhotoModule }    from './photo/photo.module';
 
-import { CreditsComponent } from './credits/credits.component';
-import { AboutComponent } from './about/about.component';
-import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { CreditsComponent }     from './about/credits.component';
+import { AboutComponent }       from './about/about.component';
+import { ForbiddenComponent }   from './forbidden/forbidden.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 import { DialogService }  from './dialog.service';
-import { LoginService }   from './login.service';
+//import { LoginService }   from './login.service';
+import { AuthService }   from './auth.service';
 import { NgbModule }      from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent }  from './home/home.component';
 
@@ -40,7 +41,8 @@ import { HomeComponent }  from './home/home.component';
     providers: [
         appRoutingProviders,
         DialogService,
-        LoginService
+        //LoginService
+        AuthService
     ],
     bootstrap: [AppComponent]
 })

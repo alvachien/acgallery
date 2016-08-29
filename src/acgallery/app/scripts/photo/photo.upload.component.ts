@@ -6,6 +6,7 @@ import { Observable }                       from 'rxjs/Observable';
 import { Http, Response, RequestOptions }   from '@angular/http';
 import '../rxjs-operators';
 import { DialogService }                    from '../dialog.service';
+import { AuthService }                      from '../auth.service';
 
 @Component({
     selector: 'my-photo-upload',
@@ -17,12 +18,20 @@ export class PhotoUploadComponent implements OnInit {
     public selectedFiles: any;
     public progressNum: number = 0;
     public isUploading: boolean = false;
+    public photoMaxKBSize: number = 0;
+    public photoMinKBSize: number = 0;
 
     constructor(
         private zone: NgZone,
         private router: Router,
         private photoservice: PhotoService,
-        private dlgservice: DialogService) {
+        private dlgservice: DialogService,
+        private authservice: AuthService) {
+
+        this.authservice.authContent.subscribe((x) => {
+                this.photoMaxKBSize = x.getUserMaxUploadKBSize();
+                this.photoMinKBSize = x.getUserMinUploadKBSize();
+            });
 
         this.photoservice.progress$.subscribe(
             data => {
@@ -44,9 +53,9 @@ export class PhotoUploadComponent implements OnInit {
         // Check the file size
         let checksuccess: boolean = true;
         for (let i = 0; i < this.selectedFiles.length; i++) {
-            if (this.selectedFiles[i].size >= 3145728 || this.selectedFiles[i].size <= 409600) {
+            if (this.selectedFiles[i].size >= this.photoMaxKBSize || this.selectedFiles[i].size <= 409600) {
                 checksuccess = false;
-                this.dlgservice.confirm("File " + this.selectedFiles[i].name + " with size (" + this.selectedFiles[i].size / 1024 + " KB) which is larger than 3MB or less than 400KB! ");
+                this.dlgservice.confirm("File " + this.selectedFiles[i].name + " with size (" + this.selectedFiles[i].size / 1024 + " KB) which is larger than " + this.photoMaxKBSize + " or less than " + this.photoMinKBSize );
                 break;
             }
         }

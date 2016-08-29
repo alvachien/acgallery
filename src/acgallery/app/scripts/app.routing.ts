@@ -3,7 +3,6 @@ import { albumRoutes }              from './album/album.routing';
 import { photoRoutes }              from './photo/photo.routing';
 import { homeRoutes }               from './home/home.routing';
 import { aboutRoutes }              from './about/about.routing';
-import { creditsRoutes }            from './credits/credits.routing';
 import { forbiddenRoutes }          from './forbidden/forbidden.routing';
 import { unauthorizedRoutes }       from './unauthorized/unauthorized.routing';
 
@@ -27,7 +26,6 @@ const appRoutes: Routes = [
     ...mainRoutes,
     ...homeRoutes,
     ...aboutRoutes,
-    ...creditsRoutes,
     ...forbiddenRoutes,
     ...unauthorizedRoutes
 ];
