@@ -16,6 +16,7 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace acgallery
 {
@@ -546,15 +547,18 @@ namespace acgallery
     {
         private IHostingEnvironment _hostingEnvironment;
         private readonly ILogger<FileController> _logger;
+        private IAuthorizationService _authorizationService;
 
 #if DEBUG
-        internal const String connStr = @"Data Source=QIANH-PC2A;Initial Catalog=ACGallery;Integrated Security=SSPI;";
+        //internal const String connStr = @"Data Source=QIANH-PC2A;Initial Catalog=ACGallery;Integrated Security=SSPI;";
+        internal const String connStr = @"Data Source=QIANH-LAPTOP1;Initial Catalog=ACGallery;Integrated Security=SSPI;";
 #endif
 
-        public FileController(IHostingEnvironment env, ILogger<FileController> logger)
+        public FileController(IHostingEnvironment env, ILogger<FileController> logger, IAuthorizationService authorizationService)
         {
             _hostingEnvironment = env;
             _logger = logger;
+            _authorizationService = authorizationService;
         }
 
         [HttpGet]
@@ -636,6 +640,7 @@ namespace acgallery
         }
 
         [HttpPost]
+        [Authorize(Policy = "FileUploadPolicy")]
         public async Task<IActionResult> UploadPhotos(ICollection<IFormFile> files)
         {
             var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot/uploads");
@@ -650,11 +655,20 @@ namespace acgallery
             {
                 foreach (var file in files)
                 {
-                    if (file.Length < 409600 || file.Length > 3145728)
+                    if (await _authorizationService.AuthorizeAsync(User, file, "FileSizeRequirementPolicy"))
+                    {
+                    }
+                    else
                     {
                         bPreValid = false;
                         break;
+                        //return new ChallengeResult();
                     }
+                    //if (file.Length < 409600 || file.Length > 3145728)
+                    //{
+                    //    bPreValid = false;
+                    //    break;
+                    //}
                 }
                 if (!bPreValid)
                     return new ObjectResult(false);
@@ -668,11 +682,19 @@ namespace acgallery
             {
                 foreach (var file in Request.Form.Files)
                 {
-                    if (file.Length < 409600 || file.Length > 3145728)
+                    if (await _authorizationService.AuthorizeAsync(User, file, "FileSizeRequirementPolicy"))
+                    {
+                    }
+                    else
                     {
                         bPreValid = false;
                         break;
                     }
+                    //if (file.Length < 409600 || file.Length > 3145728)
+                    //{
+                    //    bPreValid = false;
+                    //    break;
+                    //}
                 }
                 if (!bPreValid)
                     return new ObjectResult(false);
@@ -867,6 +889,7 @@ namespace acgallery
         }
 
         [HttpPut]
+        [Authorize(Policy = "PhotoChangePolicy")]
         public async Task<IActionResult> UpdateMetadata([FromBody]PhotoViewModel vm)
         {
             if (vm == null)

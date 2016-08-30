@@ -7,10 +7,12 @@ import { Album, SelectableAlbum, AlbumPhotoByAlbum,
 import { Photo } from '../photo/photo';
 import { AlbumAPIUrl, AlbumPhotoByAlbumAPIUrl,
     AlbumPhotoByPhotoAPIUrl } from '../app.setting';
+import { AuthService } from '../auth.service';
 
 @Injectable()
 export class AlbumService {
-    constructor(private http: Http) {
+    constructor(private http: Http,
+        private authService: AuthService) {
     }
 
     private albumUrl: string = AlbumAPIUrl;  // URL to web API
@@ -50,6 +52,8 @@ export class AlbumService {
     createAlbum(album: Album) {
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+        headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
         var data = JSON && JSON.stringify(album);
 
@@ -60,6 +64,8 @@ export class AlbumService {
     public updateAlbumPhotoByAlbum(apba: AlbumPhotoByAlbum) {
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+        headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
         var data = JSON && JSON.stringify(apba);
 
@@ -70,6 +76,8 @@ export class AlbumService {
     public updateAlbumPhotoByPhoto(apbp: AlbumPhotoByPhoto) {
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+        headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
         var data = JSON && JSON.stringify(apbp);
 
@@ -80,13 +88,14 @@ export class AlbumService {
     public updateMetadata(album: Album) {
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+        headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
         var data = JSON && JSON.stringify(album);
 
         return this.http.put(this.albumUrl, data, { headers: headers })
             .map(response => response.json());
     }
-
 
     private extractSingleData(res: Response) {
         let body = res.json();

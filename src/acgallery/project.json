@@ -16,7 +16,8 @@
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
     "Magick.NET.Core-Q8": "7.0.2.600",
     "System.Data.Common": "4.1.0",
-    "System.Data.SqlClient": "4.1.0"
+    "System.Data.SqlClient": "4.1.0",
+    "IdentityServer4.AccessTokenValidation": "1.0.1-beta4"
   },
 
   "tools": {

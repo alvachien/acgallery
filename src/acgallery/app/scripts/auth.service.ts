@@ -22,7 +22,7 @@ export class AuthService {
            client_id: "acgallery.app",
            redirect_uri: ACGalleryCallback,
            response_type: "id_token token",
-           scope: "openid profile api.hihapi"
+           scope: "openid profile api.hihapi api.acgallery"
        };
 
        this.mgr = new Oidc.UserManager(settings);

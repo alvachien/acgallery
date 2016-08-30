@@ -62,13 +62,13 @@ export class PhotoUploadComponent implements OnInit {
     }
 
     onChange(event) {
-        console.log('onChange');
+        //console.log('onChange');
         this.selectedFiles = event.srcElement.files;
 
         // Check the file size
         let checksuccess: boolean = true;
         for (let i = 0; i < this.selectedFiles.length; i++) {
-            if (this.selectedFiles[i].size >= this.photoMaxKBSize || this.selectedFiles[i].size <= 409600) {
+            if (this.selectedFiles[i].size / 1024 >= this.photoMaxKBSize || this.selectedFiles[i].size / 1024 <= this.photoMinKBSize) {
                 checksuccess = false;
                 this.dlgservice.confirm("File " + this.selectedFiles[i].name + " with size (" + this.selectedFiles[i].size / 1024 + " KB) which is larger than " + this.photoMaxKBSize + " or less than " + this.photoMinKBSize );
                 break;

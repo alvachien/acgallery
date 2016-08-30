@@ -3,6 +3,7 @@ import { Observable }       from 'rxjs/Observable';
 import { Photo }            from './photo';
 import { Http, Headers,Response, RequestOptions }   from '@angular/http';
 import '../rxjs-operators';
+import { AuthService }      from '../auth.service';
 
 @Injectable()
 export class PhotoService {
@@ -11,7 +12,8 @@ export class PhotoService {
     public progress$ : any;
     private fileUrl: string = 'api/file';  // URL to web API
 
-    constructor(private http: Http) {
+    constructor(private http: Http,
+        private authService: AuthService) {
         this.progress$ = Observable.create(observer => {
             this.progressObserver = observer
         });
@@ -20,6 +22,8 @@ export class PhotoService {
     public updateFileMetadata(photo: Photo) {
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+        headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
         var data = JSON && JSON.stringify(photo);
 
@@ -80,6 +84,8 @@ export class PhotoService {
             };
 
             xhr.open('POST', this.fileUrl, true);
+            xhr.setRequestHeader('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
+
             xhr.send(formData);
         });
     }

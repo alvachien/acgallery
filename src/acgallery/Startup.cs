@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace acgallery
 {
@@ -17,7 +19,31 @@ namespace acgallery
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvcCore()
-                .AddJsonFormatters();
+                .AddJsonFormatters()
+                .AddAuthorization(options =>
+                {
+                    options.AddPolicy("PhotoChangePolicy",
+                                      policy =>
+                                      {
+                                          policy.RequireClaim("GalleryPhotoChange");
+                                      });
+                    options.AddPolicy("FileUploadPolicy",
+                                      policy =>
+                                      {
+                                          policy.AuthenticationSchemes.Add("Bearer");
+                                          policy.RequireAuthenticatedUser();
+                                          policy.RequireClaim("GalleryPhotoUpload");
+                                      });
+                    options.AddPolicy("FileSizeRequirementPolicy",
+                                      policy =>
+                                      {
+                                          policy.AuthenticationSchemes.Add("Bearer");
+                                          policy.RequireAuthenticatedUser();
+                                          policy.Requirements.Add(new FileUploadSizeRequirement());
+                                      });
+                });
+
+            services.AddSingleton<IAuthorizationHandler, FileUploadSizeHandler>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -34,6 +60,22 @@ namespace acgallery
                 "/about",
                 "/home"
             };
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
+            {
+#if DEBUG
+                Authority = "http://localhost:41016",
+#else
+                Authority = "http://acidserver.azurewebsites.net",
+#endif
+                RequireHttpsMetadata = false,
+
+                ScopeName = "api.acgallery",
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                AuthenticationScheme = "Bearer"
+            });
 
             app.Use(async (context, next) =>
             {
@@ -53,6 +95,7 @@ namespace acgallery
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
             app.UseMvc();
         }
     }

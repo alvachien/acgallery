@@ -11,6 +11,7 @@ export class UserInfo {
     private galleryPhotoDelete: string;
     private galleryPhotoUploadSize: string;
     private userName: string;
+    private accessToken: string;
 
     private ForAll: string = 'All';
     private OnlyOwner: string = 'OnlyOwner';
@@ -25,6 +26,7 @@ export class UserInfo {
             this.isAuthorized = true;
 
             this.userName = user.profile.name;
+            this.accessToken = user.access_token;
             this.galleryAlbumCreate = user.profile.GalleryAlbumCreate;
             this.galleryAlbumChange = user.profile.GalleryAlbumChange;
             this.galleryAlbumDelete = user.profile.GalleryAlbumDelete;
@@ -49,7 +51,7 @@ export class UserInfo {
             let i = this.galleryPhotoUploadSize.indexOf('-');
             if (i != -1) {
                 let minSize = +this.galleryPhotoUploadSize.substr(0, i - 1);
-                let maxSize = +this.galleryPhotoUploadSize.substr(i);
+                let maxSize = +this.galleryPhotoUploadSize.substr(i + 1);
                 return [minSize, maxSize];
             }
         }
@@ -93,5 +95,8 @@ export class UserInfo {
     }
     public canDeletePhoto(updrName?: string) {
         return this.getObjectRights(this.galleryPhotoDelete, updrName);
+    }
+    public getAccessToken(): string {
+        return this.accessToken;
     }
 }

@@ -3,7 +3,7 @@
         <div class="form-group">
             <label for="title">Title</label>
             <input type="text" class="form-control" id="title"
-                   required
+                   required readonly
                    [(ngModel)]="album.Title" name="title"
                    #title="ngModel">
             <div [hidden]="title.valid || title.pristine"
@@ -13,7 +13,7 @@
         </div>
         <div class="form-group">
             <label for="desp">Desp</label>
-            <input type="text" class="form-control" id="desp"
+            <input type="text" class="form-control" id="desp" readonly
                    [(ngModel)]="album.Desp" name="desp">
         </div>
     </form>
