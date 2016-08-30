@@ -40,16 +40,11 @@
                         <div class="dropdown-menu">
                             <a class="dropdown-item" [routerLink]="['/about']" routerLinkActive="active">About</a>
                             <a class="dropdown-item" [routerLink]="['/credits']" routerLinkActive="active">Credits</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-pencil-square-o fa-fw"></i>&nbsp;Contact Me<b class="caret"></b>
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="http://www.alvachien.com/alvablog/" target="_blank"><i class="fa fa-home fa-fw"></i>&nbsp;Official Website</a>
                             <div class="dropdown-divider"></div>
-                            <h6 class="dropdown-header">Social Websites</h6>
+                            <h6 class="dropdown-header">Websites</h6>
+                            <a class="dropdown-item" href="http://www.alvachien.com/alvablog/" target="_blank"><i class="fa fa-home fa-fw"></i>&nbsp;Personal Website</a>
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header">Social Network</h6>
                             <a class="dropdown-item" href="https://github.com/alvachien" target="_blank"><i class="fa fa-github fa-fw"></i>&nbsp;Github</a>
                             <a class="dropdown-item" href="https://www.flickr.com/photos/alvachien" target="_blank"><i class="fa fa-flickr fa-fw"></i>&nbsp;Flickr</a>
                             <a class="dropdown-item" href="https://www.facebook.com/alva.chien" target="_blank"><i class="fa fa-facebook fa-fw"></i>&nbsp;Facebook</a>
@@ -66,12 +61,18 @@
     </nav>
 </div>
 
-<div class="m-t-1" style="padding: 60px 15px 0;">
+<div class="m-t-1" style="padding-top: 70px; padding-bottom: 70px;">
     <router-outlet></router-outlet>
 </div>
 
-<footer class="footer">
+<nav class="navbar navbar-fixed-bottom navbar-light bg-faded">
     <div class="container">
         <span class="text-muted">Written by Alva Chien, 2016</span>
     </div>
-</footer>
+</nav>
+
+<!--<footer class="footer">
+    <div class="container">
+        <span class="text-muted">Written by Alva Chien, 2016</span>
+    </div>
+</footer>-->

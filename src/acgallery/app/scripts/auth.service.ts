@@ -7,7 +7,6 @@ import { Observable }               from 'rxjs/Observable';
 import { UserInfo }                 from './user.service';
 declare var Oidc: any;
 
-
 @Injectable()
 export class AuthService {
     public authSubject: BehaviorSubject<UserInfo> = new BehaviorSubject(new UserInfo());
@@ -60,9 +59,9 @@ export class AuthService {
 			    }
            })
             .catch(function (er) {
-			    if (environment === "Development") {
+                if (environment === "Development") {
                     console.error("Sign-in error", er);
-			    }
+                }
             });
        }
    }

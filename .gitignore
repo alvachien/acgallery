@@ -250,3 +250,7 @@ typings/
 /src/acgallery/wwwroot/app
 /src/acgallery/wwwroot/libs
 /src/acgallery/wwwroot/uploads
+/src/acgallery/wwwroot/index.html
+/src/acgallery/wwwroot/logincallback.html
+/src/acgallery/wwwroot/logoutcallback.html
+/src/acgallery/wwwroot/systemjs.config.js
