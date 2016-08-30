@@ -13,13 +13,13 @@
                         <h4 class="card-title">{{photo.title}}</h4>
                         <p class="card-text">{{photo.desp}}</p>
                         <div class="card-block">
-                            <a class="btn btn-link" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhoto">
+                            <a class="btn btn-link" *ngIf="canChangePhoto(photo)" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhoto">
                                 Change
                             </a>
                             <a class="btn btn-link" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhotoExif">
                                 EXIF
                             </a>
-                            <a class="btn btn-link" (click)="onAssignAlbum(photo)" >
+                            <a class="btn btn-link" *ngIf="canChangePhoto(photo)"  (click)="onAssignAlbum(photo)" >
                                 Assign
                             </a>
                         </div>

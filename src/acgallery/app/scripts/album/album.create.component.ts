@@ -19,11 +19,19 @@ export class AlbumCreateComponent implements OnInit, OnDestroy {
         private router: Router,
         private route: ActivatedRoute,
         private albumService: AlbumService,
-        private dialogService: DialogService) {
+        private dialogService: DialogService,
+        private authService: AuthService) {
         this.album = new Album();
     }
 
     ngOnInit() {
+        if (!this.canCreateAlbum()) {
+            if (this.authService.authSubject.getValue().getUserName()) {
+                this.router.navigate(['/unauthorized']);
+            } else {
+                this.router.navigate(['/forbidden']);
+            }
+        }
     }
 
     ngOnDestroy() {
@@ -47,6 +55,10 @@ export class AlbumCreateComponent implements OnInit, OnDestroy {
 
     newAlbum() {
         this.album = new Album();
+    }
+
+    canCreateAlbum(): boolean {
+        return this.authService.authSubject.getValue().canCreateAlbum();
     }
 }
 

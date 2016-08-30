@@ -1,33 +1,44 @@
 ﻿<div class="container">
-    <div class="col-md-3">
-        <div class="row">
-            <input type="file" class="form-control-file" (change)="onChange($event)" multiple accept="*.jpg, *.bmp, *.tif, *.png, image/jpeg, image/png, image/tiff" />
-        </div>
+    <div class="alert alert-danger" role="alert" *ngIf="!canUploadPhoto()">
+        <strong>Oh snap!</strong> You have no authority to upload a photo.
+        <br />
+        Please register yourself first. 
+        <br />
+         If you already signed-in, please contact <address>
+            Alva Chien (<a href="mailto:alvachien@live.com">email</a>, <a href="http://www.flickr.com/photos/alvachien">Flickr</a>, etc)
+        </address> for help.
     </div>
-
-    <div class="col-md-9" style="margin-bottom: 40px">
-
-        <h3>Upload queue</h3>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th width="80%">Name</th>
-                    <th>Size</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let file of selectedFiles; let i = index">
-                    <td><strong>{{file.name}}</strong></td>
-                    <td nowrap>{{file.size}}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="row">
-            <ngb-progressbar type="success" [value]="progressNum"></ngb-progressbar>
+    <div class="container" *ngIf="canUploadPhoto()">
+        <div class="col-md-3">
+            <div class="row">
+                <input type="file" class="form-control-file" (change)="onChange($event)" multiple accept="*.jpg, *.bmp, *.tif, *.png, image/jpeg, image/png, image/tiff" />
+            </div>
         </div>
-        <div class="row">
-            <input type="submit" [disabled]="!selectedFiles || selectedFiles.length <= 0 || isUploading" (click)="onSubmit($event)" />
+
+        <div class="col-md-9" style="margin-bottom: 40px">
+
+            <h3>Upload queue</h3>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="80%">Name</th>
+                        <th>Size</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let file of selectedFiles; let i = index">
+                        <td><strong>{{file.name}}</strong></td>
+                        <td nowrap>{{file.size}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <ngb-progressbar type="success" [value]="progressNum"></ngb-progressbar>
+            </div>
+            <div class="row">
+                <input type="submit" [disabled]="!selectedFiles || selectedFiles.length <= 0 || isUploading" (click)="onSubmit($event)" />
+            </div>
         </div>
     </div>
 </div>

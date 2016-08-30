@@ -13,7 +13,7 @@ export class UserInfo {
     private userName: string;
 
     private ForAll: string = 'All';
-    private ForOwner: string = 'OnlySelf';
+    private OnlyOwner: string = 'OnlyOwner';
 
     public cleanContent() {
         this.currentUser = null;
@@ -60,7 +60,7 @@ export class UserInfo {
         if (strValue) {
             if (strValue === this.ForAll)
                 return true;
-            if (strValue === this.ForOwner) {
+            if (strValue === this.OnlyOwner) {
                 if (usrName === this.userName)
                     return true;
                 return false;
@@ -72,11 +72,11 @@ export class UserInfo {
     public canCreateAlbum(): boolean {
         return this.getObjectRights(this.galleryAlbumCreate);
     }
-    public canChangeAlbum(usrName?: string): boolean {
-        return this.getObjectRights(this.galleryAlbumChange, usrName);
+    public canChangeAlbum(crterName?: string): boolean {
+        return this.getObjectRights(this.galleryAlbumChange, crterName);
     }
-    public canDeleteAlbum(usrName?: string): boolean {
-        return this.getObjectRights(this.galleryAlbumDelete, usrName);
+    public canDeleteAlbum(crterName?: string): boolean {
+        return this.getObjectRights(this.galleryAlbumDelete, crterName);
     }
     public canUploadPhoto(): boolean {
         let brst = this.getObjectRights(this.galleryPhotoUpload);
@@ -88,10 +88,10 @@ export class UserInfo {
 
         return brst;
     }
-    public canChangePhoto(usrName?: string) {
-        return this.getObjectRights(this.galleryPhotoChange, usrName);
+    public canChangePhoto(updrName?: string) {
+        return this.getObjectRights(this.galleryPhotoChange, updrName);
     }
-    public canDeletePhoto(usrName?: string) {
-        return this.getObjectRights(this.galleryPhotoDelete, usrName);
+    public canDeletePhoto(updrName?: string) {
+        return this.getObjectRights(this.galleryPhotoDelete, updrName);
     }
 }

@@ -3,7 +3,16 @@ import { CORE_DIRECTIVES } from '@angular/common';
 
 @Component({
     selector: 'forbidden',
-    template: '<div>403: You have no rights to access this.</div>',
+    template: `<div class="alert alert-danger" role="alert">
+        <strong> Oh snap!</strong> It's a forbidden area where you need login first.
+        <br />
+        Please register yourself first via the 'Login' link in header area.
+        <br />
+        Please contact me: 
+        <address>
+            Alva Chien (<a href= "mailto:alvachien@live.com"> email </a>, <a href="http://www.flickr.com/photos/alvachien">Flickr</a>, etc)
+        </address>.
+        </div>`,
     directives: [CORE_DIRECTIVES]
 })
 

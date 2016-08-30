@@ -96,7 +96,8 @@ namespace acgallery
     [Route("api/album")]
     public class AlbumController : Controller
     {
-        internal const String connStr = @"Data Source=QIANH-PC2A;Initial Catalog=ACGallery;Integrated Security=SSPI;";
+        //internal const String connStr = @"Data Source=QIANH-PC2A;Initial Catalog=ACGallery;Integrated Security=SSPI;";
+        internal const String connStr = @"Data Source=QIANH-LAPTOP1;Initial Catalog=ACGallery;Integrated Security=SSPI;";
 
         // GET: api/album
         [HttpGet]

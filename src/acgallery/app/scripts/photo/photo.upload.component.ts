@@ -20,7 +20,7 @@ export class PhotoUploadComponent implements OnInit {
     public isUploading: boolean = false;
     public photoMaxKBSize: number = 0;
     public photoMinKBSize: number = 0;
-
+    
     constructor(
         private zone: NgZone,
         private router: Router,
@@ -29,14 +29,18 @@ export class PhotoUploadComponent implements OnInit {
         private authservice: AuthService) {
 
         this.authservice.authContent.subscribe((x) => {
-                this.photoMaxKBSize = x.getUserMaxUploadKBSize();
-                this.photoMinKBSize = x.getUserMinUploadKBSize();
+            if (x.canUploadPhoto()) {
+                let sizes = x.getUserUploadKBSize();
+                this.photoMinKBSize = sizes[0];
+                this.photoMaxKBSize = sizes[1];
+            } else {
+                this.photoMinKBSize = 0;
+                this.photoMaxKBSize = 0;
+            }
             });
 
         this.photoservice.progress$.subscribe(
             data => {
-                //console.log('progress = ' + data);
-                //this.progressNum = data;
                 this.zone.run(() => {
                     this.progressNum = +data;
                 });
@@ -44,6 +48,17 @@ export class PhotoUploadComponent implements OnInit {
     }
 
     ngOnInit() {
+        if (!this.canUploadPhoto()) {
+            if (this.authservice.authSubject.getValue().getUserName()) {
+                this.router.navigate(['/unauthorized']);
+            } else {
+                this.router.navigate(['/forbidden']);
+            }
+        }
+    }
+
+    canUploadPhoto(): boolean {
+        return this.photoMaxKBSize > 0;
     }
 
     onChange(event) {
@@ -69,20 +84,9 @@ export class PhotoUploadComponent implements OnInit {
         this.isUploading = true;
 
         this.photoservice.makeFileRequest([], this.selectedFiles).subscribe(value => {
-            //console.log(value);
-
             // Just navigate to Photos page
             this.isUploading = false;
             this.router.navigate(['/photo']);
-
-            //// Todo
-            //if (value.length > 0) {
-            //    for (let i = 0; i < value.length; i++) {
-            //        let nfile = value[i];
-            //        // Update the database                   
-
-            //    }
-            //}
         });        
     }
 }

@@ -27,7 +27,8 @@ export class PhotoAssignAlbumComponent implements OnInit {
         private router: Router,
         public dialogService: DialogService,
         private albumService: AlbumService,
-        private photoService: PhotoService) {
+        private photoService: PhotoService,
+        private authService: AuthService) {
     }
 
     ngOnInit() {

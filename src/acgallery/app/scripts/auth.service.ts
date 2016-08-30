@@ -10,9 +10,9 @@ declare var Oidc: any;
 
 @Injectable()
 export class AuthService {
-    private _authContent: BehaviorSubject<UserInfo> = new BehaviorSubject(new UserInfo());
+    public authSubject: BehaviorSubject<UserInfo> = new BehaviorSubject(new UserInfo());
 
-    public authContent: Observable<UserInfo> = this._authContent.asObservable();
+    public authContent: Observable<UserInfo> = this.authSubject.asObservable();
 
     private mgr: any;
 
@@ -29,22 +29,22 @@ export class AuthService {
        var that = this;
        this.mgr.getUser().then(function (u) {
            if (u) {
-               that._authContent.value.setContent(u);               
+               that.authSubject.value.setContent(u);               
            }
            else {
-               that._authContent.value.cleanContent();
+               that.authSubject.value.cleanContent();
            }
 
-           that._authContent.next(that._authContent.value);
+           that.authSubject.next(that.authSubject.value);
        });
 
        this.mgr.events.addUserUnloaded((e) => {
            if (environment === "Development") {
                console.log("user unloaded");
            }
-           that._authContent.value.cleanContent();
+           that.authSubject.value.cleanContent();
 
-           that._authContent.next(that._authContent.value);
+           that.authSubject.next(that.authSubject.value);
        });
     }
 

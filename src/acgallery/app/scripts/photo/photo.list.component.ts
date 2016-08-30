@@ -24,7 +24,8 @@ export class PhotoListComponent implements OnInit, OnDestroy {
         private router: Router,
         private route: ActivatedRoute,
         private photoService: PhotoService,
-        private dialogService: DialogService) {
+        private dialogService: DialogService,
+        private authService: AuthService) {
     }
 
     ngOnInit() {
@@ -72,6 +73,10 @@ export class PhotoListComponent implements OnInit, OnDestroy {
 
     onAssignAlbum(photo) {
         this.router.navigate(['/photo/assignalbum', photo.photoId]);
+    }
+
+    canChangePhoto(pto: Photo): boolean {
+        return this.authService.authSubject.getValue().canChangePhoto(pto.uploadedBy);
     }
 }
 

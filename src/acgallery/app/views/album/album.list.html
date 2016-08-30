@@ -11,10 +11,10 @@
                         <h4 class="card-title">{{album.Title}}</h4>
                         <p class="card-text">{{album.Desp}}</p>
                         <div class="card-block">
-                            <a class="btn btn-link" (click)="onSetSelect(album)" data-toggle="modal" data-target="#modalAlbum">
+                            <a class="btn btn-link" (click)="onSetSelect(album)" *ngIf="canChangeAlbum(album)" data-toggle="modal" data-target="#modalAlbum">
                                 Change
                             </a>
-                            <a class="btn btn-link" (click)="onOrgAlbumPhoto(album)">Organize Photos</a>
+                            <a class="btn btn-link" (click)="onOrgAlbumPhoto(album)" *ngIf="canChangeAlbum(album)">Organize Photos</a>
                         </div>
                         <div class="card-block">
                             <a class="btn btn-link" (click)="onViewAlbumDetail(album)"><small class="text-muted">View {{album.PhotoCount}} Photoes</small></a>

@@ -25,7 +25,8 @@ export class AlbumListComponent implements OnInit, OnDestroy {
         private router: Router,
         private route: ActivatedRoute,
         private albumService: AlbumService,
-        private dialogService: DialogService) {
+        private dialogService: DialogService,
+        private authService: AuthService) {
     }
 
     isSelected(album: Album) {
@@ -76,6 +77,10 @@ export class AlbumListComponent implements OnInit, OnDestroy {
 
     onOrgAlbumPhoto(album: Album) {
         this.router.navigate(['/album/orgphoto', album.Id]);
+    }
+
+    canChangeAlbum(album: Album): boolean {
+        return this.authService.authSubject.getValue().canChangeAlbum(album.CreatedBy);
     }
 }
 
