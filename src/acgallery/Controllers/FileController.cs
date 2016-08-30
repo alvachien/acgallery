@@ -588,7 +588,8 @@ namespace acgallery
                           ,[ISONumber]
                           ,[IsPublic]
                           ,[EXIFInfo]
-                      FROM [ACGallery].[dbo].[Photo]";
+                      FROM [ACGallery].[dbo].[Photo]
+                      WHERE [IsPublic] = 1";
                 SqlCommand cmd = new SqlCommand(cmdText, conn);
                 SqlDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
