@@ -55,10 +55,14 @@ export class AuthService {
 
        if (this.mgr) {
            this.mgr.signinRedirect().then(function () {
+			if (environment === "Development") {
                console.info("redirecting for login...");
+			}
            })
             .catch(function (er) {
+			if (environment === "Development") {
                 console.error("Sign-in error", er);
+			}
             });
        }
    }
