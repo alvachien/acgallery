@@ -86,11 +86,6 @@ gulp.task('setup-vendors', function (done) {
       paths.bower + 'font-awesome/fonts/fontawesome-webfont.woff',
       paths.bower + 'font-awesome/fonts/fontawesome-webfont.woff2',
     ]).pipe(gulp.dest(paths.fontsVendors));
-
-    gulp.src([
-        'app/libs/fancyBox/*.{jpg,png,svg,gif,webp,ico}',
-    ])
-    .pipe(gulp.dest(paths.imgVendors));
 });
 
 gulp.task('setup-environment', function (done) {
