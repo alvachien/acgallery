@@ -71,7 +71,6 @@
       "npm install gulp-tsc",
       "npm install del",
       "npm install run-sequence",
-      "bower install",
       "typings install",
       "gulp --gulpfile gulpfile.js build"
     ],

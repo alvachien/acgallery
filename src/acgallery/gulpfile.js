@@ -11,7 +11,6 @@ var app = "./wwwroot/app/";
 
 var paths = {
     npm: './node_modules/',
-    bower: './bower_components/',
 
     tsSource: './app/scripts/**/*.ts',
     tsOutput: app + 'js/',
@@ -42,6 +41,7 @@ gulp.task('setup-vendors-js', function () {
         'bootstrap/dist/js/bootstrap*.js',
         'tether/dist/js/tether*.js',
         'oidc-client/dist/*.js',
+        'alertify.js/dist/js/*.js'
         ], {
             cwd: "node_modules/**"
         })
@@ -51,23 +51,14 @@ gulp.task('setup-vendors-js', function () {
         'app/libs/fancyBox/*.js',
        ])
         .pipe(gulp.dest(paths.jsVendors + 'fancyBox/'));
-
-    gulp.src([
-        'alertify.js/lib/alertify.min.js',
-        ], {
-            cwd: "bower_components/**"
-        })
-        .pipe(gulp.dest(paths.jsVendors));
 });
 
 gulp.task('setup-vendors-css', function () {
     gulp.src([
       paths.npm + 'tether/dist/css/tether*.css',
       paths.npm + 'bootstrap/dist/css/bootstrap.css',
-      paths.bower + 'font-awesome/css/font-awesome.css',
-      paths.bower + 'alertify.js/themes/alertify.core.css',
-      paths.bower + 'alertify.js/themes/alertify.bootstrap.css',
-      paths.bower + 'alertify.js/themes/alertify.default.css'
+      paths.npm + 'font-awesome/css/font-awesome*.css',
+      paths.npm + 'alertify.js/dist/css/alertify.css'
     ]).pipe(gulp.dest(paths.cssVendors));
 
     gulp.src([
@@ -78,17 +69,12 @@ gulp.task('setup-vendors-css', function () {
 
 gulp.task('setup-vendors-font', function () {
     gulp.src([
-      paths.bower + 'bootstrap/fonts/glyphicons-halflings-regular.eot',
-      paths.bower + 'bootstrap/fonts/glyphicons-halflings-regular.svg',
-      paths.bower + 'bootstrap/fonts/glyphicons-halflings-regular.ttf',
-      paths.bower + 'bootstrap/fonts/glyphicons-halflings-regular.woff',
-      paths.bower + 'bootstrap/fonts/glyphicons-halflings-regular.woff2',
-      paths.bower + 'font-awesome/fonts/FontAwesome.otf',
-      paths.bower + 'font-awesome/fonts/fontawesome-webfont.eot',
-      paths.bower + 'font-awesome/fonts/fontawesome-webfont.svg',
-      paths.bower + 'font-awesome/fonts/fontawesome-webfont.ttf',
-      paths.bower + 'font-awesome/fonts/fontawesome-webfont.woff',
-      paths.bower + 'font-awesome/fonts/fontawesome-webfont.woff2',
+      paths.npm + 'font-awesome/fonts/FontAwesome.otf',
+      paths.npm + 'font-awesome/fonts/fontawesome-webfont.eot',
+      paths.npm + 'font-awesome/fonts/fontawesome-webfont.svg',
+      paths.npm + 'font-awesome/fonts/fontawesome-webfont.ttf',
+      paths.npm + 'font-awesome/fonts/fontawesome-webfont.woff',
+      paths.npm + 'font-awesome/fonts/fontawesome-webfont.woff2',
     ]).pipe(gulp.dest(paths.fontsVendors));
 });
 
