@@ -28,7 +28,7 @@ var tsProject = ts.createProject('tsconfig.json');
 
 gulp.task('setup-vendors-js', function () {
     gulp.src([
-        'core-js/client/**',
+        'core-js/client/*.js',
         'systemjs/dist/system.src.js',
         'reflect-metadata/*.js',
         'rxjs/**/*.js',
