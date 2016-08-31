@@ -83,11 +83,15 @@ export class PhotoUploadComponent implements OnInit {
     onSubmit(event) {
         this.isUploading = true;
 
-        this.photoservice.makeFileRequest([], this.selectedFiles).subscribe(value => {
-            // Just navigate to Photos page
-            this.isUploading = false;
-            this.router.navigate(['/photo']);
-        });        
+        this.photoservice.makeFileRequest([], this.selectedFiles).subscribe(
+            value => {
+                // Just navigate to Photos page
+                this.isUploading = false;
+                this.router.navigate(['/photo']);
+            },
+            error => {
+                console.log(error);
+            });        
     }
 }
 

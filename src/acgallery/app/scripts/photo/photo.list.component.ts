@@ -1,12 +1,17 @@
-﻿import { Component, OnInit, OnDestroy,
-    NgZone  }     from '@angular/core';
+﻿/// <reference path="../../../typings/globals/jquery/index.d.ts" />
+/// <reference path="../../../typings/globals/fancybox/index.d.ts" />
+
+import { Component, OnInit, OnDestroy,
+    NgZone  }                               from '@angular/core';
 import { ActivatedRoute, Router }           from '@angular/router';
 import { Photo }                            from './photo';
 import { PhotoService }                     from './photo.service';
 import { Subscription }                     from 'rxjs/Subscription';
 import { DialogService }                    from '../dialog.service';
-import '../rxjs-operators';
 import { AuthService }                      from '../auth.service';
+import '../rxjs-operators';
+import 'jquery';
+import 'fancybox';
 
 @Component({
     selector: 'my-photo-list',
@@ -44,9 +49,21 @@ export class PhotoListComponent implements OnInit, OnDestroy {
 
     getPhotos() {
         this.photoService.getFiles().subscribe(
-            photos => this.zone.run(() => {
+            photos => {
+                this.zone.run(() => {
                     this.photos = photos;
-                    }),
+                });
+
+                $("[rel='fancybox-thumb']").fancybox({
+                    openEffect: 'drop',
+                    closeEffect: 'drop',
+                    nextEffect: 'elastic',
+                    prevEffect: 'elastic',
+                    helpers: {
+                        thumbs: true
+                    }
+                });
+                },
             error => this.errorMessage = <any>error
         );
     }
@@ -62,13 +79,18 @@ export class PhotoListComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.photoService.updateFileMetadata(this.selectedPhoto).subscribe(x => {
-            if (x) {
-                // Navigate to the albums list page
-                //this.router.navigate(['/photo']);
-                this.dialogService.confirm("Updated successfully!");
+        this.photoService.updateFileMetadata(this.selectedPhoto).subscribe(
+            uploadrst => {
+                if (uploadrst) {
+                    // Navigate to the albums list page
+                    //this.router.navigate(['/photo']);
+                    this.dialogService.confirm("Updated successfully!");
+                }
+            },
+            error => {
+                console.log(error);
             }
-        });
+        );
     }
 
     onAssignAlbum(photo) {

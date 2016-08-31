@@ -25,11 +25,10 @@ var paths = {
     fontsVendors: lib + 'fonts/'
 };
 
-var tsProject = ts.createProject('app/scripts/tsconfig.json');
+var tsProject = ts.createProject('tsconfig.json');
 
 gulp.task('setup-vendors', function (done) {
     gulp.src([
-        'fancybox/dist/js/jquery.fancybox.pack.js',
         'core-js/client/**',
         'systemjs/dist/system.src.js',
         'reflect-metadata/*.js',
@@ -49,6 +48,11 @@ gulp.task('setup-vendors', function (done) {
         .pipe(gulp.dest(paths.jsVendors));
 
     gulp.src([
+        'app/libs/fancyBox/*.js',
+        ])
+        .pipe(gulp.dest(paths.jsVendors + 'fancyBox/'));
+
+    gulp.src([
         'alertify.js/lib/alertify.min.js',
         ], {
             cwd: "bower_components/**"
@@ -58,7 +62,6 @@ gulp.task('setup-vendors', function (done) {
     gulp.src([
       paths.npm + 'tether/dist/css/tether*.css',
       paths.npm + 'bootstrap/dist/css/bootstrap.css',
-      paths.npm + 'fancybox/dist/css/jquery.fancybox.css',
       paths.bower + 'font-awesome/css/font-awesome.css',
       paths.bower + 'alertify.js/themes/alertify.core.css',
       paths.bower + 'alertify.js/themes/alertify.bootstrap.css',
@@ -66,13 +69,9 @@ gulp.task('setup-vendors', function (done) {
     ]).pipe(gulp.dest(paths.cssVendors));
 
     gulp.src([
-      paths.npm + 'fancybox/dist/img/blank.gif',
-      paths.npm + 'fancybox/dist/img/fancybox_loading.gif',
-      paths.npm + 'fancybox/dist/img/fancybox_loading@2x.gif',
-      paths.npm + 'fancybox/dist/img/fancybox_overlay.png',
-      paths.npm + 'fancybox/dist/img/fancybox_sprite.png',
-      paths.npm + 'fancybox/dist/img/fancybox_sprite@2x.png'
-    ]).pipe(gulp.dest(paths.imgVendors));
+        'app/libs/fancyBox/*.css',
+        ])
+    .pipe(gulp.dest(paths.cssVendors));
 
     gulp.src([
       paths.bower + 'bootstrap/fonts/glyphicons-halflings-regular.eot',
@@ -87,6 +86,11 @@ gulp.task('setup-vendors', function (done) {
       paths.bower + 'font-awesome/fonts/fontawesome-webfont.woff',
       paths.bower + 'font-awesome/fonts/fontawesome-webfont.woff2',
     ]).pipe(gulp.dest(paths.fontsVendors));
+
+    gulp.src([
+        'app/libs/fancyBox/*.{jpg,png,svg,gif,webp,ico}',
+    ])
+    .pipe(gulp.dest(paths.imgVendors));
 });
 
 gulp.task('setup-environment', function (done) {
@@ -111,11 +115,17 @@ gulp.task('build-css', function () {
 });
 
 gulp.task('compile-typescript', function (done) {
-    var tsResult = gulp.src([
-       "app/scripts/**/*.ts"
-    ])
-     .pipe(ts(tsProject), undefined, ts.reporter.fullReporter());
+    var tsResult = tsProject.src() // instead of gulp.src(...) 
+            .pipe(ts(tsProject));
+
     return tsResult.js.pipe(gulp.dest(paths.tsOutput));
+
+    //var tsResult = gulp.src([
+    //   "typings/index.d.ts",
+    //   "app/scripts/**/*.ts"
+    //])
+    // .pipe(ts(tsProject), undefined, ts.reporter.fullReporter());
+    //return tsResult.js.pipe(gulp.dest(paths.tsOutput));
 });
 
 gulp.task('watch.views', ['before-compile-view'], function () {

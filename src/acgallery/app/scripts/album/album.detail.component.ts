@@ -1,5 +1,8 @@
-﻿import { Component, OnInit,
-        NgZone }      from '@angular/core';
+﻿/// <reference path="../../../typings/globals/jquery/index.d.ts" />
+/// <reference path="../../../typings/globals/fancybox/index.d.ts" />
+
+import {
+    Component, OnInit, NgZone }   from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Album }                  from './album';
 import { AlbumService }           from './album.service';
@@ -8,8 +11,10 @@ import { Observable }             from 'rxjs/Observable';
 import { FormBuilder, Validators } from '@angular/common';
 import { Photo }                  from '../photo/photo';
 import { PhotoService }           from '../photo/photo.service';
-import '../rxjs-operators';
 import { AuthService }            from '../auth.service';
+import '../rxjs-operators';
+import 'jquery';
+import 'fancybox';
 
 @Component({
     selector: 'my-album-detail',
@@ -35,7 +40,21 @@ export class AlbumDetailComponent implements OnInit {
         //    this.album = data.album;
         //});
         this.route.params.forEach((next: { id: number }) => {
-            this.albumService.getAlbum(next.id).subscribe(album => this.zone.run(() => { this.album = album }));
+            this.albumService.getAlbum(next.id).subscribe(
+                album => {
+                    this.zone.run(() => {
+                        this.album = album;
+                    });
+                    $("[rel='fancybox-thumb']").fancybox({
+                        openEffect: 'drop',
+                        closeEffect: 'drop',
+                        nextEffect: 'elastic',
+                        prevEffect: 'elastic',
+                        helpers: {
+                            thumbs: true
+                        }
+                    });
+                });
         });
     }
 

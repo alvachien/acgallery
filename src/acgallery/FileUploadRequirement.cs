@@ -51,16 +51,24 @@ namespace acgallery
         {
             if (!context.User.HasClaim(c => c.Type == "GalleryPhotoUploadSize"))
             {
-                return Task.FromResult(0);
+                context.Fail();
+                return Task.CompletedTask;
             }
 
             var sizeStr = context.User.FindFirst(c => c.Type == "GalleryPhotoUploadSize").Value;
             if (String.IsNullOrEmpty(sizeStr))
-                return Task.FromResult(0);
+            {
+                context.Fail();
+                return Task.CompletedTask;
+            }
 
             var charIdx = sizeStr.IndexOf('-');
             if (charIdx == -1)
-                return Task.FromResult(0);
+            {
+                context.Fail();
+                return Task.CompletedTask;
+            }
+
             var minSize = Convert.ToInt32(sizeStr.Substring(0, charIdx));
             var maxSize = Convert.ToInt32(sizeStr.Substring(charIdx + 1));
 
@@ -68,6 +76,10 @@ namespace acgallery
             if (maxSize >= fileSize && minSize <= fileSize)
             {
                 context.Succeed(requirement);
+            }
+            else
+            {
+                context.Fail();
             }
 
             return Task.CompletedTask;

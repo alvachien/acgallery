@@ -6,8 +6,8 @@
         <div class="card-deck-wrapper">
             <div class="card-deck">
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 card card-block text-xs-center" *ngFor="let photo of photos">
-                    <a class="fancybox" rel="gallery" href="{{photo.fileUrl}}">
-                        <img src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" class="img img-responsive full-width thumbnail" style="display: block; width: 100% !important;height: auto !important;" />
+                    <a class="fancybox-thumb" rel="fancybox-thumb" href="{{photo.fileUrl}}" title="{{photo.title}}">
+                        <img src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" />
                     </a>
                     <div class="card-block">
                         <h4 class="card-title">{{photo.title}}</h4>

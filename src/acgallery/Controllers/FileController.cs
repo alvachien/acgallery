@@ -35,6 +35,8 @@ namespace acgallery
         public String ThumbnailFileUrl { get; set; }
         public String FileFormat { get; set; }
         public DateTime UploadedTime { get; set; }
+        [StringLength(50)]
+        public String UploadedBy { get; set;}
         [StringLength(100)]
         public String OrgFileName { get; set; }
         public Boolean IsOrgThumbnail { get; set; }
@@ -674,9 +676,10 @@ namespace acgallery
                 if (!bPreValid)
                     return new ObjectResult(false);
 
+                var usrName = User.FindFirst(c => c.Type == "sub").Value;
                 foreach (var file in files)
                 {
-                     await AnalyzeFile(file, uploads, listResults);
+                     await AnalyzeFile(file, uploads, listResults, usrName);
                 }
             }
             else if (Request.Form.Files.Count > 0)
@@ -700,16 +703,21 @@ namespace acgallery
                 if (!bPreValid)
                     return new ObjectResult(false);
 
+                foreach(var clm in User.Claims.AsEnumerable())
+                {
+                    System.Diagnostics.Debug.WriteLine("Type = " + clm.Type + "; Value = " + clm.Value);
+                }
+                var usrName = User.FindFirst(c => c.Type == "sub").Value;
                 foreach (var file in Request.Form.Files)
                 {
-                    await AnalyzeFile(file, uploads, listResults);
+                    await AnalyzeFile(file, uploads, listResults, usrName);
                 }
             }
 
             return new ObjectResult(listResults);
         }
 
-        private async Task<IActionResult> AnalyzeFile(IFormFile ffile, String uploads, List<PhotoViewModel> listResults)
+        private async Task<IActionResult> AnalyzeFile(IFormFile ffile, String uploads, List<PhotoViewModel> listResults, String usrName)
         {
             var nid = Guid.NewGuid();
             String nfilename = nid.ToString("N") + ".jpg";
@@ -793,6 +801,7 @@ namespace acgallery
             vmobj.Title = vmobj.PhotoId;
             vmobj.Desp = vmobj.PhotoId;
             vmobj.UploadedTime = DateTime.Now;
+            vmobj.UploadedBy = usrName;            
             vmobj.OrgFileName = rst.OrgFileName;
             vmobj.FileUrl = rst.FileUrl;
             vmobj.ThumbnailFileUrl = rst.ThumbnailFileUrl;
@@ -850,8 +859,8 @@ namespace acgallery
                     cmd.Parameters.AddWithValue("@PhotoID", vmobj.PhotoId);
                     cmd.Parameters.AddWithValue("@Title", vmobj.Title);
                     cmd.Parameters.AddWithValue("@Desp", vmobj.Desp);
-                    cmd.Parameters.AddWithValue("@UploadedAt", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@UploadedBy", "Tester");
+                    cmd.Parameters.AddWithValue("@UploadedAt", vmobj.UploadedTime);
+                    cmd.Parameters.AddWithValue("@UploadedBy", vmobj.UploadedBy);
                     cmd.Parameters.AddWithValue("@OrgFileName", vmobj.OrgFileName);
                     cmd.Parameters.AddWithValue("@PhotoUrl", vmobj.FileUrl);
                     cmd.Parameters.AddWithValue("@PhotoThumbUrl", vmobj.ThumbnailFileUrl);
