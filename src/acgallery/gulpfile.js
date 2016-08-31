@@ -115,16 +115,15 @@ gulp.task('build-css', function () {
 });
 
 gulp.task('compile-typescript', function (done) {
-    var tsResult = tsProject.src() // instead of gulp.src(...) 
-            .pipe(ts(tsProject));
+    //var tsResult = tsProject.src() // instead of gulp.src(...) 
+    //        .pipe(ts(tsProject));
 
-    return tsResult.js.pipe(gulp.dest(paths.tsOutput));
-    //var tsResult = gulp.src([
-    //   "typings/index.d.ts",
-    //   "app/scripts/**/*.ts"
-    //])
-    // .pipe(ts(tsProject), undefined, ts.reporter.fullReporter());
     //return tsResult.js.pipe(gulp.dest(paths.tsOutput));
+    var tsResult = gulp.src([
+       "app/scripts/**/*.ts"
+    ])
+     .pipe(ts(tsProject), undefined, ts.reporter.fullReporter());
+    return tsResult.js.pipe(gulp.dest(paths.tsOutput));
 });
 
 gulp.task('watch.views', ['before-compile-view'], function () {
