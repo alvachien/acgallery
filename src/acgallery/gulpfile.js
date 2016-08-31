@@ -119,7 +119,6 @@ gulp.task('compile-typescript', function (done) {
             .pipe(ts(tsProject));
 
     return tsResult.js.pipe(gulp.dest(paths.tsOutput));
-
     //var tsResult = gulp.src([
     //   "typings/index.d.ts",
     //   "app/scripts/**/*.ts"
