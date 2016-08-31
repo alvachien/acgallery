@@ -19,7 +19,7 @@ var paths = {
     cssApp: app + 'css/',
     viewsApp: app + 'views/',
 
-    jsVendors: lib + 'js/',
+    jsVendors: lib + 'js/',    
     cssVendors: lib + 'css/',
     imgVendors: lib + 'img/',
     fontsVendors: lib + 'fonts/'
@@ -27,7 +27,7 @@ var paths = {
 
 var tsProject = ts.createProject('tsconfig.json');
 
-gulp.task('setup-vendors', function (done) {
+gulp.task('setup-vendors-js', function () {
     gulp.src([
         'core-js/client/**',
         'systemjs/dist/system.src.js',
@@ -49,7 +49,7 @@ gulp.task('setup-vendors', function (done) {
 
     gulp.src([
         'app/libs/fancyBox/*.js',
-        ])
+       ])
         .pipe(gulp.dest(paths.jsVendors + 'fancyBox/'));
 
     gulp.src([
@@ -58,7 +58,9 @@ gulp.task('setup-vendors', function (done) {
             cwd: "bower_components/**"
         })
         .pipe(gulp.dest(paths.jsVendors));
+});
 
+gulp.task('setup-vendors-css', function () {
     gulp.src([
       paths.npm + 'tether/dist/css/tether*.css',
       paths.npm + 'bootstrap/dist/css/bootstrap.css',
@@ -70,9 +72,11 @@ gulp.task('setup-vendors', function (done) {
 
     gulp.src([
         'app/libs/fancyBox/*.css',
-        ])
+    ])
     .pipe(gulp.dest(paths.cssVendors));
+});
 
+gulp.task('setup-vendors-font', function () {
     gulp.src([
       paths.bower + 'bootstrap/fonts/glyphicons-halflings-regular.eot',
       paths.bower + 'bootstrap/fonts/glyphicons-halflings-regular.svg',
@@ -87,6 +91,8 @@ gulp.task('setup-vendors', function (done) {
       paths.bower + 'font-awesome/fonts/fontawesome-webfont.woff2',
     ]).pipe(gulp.dest(paths.fontsVendors));
 });
+
+gulp.task('setup-vendors', ['setup-vendors-js', 'setup-vendors-css', 'setup-vendors-font']);
 
 gulp.task('setup-environment', function (done) {
     gulp.src([
