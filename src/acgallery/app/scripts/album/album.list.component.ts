@@ -65,8 +65,10 @@ export class AlbumListComponent implements OnInit, OnDestroy {
         this.albumService.updateMetadata(this.selectedAlbum).subscribe(x => {
             if (x) {
                 //this.onViewAlbumDetail(this.selectedAlbum);
-                this.dialogService.confirm("Updated successfully!");
-            }
+                this.dialogService.log("Updated successfully!", "success");
+            } else {
+                this.dialogService.log("Updated failed!", "error");
+            }            
         });
     }
 

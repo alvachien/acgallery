@@ -84,7 +84,9 @@ export class PhotoListComponent implements OnInit, OnDestroy {
                 if (uploadrst) {
                     // Navigate to the albums list page
                     //this.router.navigate(['/photo']);
-                    this.dialogService.confirm("Updated successfully!");
+                    this.dialogService.log("Updated successfully!", "success");
+                } else {
+                    this.dialogService.log("Updated failed!", "error");
                 }
             },
             error => {

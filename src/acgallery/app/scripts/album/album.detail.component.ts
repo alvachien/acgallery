@@ -77,7 +77,9 @@ export class AlbumDetailComponent implements OnInit {
         this.photoService.updateFileMetadata(this.selectedPhoto).subscribe(x => {
             if (x) {
                 // Navigate to the albums list page
-                this.dialogService.confirm("Metadata updated!");
+                this.dialogService.log("Metadata updated successfully!", "success");
+            } else {
+                this.dialogService.log("Metadata updated failed!", "error");
             }
         });
     }

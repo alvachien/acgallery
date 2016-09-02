@@ -115,10 +115,10 @@ export class PhotoAssignAlbumComponent implements OnInit {
         this.albumService.updateAlbumPhotoByPhoto(apba).subscribe(
             x => {
                 if (x) {
-                    this.dialogService.confirm("Save successfully")
-                        .then(function () {
-                            this.router.navigate(['/photo']);
-                        });                    
+                    this.dialogService.log("Save successfully", "success");
+                    this.router.navigate(['/photo']);
+                } else {
+                    this.dialogService.log("Save failed", "error");
                 }
             }
         );

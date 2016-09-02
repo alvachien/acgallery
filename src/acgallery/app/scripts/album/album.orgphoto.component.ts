@@ -115,10 +115,10 @@ export class AlbumOrgPhotoComponent implements OnInit {
         this.albumService.updateAlbumPhotoByAlbum(apba).subscribe(
             x => {
                 if (x) {
-                    this.dialogService.confirm("Save successfully")
-                        .then(function () {
-                            this.router.navigate(['/album']);
-                        });
+                    this.dialogService.log("Save successfully!", "success");
+                    this.router.navigate(['/album']);
+                } else {
+                    this.dialogService.log("Save failed!", "error");
                 }
             }
         );

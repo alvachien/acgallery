@@ -57,8 +57,7 @@ gulp.task('setup-vendors-css', function () {
     gulp.src([
       paths.npm + 'tether/dist/css/tether*.css',
       paths.npm + 'bootstrap/dist/css/bootstrap.css',
-      paths.npm + 'font-awesome/css/font-awesome*.css',
-      paths.npm + 'alertify.js/dist/css/alertify.css'
+      paths.npm + 'font-awesome/css/font-awesome*.css'
     ]).pipe(gulp.dest(paths.cssVendors));
 
     gulp.src([
