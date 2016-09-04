@@ -7,7 +7,7 @@ Live application hosted in [Azure] (http://acgallery.azurewebsites.net).
 This web app using traditional three-layer architecutre.
 
 Sequence diagram of reading photos 
-![Squence Dialgram](SequenceDrm.png)
+![Squence Dialgram](https://github.com/alvachien/acgallery/blob/master/SequenceDrm.PNG)
 
 [Link] (http://blog.csdn.net/alvachien/article/details/52430970)
 
