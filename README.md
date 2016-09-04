@@ -6,14 +6,11 @@ Live application hosted in [Azure] (http://acgallery.azurewebsites.net).
 ## Architectures
 This web app using traditional three-layer architecutre.
 
-Sequence diagram of reading photos:
-```sequence
-AC Gallery Web App->Web API: Read file records
-Note right of Web API: Check authority
-Web API-->Database: Fetch records
-Web API-->AC Gallery Web App: Photos
-Note left of AC Gallery Web App: Read photo from 'uploads' folder & rendering photos
-```
+Sequence diagram of reading photos 
+![Squence Dialgram](SequenceDrm.png)
+
+[Link] (http://blog.csdn.net/alvachien/article/details/52430970)
+
 
 The web app allows end user uploads the image files to public folder (the private image will be uploaded to Azure Storage account which not implemented in this open-source version yet), and update the records in the database.
 
