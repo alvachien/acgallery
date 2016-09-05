@@ -74,7 +74,25 @@ export class AlbumListComponent implements OnInit, OnDestroy {
 
     onViewAlbumDetail(album: Album) {
         // Navigate with Absolute link
-        this.router.navigate(['/album/detail', album.Id]);
+        // If there is accessCode, requires it.
+        if (album.AccessCode ) {
+            // Popup the dialog
+            let strAccessCode: string = "";
+            let that = this;
+            this.dialogService.prompt("Input the Access Code", strAccessCode, function (val: any, event: any) {
+                console.log("Clicked with new value: " + val);
+
+                event.preventDefault();
+
+                // verify the access code
+                that.router.navigate(['/album/detail', album.Id]);
+            }, function (event: any) {
+                event.preventDefault();
+                console.log("Cancelled !");
+            });
+        } else {
+            //this.router.navigate(['/album/detail', album.Id]);
+        }        
     }
 
     onOrgAlbumPhoto(album: Album) {

@@ -18,7 +18,12 @@ export class AlbumService {
     private albumUrl: string = AlbumAPIUrl;  // URL to web API
 
     getAlbums(): Observable<Album[]> {
-        return this.http.get(this.albumUrl)
+        var headers = new Headers();
+        headers.append('Accept', 'application/json');
+        if (this.authService.authSubject.getValue().isAuthorized)
+            headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
+
+        return this.http.get(this.albumUrl, { headers: headers })
             .map(this.extractData)
             .catch(this.handleError);
     }
@@ -35,10 +40,15 @@ export class AlbumService {
         //let params: URLSearchParams = new URLSearchParams();
         //params.set('id', id.toString());
 
+        var headers = new Headers();
+        headers.append('Accept', 'application/json');
+        if (this.authService.authSubject.getValue().isAuthorized)
+            headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
         return this.http.get(this.albumUrl + "/" + id.toString()
             //,{
             //    search: params
             //}
+            , { headers: headers }
             )
             .map(this.extractSingleData)
             .catch(this.handleError);

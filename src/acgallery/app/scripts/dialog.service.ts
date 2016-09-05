@@ -7,6 +7,11 @@ declare var alertify: any;
  */
 @Injectable()
 export class DialogService {
+    constructor() {
+        var elem = document.getElementById("alertifyjs");
+        alertify.parent(elem);
+    }
+
     /**
      * Ask user to confirm an action. `message` explains the action and choices.
      * Returns promise resolving to `true`=confirm or `false`=cancel
@@ -43,9 +48,12 @@ export class DialogService {
         //});
     };
     prompt(message?: string, value?: any, okFunc?: Function, cancelFunc?: Function) {
-        //alertify
-        //    .defaultValue(value)
-        //    .prompt(message, okFunc, cancelFunc);
+        var elem = document.getElementById("alertifyjs");
+        alertify.parent(elem);
+
+        alertify
+            .defaultValue(value)
+            .prompt(message, okFunc, cancelFunc);
             //function (val, ev) {
 
             //    // The click event is in the event variable, so you can use it here.

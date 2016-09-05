@@ -1,7 +1,7 @@
 # acgallery
 AC Photo Gallery is an open-source web app, which designed to organize photos/albums.
 
-Live application hosted in [Azure] (http://acgallery.azurewebsites.net).
+***Live application*** hosted in [Azure] (http://acgallery.azurewebsites.net).
 
 ## Scenarios
 A web app need make its scope and supported scenario very clearly.
