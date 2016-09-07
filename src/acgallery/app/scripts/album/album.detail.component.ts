@@ -8,13 +8,13 @@ import { Album }                  from './album';
 import { AlbumService }           from './album.service';
 import { DialogService }          from '../dialog.service';
 import { Observable }             from 'rxjs/Observable';
-import { FormBuilder, Validators } from '@angular/common';
 import { Photo }                  from '../photo/photo';
 import { PhotoService }           from '../photo/photo.service';
 import { AuthService }            from '../auth.service';
 import '../rxjs-operators';
-import 'jquery';
-import 'fancybox';
+declare var $: any;
+//import 'jquery';
+//import 'fancybox';
 
 @Component({
     selector: 'my-album-detail',

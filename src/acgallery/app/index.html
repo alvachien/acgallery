@@ -7,6 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 
     <link href="libs/css/tether.min.css" rel="stylesheet" />
     <link href="libs/css/tether-theme-basic.min.css" rel="stylesheet" />
@@ -42,29 +43,29 @@
         }());
     </script>
     <script src="libs/js/jquery/dist/jquery.min.js"></script>
-    <script src="libs/js/tether/dist/js/tether.min.js"></script>
-    <script src="libs/js/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="libs/js/core-js/client/shim.min.js"></script>
     <script src="libs/js/zone.js/dist/zone.js"></script>
     <script src="libs/js/reflect-metadata/Reflect.js"></script>
-    <script src="libs/js/systemjs/dist/system.src.js"></script>
-    <script src="libs/js/fancybox/jquery.fancybox.js"></script>
-    <script src="libs/js/fancybox/jquery.fancybox-thumbs.js"></script>
+    <script src="libs/js/systemjs/dist/system.js"></script>
+    <script src="libs/js/oidc-client/dist/oidc-client.min.js"></script>
     <script src="libs/js/alertify.js/dist/js/alertify.js"></script>
-    <script src="libs/js/oidc-client/dist/oidc-client.js"></script>
+    <script src="libs/js/fancyBox/jquery.fancybox.js"></script>
+    <script src="libs/js/fancyBox/jquery.fancybox-thumbs.js"></script>
+    <script src="libs/js/tether/dist/js/tether.min.js"></script>
+    <script src="libs/js/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <!-- 2. Configure SystemJS -->
     <script src="systemjs.config.js"></script>
     <script>
-            System.import('app/boot').catch(function (err) {
-                console.error(err);
-            });
+        System.import('app').catch(function (err) {
+            console.error(err);
+        });
     </script>
 </head>
 
 <!-- 3. Display the application -->
 <body>
     <div id="nav-separator"></div>
-    <my-app>Loading...</my-app>
+    <my-app>AC Photo Gallery is loading...</my-app>
 </body>
 </html>

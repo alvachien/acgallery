@@ -29,12 +29,13 @@ var tsProject = ts.createProject('tsconfig.json');
 gulp.task('setup-vendors-js', function () {
     gulp.src([
         'core-js/client/*.js',
-        'systemjs/dist/system.src.js',
+        'systemjs/dist/system*.js',
         'reflect-metadata/*.js',
         'rxjs/**/*.js',
         'zone.js/dist/*.js',
         '@angular/**/*.js',
-        '@ng-bootstrap/ng-bootstrap/**/*.js',
+        'moment/min/*.js',
+        'ng2-bootstrap/**/*.js',
         'angular2-in-memory-web-api/**/*.js',
         'ng2-file-upload/**/*.js',
         'jquery/dist/jquery*.js',
@@ -84,7 +85,8 @@ gulp.task('setup-environment', function (done) {
       'systemjs.config.js',
       'app/index.html',
       'app/logincallback.html',
-      'app/logoutcallback.html'
+      'app/logoutcallback.html',
+      "favicon.ico"
     ]).pipe(gulp.dest('./wwwroot/'));
 });
 

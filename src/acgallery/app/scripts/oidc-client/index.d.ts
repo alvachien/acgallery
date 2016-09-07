@@ -1,14 +1,5 @@
-﻿declare var UserManager: Oidc.UserManager;
-declare var OidcClient: Oidc.OidcClient;
-declare var AccessTokenEvents: Oidc.AccessTokenEvents;
-declare var Log: Oidc.Log;
-declare var InMemoryWebStorage: Oidc.InMemoryWebStorage;
-declare var MetadataService: Oidc.MetadataService;
-declare var WebStorageStateStore: Oidc.WebStorageStateStore;
+﻿
 
-declare module "oidc-client" {
-    export = Oidc;
-}
 declare namespace Oidc {
 
     interface AccessTokenEvents {
@@ -67,6 +58,7 @@ declare namespace Oidc {
 
         getSigningKeys();
     }
+
     interface OidcClient {
         new (settings: OidcClientCtor);
 
@@ -127,6 +119,7 @@ declare namespace Oidc {
 
         events: UserManagerEvents;
     }
+
     interface UserManagerEvents extends AccessTokenEvents {
         load(user: User);
         unload();
@@ -140,6 +133,7 @@ declare namespace Oidc {
         addSilentRenewError(callback: (ev: void) => void);
         removeSilentRenewError(callback: (ev: void) => void);
     }
+
     interface UserManagerCtor extends OidcClientCtor {
         popup_redirect_uri?: string;
         popupWindowFeatures?: string;
@@ -152,6 +146,7 @@ declare namespace Oidc {
         iframeNavigator?: any;
         userStore?: any;
     }
+
     interface WebStorageStateStore {
         set(key: string, value: any);
 
@@ -161,6 +156,7 @@ declare namespace Oidc {
 
         getAllKeys();
     }
+
     interface User {
         id_token: string;
         session_state: any;
@@ -173,3 +169,10 @@ declare namespace Oidc {
         toStorageString(storageString?: any);
     }
 }
+
+declare module "oidc-client" {
+    var OidcClientCtor: Oidc.OidcClientCtor;
+    var OidcClient: Oidc.OidcClient;
+    var UserManager: Oidc.UserManager;
+}
+

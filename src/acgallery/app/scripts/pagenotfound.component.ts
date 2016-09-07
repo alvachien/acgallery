@@ -1,5 +1,4 @@
 ﻿import { Component } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router';
 
 @Component({
     selector: 'my-app-404',
@@ -19,8 +18,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
             <center><h2>Recent Content :</h2></center>
           </div>
       </div>
-    </div>`,
-    directives: [ROUTER_DIRECTIVES]
+    </div>`
 })
 
 export class PageNotFoundComponent {

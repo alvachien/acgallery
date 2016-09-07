@@ -9,15 +9,14 @@ import { PhotoListComponent }       from './photo.list.component';
 import { PhotoUploadComponent }     from './photo.upload.component';
 import { PhotoAssignAlbumComponent } from './photo.assignalbum.component';
 import { photoRouting }             from './photo.routing';
-import { NgbModule }                from '@ng-bootstrap/ng-bootstrap';
-
+import { Ng2BootstrapModule }       from 'ng2-bootstrap/ng2-bootstrap';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
-        photoRouting,
-        NgbModule
+        Ng2BootstrapModule,
+        photoRouting
     ],
     declarations: [
         PhotoComponent,

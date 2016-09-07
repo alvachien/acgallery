@@ -5,6 +5,7 @@ import { HttpModule }     from '@angular/http';
 import { AppComponent }   from './app.component';
 import { routing,
     appRoutingProviders } from './app.routing';
+import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { AlbumModule }    from './album/album.module';
 import { PhotoModule }    from './photo/photo.module';
@@ -17,7 +18,6 @@ import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { DialogService }  from './dialog.service';
 //import { LoginService }   from './login.service';
 import { AuthService }   from './auth.service';
-import { NgbModule }      from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent }  from './home/home.component';
 
 @NgModule({
@@ -25,8 +25,8 @@ import { HomeComponent }  from './home/home.component';
         BrowserModule,
         FormsModule,
         HttpModule,
-        NgbModule,
         routing,
+        Ng2BootstrapModule,
         AlbumModule,
         PhotoModule
     ],

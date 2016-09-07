@@ -34,7 +34,9 @@
                 </tbody>
             </table>
             <div class="row">
-                <ngb-progressbar type="success" [value]="progressNum"></ngb-progressbar>
+                <progressbar max="100" [value]="progressNum">
+                    <span style="color:white; white-space:nowrap;">{{progressNum}} %</span>
+                </progressbar>
             </div>
             <div class="row">
                 <input type="submit" [disabled]="!selectedFiles || selectedFiles.length <= 0 || isUploading" (click)="onSubmit($event)" />

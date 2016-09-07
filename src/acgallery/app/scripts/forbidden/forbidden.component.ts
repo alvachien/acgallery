@@ -1,5 +1,4 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { CORE_DIRECTIVES } from '@angular/common';
 
 @Component({
     selector: 'forbidden',
@@ -12,8 +11,7 @@ import { CORE_DIRECTIVES } from '@angular/common';
         <address>
             Alva Chien (<a href= "mailto:alvachien@live.com"> email </a>, <a href="http://www.flickr.com/photos/alvachien">Flickr</a>, etc)
         </address>.
-        </div>`,
-    directives: [CORE_DIRECTIVES]
+        </div>`
 })
 
 export class ForbiddenComponent implements OnInit {

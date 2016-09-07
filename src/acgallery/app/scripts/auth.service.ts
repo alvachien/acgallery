@@ -1,11 +1,13 @@
-﻿import { IDServerUrl, ACGalleryCallback, ACGalleryLogoutCallback,
+﻿import {
+    IDServerUrl, ACGalleryCallback, ACGalleryLogoutCallback,
     ACGalleryHost, environment  }   from './app.setting';
 import { Injectable }               from '@angular/core';
 import 'rxjs/add/operator/map';
 import { BehaviorSubject }          from 'rxjs/BehaviorSubject';
 import { Observable }               from 'rxjs/Observable';
-import { UserInfo }                 from './user.service';
+import { UserInfo } from './user.service';
 declare var Oidc: any;
+//import * as Oidc                    from 'oidc-client';
 
 @Injectable()
 export class AuthService {
@@ -14,15 +16,15 @@ export class AuthService {
     public authContent: Observable<UserInfo> = this.authSubject.asObservable();
 
     private mgr: any;
-
-   constructor() {
+    
+    constructor() {
        let settings = {
            authority: IDServerUrl,
            client_id: "acgallery.app",
            redirect_uri: ACGalleryCallback,
            response_type: "id_token token",
            scope: "openid profile api.hihapi api.acgallery"
-       };
+        };
 
        this.mgr = new Oidc.UserManager(settings);
        var that = this;

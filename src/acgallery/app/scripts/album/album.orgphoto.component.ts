@@ -6,7 +6,6 @@ import { Album,
 import { AlbumService }           from './album.service';
 import { DialogService }          from '../dialog.service';
 import { Observable }             from 'rxjs/Observable';
-import { FormBuilder, Validators } from '@angular/common';
 import { Photo, SelectablePhoto } from '../photo/photo';
 import { PhotoService }           from '../photo/photo.service';
 import '../rxjs-operators';

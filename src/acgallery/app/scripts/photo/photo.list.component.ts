@@ -10,8 +10,10 @@ import { Subscription }                     from 'rxjs/Subscription';
 import { DialogService }                    from '../dialog.service';
 import { AuthService }                      from '../auth.service';
 import '../rxjs-operators';
-import 'jquery';
-import 'fancybox';
+// To avoid load the files twice
+declare var $: any;
+//import 'jquery';
+//import 'fancybox';
 
 @Component({
     selector: 'my-photo-list',

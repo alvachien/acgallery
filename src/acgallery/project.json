@@ -50,7 +50,8 @@
     "include": [
       "wwwroot",
       "web.config",
-      "exiftool.exe"
+      "exiftool.exe",
+      "favicon.ico"
     ],
     "exclude": [
       "node_modules",

@@ -4,7 +4,6 @@ import { AlbumDetailComponent }     from './album.detail.component';
 import { AlbumListComponent }       from './album.list.component';
 import { AlbumCreateComponent }     from './album.create.component';
 import { AlbumOrgPhotoComponent }   from './album.orgphoto.component';
-import { AlbumDetailResolve }       from './album.detail.resolve.service';
 import { CanDeactivateGuard }       from '../utility/can-deactivate-guard.service';
 
 export const albumRoutes: Routes = [

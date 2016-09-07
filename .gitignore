@@ -254,3 +254,4 @@ typings/
 /src/acgallery/wwwroot/logincallback.html
 /src/acgallery/wwwroot/logoutcallback.html
 /src/acgallery/wwwroot/systemjs.config.js
+/src/acgallery/wwwroot/favicon.ico

@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit, NgZone }        from '@angular/core';
 import { Photo }                            from './photo';
-import { Router, ROUTER_DIRECTIVES }        from '@angular/router';
+import { Router }                           from '@angular/router';
 import { PhotoService }                     from './photo.service';
 import { Observable }                       from 'rxjs/Observable';
 import { Http, Response, RequestOptions }   from '@angular/http';

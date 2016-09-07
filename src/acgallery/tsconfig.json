@@ -2,7 +2,7 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "module": "commonjs",
+    "module": "system",
     "moduleResolution": "node",
     "noEmitOnError": false,
     "noImplicitAny": false,
