@@ -42,18 +42,37 @@ export class AlbumDetailComponent implements OnInit {
         this.route.params.forEach((next: { id: number }) => {
             this.albumService.getAlbum(next.id).subscribe(
                 album => {
-                    this.zone.run(() => {
-                        this.album = album;
-                    });
-                    $("[rel='fancybox-thumb']").fancybox({
-                        openEffect: 'drop',
-                        closeEffect: 'drop',
-                        nextEffect: 'elastic',
-                        prevEffect: 'elastic',
-                        helpers: {
-                            thumbs: true
-                        }
-                    });
+                    if (album.AccessCode) {
+                        let strAccessCode: string = "";
+                        let that = this;
+
+                        this.dialogService.prompt("Input the Access Code", strAccessCode, function (val: any, event: any) {
+                            console.log("Clicked with new value: " + val);
+
+                            event.preventDefault();
+
+                            // verify the access code
+
+                            //that.router.navigate(['/album/detail', album.Id]);
+                            this.zone.run(() => {
+                                this.album = album;
+                            });
+                            $("[rel='fancybox-thumb']").fancybox({
+                                openEffect: 'drop',
+                                closeEffect: 'drop',
+                                nextEffect: 'elastic',
+                                prevEffect: 'elastic',
+                                helpers: {
+                                    thumbs: true
+                                }
+                            });
+
+                        }, function (event: any) {
+                            event.preventDefault();
+                            console.log("Cancelled !");
+                        });
+                    }
+
                 });
         });
     }

@@ -1,5 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { Http, Headers, Response, RequestOptions, URLSearchParams }   from '@angular/http';
 import '../rxjs-operators';
 import { Album, SelectableAlbum, AlbumPhotoByAlbum,
@@ -11,11 +12,16 @@ import { AuthService } from '../auth.service';
 
 @Injectable()
 export class AlbumService {
+    private albumUrl: string = AlbumAPIUrl;  // URL to web API
+    private albumArray$: Subject<Album[]>;
+    private dataStore: {
+        albums: Album[],
+        isAlbumLoaded: boolean
+    };
+
     constructor(private http: Http,
         private authService: AuthService) {
     }
-
-    private albumUrl: string = AlbumAPIUrl;  // URL to web API
 
     getAlbums(): Observable<Album[]> {
         var headers = new Headers();
