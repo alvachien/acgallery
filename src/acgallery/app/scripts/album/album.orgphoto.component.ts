@@ -1,15 +1,16 @@
-﻿import { Component, OnInit,
-        NgZone }      from '@angular/core';
+﻿import { Component, OnInit, OnDestroy,
+        NgZone }                  from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Album,
-    AlbumPhotoByAlbum }           from './album';
-import { AlbumService }           from './album.service';
-import { DialogService }          from '../dialog.service';
+    AlbumPhotoByAlbum }           from '../model/album';
+import { AlbumService }           from '../services/album.service';
+import { DialogService }          from '../services/dialog.service';
 import { Observable }             from 'rxjs/Observable';
-import { Photo, SelectablePhoto } from '../photo/photo';
-import { PhotoService }           from '../photo/photo.service';
+import { Subscription }           from 'rxjs/Subscription';
+import { Photo, SelectablePhoto } from '../model/photo';
+import { PhotoService }           from '../services/photo.service';
 import '../rxjs-operators';
-import { AuthService }            from '../auth.service';
+import { AuthService }            from '../services/auth.service';
 
 @Component({
     selector: 'my-album-orgphoto',
@@ -20,6 +21,7 @@ export class AlbumOrgPhotoComponent implements OnInit {
     public albumid: number;
     public allPhoto: SelectablePhoto[];
     public assignedPhoto: SelectablePhoto[];
+    private subCurAlbum: Subscription;
 
     constructor(
         private zone: NgZone,
@@ -33,7 +35,7 @@ export class AlbumOrgPhotoComponent implements OnInit {
     ngOnInit() {
         this.route.params.forEach((next: { id: number }) => {
             this.albumid = next.id;
-
+            /*
             Observable.forkJoin(
                 this.albumService.getAlbum(next.id),
                 this.photoService.getFiles()
@@ -70,14 +72,14 @@ export class AlbumOrgPhotoComponent implements OnInit {
                         this.allPhoto.push(alb);
                     }
                 });
-            });
+            });*/
         });
     }
 
-    onAddAssignedPhoto() {
+    onAddAssignedPhoto() {    
         let tmpPhoto = new Array<SelectablePhoto>();
         for (let i = this.allPhoto.length - 1; i >= 0; i--) {
-            if (this.allPhoto[i].IsSelected) {
+            if (this.allPhoto[i].isSelected) {
                 tmpPhoto.push(this.allPhoto[i]);
                 this.allPhoto.splice(i, 1);
             }
@@ -92,7 +94,7 @@ export class AlbumOrgPhotoComponent implements OnInit {
     onRemoveAssignedPhoto() {
         let tmpPhoto = new Array<SelectablePhoto>();
         for (let i = this.assignedPhoto.length - 1; i >= 0; i--) {
-            if (this.assignedPhoto[i].IsSelected) {
+            if (this.assignedPhoto[i].isSelected) {
                 tmpPhoto.push(this.assignedPhoto[i]);
                 this.assignedPhoto.splice(i, 1);
             }
@@ -105,6 +107,7 @@ export class AlbumOrgPhotoComponent implements OnInit {
     }
 
     onSubmit() {
+        /*
         let apba = new AlbumPhotoByAlbum();
         apba.AlbumId = this.albumid;
         apba.PhotoIDList = new Array<string>();
@@ -120,7 +123,7 @@ export class AlbumOrgPhotoComponent implements OnInit {
                     this.dialogService.log("Save failed!", "error");
                 }
             }
-        );
+        );*/
     }
 
     onCancel() {

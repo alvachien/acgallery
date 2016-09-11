@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit }        from '@angular/core';
-import { AuthService }              from './auth.service';
+import { AuthService }              from './services/auth.service';
 
 @Component({
     selector: 'my-app',
@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
 
     public onLogin() {
         if (this.isLoggedIn) {
-            //this.doLogout();
+            this.doLogout();
         } else {            
             this.doLogin();
         }
@@ -43,8 +43,9 @@ export class AppComponent implements OnInit {
     }
 
     private doLogout() {
-        //console.log("Perform logout logic");
+        console.log("Perform logout logic");
         //this.loginService.Logoff();
+        //this.authService.doLogout();
     }
 }
 

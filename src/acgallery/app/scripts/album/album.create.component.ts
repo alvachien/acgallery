@@ -1,11 +1,11 @@
 ﻿import { Component, OnInit, OnDestroy }     from '@angular/core';
 import { ActivatedRoute, Router }           from '@angular/router';
-import { Album }                            from './album';
-import { AlbumService }                     from './album.service';
+import { Album }                            from '../model/album';
+import { AlbumService }                     from '../services/album.service';
 import { Subscription }                     from 'rxjs/Subscription';
-import { DialogService }                    from '../dialog.service';
+import { DialogService }                    from '../services/dialog.service';
 import '../rxjs-operators';
-import { AuthService }                      from '../auth.service';
+import { AuthService }                      from '../services/auth.service';
 
 @Component({
     selector: 'my-album-create',
@@ -14,6 +14,7 @@ import { AuthService }                      from '../auth.service';
 
 export class AlbumCreateComponent implements OnInit, OnDestroy {
     album: Album = null;
+    curSub: Subscription = null;
 
     constructor(
         private router: Router,
@@ -32,9 +33,15 @@ export class AlbumCreateComponent implements OnInit, OnDestroy {
                 this.router.navigate(['/forbidden']);
             }
         }
+
+        this.curSub = this.albumService.curalbum$.subscribe(data => {
+            this.afterAlbumCreated(data);
+        });
     }
 
     ngOnDestroy() {
+        this.curSub.unsubscribe();        
+        //this.curSub.
     }
 
     onSubmit() {
@@ -45,12 +52,12 @@ export class AlbumCreateComponent implements OnInit, OnDestroy {
         }
         this.album.CreatedAt = new Date();
         this.album.CreatedBy = this.authService.authSubject.getValue().getUserName();        
-        this.albumService.createAlbum(this.album).subscribe(x => {
-            if (x) {
-                // Navigate to the albums list page
-                this.router.navigate(['/album']);
-            }
-        });
+        this.albumService.createAlbum(this.album);
+    }
+
+    afterAlbumCreated(data: any) {
+        // it shall jump to the new created album if possible
+        //this.router.navigate(['/album']);
     }
 
     newAlbum() {

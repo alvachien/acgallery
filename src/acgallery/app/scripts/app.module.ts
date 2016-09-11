@@ -15,9 +15,9 @@ import { AboutComponent }       from './about/about.component';
 import { ForbiddenComponent }   from './forbidden/forbidden.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
-import { DialogService }  from './dialog.service';
-//import { LoginService }   from './login.service';
-import { AuthService }   from './auth.service';
+import { DialogService } from './services/dialog.service';
+import { BufferService } from './services/buffer.service';
+import { AuthService }   from './services/auth.service';
 import { HomeComponent }  from './home/home.component';
 
 @NgModule({
@@ -42,7 +42,8 @@ import { HomeComponent }  from './home/home.component';
         appRoutingProviders,
         DialogService,
         //LoginService
-        AuthService
+        AuthService,
+        BufferService
     ],
     bootstrap: [AppComponent]
 })

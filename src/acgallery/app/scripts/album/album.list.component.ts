@@ -1,12 +1,12 @@
 ﻿import { Component, OnInit, OnDestroy,
-    NgZone }     from '@angular/core';
+    NgZone }                                from '@angular/core';
 import { ActivatedRoute, Router }           from '@angular/router';
-import { Album }                            from './album';
-import { AlbumService }                     from './album.service';
+import { Album }                            from '../model/album';
+import { AlbumService }                     from '../services/album.service';
 import { Subscription }                     from 'rxjs/Subscription';
-import { DialogService }                    from '../dialog.service';
+import { DialogService }                    from '../services/dialog.service';
 import '../rxjs-operators';
-import { AuthService }                      from '../auth.service';
+import { AuthService }                      from '../services/auth.service';
 
 @Component({
     selector: 'my-album-list',
@@ -15,7 +15,8 @@ import { AuthService }                      from '../auth.service';
 
 export class AlbumListComponent implements OnInit, OnDestroy {
     private selectedId: number;
-    private sub: Subscription;
+    private subAlbums: Subscription;
+    private subCurAlbum: Subscription;
     albumes: Album[];
     errorMessage: any;
     public selectedAlbum: Album;
@@ -34,21 +35,33 @@ export class AlbumListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.sub = this.route
-            .params
-            .subscribe(params => {
-                this.selectedId = +params['id'];
-                this.albumService.getAlbums()
-                    .subscribe(albums => this.zone.run(() => {
-                        this.albumes = albums;
-                    }));
-            });
+        this.subAlbums = this.albumService.albums$.subscribe(data => this.onAlbumLoaded(data),
+            error => this.onHandleError(error));
+
+        this.subCurAlbum = this.albumService.curalbum$.subscribe(data => this.onCurrentAlbum(data),
+            error => this.onHandleError(error));
+
+        this.albumService.loadAlbums();        
     }
 
     ngOnDestroy() {
-        if (this.sub) {
-            this.sub.unsubscribe();
+        if (this.subAlbums) {
+            this.subAlbums.unsubscribe();
         }
+    }
+
+    onAlbumLoaded(data) {
+        this.zone.run(() => {
+            this.albumes = data;
+        });
+    }
+
+    onCurrentAlbum(data) {
+        // Todo
+    }
+
+    onHandleError(error) {
+        console.log(error);
     }
 
     onSetSelect(album: Album) {
@@ -62,14 +75,14 @@ export class AlbumListComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.albumService.updateMetadata(this.selectedAlbum).subscribe(x => {
-            if (x) {
-                //this.onViewAlbumDetail(this.selectedAlbum);
-                this.dialogService.log("Updated successfully!", "success");
-            } else {
-                this.dialogService.log("Updated failed!", "error");
-            }            
-        });
+        //this.albumService.updateMetadata(this.selectedAlbum).subscribe(x => {
+        //    if (x) {
+        //        //this.onViewAlbumDetail(this.selectedAlbum);
+        //        this.dialogService.log("Updated successfully!", "success");
+        //    } else {
+        //        this.dialogService.log("Updated failed!", "error");
+        //    }            
+        //});
     }
 
     onViewAlbumDetail(album: Album) {

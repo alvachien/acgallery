@@ -1,25 +1,29 @@
-﻿import { Component, OnInit, NgZone }        from '@angular/core';
-import { Photo }                            from './photo';
+﻿import { Component, OnInit, OnDestroy, NgZone }        from '@angular/core';
+import { Photo, UpdPhoto }                  from '../model/photo';
 import { Router }                           from '@angular/router';
-import { PhotoService }                     from './photo.service';
+import { PhotoService }                     from '../services/photo.service';
 import { Observable }                       from 'rxjs/Observable';
 import { Http, Response, RequestOptions }   from '@angular/http';
 import '../rxjs-operators';
-import { DialogService }                    from '../dialog.service';
-import { AuthService }                      from '../auth.service';
+import { DialogService }                    from '../services/dialog.service';
+import { AuthService }                      from '../services/auth.service';
+import { Subscription }                     from 'rxjs/Subscription';
 
 @Component({
     selector: 'my-photo-upload',
     templateUrl: 'app/views/photo/photo.upload.html'
 })
 
-export class PhotoUploadComponent implements OnInit {
+export class PhotoUploadComponent implements OnInit, OnDestroy {
 
     public selectedFiles: any;
     public progressNum: number = 0;
     public isUploading: boolean = false;
     public photoMaxKBSize: number = 0;
     public photoMinKBSize: number = 0;
+    public arUpdPhotos: UpdPhoto[];
+    private subUpdProgress: Subscription;
+    private subUpload: Subscription;
     
     constructor(
         private zone: NgZone,
@@ -39,12 +43,10 @@ export class PhotoUploadComponent implements OnInit {
             }
             });
 
-        this.photoservice.progress$.subscribe(
-            data => {
-                this.zone.run(() => {
-                    this.progressNum = +data;
-                });
-            });
+        this.subUpdProgress = this.photoservice.uploadprog$.subscribe(data => this.onUploadProgress(data),
+            error => { console.log(error); });
+        this.subUpload = this.photoservice.upload$.subscribe(data => this.onUploading(data),
+            error => { console.log(error); });
     }
 
     ngOnInit() {
@@ -57,42 +59,100 @@ export class PhotoUploadComponent implements OnInit {
         }
     }
 
+    ngOnDestroy() {
+        if (this.subUpdProgress) {
+            this.subUpdProgress.unsubscribe();
+            this.subUpdProgress = null;
+        }
+    }
+
     canUploadPhoto(): boolean {
         return this.photoMaxKBSize > 0;
     }
 
     onChange(event) {
-        //console.log('onChange');
-        this.selectedFiles = event.srcElement.files;
 
-        // Check the file size
-        let checksuccess: boolean = true;
-        for (let i = 0; i < this.selectedFiles.length; i++) {
-            if (this.selectedFiles[i].size / 1024 >= this.photoMaxKBSize || this.selectedFiles[i].size / 1024 <= this.photoMinKBSize) {
-                checksuccess = false;
-                this.dlgservice.confirm("File " + this.selectedFiles[i].name + " with size (" + this.selectedFiles[i].size / 1024 + " KB) which is larger than " + this.photoMaxKBSize + " or less than " + this.photoMinKBSize );
-                break;
+        var files = event.srcElement.files;
+        var errors = "";
+        if (!files) {
+            errors += "File upload not supported by your browser.";
+            this.dlgservice.confirm(errors);
+            return;
+        }
+
+        if (files && files[0]) {
+            this.arUpdPhotos = [];
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                if ((/\.(png|jpeg|jpg|gif)$/i).test(file.name)) {
+                    this.readImage(file, this.arUpdPhotos);
+                } else {
+                    let updphoto: UpdPhoto = new UpdPhoto();
+                    updphoto.Name = file.name;
+                    updphoto.IsValid = false;
+                    updphoto.ValidInfo = file.name + " Unsupported Image extension\n";
+                    this.arUpdPhotos.push(updphoto);
+                }
             }
         }
 
-        if (!checksuccess) {
-            this.selectedFiles = null;
-        }
+        this.selectedFiles = event.srcElement.files;
+    }
+
+    private readImage(file, arPhotos: UpdPhoto[]) {
+        var reader = new FileReader();
+        let that = this;
+
+        reader.addEventListener("load", function () {
+            var image = new Image();
+
+            image.addEventListener("load", function () {
+                let updPhoto: UpdPhoto = new UpdPhoto();
+                updPhoto.Name = file.name;
+                updPhoto.Width = +image.width;
+                updPhoto.Height = +image.height;
+                let size = Math.round(file.size / 1024);
+                updPhoto.Size = size.toString() + 'KB';
+
+                if (size >= that.photoMaxKBSize || size <= that.photoMinKBSize) {
+                    updPhoto.ValidInfo = "File " + updPhoto.Name + " with size (" + updPhoto.Size + ") which is larger than " + that.photoMaxKBSize + " or less than " + that.photoMinKBSize;
+                    updPhoto.IsValid = false;
+                } else {
+                    updPhoto.IsValid = true;
+                }
+
+                arPhotos.push(updPhoto);
+            });
+
+            //var useBlob = false && window.URL;
+            //image.src = useBlob ? window.URL.createObjectURL(file) : reader.result;
+            //if (useBlob) {
+            //    window.URL.revokeObjectURL(file); // Free memory
+            //}
+            image.src = reader.result;
+        });
+
+        reader.readAsDataURL(file);
+    }
+
+    onUploadProgress(data: number) {
+        this.zone.run(() => {
+            this.progressNum = +data;
+        });
     }
 
     onSubmit(event) {
+        // Todo, check the file's IsValid!
+        //
+
         this.isUploading = true;
 
-        this.photoservice.makeFileRequest([], this.selectedFiles).subscribe(
-            value => {
-                // Just navigate to Photos page
+        this.photoservice.uploadFile([], this.selectedFiles);
+    }
 
-                this.isUploading = false;
-                this.router.navigate(['/photo']);
-            },
-            error => {
-                console.log(error);
-            });        
+    onUploading(data: any) {
+        this.isUploading = false;
+        this.router.navigate(['/photo']);
     }
 }
 

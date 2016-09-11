@@ -2,7 +2,7 @@
 import { FormsModule }              from '@angular/forms';
 import { CommonModule }             from '@angular/common';
 
-import { PhotoService }             from './photo.service';
+import { PhotoService }             from '../services/photo.service';
 
 import { PhotoComponent }           from './photo.component';
 import { PhotoListComponent }       from './photo.list.component';

@@ -4,11 +4,11 @@
 import { Component, OnInit, OnDestroy,
     NgZone  }                               from '@angular/core';
 import { ActivatedRoute, Router }           from '@angular/router';
-import { Photo }                            from './photo';
-import { PhotoService }                     from './photo.service';
+import { Photo }                            from '../model/photo';
+import { PhotoService }                     from '../services/photo.service';
 import { Subscription }                     from 'rxjs/Subscription';
-import { DialogService }                    from '../dialog.service';
-import { AuthService }                      from '../auth.service';
+import { DialogService }                    from '../services/dialog.service';
+import { AuthService }                      from '../services/auth.service';
 import '../rxjs-operators';
 // To avoid load the files twice
 declare var $: any;
@@ -23,7 +23,7 @@ declare var $: any;
 export class PhotoListComponent implements OnInit, OnDestroy {
     public photos: Photo[];
     public errorMessage: any;
-    private sub: Subscription;
+    private subPhotos: Subscription;
     public selectedPhoto: Photo;
 
     constructor(
@@ -36,38 +36,36 @@ export class PhotoListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.sub = this.route
-            .params
-            .subscribe(params => {
-                this.getPhotos();
-            });
+        this.subPhotos = this.photoService.photos$.subscribe(data => this.onPhotoLoaded(data),
+            error => this.onHandleError(error));
+
+        this.photoService.loadPhotos();
     }
 
     ngOnDestroy() {
-        if (this.sub) {
-            this.sub.unsubscribe();
+        if (this.subPhotos) {
+            this.subPhotos.unsubscribe();
         }
     }
 
-    getPhotos() {
-        this.photoService.getFiles().subscribe(
-            photos => {
-                this.zone.run(() => {
-                    this.photos = photos;
-                });
+    onPhotoLoaded(photos) {
+        this.zone.run(() => {
+            this.photos = photos;
+        });
 
-                $("[rel='fancybox-thumb']").fancybox({
-                    openEffect: 'drop',
-                    closeEffect: 'drop',
-                    nextEffect: 'elastic',
-                    prevEffect: 'elastic',
-                    helpers: {
-                        thumbs: true
-                    }
-                });
-                },
-            error => this.errorMessage = <any>error
-        );
+        $("[rel='fancybox-thumb']").fancybox({
+            openEffect: 'drop',
+            closeEffect: 'drop',
+            nextEffect: 'elastic',
+            prevEffect: 'elastic',
+            helpers: {
+                thumbs: true
+            }
+        });
+    }
+
+    onHandleError(error) {
+        this.errorMessage = <any>error;
     }
 
     onSetSelectedPhoto(photo: Photo) {

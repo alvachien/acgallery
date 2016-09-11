@@ -1,14 +1,15 @@
-﻿import { Component, OnInit, NgZone } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Album, SelectableAlbum,
-    AlbumPhotoByPhoto }           from '../album/album';
-import { AlbumService }           from '../album/album.service';
-import { DialogService }          from '../dialog.service';
-import { Observable }             from 'rxjs/Observable';
-import { Photo }                  from './photo';
-import { PhotoService }           from './photo.service';
+    AlbumPhotoByPhoto }           from '../model/album';
+import { AlbumService }           from '../services/album.service';
+import { DialogService }          from '../services/dialog.service';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import { Photo }                  from '../model/photo';
+import { PhotoService }           from '../services/photo.service';
 import '../rxjs-operators';
-import { AuthService }            from '../auth.service';
+import { AuthService }            from '../services/auth.service';
 
 @Component({
     selector: 'my-photo-assignalbum',
@@ -32,6 +33,7 @@ export class PhotoAssignAlbumComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.forEach((next: { photoid: string }) => {
+        /*
             this.photoid = next.photoid;
 
             Observable.forkJoin(
@@ -70,14 +72,14 @@ export class PhotoAssignAlbumComponent implements OnInit {
                         this.allAlbum.push(alb);
                     }
                 });
-            });
+            });*/
         });
     }
 
     onAddAssignedAlbum() {
         let tmpAlbum = new Array<SelectableAlbum>();
         for (let i = this.allAlbum.length - 1; i >= 0; i--) {
-            if (this.allAlbum[i].IsSelected) {
+            if (this.allAlbum[i].isSelected) {
                 tmpAlbum.push(this.allAlbum[i]);
                 this.allAlbum.splice(i, 1);
             }
@@ -92,7 +94,7 @@ export class PhotoAssignAlbumComponent implements OnInit {
     onRemoveAssignedAlbum() {
         let tmpAlbum = new Array<SelectableAlbum>();
         for (let i = this.assignedAlbum.length - 1; i >= 0; i--) {
-            if (this.assignedAlbum[i].IsSelected) {
+            if (this.assignedAlbum[i].isSelected) {
                 tmpAlbum.push(this.assignedAlbum[i]);
                 this.assignedAlbum.splice(i, 1);
             }
@@ -105,6 +107,7 @@ export class PhotoAssignAlbumComponent implements OnInit {
     }
 
     onSubmit() {
+    /*
         let apba = new AlbumPhotoByPhoto();
         apba.PhotoID = this.photoid;
         apba.AlbumIDList = new Array<number>();
@@ -120,7 +123,7 @@ export class PhotoAssignAlbumComponent implements OnInit {
                     this.dialogService.log("Save failed", "error");
                 }
             }
-        );
+        );*/
     }
 
     onCancel() {

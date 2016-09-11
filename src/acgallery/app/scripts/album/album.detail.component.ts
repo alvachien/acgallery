@@ -2,15 +2,16 @@
 /// <reference path="../../../typings/globals/fancybox/index.d.ts" />
 
 import {
-    Component, OnInit, NgZone }   from '@angular/core';
+    Component, OnInit, OnDestroy, NgZone }   from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Album }                  from './album';
-import { AlbumService }           from './album.service';
-import { DialogService }          from '../dialog.service';
+import { Album }                  from '../model/album';
+import { AlbumService }           from '../services/album.service';
+import { DialogService }          from '../services/dialog.service';
 import { Observable }             from 'rxjs/Observable';
-import { Photo }                  from '../photo/photo';
-import { PhotoService }           from '../photo/photo.service';
-import { AuthService }            from '../auth.service';
+import { Subscription }           from 'rxjs/Subscription';
+import { Photo }                  from '../model/photo';
+import { PhotoService }           from '../services/photo.service';
+import { AuthService }            from '../services/auth.service';
 import '../rxjs-operators';
 declare var $: any;
 //import 'jquery';
@@ -21,9 +22,10 @@ declare var $: any;
     templateUrl: 'app/views/album/album.detail.html'
 })
 
-export class AlbumDetailComponent implements OnInit {
+export class AlbumDetailComponent implements OnInit, OnDestroy {
     public album: Album;
     public selectedPhoto: Photo;
+    private subCurAlbum: Subscription;
 
     constructor(
         private zone: NgZone,
@@ -33,48 +35,58 @@ export class AlbumDetailComponent implements OnInit {
         private albumService: AlbumService,
         private photoService: PhotoService,
         private authService: AuthService) {
+        
+        this.subCurAlbum = this.albumService.curalbum$.subscribe(data => this.getCurrentAlbumData(data),
+            error => this.handleError(error));
     }
 
     ngOnInit() {
-        //this.route.data.forEach((data: { album: Album }) => {
-        //    this.album = data.album;
-        //});
         this.route.params.forEach((next: { id: number }) => {
-            this.albumService.getAlbum(next.id).subscribe(
-                album => {
-                    if (album.AccessCode) {
-                        let strAccessCode: string = "";
-                        let that = this;
-
-                        this.dialogService.prompt("Input the Access Code", strAccessCode, function (val: any, event: any) {
-                            console.log("Clicked with new value: " + val);
-
-                            event.preventDefault();
-
-                            // verify the access code
-
-                            //that.router.navigate(['/album/detail', album.Id]);
-                            this.zone.run(() => {
-                                this.album = album;
-                            });
-                            $("[rel='fancybox-thumb']").fancybox({
-                                openEffect: 'drop',
-                                closeEffect: 'drop',
-                                nextEffect: 'elastic',
-                                prevEffect: 'elastic',
-                                helpers: {
-                                    thumbs: true
-                                }
-                            });
-
-                        }, function (event: any) {
-                            event.preventDefault();
-                            console.log("Cancelled !");
-                        });
-                    }
-
-                });
+            this.albumService.loadAlbum(next.id);
         });
+    }
+
+    ngOnDestroy() {
+        if (this.subCurAlbum) {
+            this.subCurAlbum.unsubscribe();
+        }
+    }
+
+    getCurrentAlbumData(album: any) {
+        if (album.AccessCode) {
+            let strAccessCode: string = "";
+            let that = this;
+
+            this.dialogService.prompt("Input the Access Code", strAccessCode, function (val: any, event: any) {
+                console.log("Clicked with new value: " + val);
+
+                event.preventDefault();
+
+                // verify the access code
+
+                //that.router.navigate(['/album/detail', album.Id]);
+                this.zone.run(() => {
+                    this.album = album;
+                });
+
+                $("[rel='fancybox-thumb']").fancybox({
+                    openEffect: 'drop',
+                    closeEffect: 'drop',
+                    nextEffect: 'elastic',
+                    prevEffect: 'elastic',
+                    helpers: {
+                        thumbs: true
+                    }
+                });
+
+            }, function (event: any) {
+                event.preventDefault();
+                console.log("Cancelled !");
+            });
+        }
+    }
+    handleError(error: any) {
+        console.log(error);
     }
 
     gotoAlbumes() {

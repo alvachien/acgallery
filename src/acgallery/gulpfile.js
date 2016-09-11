@@ -42,7 +42,8 @@ gulp.task('setup-vendors-js', function () {
         'bootstrap/dist/js/bootstrap*.js',
         'tether/dist/js/tether*.js',
         'oidc-client/dist/*.js',
-        'alertify.js/dist/js/*.js'
+        'alertify.js/dist/js/*.js',
+        'photoswipe/dist/**/*.js'
         ], {
             cwd: "node_modules/**"
         })
@@ -58,13 +59,22 @@ gulp.task('setup-vendors-css', function () {
     gulp.src([
       paths.npm + 'tether/dist/css/tether*.css',
       paths.npm + 'bootstrap/dist/css/bootstrap.css',
-      paths.npm + 'font-awesome/css/font-awesome*.css'
+      paths.npm + 'font-awesome/css/font-awesome*.css',
+      paths.npm + 'photoswipe/dist/photoswipe.css',
+      paths.npm + 'photoswipe/dist/**/*.css'
     ]).pipe(gulp.dest(paths.cssVendors));
 
     gulp.src([
         'app/libs/fancyBox/*.css',
     ])
     .pipe(gulp.dest(paths.cssVendors));
+});
+
+gulp.task('setup-vendors-img', function () {
+    gulp.src([
+      paths.npm + 'photoswipe/dist/**/*.png',
+      paths.npm + 'photoswipe/dist/**/*.gif'
+    ]).pipe(gulp.dest(paths.fontsVendors));
 });
 
 gulp.task('setup-vendors-font', function () {
@@ -75,10 +85,11 @@ gulp.task('setup-vendors-font', function () {
       paths.npm + 'font-awesome/fonts/fontawesome-webfont.ttf',
       paths.npm + 'font-awesome/fonts/fontawesome-webfont.woff',
       paths.npm + 'font-awesome/fonts/fontawesome-webfont.woff2',
+      paths.npm + 'photoswipe/dist/**/*.svg',
     ]).pipe(gulp.dest(paths.fontsVendors));
 });
 
-gulp.task('setup-vendors', ['setup-vendors-js', 'setup-vendors-css', 'setup-vendors-font']);
+gulp.task('setup-vendors', ['setup-vendors-js', 'setup-vendors-css', 'setup-vendors-img', 'setup-vendors-font']);
 
 gulp.task('setup-environment', function (done) {
     gulp.src([

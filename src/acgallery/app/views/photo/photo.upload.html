@@ -11,7 +11,7 @@
     <div class="container" *ngIf="canUploadPhoto()">
         <div class="col-md-3">
             <div class="row">
-                <input type="file" class="form-control-file" (change)="onChange($event)" multiple accept="*.jpg, *.bmp, *.tif, *.png, image/jpeg, image/png, image/tiff" />
+                <input type="file" class="form-control-file" (change)="onChange($event)" multiple />
             </div>
         </div>
 
@@ -22,17 +22,22 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th width="80%">Name</th>
+                        <th width="30%">Info</th>
+                        <th width="30%">Name</th>
+                        <th width="20%">Dimension</th>
                         <th>Size</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let file of selectedFiles; let i = index">
-                        <td><strong>{{file.name}}</strong></td>
-                        <td nowrap>{{file.size}}</td>
+                    <tr *ngFor="let updphoto of arUpdPhotos">
+                        <td><strong>{{updphoto.ValidInfo}}</strong></td>
+                        <td><strong>{{updphoto.Name}}</strong></td>
+                        <td nowrap>{{updphoto.Dimension}}</td>
+                        <td nowrap>{{updphoto.Size}}</td>
                     </tr>
                 </tbody>
             </table>
+
             <div class="row">
                 <progressbar max="100" [value]="progressNum">
                     <span style="color:white; white-space:nowrap;">{{progressNum}} %</span>
