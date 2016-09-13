@@ -248,6 +248,8 @@ export class AlbumService {
                 pto.thumbnailFileUrl = body.photoList[i].thumbnailFileUrl;
                 pto.title = body.photoList[i].title;
                 pto.desp = body.photoList[i].desp;
+                pto.width = body.photoList[i].width;
+                pto.height = body.photoList[i].height;
 
                 pto.exifTags = body.photoList[i].exifTags;
 

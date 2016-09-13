@@ -12,6 +12,8 @@ export class Photo {
 
     public title: string;
     public desp: string;
+    public width: number;
+    public height: number;
     public fileUrl: string;
 
     public thumbnailFileUrl: string;

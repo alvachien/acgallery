@@ -2,26 +2,26 @@
     <div class="panel-heading">
         <h3 class="panel-title">Photos List</h3>
     </div>
-    <div class="panel-body">
+    <div class="panel-body popup-gallery">
         <div class="card-deck-wrapper">
             <div class="card-deck">
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 card card-block text-xs-center" *ngFor="let photo of photos">
-                    <a class="fancybox-thumb" rel="fancybox-thumb" href="{{photo.fileUrl}}" title="{{photo.title}}">
-                        <img src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" />
+                    <a href="{{photo.fileUrl}}" title="{{photo.title}}">
+                        <img src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" width="260" height="162" />
                     </a>
                     <div class="card-block">
                         <h4 class="card-title">{{photo.title}}</h4>
                         <p class="card-text">{{photo.desp}}</p>
                         <div class="card-block">
-                            <a class="btn btn-link" *ngIf="canChangePhoto(photo)" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhoto">
+                            <button class="btn btn-link" *ngIf="canChangePhoto(photo)" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhoto">
                                 Change
-                            </a>
-                            <a class="btn btn-link" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhotoExif">
+                            </button>
+                            <button class="btn btn-link" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhotoExif">
                                 EXIF
-                            </a>
-                            <a class="btn btn-link" *ngIf="canChangePhoto(photo)"  (click)="onAssignAlbum(photo)" >
+                            </button>
+                            <button class="btn btn-link" *ngIf="canChangePhoto(photo)" (click)="onAssignAlbum(photo)">
                                 Assign
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
