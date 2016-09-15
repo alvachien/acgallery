@@ -1,7 +1,9 @@
 ﻿import { Injectable }   from '@angular/core';
 import { Observable }   from 'rxjs/Observable';
 import { Subject }      from 'rxjs/Subject';
-import { Http, Headers, Response, RequestOptions, URLSearchParams }   from '@angular/http';
+import {
+    Http, Headers, Response,
+    RequestOptions, URLSearchParams }  from '@angular/http';
 import '../rxjs-operators';
 import {
     Album, SelectableAlbum, AlbumPhotoByAlbum, AlbumPhotoLink,
@@ -85,6 +87,9 @@ export class AlbumService {
         if (this.authService.authSubject.getValue().isAuthorized)
             headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
+        //Observable.forkJoin(this.http.get(this.albumUrl + "/" + id.toString(), { headers: headers }),
+        //    this.http.get(PhotoAPIUrl));
+
         this.http.get(this.albumUrl + "/" + id.toString(), { headers: headers })
             .map(this.extractSingleData)
             .catch(this.handleError)
@@ -96,7 +101,7 @@ export class AlbumService {
                         return false;;
                     } else {
                         return true;
-                    }                        
+                    }
                 });
 
                 if (idx != -1) {
@@ -105,6 +110,7 @@ export class AlbumService {
                     this.buffService.albums.push(data);
                 }
                 this._albums$.next(this.buffService.albums);
+                this._curalbum$.next(data);
             }, error => {
                 // Shall be handled already
             });
@@ -240,21 +246,21 @@ export class AlbumService {
             let alm2 = new Album();
             alm2.init(body.id, body.title, body.desp, body.firstPhotoThumnailUrl, body.createdAt, body.createdBy,
                 body.isPublic, body.accessCode, body.photoCount);
-            alm2.Photoes = [];
-            for (var i = 0; i < body.photoList.length; i++) {
-                let pto = new Photo();
-                pto.photoId = body.photoList[i].photoId;
-                pto.fileUrl = body.photoList[i].fileUrl;
-                pto.thumbnailFileUrl = body.photoList[i].thumbnailFileUrl;
-                pto.title = body.photoList[i].title;
-                pto.desp = body.photoList[i].desp;
-                pto.width = body.photoList[i].width;
-                pto.height = body.photoList[i].height;
+            //alm2.Photoes = [];
+            //for (var i = 0; i < body.photoList.length; i++) {
+            //    let pto = new Photo();
+            //    pto.photoId = body.photoList[i].photoId;
+            //    pto.fileUrl = body.photoList[i].fileUrl;
+            //    pto.thumbnailFileUrl = body.photoList[i].thumbnailFileUrl;
+            //    pto.title = body.photoList[i].title;
+            //    pto.desp = body.photoList[i].desp;
+            //    pto.width = body.photoList[i].width;
+            //    pto.height = body.photoList[i].height;
 
-                pto.exifTags = body.photoList[i].exifTags;
+            //    pto.exifTags = body.photoList[i].exifTags;
 
-                alm2.Photoes.push(pto);
-            }
+            //    alm2.Photoes.push(pto);
+            //}
 
             return alm2;
         }

@@ -22,21 +22,21 @@
 
     <div class="panel-body">
         <div class="card-deck-wrapper">
-            <div class="card-deck">
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 card card-block text-xs-center" *ngFor="let photo of album.Photoes">
-                    <a class="fancybox-thumb" rel="fancybox-thumb" href="{{photo.fileUrl}}" title="{{photo.title}}">
+            <div class="card-deck popup-gallery">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 card card-block text-xs-center" *ngFor="let photo of photos">
+                    <a href="{{photo.fileUrl}}" title="{{photo.title}}">
                         <img src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" class="img img-responsive full-width thumbnail" style="display: block; width: 100% !important;height: auto !important;" />
                     </a>
                     <div class="card-block">
                         <h4 class="card-title">{{photo.title}}</h4>
                         <p class="card-text">{{photo.desp}}</p>
                         <div class="card-block">
-                            <a class="btn btn-link" *ngIf="canChangeAlbum(album)" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhoto">
+                            <button class="btn btn-link" *ngIf="canChangeAlbum(album)" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhoto">
                                 Change
-                            </a>
-                            <a class="btn btn-link" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhotoExif">
+                            </button>
+                            <button class="btn btn-link" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhotoExif">
                                 EXIF
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>

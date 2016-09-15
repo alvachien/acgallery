@@ -11,7 +11,6 @@ export class Album {
     public AccessCode: string;
 
     // Runtime info
-    public Photoes: any;
     public PhotoIDs: string[];
     public PhotoCount: number;
     public IsPhotoIDFetched: boolean;

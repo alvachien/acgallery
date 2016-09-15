@@ -24,8 +24,10 @@ declare var $: any;
 
 export class AlbumDetailComponent implements OnInit, OnDestroy {
     public album: Album;
+    public photos: Photo[];
     public selectedPhoto: Photo;
     private subCurAlbum: Subscription;
+    private subAlbumPhotos: Subscription;
 
     constructor(
         private zone: NgZone,
@@ -37,6 +39,8 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
         private authService: AuthService) {
         
         this.subCurAlbum = this.albumService.curalbum$.subscribe(data => this.getCurrentAlbumData(data),
+            error => this.handleError(error));
+        this.subAlbumPhotos = this.photoService.photosByAlbum$.subscribe(data => this.getCurrentAlbumPhotos(data),
             error => this.handleError(error));
     }
 
@@ -50,9 +54,16 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
         if (this.subCurAlbum) {
             this.subCurAlbum.unsubscribe();
         }
+        if (this.subAlbumPhotos) {
+            this.subAlbumPhotos.unsubscribe();
+        }
     }
 
-    getCurrentAlbumData(album: any) {
+    getCurrentAlbumData(album: Album) {
+        this.zone.run(() => {
+            this.album = album;
+        });
+
         if (album.AccessCode) {
             let strAccessCode: string = "";
             let that = this;
@@ -63,28 +74,40 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
                 event.preventDefault();
 
                 // verify the access code
-
-                //that.router.navigate(['/album/detail', album.Id]);
-                this.zone.run(() => {
-                    this.album = album;
-                });
-
-                $("[rel='fancybox-thumb']").fancybox({
-                    openEffect: 'drop',
-                    closeEffect: 'drop',
-                    nextEffect: 'elastic',
-                    prevEffect: 'elastic',
-                    helpers: {
-                        thumbs: true
-                    }
-                });
-
+                console.log(val);
+                that.photoService.loadAlbumPhoto(album.Id, val);
             }, function (event: any) {
                 event.preventDefault();
                 console.log("Cancelled !");
             });
+        } else {
+            this.photoService.loadAlbumPhoto(album.Id);
         }
+
+        $('.popup-gallery').magnificPopup({
+            delegate: 'a',
+            type: 'image',
+            tLoading: 'Loading image #%curr%...',
+            mainClass: 'mfp-img-mobile',
+            gallery: {
+                enabled: true,
+                navigateByImgClick: true,
+                preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+            },
+            image: {
+                tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
+                titleSrc: function (item) {
+                    return item.el.attr('title') + '<small>by Marsel Van Oosten</small>';
+                }
+            }
+        });
     }
+    getCurrentAlbumPhotos(data: any) {
+        this.zone.run(() => {
+            this.photos = data;
+        });
+    }
+
     handleError(error: any) {
         console.log(error);
     }
