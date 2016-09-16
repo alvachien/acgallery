@@ -9,7 +9,6 @@ import '../rxjs-operators';
 import { AuthService }      from './auth.service';
 import { PhotoAPIUrl }      from '../app.setting';
 import { BufferService }    from './buffer.service';
-import { DialogService }    from './dialog.service';
 
 @Injectable()
 export class PhotoService {
@@ -23,8 +22,7 @@ export class PhotoService {
 
     constructor(private http: Http,
         private authService: AuthService,
-        private buffService: BufferService,
-        private dialogService: DialogService) {
+        private buffService: BufferService) {
         this.photoUploadUrl = 'api/file';  // URL to upload photo
         this.photoAPIUrl = PhotoAPIUrl; // URL to recod th photo
 
@@ -97,9 +95,29 @@ export class PhotoService {
     }
 
     loadAlbumPhoto(albumid: string | number, accesscode?: string, forceReload?: boolean) {
-        if (!forceReload && this.buffService.isPhotoLoaded) {
-            this._photos$.next(this.buffService.photos);
-            return;
+        if (!forceReload && this.buffService.isAlbumLinkLoaded(+albumid)) {
+            if (this.buffService.photos.length > 0) {
+                let links: AlbumPhotoLink[] = this.buffService.getLinkInfo(+albumid, null);
+                let uniqPhotos = new Map<string, Photo>();
+                let tmpdata: Photo[];
+
+                links.forEach((val, idx) => {
+                    if (!uniqPhotos.has(val.PhotoID)) {
+                        let photo: Photo;
+                        this.buffService.photos.every((val2, idx2) => {
+                            if (val2.photoId === val.PhotoID) {
+                                photo = val2;
+                                return false;
+                            }
+                            return true;
+                        });
+                        uniqPhotos.set(val.PhotoID, photo);
+                        tmpdata.push(photo);
+                    }
+                });
+                this._photosByAlbum$.next(tmpdata);
+                return;
+            }
         }
 
         var headers = new Headers();
@@ -114,7 +132,7 @@ export class PhotoService {
 
         this.http.get(this.photoAPIUrl, { search: params, headers: headers })
             .map(this.extractData)
-            .catch(this.handleError)
+            //.catch(this.handleError)
             .subscribe(data => {
                 let arlinks: Array<AlbumPhotoLink> = new Array<AlbumPhotoLink>();
                 data.forEach((value, index, array) => {
@@ -147,6 +165,7 @@ export class PhotoService {
             },
             error => {
                 // It should be handled already
+                this._photosByAlbum$.error(error);
             });
     }
 

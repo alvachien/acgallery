@@ -1,23 +1,20 @@
 {
   "dependencies": {
-    "Microsoft.NETCore.App": {
-      "version": "1.0.0",
-      "type": "platform"
-    },
     "Microsoft.AspNetCore.Razor.Tools": {
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
     "Microsoft.AspNetCore.StaticFiles": "1.0.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
-    "Microsoft.AspNetCore.Mvc": "1.0.0",
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
     "System.Data.Common": "4.1.0",
     "System.Data.SqlClient": "4.1.0",
     "IdentityServer4.AccessTokenValidation": "1.0.1-rc1",
-    "Magick.NET.Core-Q8": "7.0.3.1"
+    "Magick.NET.Core-Q8": "7.0.3.1",
+    "Microsoft.AspNetCore.Mvc": "1.0.1",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.1",
+    "Microsoft.NETCore.App": "1.0.1"
   },
 
   "tools": {

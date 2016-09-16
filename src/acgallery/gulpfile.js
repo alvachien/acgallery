@@ -95,7 +95,8 @@ gulp.task('setup-environment', function (done) {
       'app/index.html',
       'app/logincallback.html',
       'app/logoutcallback.html',
-      "favicon.ico"
+      "app/resources/favicon.ico",
+      "app/resources/grey.jpg"
     ]).pipe(gulp.dest('./wwwroot/'));
 });
 

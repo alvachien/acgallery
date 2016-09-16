@@ -28,6 +28,7 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
     public selectedPhoto: Photo;
     private subCurAlbum: Subscription;
     private subAlbumPhotos: Subscription;
+    private routerID: number = -1;
 
     constructor(
         private zone: NgZone,
@@ -45,9 +46,15 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        let aid: number = -1;
         this.route.params.forEach((next: { id: number }) => {
-            this.albumService.loadAlbum(next.id);
+            aid = next.id;
         });
+
+        if (aid !== -1 && aid != this.routerID) {
+            this.routerID = aid;
+            this.albumService.loadAlbum(aid);
+        }
     }
 
     ngOnDestroy() {
@@ -72,9 +79,6 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
                 console.log("Clicked with new value: " + val);
 
                 event.preventDefault();
-
-                // verify the access code
-                console.log(val);
                 that.photoService.loadAlbumPhoto(album.Id, val);
             }, function (event: any) {
                 event.preventDefault();
@@ -83,6 +87,11 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
         } else {
             this.photoService.loadAlbumPhoto(album.Id);
         }
+    }
+    getCurrentAlbumPhotos(data: any) {
+        this.zone.run(() => {
+            this.photos = data;
+        });
 
         $('.popup-gallery').magnificPopup({
             delegate: 'a',
@@ -102,14 +111,12 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
             }
         });
     }
-    getCurrentAlbumPhotos(data: any) {
-        this.zone.run(() => {
-            this.photos = data;
-        });
-    }
 
     handleError(error: any) {
         console.log(error);
+        if (error.status === 401) {
+            this.dialogService.confirm("Unauthorized! It most likely you input an WRONG access code!");
+        }
     }
 
     gotoAlbumes() {

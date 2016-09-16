@@ -73,10 +73,26 @@ export class AlbumService {
                 //    }
                 //});
 
-                if (this.buffService.albums.some((value, index, array) => {
-                    return value.Id === +id;
-                })) {
+                // We cannot use the logic below because we need update the curAlbum subject
+                //if (this.buffService.albums.some((value, index, array) => {
+                //    return value.Id === +id;
+                //})) {
+                //    this._albums$.next(this.buffService.albums);
+                //    return;
+                //}
+                let idx: number = -1;
+                this.buffService.albums.every((value, index, array) => {
+                    if (value.Id === +id) {
+                        idx = index;
+                        return false;;
+                    } else {
+                        return true;
+                    }
+                });
+
+                if (idx != -1) {
                     this._albums$.next(this.buffService.albums);
+                    this._curalbum$.next(this.buffService.albums[idx]);
                     return;
                 }
             }
@@ -118,7 +134,7 @@ export class AlbumService {
 
     loadAlbumContainsPhoto(photoid: string, forceReload?: boolean) {
         if (!forceReload && this.buffService.isPhotoLinkLoaded(photoid)) {
-            if (this.buffService.isAlbumLoaded && this.buffService.albums.length > 0) {
+            if (this.buffService.albums.length > 0) {
                 let links: AlbumPhotoLink[] = this.buffService.getLinkInfo(null, photoid);
                 let uniqAlbums = new Map<number, Album>();
                 let data: Album[] = [];
@@ -276,6 +292,10 @@ export class AlbumService {
                 let alm2 = new Album();
                 alm2.init(alm.id, alm.title, alm.desp, alm.firstPhotoThumnailUrl, alm.createdAt, alm.createdBy,
                     alm.isPublic, alm.accessCode, alm.photoCount);
+
+                if (!alm2.Thumbnail) {
+                    alm2.Thumbnail = '/grey.jpg';
+                }
 
                 almes.push(alm2);
             }
