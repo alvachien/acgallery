@@ -36,10 +36,12 @@ export class PhotoListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subPhotos = this.photoService.photos$.subscribe(data => this.onPhotoLoaded(data),
-            error => this.onHandleError(error));
+        if (!this.subPhotos) {
+            this.subPhotos = this.photoService.photos$.subscribe(data => this.onPhotoLoaded(data),
+                error => this.onHandleError(error));
 
-        this.photoService.loadPhotos();
+            this.photoService.loadPhotos();
+        }
     }
 
     ngOnDestroy() {

@@ -22,6 +22,7 @@ export class AlbumOrgPhotoComponent implements OnInit {
     public allPhoto: SelectablePhoto[];
     public assignedPhoto: SelectablePhoto[];
     private subCurAlbum: Subscription;
+    private routerID: number = -1;
 
     constructor(
         private zone: NgZone,
@@ -33,11 +34,16 @@ export class AlbumOrgPhotoComponent implements OnInit {
     }
 
     ngOnInit() {
+        let aid: number = -1;
         this.route.params.forEach((next: { id: number }) => {
-            this.albumid = next.id;
+            aid = next.id;
+        });
+
+        if (aid !== -1 && aid != this.routerID) {
+            this.routerID = aid;
             /*
             Observable.forkJoin(
-                this.albumService.getAlbum(next.id),
+                this.albumService.loadAlbum(this.routerID),
                 this.photoService.getFiles()
             ).subscribe(res => {
                 var album = res[0];
@@ -72,8 +78,8 @@ export class AlbumOrgPhotoComponent implements OnInit {
                         this.allPhoto.push(alb);
                     }
                 });
-            });*/
-        });
+            });*/        
+        }
     }
 
     onAddAssignedPhoto() {    

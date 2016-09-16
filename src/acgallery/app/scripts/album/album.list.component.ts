@@ -17,8 +17,8 @@ export class AlbumListComponent implements OnInit, OnDestroy {
     private selectedId: number;
     private subAlbums: Subscription;
     private subCurAlbum: Subscription;
-    albumes: Album[];
-    errorMessage: any;
+    public albumes: Album[];
+    public errorMessage: any;
     public selectedAlbum: Album;
 
     constructor(
@@ -35,13 +35,17 @@ export class AlbumListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subAlbums = this.albumService.albums$.subscribe(data => this.onAlbumLoaded(data),
-            error => this.onHandleError(error));
+        if (!this.subAlbums) {
+            this.subAlbums = this.albumService.albums$.subscribe(data => this.onAlbumLoaded(data),
+                error => this.onHandleError(error));
 
-        this.subCurAlbum = this.albumService.curalbum$.subscribe(data => this.onCurrentAlbum(data),
-            error => this.onHandleError(error));
+            this.albumService.loadAlbums();        
+        }
 
-        this.albumService.loadAlbums();        
+        if (!this.subCurAlbum) {
+            this.subCurAlbum = this.albumService.curalbum$.subscribe(data => this.onCurrentAlbum(data),
+                error => this.onHandleError(error));
+        }
     }
 
     ngOnDestroy() {
