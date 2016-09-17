@@ -15,8 +15,8 @@
     "app/scripts/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    "wwwroot",
-    "typings"
+    "node_modules/**/*.ts",
+    "wwwroot/",
+    "typings/"
   ]
 }

@@ -62,7 +62,7 @@
   "scripts": {
     "prepublish": [
       "npm install",
-      "npm install typescript@2.0.2",
+      "npm install typescript@rc",
       "npm install typings",
       "npm install gulp",
       "npm install path",
