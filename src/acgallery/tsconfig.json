@@ -8,6 +8,7 @@
     "noImplicitAny": false,
     "removeComments": true,
     "sourceMap": true,
+    "skipLibCheck": true,
     "target": "es6",
     "outDir": "wwwroot/app/js/"
   },

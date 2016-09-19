@@ -24,7 +24,9 @@ var paths = {
     fontsVendors: lib + 'fonts/'
 };
 
-var tsProject = ts.createProject('tsconfig.json');
+var tsProject = ts.createProject('tsconfig.json', {
+    typescript: require('typescript')
+});
 
 gulp.task('setup-vendors-js', function () {
     gulp.src([

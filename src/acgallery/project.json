@@ -62,8 +62,6 @@
   "scripts": {
     "prepublish": [
       "npm install",
-      "npm install typescript@rc",
-      "npm install typings",
       "npm install gulp",
       "npm install path",
       "npm install gulp-clean",

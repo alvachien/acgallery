@@ -11,6 +11,10 @@ I had documenteed all scenarios supported by AC Photo Gallery via this [Wiki pag
 Do read it through before reading the codes.
 
 
+## Deployment and Installation
+To deploy or install this web app on a server, please read through this [Wiki page] (https://github.com/alvachien/acgallery/wiki/Installation-and-Deployment).
+
+
 ## Architectures
 This web app using traditional three-layer architecutre.
 
