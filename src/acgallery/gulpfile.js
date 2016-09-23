@@ -71,11 +71,36 @@ gulp.task('setup-vendors-css', function () {
     .pipe(gulp.dest(paths.cssVendors));
 });
 
-gulp.task('setup-vendors-img', function () {
-    //gulp.src([
-    //  paths.npm + 'photoswipe/dist/**/*.png',
-    //  paths.npm + 'photoswipe/dist/**/*.gif'
-    //]).pipe(gulp.dest(paths.fontsVendors));
+gulp.task('setup-vendors-webuploader', function () {
+    gulp.src([
+        'app/libs/webuploader.html5only.min.js',
+    ]).pipe(gulp.dest(paths.jsVendors));
+    gulp.src([
+        'app/libs/webuploader.css',
+    ]).pipe(gulp.dest(paths.cssVendors));
+});
+
+gulp.task('setup-vendors-fineuploader', function () {
+    gulp.src([
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.js',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.js.map',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.min.js',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.min.js.map',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-new.css',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-new.min.css',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-new.min.css.map',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-gallery.css',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-gallery.min.css',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-gallery.min.css.map',
+    ]).pipe(gulp.dest(lib + 'fineuploader/'));
+
+    gulp.src([
+      paths.npm + 'fine-uploader/fine-uploader/templates/*.html',
+    ]).pipe(gulp.dest(lib + 'fineuploader/templates/'));
+
+    gulp.src([
+      paths.npm + 'fine-uploader/fine-uploader/placeholders/*.png',
+    ]).pipe(gulp.dest(lib + 'fineuploader/placeholders/'));
 });
 
 gulp.task('setup-vendors-font', function () {
@@ -89,7 +114,7 @@ gulp.task('setup-vendors-font', function () {
     ]).pipe(gulp.dest(paths.fontsVendors));
 });
 
-gulp.task('setup-vendors', ['setup-vendors-js', 'setup-vendors-css', 'setup-vendors-img', 'setup-vendors-font']);
+gulp.task('setup-vendors', ['setup-vendors-js', 'setup-vendors-css', 'setup-vendors-font']);
 
 gulp.task('setup-environment', function (done) {
     gulp.src([

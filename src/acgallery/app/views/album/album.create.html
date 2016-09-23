@@ -26,6 +26,17 @@
             <input type="text" class="form-control" id="desp"
                    [(ngModel)]="album.Desp" name="desp">
         </div>
+        <div class="form-group">
+            <label class="btn btn-secondary">
+                <input type="checkbox" autocomplete="off" id="isPublic"
+                        [(ngModel)]="album.IsPublic" name="isPublic"> Is Public
+            </label>
+        </div>
+        <div class="form-group">
+            <label for="accesscode">Access Code</label>
+            <input type="text" class="form-control" id="accesscode"
+                   [(ngModel)]="album.AccessCode" name="accesscode">
+        </div>
 
         <button type="submit" class="btn btn-default"  [disabled]="!albumForm.form.valid">Submit</button>
         <button type="button" class="btn btn-default" (click)="newAlbum()">New Album</button>
