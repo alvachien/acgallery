@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnDestroy, NgZone }        from '@angular/core';
+﻿import { Component, OnInit, AfterViewInit, OnDestroy, NgZone, ViewChild, Renderer, ElementRef }        from '@angular/core';
 import { Photo, UpdPhoto }                  from '../model/photo';
 import { Router }                           from '@angular/router';
 import { PhotoService }                     from '../services/photo.service';
@@ -8,13 +8,14 @@ import '../rxjs-operators';
 import { DialogService }                    from '../services/dialog.service';
 import { AuthService }                      from '../services/auth.service';
 import { Subscription }                     from 'rxjs/Subscription';
+declare var qq: any;
 
 @Component({
     selector: 'my-photo-upload',
     templateUrl: 'app/views/photo/photo.upload.html'
 })
 
-export class PhotoUploadComponent implements OnInit, OnDestroy {
+export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public selectedFiles: any;
     public progressNum: number = 0;
@@ -24,13 +25,18 @@ export class PhotoUploadComponent implements OnInit, OnDestroy {
     public arUpdPhotos: UpdPhoto[];
     private subUpdProgress: Subscription;
     private subUpload: Subscription;
-    
+    private uploader: any = null;
+    @ViewChild('uploadFileRef') elemUploadFile;
+
     constructor(
         private zone: NgZone,
         private router: Router,
         private photoservice: PhotoService,
         private dlgservice: DialogService,
-        private authservice: AuthService) {
+        private authservice: AuthService,
+        private renderer: Renderer,
+        private elm: ElementRef) {
+        console.log("elm:", this.elm)
 
         this.authservice.authContent.subscribe((x) => {
             if (x.canUploadPhoto()) {
@@ -42,11 +48,6 @@ export class PhotoUploadComponent implements OnInit, OnDestroy {
                 this.photoMaxKBSize = 0;
             }
             });
-
-        this.subUpdProgress = this.photoservice.uploadprog$.subscribe(data => this.onUploadProgress(data),
-            error => { console.log(error); });
-        this.subUpload = this.photoservice.upload$.subscribe(data => this.onUploading(data),
-            error => { console.log(error); });
     }
 
     ngOnInit() {
@@ -57,12 +58,37 @@ export class PhotoUploadComponent implements OnInit, OnDestroy {
                 this.router.navigate(['/forbidden']);
             }
         }
+        if (!this.subUpdProgress) {
+            this.subUpdProgress = this.photoservice.uploadprog$.subscribe(data => this.onUploadProgress(data),
+                error => { console.log(error); });
+        }
+        if (!this.subUpload) {
+            this.subUpload = this.photoservice.upload$.subscribe(data => this.onUploading(data),
+                error => { console.log(error); });
+        }
+    }
+
+    ngAfterViewInit() {
+        if (!this.uploader) {
+            var buttonUpd = document.getElementById("load-file-button-id");
+            this.uploader = new qq.FineUploaderBasic({
+                button: this.elemUploadFile.nativeElement,
+                autoUpload: false,
+                request: {
+                    endpoint: '/uploads'
+                }
+            });
+        }
     }
 
     ngOnDestroy() {
         if (this.subUpdProgress) {
             this.subUpdProgress.unsubscribe();
             this.subUpdProgress = null;
+        }
+        if (this.subUpload) {
+            this.subUpload.unsubscribe();
+            this.subUpload = null;
         }
     }
 

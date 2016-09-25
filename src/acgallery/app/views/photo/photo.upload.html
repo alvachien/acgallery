@@ -12,7 +12,10 @@
     <div class="container" *ngIf="canUploadPhoto()">
         <div class="col-md-3">
             <div class="row">
-                <input type="file" class="form-control-file" (change)="onChange($event)" multiple />
+                <!--<input type="file" class="form-control-file" (change)="onChange($event)" multiple />-->
+                <div class="form-control-file btn btn-primary" id="load-file-button-id" #uploadFileRef>
+                    <div>Select files</div>
+                </div>
             </div>
         </div>
 

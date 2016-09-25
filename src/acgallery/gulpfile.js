@@ -82,6 +82,8 @@ gulp.task('setup-vendors-webuploader', function () {
 
 gulp.task('setup-vendors-fineuploader', function () {
     gulp.src([
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.core.js',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.core.js.map',
       paths.npm + 'fine-uploader/fine-uploader/fine-uploader.js',
       paths.npm + 'fine-uploader/fine-uploader/fine-uploader.js.map',
       paths.npm + 'fine-uploader/fine-uploader/fine-uploader.min.js',
@@ -114,7 +116,7 @@ gulp.task('setup-vendors-font', function () {
     ]).pipe(gulp.dest(paths.fontsVendors));
 });
 
-gulp.task('setup-vendors', ['setup-vendors-js', 'setup-vendors-css', 'setup-vendors-font']);
+gulp.task('setup-vendors', ['setup-vendors-js', 'setup-vendors-css', 'setup-vendors-font', 'setup-vendors-fineuploader']);
 
 gulp.task('setup-environment', function (done) {
     gulp.src([
