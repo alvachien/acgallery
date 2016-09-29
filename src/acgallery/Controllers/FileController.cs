@@ -168,13 +168,7 @@ namespace acgallery
                     {
                         bPreValid = false;
                         break;
-                        //return new ChallengeResult();
                     }
-                    //if (file.Length < 409600 || file.Length > 3145728)
-                    //{
-                    //    bPreValid = false;
-                    //    break;
-                    //}
                 }
                 if (!bPreValid)
                     return new ObjectResult(false);
@@ -197,11 +191,6 @@ namespace acgallery
                         bPreValid = false;
                         break;
                     }
-                    //if (file.Length < 409600 || file.Length > 3145728)
-                    //{
-                    //    bPreValid = false;
-                    //    break;
-                    //}
                 }
                 if (!bPreValid)
                     return new ObjectResult(false);

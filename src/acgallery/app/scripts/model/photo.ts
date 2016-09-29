@@ -34,6 +34,8 @@ export class SelectablePhoto
 }
 
 export class UpdPhoto {
+    public ID: number;
+    public OrgName: string;
     public Name: string;
     public Width: number;
     public Height: number;

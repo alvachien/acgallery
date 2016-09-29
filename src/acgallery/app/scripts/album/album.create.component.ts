@@ -23,9 +23,6 @@ export class AlbumCreateComponent implements OnInit, OnDestroy {
         private dialogService: DialogService,
         private authService: AuthService) {
         this.album = new Album();
-        this.curSub = this.albumService.curalbum$.subscribe(data => {
-            this.afterAlbumCreated(data);
-        });
     }
 
     ngOnInit() {
@@ -36,11 +33,17 @@ export class AlbumCreateComponent implements OnInit, OnDestroy {
                 this.router.navigate(['/forbidden']);
             }
         }
+        if (!this.curSub) {
+            this.curSub = this.albumService.curalbum$.subscribe(data => {
+                this.afterAlbumCreated(data);
+            });
+        }
     }
 
     ngOnDestroy() {
-        if (!this.curSub) {
-            this.curSub.unsubscribe();        
+        if (this.curSub) {
+            this.curSub.unsubscribe();
+            this.curSub = null;
         }
     }
 

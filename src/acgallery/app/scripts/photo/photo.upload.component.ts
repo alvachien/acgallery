@@ -5,6 +5,7 @@ import { PhotoService }                     from '../services/photo.service';
 import { Observable }                       from 'rxjs/Observable';
 import { Http, Response, RequestOptions }   from '@angular/http';
 import '../rxjs-operators';
+import { Album }                            from '../model/album';
 import { DialogService }                    from '../services/dialog.service';
 import { AuthService }                      from '../services/auth.service';
 import { Subscription }                     from 'rxjs/Subscription';
@@ -22,10 +23,13 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
     public isUploading: boolean = false;
     public photoMaxKBSize: number = 0;
     public photoMinKBSize: number = 0;
-    public arUpdPhotos: UpdPhoto[];
+    public arUpdPhotos: UpdPhoto[] = [];
     private subUpdProgress: Subscription;
     private subUpload: Subscription;
     private uploader: any = null;
+    public assignAlbum: number = 0;
+    private canCrtAlbum: boolean = false;
+    public albumcreate: Album = null;
     @ViewChild('uploadFileRef') elemUploadFile;
 
     constructor(
@@ -36,7 +40,8 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
         private authservice: AuthService,
         private renderer: Renderer,
         private elm: ElementRef) {
-        console.log("elm:", this.elm)
+        console.log("Entering constructor of PhotoUploadComponent");
+        //console.log("elm:", this.elm);
 
         this.authservice.authContent.subscribe((x) => {
             if (x.canUploadPhoto()) {
@@ -48,9 +53,12 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.photoMaxKBSize = 0;
             }
             });
+        this.canCrtAlbum = this.authservice.authSubject.getValue().canCreateAlbum();
+        this.albumcreate = new Album();
     }
 
     ngOnInit() {
+        console.log("Entering ngOnInit of PhotoUploadComponent");
         if (!this.canUploadPhoto()) {
             if (this.authservice.authSubject.getValue().getUserName()) {
                 this.router.navigate(['/unauthorized']);
@@ -69,19 +77,82 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
+        console.log("Entering ngAfterInit of PhotoUploadComponent");
+        let that = this;
+
         if (!this.uploader) {
-            var buttonUpd = document.getElementById("load-file-button-id");
             this.uploader = new qq.FineUploaderBasic({
-                button: this.elemUploadFile.nativeElement,
+                button: that.elemUploadFile.nativeElement,
                 autoUpload: false,
                 request: {
-                    endpoint: '/uploads'
+                    endpoint: 'api/file'
+                },
+                validation: {
+                    allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
+                    minSizeLimit: that.photoMinKBSize * 1024,
+                    sizeLimit: that.photoMaxKBSize * 1024
+                },
+                callbacks: {
+                    onComplete: function (id, name, responseJSON) {
+                        console.log("OnComplete: " + id.toString() + ", " + name);
+                    },
+                    onAllComplete: function (succids, failids) {
+                        console.log("OnAllComplete: " + succids.toString() + ", " + failids.toString());
+                    },
+                    onStatusChange: function (id: number, oldstatus, newstatus) {
+                        console.log("Entering OnStatusChanged of PhotoUploadComponent upon ID: " + id.toString() + "; From " + oldstatus + " to " + newstatus);
+                        if (newstatus === "rejected") {
+                            let errormsg = "File size must smaller than " + that.photoMaxKBSize + " and larger than " + that.photoMinKBSize;
+                            that.dlgservice.confirm(errormsg);
+                        }
+                        //SUBMITTED
+                        //QUEUED
+                        //UPLOADING
+                        //UPLOAD_RETRYING
+                        //UPLOAD_FAILED
+                        //UPLOAD_SUCCESSFUL
+                        //CANCELED
+                        //REJECTED
+                        //DELETED
+                        //DELETING
+                        //DELETE_FAILED
+                        //PAUSED
+                    },
+                    onSubmit: function (id: number, name: string) {
+                        console.log("Entering onSubmit of PhotoUploadComponent: " + id.toString() + " " + name);
+                    },
+                    onSubmitted: function (id: number, name: string) {
+                        console.log("Entering onSubmitted of PhotoUploadComponent: " + id.toString() + " " + name);
+                        if (that.uploader) {
+                            var fObj = that.uploader.getFile(id);
+                            that.uploader.setName(that.uploader.getUuid(id));
+                            that.readImage(id, fObj, name, that.arUpdPhotos);
+                        } else {
+                            let errormsg = "Failed to process File " + name;
+                            that.dlgservice.confirm(errormsg);
+                        }
+                    },
+                    onTotalProgress: function (totalUploadedBytes: number, totalBytes: number) {
+                        console.log("Entering OnTotalProgress of PhotoUploadComponent: " + totalUploadedBytes.toString() + " of " + totalBytes.toString());
+                        if (totalBytes > 0 && totalUploadedBytes > 0) {
+                            that.onUploadProgress(100 * totalUploadedBytes / totalBytes);
+                        }                        
+                    },
+                    onUpload: function (id: number, name: string) {
+                        console.log("Entering OnUpload of PhotoUploadComponent: " + id.toString() + ", " + name);
+                    },
+                    onValidate: function (data) {
+                        console.log("Entering OnValidate of PhotoUploadComponent: ");
+                        console.log(data);
+                        return true;
+                    }
                 }
             });
         }
     }
 
     ngOnDestroy() {
+        console.log("Entering ngOnDestroy of PhotoUploadComponent");
         if (this.subUpdProgress) {
             this.subUpdProgress.unsubscribe();
             this.subUpdProgress = null;
@@ -92,8 +163,26 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
+    onAssignAblumClick(num: number | string) {
+        this.zone.run(() => {
+            this.assignAlbum = +num;
+        });
+    }
+
+    isAssginToExistingAlbum(): boolean {
+        return 1 === +this.assignAlbum;
+    }
+
+    isAssginToNewAlbum(): boolean {
+        return 2 === +this.assignAlbum;
+    }
+
     canUploadPhoto(): boolean {
         return this.photoMaxKBSize > 0;
+    }
+
+    canCreateAlbum(): boolean {
+        return this.canCrtAlbum;
     }
 
     onChange(event) {
@@ -111,7 +200,7 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
                 if ((/\.(png|jpeg|jpg|gif)$/i).test(file.name)) {
-                    this.readImage(file, this.arUpdPhotos);
+                    this.readImage(i, file, this.arUpdPhotos);
                 } else {
                     let updphoto: UpdPhoto = new UpdPhoto();
                     updphoto.Name = file.name;
@@ -125,7 +214,7 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
         this.selectedFiles = event.srcElement.files;
     }
 
-    private readImage(file, arPhotos: UpdPhoto[]) {
+    private readImage(fid: number, file, nname, arPhotos: UpdPhoto[]) {
         var reader = new FileReader();
         let that = this;
 
@@ -134,7 +223,9 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
             image.addEventListener("load", function () {
                 let updPhoto: UpdPhoto = new UpdPhoto();
-                updPhoto.Name = file.name;
+                updPhoto.ID = +fid;
+                updPhoto.OrgName = file.name;
+                updPhoto.Name = nname;
                 updPhoto.Width = +image.width;
                 updPhoto.Height = +image.height;
                 let size = Math.round(file.size / 1024);
@@ -168,10 +259,13 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     onSubmit(event) {
-        // Todo, check the file's IsValid!
-        //
+        // Ensure the uploading criteria
+        if (!this.arUpdPhotos || this.arUpdPhotos.length <= 0) {
+            return;
+        }
 
         this.isUploading = true;
+        this.uploader.uploadStoredFiles();
 
         this.photoservice.uploadFile([], this.selectedFiles);
     }
