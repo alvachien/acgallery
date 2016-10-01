@@ -29,6 +29,10 @@ namespace acgallery
         public String Title { get; set; }
         [StringLength(100)]
         public String Desp { get; set; }
+        public Int32 Width { get; set; }
+        public Int32 Height { get; set; }
+        public Int32 ThumbWidth { get; set; }
+        public Int32 ThumbHeight { get; set; }
         [StringLength(100)]
         public String FileUrl { get; set; }
         [StringLength(100)]
@@ -50,6 +54,10 @@ namespace acgallery
 
     public class PhotoViewModelEx : PhotoViewModel
     {
+        // This class adds the information for FineUploader required:
+        // success: success flag
+        // error: error message
+
         public PhotoViewModelEx(Boolean bSuc, String strErr = "")
         {
             success = bSuc;
@@ -111,8 +119,8 @@ namespace acgallery
             rst.PhotoId = Guid.NewGuid().ToString("N");
             rst.FileUrl = "/uploads/" + rst.PhotoId + fileext;
             rst.ThumbnailFileUrl = "/uploads/" + rst.PhotoId + ".thumb" + fileext;
+
             await AnalyzeFile(file, Path.Combine(uploads, rst.PhotoId + fileext), Path.Combine(uploads, rst.PhotoId + ".thumb" + fileext), rst, usrName);
-            rst.UploadedBy = usrName;
 
             return new ObjectResult(rst);
         }
@@ -126,16 +134,27 @@ namespace acgallery
             var fileext = Path.GetExtension(fileFullPath);
             var fileThumbFullPath = Path.Combine(uploads, filename + ".thumb" + fileext);
 
-            // File
-            if (System.IO.File.Exists(fileFullPath))
+            try
             {
-                System.IO.File.Delete(fileFullPath);
-            }
+                // File
+                if (System.IO.File.Exists(fileFullPath))
+                {
+                    System.IO.File.Delete(fileFullPath);
+                }
 
-            // Thumbnail file
-            if (System.IO.File.Exists(fileThumbFullPath))
-            {                
-                System.IO.File.Delete(fileThumbFullPath);
+                // Thumbnail file
+                if (System.IO.File.Exists(fileThumbFullPath))
+                {
+                    System.IO.File.Delete(fileThumbFullPath);
+                }
+            }
+            catch (Exception exp)
+            {
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine(exp.Message);
+#endif
+
+                return new ObjectResult(new PhotoViewModelEx(false, exp.Message));
             }
 
             return new ObjectResult(new PhotoViewModelEx(true, String.Empty));
@@ -156,14 +175,18 @@ namespace acgallery
 
                     foreach (var item in wrap)
                     {
+#if DEBUG
                         System.Diagnostics.Debug.WriteLine("{0}, {1}, {2}", item.group, item.name, item.value);
+#endif
                         if (item.group != "File")
                             updrst.ExifTags.Add(item);
                     }
                 }
                 catch (Exception exp)
                 {
+#if DEBUG
                     System.Diagnostics.Debug.WriteLine(exp.Message);
+#endif
                     _logger.LogError(exp.Message);
                 }
 
@@ -171,6 +194,9 @@ namespace acgallery
                 {
                     using (MagickImage image = new MagickImage(filePath))
                     {
+                        updrst.Width = image.Width;
+                        updrst.Height = image.Height;
+
                         // Retrieve the exif information
                         ExifProfile profile = image.GetExifProfile();
                         if (profile != null)
@@ -181,6 +207,8 @@ namespace acgallery
                                 if (thumbnail != null)
                                 {
                                     thumbnail.Write(thmFilePath);
+                                    updrst.ThumbWidth = thumbnail.Width;
+                                    updrst.ThumbHeight = thumbnail.Height;
                                     bThumbnailCreated = true;
                                 }
                             }
@@ -194,6 +222,8 @@ namespace acgallery
                             size.IgnoreAspectRatio = false;
 
                             image.Resize(size);
+                            updrst.ThumbWidth = image.Width;
+                            updrst.ThumbHeight = image.Height;
 
                             // Save the result
                             image.Write(thmFilePath);
@@ -202,13 +232,16 @@ namespace acgallery
                 }
                 catch (Exception exp)
                 {
+#if DEBUG
                     System.Diagnostics.Debug.WriteLine(exp.Message);
+#endif
                     _logger.LogError(exp.Message);
                 }
             }
 
             updrst.UploadedTime = DateTime.Now;
             updrst.IsOrgThumbnail = bThumbnailCreated;
+            updrst.UploadedBy = usrName;
 
             return Json(true);
         }

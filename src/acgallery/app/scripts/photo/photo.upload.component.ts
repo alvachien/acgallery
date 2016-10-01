@@ -114,6 +114,8 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
                         insPhoto.photoId = responseJSON.photoId;
                         insPhoto.width = responseJSON.width;
                         insPhoto.height = responseJSON.height;
+                        insPhoto.thumbwidth = responseJSON.thumbWidth;
+                        insPhoto.thumbheight = responseJSON.thumbHeight;
                         insPhoto.fileUrl = responseJSON.fileUrl;
                         insPhoto.thumbnailFileUrl = responseJSON.thumbnailFileUrl;
                         insPhoto.fileFormat = responseJSON.fileFormat;
@@ -164,7 +166,7 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
                             }
 
                             // Navigate!
-                            that.onUploading();
+                            that.onUploading(null);
                         }
                     },
                     onStatusChange: function (id: number, oldstatus, newstatus) {
