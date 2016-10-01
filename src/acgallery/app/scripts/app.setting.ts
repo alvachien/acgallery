@@ -1,4 +1,5 @@
 ﻿export const environment: string = 'Development';
+export const DebugLogging: boolean = true;
 export const AlbumAPIUrl: string = 'http://localhost:25688/api/album';
 export const PhotoAPIUrl: string = 'http://localhost:25688/api/photo';
 export const AlbumPhotoByAlbumAPIUrl: string = 'http://localhost:25688/api/albumphotobyalbum';
@@ -10,6 +11,7 @@ export const ACGalleryHost: string = 'http://localhost:1601';
 
 
 //export const environment: string = 'Productive';
+//export const DebugLogging: boolean = false;
 //export const AlbumAPIUrl: string = 'http://achihapi.azurewebsites.net/api/album';
 //export const PhotoAPIUrl: string = 'http://achihapi.azurewebsites.net/api/photo';
 //export const AlbumPhotoByAlbumAPIUrl: string = 'http://achihapi.azurewebsites.net/api/albumphotobyalbum';
@@ -21,6 +23,7 @@ export const ACGalleryHost: string = 'http://localhost:1601';
 
 
 //export const environment: string = 'Productive';
+//export const DebugLogging: boolean = false;
 //export const AlbumAPIUrl: string = 'http://118.178.58.187:5200/api/album';
 //export const PhotoAPIUrl: string = 'http://118.178.58.187:5200/api/photo';
 //export const AlbumPhotoByAlbumAPIUrl: string = 'http://118.178.58.187:5200/api/albumphotobyalbum';

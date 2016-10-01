@@ -181,6 +181,18 @@ export class PhotoService {
             .map(response => response.json());
     }
 
+    public createFile(fileRecord: any) {
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+        headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
+
+        var data = JSON && JSON.stringify(fileRecord);
+
+        return this.http.post(this.photoAPIUrl, data, { headers: headers })
+            .map(response => response.json());
+    }
+
     public uploadFile(params: string[], files: File[]) {
         let formData: FormData = new FormData(),
             xhr: XMLHttpRequest = new XMLHttpRequest();

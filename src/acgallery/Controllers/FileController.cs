@@ -48,6 +48,17 @@ namespace acgallery
         public List<ExifTagItem> ExifTags = new List<ExifTagItem>();
     }
 
+    public class PhotoViewModelEx : PhotoViewModel
+    {
+        public PhotoViewModelEx(Boolean bSuc, String strErr = "")
+        {
+            success = bSuc;
+            error = strErr;
+        }
+        public Boolean success;
+        public String error;
+    }
+
     [Route("api/[controller]")]
     public class FileController : Controller
     {
@@ -55,94 +66,11 @@ namespace acgallery
         private readonly ILogger<FileController> _logger;
         private IAuthorizationService _authorizationService;
 
-#if DEBUG
-        internal const String connStr = @"Data Source=QIANH-LAPTOP1;Initial Catalog=ACGallery;Integrated Security=SSPI;";
-#endif
-
         public FileController(IHostingEnvironment env, ILogger<FileController> logger, IAuthorizationService authorizationService)
         {
             _hostingEnvironment = env;
             _logger = logger;
             _authorizationService = authorizationService;
-        }
-
-        [HttpGet]
-        public List<PhotoViewModel> Get()
-        {
-#if DEBUG
-            List<PhotoViewModel> listVMs = new List<PhotoViewModel>();
-            using (SqlConnection conn = new SqlConnection(connStr))
-            {
-                conn.Open();
-
-                String cmdText = @"SELECT [PhotoID]
-                          ,[Title]
-                          ,[Desp]
-                          ,[UploadedAt]
-                          ,[UploadedBy]
-                          ,[OrgFileName]
-                          ,[PhotoUrl]
-                          ,[PhotoThumbUrl]
-                          ,[IsOrgThumb]
-                          ,[ThumbCreatedBy]
-                          ,[CameraMaker]
-                          ,[CameraModel]
-                          ,[LensModel]
-                          ,[AVNumber]
-                          ,[ShutterSpeed]
-                          ,[ISONumber]
-                          ,[IsPublic]
-                          ,[EXIFInfo]
-                      FROM [ACGallery].[dbo].[Photo]
-                      WHERE [IsPublic] = 1";
-                SqlCommand cmd = new SqlCommand(cmdText, conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        PhotoViewModel vm = new PhotoViewModel();
-                        vm.PhotoId = reader.GetString(0);
-                        vm.Title = reader.GetString(1);
-                        if (!reader.IsDBNull(2))
-                            vm.Desp = reader.GetString(2);
-                        if (!reader.IsDBNull(3))
-                            vm.UploadedTime = reader.GetDateTime(3);
-                        // UploadedBy
-                        if (!reader.IsDBNull(5))
-                            vm.OrgFileName = reader.GetString(5);
-                        vm.FileUrl = reader.GetString(6);
-                        if (!reader.IsDBNull(7))
-                            vm.ThumbnailFileUrl = reader.GetString(7);
-                        if (!reader.IsDBNull(16))
-                            vm.IsPublic = reader.GetBoolean(16);
-                        if (!reader.IsDBNull(17))
-                            vm.ExifTags = JsonConvert.DeserializeObject<List<ExifTagItem>>(reader.GetString(17));
-
-                        listVMs.Add(vm);
-                    }
-                }
-            }
-
-            return listVMs;
-#else
-            var client = new HttpClient();
-            try
-            {
-                client.BaseAddress = new Uri("http://achihapi.azurewebsites.net/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                String str = client.GetStringAsync("api/photo").Result;
-
-                return JsonConvert.DeserializeObject<List<PhotoViewModel>>(str);
-            }
-            catch (Exception exp)
-            {
-                System.Diagnostics.Debug.WriteLine(exp.Message);
-            }
-
-            return new List<PhotoViewModel>();
-#endif
         }
 
         [HttpPost]
@@ -154,93 +82,84 @@ namespace acgallery
             {
                 Directory.CreateDirectory(uploads);
             }
-            List<PhotoViewModel> listResults = new List<PhotoViewModel>();
-            Boolean bPreValid = true; ;
 
-            if (files.Count > 0)
+            if (Request.Form.Files.Count <= 0)
+                return new ObjectResult(new PhotoViewModelEx(false, String.Empty));
+
+            // Only care about the first file
+            var file = Request.Form.Files[0];
+            if (await _authorizationService.AuthorizeAsync(User, file, "FileSizeRequirementPolicy"))
             {
-                foreach (var file in files)
-                {
-                    if (await _authorizationService.AuthorizeAsync(User, file, "FileSizeRequirementPolicy"))
-                    {
-                    }
-                    else
-                    {
-                        bPreValid = false;
-                        break;
-                    }
-                }
-                if (!bPreValid)
-                    return new ObjectResult(false);
-
-                var usrName = User.FindFirst(c => c.Type == "sub").Value;
-                foreach (var file in files)
-                {
-                     await AnalyzeFile(file, uploads, listResults, usrName);
-                }
             }
-            else if (Request.Form.Files.Count > 0)
+            else
             {
-                foreach (var file in Request.Form.Files)
-                {
-                    if (await _authorizationService.AuthorizeAsync(User, file, "FileSizeRequirementPolicy"))
-                    {
-                    }
-                    else
-                    {
-                        bPreValid = false;
-                        break;
-                    }
-                }
-                if (!bPreValid)
-                    return new ObjectResult(false);
-
-                foreach(var clm in User.Claims.AsEnumerable())
-                {
-                    System.Diagnostics.Debug.WriteLine("Type = " + clm.Type + "; Value = " + clm.Value);
-                }
-                var usrName = User.FindFirst(c => c.Type == "sub").Value;
-                foreach (var file in Request.Form.Files)
-                {
-                    await AnalyzeFile(file, uploads, listResults, usrName);
-                }
+                return new ObjectResult(new PhotoViewModelEx(false, String.Empty));
             }
+#if DEBUG
+            foreach (var clm in User.Claims.AsEnumerable())
+            {
+                System.Diagnostics.Debug.WriteLine("Type = " + clm.Type + "; Value = " + clm.Value);
+            }
+#endif
+            var usrName = User.FindFirst(c => c.Type == "sub").Value;
 
-            return new ObjectResult(listResults);
+            var rst = new PhotoViewModelEx(true, String.Empty);
+            var filename1 = file.FileName;
+            var idx1 = filename1.LastIndexOf('.');
+            var fileext = filename1.Substring(idx1);
+
+            rst.PhotoId = Guid.NewGuid().ToString("N");
+            rst.FileUrl = "/uploads/" + rst.PhotoId + fileext;
+            rst.ThumbnailFileUrl = "/uploads/" + rst.PhotoId + ".thumb" + fileext;
+            await AnalyzeFile(file, Path.Combine(uploads, rst.PhotoId + fileext), Path.Combine(uploads, rst.PhotoId + ".thumb" + fileext), rst, usrName);
+            rst.UploadedBy = usrName;
+
+            return new ObjectResult(rst);
         }
 
-        private async Task<IActionResult> AnalyzeFile(IFormFile ffile, String uploads, List<PhotoViewModel> listResults, String usrName)
+        [HttpDelete]
+        public IActionResult DeleteUploadedFile(String strFile)
         {
-            var nid = Guid.NewGuid();
-            String nfilename = nid.ToString("N") + ".jpg";
-            String nthumbfilename = nid.ToString("N") + ".thumb.jpg";
-            System.Diagnostics.Debug.WriteLine("Target file: {0}", nfilename);
+            var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot/uploads");
+            var fileFullPath = Path.Combine(uploads, strFile);
+            var filename = Path.GetFileNameWithoutExtension(fileFullPath);
+            var fileext = Path.GetExtension(fileFullPath);
+            var fileThumbFullPath = Path.Combine(uploads, filename + ".thumb" + fileext);
+
+            // File
+            if (System.IO.File.Exists(fileFullPath))
+            {
+                System.IO.File.Delete(fileFullPath);
+            }
+
+            // Thumbnail file
+            if (System.IO.File.Exists(fileThumbFullPath))
+            {                
+                System.IO.File.Delete(fileThumbFullPath);
+            }
+
+            return new ObjectResult(new PhotoViewModelEx(true, String.Empty));
+        }
+
+        private async Task<IActionResult> AnalyzeFile(IFormFile ffile, String filePath, String thmFilePath, PhotoViewModelEx updrst, String usrName)
+        {
             Boolean bThumbnailCreated = false;
 
-            var rst = new PhotoViewModel
-            {
-                FileUrl = "/uploads/" + nfilename,
-                ThumbnailFileUrl = "/uploads/" + nthumbfilename,
-                OrgFileName = ffile.FileName,
-                UploadedTime = DateTime.Now
-            };
-
-            using (var fileStream = new FileStream(Path.Combine(uploads, nfilename), FileMode.Create))
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 await ffile.CopyToAsync(fileStream);
 
                 try
                 {
                     ExifToolWrapper wrap = new ExifToolWrapper();
-                    wrap.Run(Path.Combine(uploads, nfilename));
+                    wrap.Run(filePath);
 
                     foreach (var item in wrap)
                     {
                         System.Diagnostics.Debug.WriteLine("{0}, {1}, {2}", item.group, item.name, item.value);
                         if (item.group != "File")
-                            rst.ExifTags.Add(item);
+                            updrst.ExifTags.Add(item);
                     }
-                    listResults.Add(rst);
                 }
                 catch (Exception exp)
                 {
@@ -250,7 +169,7 @@ namespace acgallery
 
                 try
                 {
-                    using (MagickImage image = new MagickImage(Path.Combine(uploads, nfilename)))
+                    using (MagickImage image = new MagickImage(filePath))
                     {
                         // Retrieve the exif information
                         ExifProfile profile = image.GetExifProfile();
@@ -261,7 +180,7 @@ namespace acgallery
                                 // Check if exif profile contains thumbnail and save it
                                 if (thumbnail != null)
                                 {
-                                    thumbnail.Write(Path.Combine(uploads, nthumbfilename));
+                                    thumbnail.Write(thmFilePath);
                                     bThumbnailCreated = true;
                                 }
                             }
@@ -277,7 +196,7 @@ namespace acgallery
                             image.Resize(size);
 
                             // Save the result
-                            image.Write(Path.Combine(uploads, nthumbfilename));
+                            image.Write(thmFilePath);
                         }
                     }
                 }
@@ -288,172 +207,10 @@ namespace acgallery
                 }
             }
 
-            PhotoViewModel vmobj = new PhotoViewModel();
-            vmobj.PhotoId = nid.ToString("N");
-            vmobj.Title = vmobj.PhotoId;
-            vmobj.Desp = vmobj.PhotoId;
-            vmobj.UploadedTime = DateTime.Now;
-            vmobj.UploadedBy = usrName;            
-            vmobj.OrgFileName = rst.OrgFileName;
-            vmobj.FileUrl = rst.FileUrl;
-            vmobj.ThumbnailFileUrl = rst.ThumbnailFileUrl;
-            vmobj.IsOrgThumbnail = bThumbnailCreated;
-            foreach (var par in rst.ExifTags)
-                vmobj.ExifTags.Add(par);
-
-#if DEBUG
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connStr))
-                {
-                    String cmdText = @"INSERT INTO [dbo].[Photo]
-                       ([PhotoID]
-                       ,[Title]
-                       ,[Desp]
-                       ,[UploadedAt]
-                       ,[UploadedBy]
-                       ,[OrgFileName]
-                       ,[PhotoUrl]
-                       ,[PhotoThumbUrl]
-                       ,[IsOrgThumb]
-                       ,[ThumbCreatedBy]
-                       ,[CameraMaker]
-                       ,[CameraModel]
-                       ,[LensModel]
-                       ,[AVNumber]
-                       ,[ShutterSpeed]
-                       ,[ISONumber]
-                       ,[IsPublic]
-                       ,[EXIFInfo])
-                 VALUES
-                       (@PhotoID 
-                       ,@Title
-                       ,@Desp
-                       ,@UploadedAt
-                       ,@UploadedBy
-                       ,@OrgFileName
-                       ,@PhotoUrl
-                       ,@PhotoThumbUrl
-                       ,@IsOrgThumb
-                       ,@ThumbCreatedBy
-                       ,@CameraMaker
-                       ,@CameraModel
-                       ,@LensModel
-                       ,@AVNumber
-                       ,@ShutterSpeed
-                       ,@ISONumber
-                       ,@IsPublic
-                       ,@EXIF
-                        )";
-
-                    conn.Open();
-                    SqlCommand cmd = new SqlCommand(cmdText, conn);
-                    cmd.Parameters.AddWithValue("@PhotoID", vmobj.PhotoId);
-                    cmd.Parameters.AddWithValue("@Title", vmobj.Title);
-                    cmd.Parameters.AddWithValue("@Desp", vmobj.Desp);
-                    cmd.Parameters.AddWithValue("@UploadedAt", vmobj.UploadedTime);
-                    cmd.Parameters.AddWithValue("@UploadedBy", vmobj.UploadedBy);
-                    cmd.Parameters.AddWithValue("@OrgFileName", vmobj.OrgFileName);
-                    cmd.Parameters.AddWithValue("@PhotoUrl", vmobj.FileUrl);
-                    cmd.Parameters.AddWithValue("@PhotoThumbUrl", vmobj.ThumbnailFileUrl);
-                    cmd.Parameters.AddWithValue("@IsOrgThumb", vmobj.IsOrgThumbnail);
-                    cmd.Parameters.AddWithValue("@ThumbCreatedBy", 2); // 1 for ExifTool, 2 stands for others
-                    cmd.Parameters.AddWithValue("@CameraMaker", "To-do");
-                    cmd.Parameters.AddWithValue("@CameraModel", "To-do");
-                    cmd.Parameters.AddWithValue("@LensModel", "To-do");
-                    cmd.Parameters.AddWithValue("@AVNumber", "To-do");
-                    cmd.Parameters.AddWithValue("@ShutterSpeed", "To-do");
-                    cmd.Parameters.AddWithValue("@IsPublic", true);
-                    cmd.Parameters.AddWithValue("@ISONumber", 0);
-
-                    String strJson = Newtonsoft.Json.JsonConvert.SerializeObject(vmobj.ExifTags);
-                    cmd.Parameters.AddWithValue("@EXIF", strJson);
-
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            catch (Exception exp)
-            {
-                System.Diagnostics.Debug.WriteLine(exp.Message);
-            }
-#else
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("http://achihapi.azurewebsites.net/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                await client.PostAsync("api/photo", new StringContent(JsonConvert.SerializeObject(vmobj).ToString(),
-                    Encoding.UTF8, "application/json"));
-            }
-#endif
+            updrst.UploadedTime = DateTime.Now;
+            updrst.IsOrgThumbnail = bThumbnailCreated;
 
             return Json(true);
-        }
-
-        [HttpPut]
-        [Authorize(Policy = "PhotoChangePolicy")]
-        public async Task<IActionResult> UpdateMetadata([FromBody]PhotoViewModel vm)
-        {
-            if (vm == null)
-            {
-                return BadRequest("No data is inputted");
-            }
-
-            vm.Title = vm.Title.Trim();
-            if (String.IsNullOrEmpty(vm.Title))
-            {
-                return BadRequest("Title is a must!");
-            }
-
-#if DEBUG
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connStr))
-                {
-                    String cmdText = @"UPDATE [Photo]
-                               SET [Title] = @Title
-                                  ,[Desp] = @Desp
-                             WHERE [PhotoID] = @PhotoID
-                            ";
-
-                    conn.Open();
-                    SqlCommand cmd = new SqlCommand(cmdText, conn);
-                    cmd.Parameters.AddWithValue("@PhotoID", vm.PhotoId);
-                    cmd.Parameters.AddWithValue("@Title", vm.Title);
-                    cmd.Parameters.AddWithValue("@Desp", vm.Desp);
-
-                    await cmd.ExecuteNonQueryAsync();
-                }
-            }
-            catch (Exception exp)
-            {
-                System.Diagnostics.Debug.WriteLine(exp.Message);
-            }
-            finally
-            {
-
-            }
-
-            return new ObjectResult(true);
-#else
-            var client = new HttpClient();
-            try
-            {
-                client.BaseAddress = new Uri("http://achihapi.azurewebsites.net/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                await client.PutAsync("api/photo", new StringContent(JsonConvert.SerializeObject(vm).ToString(),
-                    Encoding.UTF8, "application/json"));
-            }
-            catch (Exception exp)
-            {
-                System.Diagnostics.Debug.WriteLine(exp.Message);
-                return new ObjectResult(false);
-            }
-
-            return new ObjectResult(true);
-#endif
-
         }
     }
 }

@@ -21,6 +21,7 @@ export class Photo {
     public uploadedBy: string;
     public uploadedTime: Date;
     public orgFileName: string;
+    public isPublic: boolean;
     public exifTags: Array<PhotoExif>
 
     constructor() {
@@ -41,9 +42,14 @@ export class UpdPhoto {
     public Height: number;
     public Size: string;
 
+    public Title: string;
+    public Desp: string;
+    public IsPublic: boolean;
+
     public IsValid: boolean;
     public ValidInfo: string;
     get Dimension(): string {
         return this.Width.toString() + " X " + this.Height.toString();
     }
 }
+

@@ -9,6 +9,7 @@ import { Album }                            from '../model/album';
 import { DialogService }                    from '../services/dialog.service';
 import { AuthService }                      from '../services/auth.service';
 import { Subscription }                     from 'rxjs/Subscription';
+import { DebugLogging }                     from '../app.setting';
 declare var qq: any;
 
 @Component({
@@ -40,8 +41,9 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
         private authservice: AuthService,
         private renderer: Renderer,
         private elm: ElementRef) {
-        console.log("Entering constructor of PhotoUploadComponent");
-        //console.log("elm:", this.elm);
+        if (DebugLogging) {
+            console.log("Entering constructor of PhotoUploadComponent");
+        }
 
         this.authservice.authContent.subscribe((x) => {
             if (x.canUploadPhoto()) {
@@ -58,7 +60,9 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnInit() {
-        console.log("Entering ngOnInit of PhotoUploadComponent");
+        if (DebugLogging) {
+            console.log("Entering ngOnInit of PhotoUploadComponent");
+        }
         if (!this.canUploadPhoto()) {
             if (this.authservice.authSubject.getValue().getUserName()) {
                 this.router.navigate(['/unauthorized']);
@@ -77,7 +81,9 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-        console.log("Entering ngAfterInit of PhotoUploadComponent");
+        if (DebugLogging) {
+            console.log("Entering ngAfterInit of PhotoUploadComponent");
+        }
         let that = this;
 
         if (!this.uploader) {
@@ -85,7 +91,8 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
                 button: that.elemUploadFile.nativeElement,
                 autoUpload: false,
                 request: {
-                    endpoint: 'api/file'
+                    endpoint: 'api/file',
+                    customHeaders: that.getcustomHeader()
                 },
                 validation: {
                     allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
@@ -94,13 +101,76 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
                 },
                 callbacks: {
                     onComplete: function (id, name, responseJSON) {
-                        console.log("OnComplete: " + id.toString() + ", " + name);
+                        if (DebugLogging) {
+                            console.log("OnComplete: " + id.toString() + ", " + name);
+                            console.log(responseJSON);
+                        }
+
+                        if (!responseJSON.success)
+                            return;
+
+                        // Then, update the record to Database.
+                        let insPhoto = new Photo();
+                        insPhoto.photoId = responseJSON.photoId;
+                        insPhoto.width = responseJSON.width;
+                        insPhoto.height = responseJSON.height;
+                        insPhoto.fileUrl = responseJSON.fileUrl;
+                        insPhoto.thumbnailFileUrl = responseJSON.thumbnailFileUrl;
+                        insPhoto.fileFormat = responseJSON.fileFormat;
+                        insPhoto.uploadedBy = responseJSON.uploadedBy;
+                        insPhoto.uploadedTime = responseJSON.uploadedTime;
+                        insPhoto.orgFileName = responseJSON.orgFileName;
+                        if (!insPhoto.orgFileName) {
+                            insPhoto.orgFileName = name;
+                        }
+                        insPhoto.exifTags = responseJSON.exitTags;
+
+                        that.arUpdPhotos.every((value, index, array) => {
+                            if (value.ID === +id) {
+                                insPhoto.title = value.Title;
+                                insPhoto.desp = value.Desp;
+                                insPhoto.isPublic = value.IsPublic;
+                                return false;
+                            }
+                        });
+
+                        if (!insPhoto.title) {
+                            insPhoto.title = insPhoto.orgFileName;
+                        }
+                        if (!insPhoto.desp) {
+                            insPhoto.desp = insPhoto.orgFileName;
+                        }
+
+                        that.photoservice.createFile(insPhoto).subscribe(x => {
+                            if (DebugLogging) {
+                                console.log("Record created successfully!");
+                            }
+                        }, error => {
+                            if (DebugLogging) {
+                                console.log("Record created failed: " + error);
+                            }
+                        });
                     },
                     onAllComplete: function (succids, failids) {
-                        console.log("OnAllComplete: " + succids.toString() + ", " + failids.toString());
+                        if (DebugLogging) {
+                            console.log("OnAllComplete: Succeed array is " + succids.toString() + "; Failed array is " + failids.toString());
+                        }
+                        if (failids && failids.length > 0) {
+                            // Error occurred!
+                        } else {
+                            // All succeed!
+                            if (DebugLogging) {
+                                console.log("All completed successfully!");
+                            }
+
+                            // Navigate!
+                            that.onUploading();
+                        }
                     },
                     onStatusChange: function (id: number, oldstatus, newstatus) {
-                        console.log("Entering OnStatusChanged of PhotoUploadComponent upon ID: " + id.toString() + "; From " + oldstatus + " to " + newstatus);
+                        if (DebugLogging) {
+                            console.log("Entering OnStatusChanged of PhotoUploadComponent upon ID: " + id.toString() + "; From " + oldstatus + " to " + newstatus);
+                        }
                         if (newstatus === "rejected") {
                             let errormsg = "File size must smaller than " + that.photoMaxKBSize + " and larger than " + that.photoMinKBSize;
                             that.dlgservice.confirm(errormsg);
@@ -119,13 +189,17 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
                         //PAUSED
                     },
                     onSubmit: function (id: number, name: string) {
-                        console.log("Entering onSubmit of PhotoUploadComponent: " + id.toString() + " " + name);
+                        if (DebugLogging) {
+                            console.log("Entering onSubmit of PhotoUploadComponent: " + id.toString() + " " + name);
+                        }
                     },
                     onSubmitted: function (id: number, name: string) {
-                        console.log("Entering onSubmitted of PhotoUploadComponent: " + id.toString() + " " + name);
+                        if (DebugLogging) {
+                            console.log("Entering onSubmitted of PhotoUploadComponent: " + id.toString() + " " + name);
+                        }
                         if (that.uploader) {
                             var fObj = that.uploader.getFile(id);
-                            that.uploader.setName(that.uploader.getUuid(id));
+                            //that.uploader.setName(that.uploader.getUuid(id));
                             that.readImage(id, fObj, name, that.arUpdPhotos);
                         } else {
                             let errormsg = "Failed to process File " + name;
@@ -133,17 +207,23 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
                         }
                     },
                     onTotalProgress: function (totalUploadedBytes: number, totalBytes: number) {
-                        console.log("Entering OnTotalProgress of PhotoUploadComponent: " + totalUploadedBytes.toString() + " of " + totalBytes.toString());
+                        if (DebugLogging) {
+                            console.log("Entering OnTotalProgress of PhotoUploadComponent: " + totalUploadedBytes.toString() + " of " + totalBytes.toString());
+                        }
                         if (totalBytes > 0 && totalUploadedBytes > 0) {
                             that.onUploadProgress(100 * totalUploadedBytes / totalBytes);
                         }                        
                     },
                     onUpload: function (id: number, name: string) {
-                        console.log("Entering OnUpload of PhotoUploadComponent: " + id.toString() + ", " + name);
+                        if (DebugLogging) {
+                            console.log("Entering OnUpload of PhotoUploadComponent: " + id.toString() + ", " + name);
+                        }
                     },
                     onValidate: function (data) {
-                        console.log("Entering OnValidate of PhotoUploadComponent: ");
-                        console.log(data);
+                        if (DebugLogging) {
+                            console.log("Entering OnValidate of PhotoUploadComponent: ");
+                            //console.log(data);
+                        }
                         return true;
                     }
                 }
@@ -152,7 +232,9 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        console.log("Entering ngOnDestroy of PhotoUploadComponent");
+        if (DebugLogging) {
+            console.log("Entering ngOnDestroy of PhotoUploadComponent");
+        }
         if (this.subUpdProgress) {
             this.subUpdProgress.unsubscribe();
             this.subUpdProgress = null;
@@ -161,6 +243,13 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
             this.subUpload.unsubscribe();
             this.subUpload = null;
         }
+    }
+
+    getcustomHeader() {
+        var obj = {
+            Authorization: 'Bearer ' + this.authservice.authSubject.getValue().getAccessToken()
+        };
+        return obj;
     }
 
     onAssignAblumClick(num: number | string) {
@@ -200,7 +289,7 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
                 if ((/\.(png|jpeg|jpg|gif)$/i).test(file.name)) {
-                    this.readImage(i, file, this.arUpdPhotos);
+                    //this.readImage(i, file, this.arUpdPhotos);
                 } else {
                     let updphoto: UpdPhoto = new UpdPhoto();
                     updphoto.Name = file.name;
@@ -267,7 +356,7 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isUploading = true;
         this.uploader.uploadStoredFiles();
 
-        this.photoservice.uploadFile([], this.selectedFiles);
+        //this.photoservice.uploadFile([], this.selectedFiles);
     }
 
     onUploading(data: any) {
