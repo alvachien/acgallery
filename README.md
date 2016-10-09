@@ -1,7 +1,7 @@
 # acgallery
 AC Photo Gallery is an open-source web app, which designed to organize photos/albums.
 
-***Live application*** hosted in [Azure] (http://acgallery.azurewebsites.net).
+***Live application***  hosted in [Azure (will be obseleted soon) ] (http://acgallery.azurewebsites.net).
 
 ## Scenarios
 A web app need make its scope and supported scenario very clearly.
@@ -30,8 +30,8 @@ The web app also provides the authority control over the album and photos. The i
 
 
 ## Relevant API/App
-- AC ID Server: an Identity service hosted in [Azure] (http://acidserver.azurewebsites.net);
-- AC HIH API: an Web API hosted in [Azure] (http://achihapi.azurewebsites.net).
+- AC ID Server: an Identity service hosted in [Azure (will be obseleted soon) ] (http://acidserver.azurewebsites.net);
+- AC HIH API: an Web API hosted in [Azure (will be obseleted soon) ] (http://achihapi.azurewebsites.net).
 
 
 ## Credits
@@ -45,7 +45,7 @@ Besides, it also using the following libaries:
 - EXIF Tool [Link] (http://www.sno.phy.queensu.ca/~phil/exiftool/);
 - FancyBox 3.0 Beta 1 [Link] (http://fancyapps.com/fancybox/beta/);
 - Alertjs 1.0.12 [Link] (https://alertifyjs.org/); 
-
+- Magick.NET 7.0.3.1 [Link] (https://magick.codeplex.com/documentation)
 
 ## Author
 **Alva Chien | 钱红俊**
