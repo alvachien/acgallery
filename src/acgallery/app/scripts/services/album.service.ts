@@ -11,7 +11,7 @@ import {
 import { Photo }        from '../model/photo';
 import {
     AlbumAPIUrl, AlbumPhotoByAlbumAPIUrl, PhotoAPIUrl,
-    AlbumPhotoByPhotoAPIUrl } from '../app.setting';
+    AlbumPhotoByPhotoAPIUrl, DebugLogging } from '../app.setting';
 import { AuthService } from '../services/auth.service';
 import { BufferService } from '../services/buffer.service';
 
@@ -214,6 +214,7 @@ export class AlbumService {
             .map(response => response.json())
             .subscribe(data => {
                 // The data shall return the new album with new created ID
+                this._curalbum$.next(data);
             }, error => {
                 // Error occurred
                 console.log("Error occurred in album.service.createAlbum()!!!");
@@ -228,7 +229,7 @@ export class AlbumService {
 
         var data = JSON && JSON.stringify(apba);
 
-        this.http.post(AlbumPhotoByAlbumAPIUrl, data, { headers: headers })
+        return this.http.post(AlbumPhotoByAlbumAPIUrl, data, { headers: headers })
             .map(response => response.json());
     }
 

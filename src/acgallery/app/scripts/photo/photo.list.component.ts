@@ -9,6 +9,7 @@ import { PhotoService }                     from '../services/photo.service';
 import { Subscription }                     from 'rxjs/Subscription';
 import { DialogService }                    from '../services/dialog.service';
 import { AuthService }                      from '../services/auth.service';
+import { DebugLogging }                     from '../app.setting';
 import '../rxjs-operators';
 // To avoid load the files twice
 declare var $: any;
@@ -21,10 +22,10 @@ declare var $: any;
 })
 
 export class PhotoListComponent implements OnInit, OnDestroy {
-    public photos: Photo[];
+    public photos: Photo[] = [];
     public errorMessage: any;
-    private subPhotos: Subscription;
-    public selectedPhoto: Photo;
+    private subPhotos: Subscription = null;
+    public selectedPhoto: Photo = null;
 
     constructor(
         private zone: NgZone,
@@ -33,24 +34,38 @@ export class PhotoListComponent implements OnInit, OnDestroy {
         private photoService: PhotoService,
         private dialogService: DialogService,
         private authService: AuthService) {
+        if (DebugLogging) {
+            console.log("Entering constructor of PhotoListComponent");
+        }
     }
 
     ngOnInit() {
+        if (DebugLogging) {
+            console.log("Entering ngOnInit of PhotoListComponent");
+        }
         if (!this.subPhotos) {
             this.subPhotos = this.photoService.photos$.subscribe(data => this.onPhotoLoaded(data),
                 error => this.onHandleError(error));
 
-            this.photoService.loadPhotos();
+            this.photoService.loadPhotos(true);
         }
     }
 
     ngOnDestroy() {
+        if (DebugLogging) {
+            console.log("Entering ngOnDestroy of PhotoListComponent");
+        }
         if (this.subPhotos) {
             this.subPhotos.unsubscribe();
+            this.subPhotos = null;
         }
     }
 
     onPhotoLoaded(photos) {
+        if (DebugLogging) {
+            console.log("Entering onPhotoLoaded of PhotoListComponent");
+        }
+
         this.zone.run(() => {
             this.photos = photos;
         });
@@ -72,27 +87,27 @@ export class PhotoListComponent implements OnInit, OnDestroy {
                 }
             }
         });
-
-        //$("[rel='fancybox-thumb']").fancybox({
-        //    openEffect: 'drop',
-        //    closeEffect: 'drop',
-        //    nextEffect: 'elastic',
-        //    prevEffect: 'elastic',
-        //    helpers: {
-        //        thumbs: true
-        //    }
-        //});
     }
 
     onHandleError(error) {
+        if (DebugLogging) {
+            console.log("Entering onHandleError of PhotoListComponent");
+        }
         this.errorMessage = <any>error;
     }
 
     onSetSelectedPhoto(photo: Photo) {
+        if (DebugLogging) {
+            console.log("Entering onSetSelectedPhoto of PhotoListComponent");
+        }
         this.selectedPhoto = photo;
     }
 
     onSavePhotoMetadata() {
+        if (DebugLogging) {
+            console.log("Entering onSavePhotoMetadata of PhotoListComponent");
+        }
+
         // Verify the title and desp
         if (!this.selectedPhoto.title) {
             this.dialogService.confirm("Title is a must!");
@@ -116,6 +131,10 @@ export class PhotoListComponent implements OnInit, OnDestroy {
     }
 
     onAssignAlbum(photo) {
+        if (DebugLogging) {
+            console.log("Entering onAssignAlbum of PhotoListComponent");
+        }
+
         this.router.navigate(['/photo/assignalbum', photo.photoId]);
     }
 

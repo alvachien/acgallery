@@ -53,5 +53,9 @@ export class UpdPhoto {
     get Dimension(): string {
         return this.Width.toString() + " X " + this.Height.toString();
     }
+
+    constructor() {
+        this.IsPublic = true;
+    }
 }
 

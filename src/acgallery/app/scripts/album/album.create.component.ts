@@ -54,7 +54,7 @@ export class AlbumCreateComponent implements OnInit, OnDestroy {
             return;
         }
         this.album.CreatedAt = new Date();
-        this.album.CreatedBy = this.authService.authSubject.getValue().getUserName();        
+        this.album.CreatedBy = this.authService.authSubject.getValue().getUserName();
         this.albumService.createAlbum(this.album);
     }
 

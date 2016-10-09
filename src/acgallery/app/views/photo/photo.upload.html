@@ -41,9 +41,9 @@
                     <td><strong>{{updphoto.OrgName}}</strong></td>
                     <td nowrap>{{updphoto.Size}}</td>
                     <td nowrap>{{updphoto.Dimension}}</td>
-                    <td><input type="checkbox" value="{{updphoto.IsPublic}}" /></td>
-                    <td><input type="text" value="{{updphoto.Title}}" /></td>
-                    <td><input type="text" value="{{updphoto.Desp}}" /></td>
+                    <td><input type="checkbox" [(ngModel)]="updphoto.IsPublic" /></td>
+                    <td><input type="text" [(ngModel)]="updphoto.Title" /></td>
+                    <td><input type="text" [(ngModel)]="updphoto.Desp" /></td>
                 </tr>
             </tbody>
         </table>

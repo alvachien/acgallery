@@ -17,6 +17,7 @@ export class Album {
 
     constructor() {
         this.IsPhotoIDFetched = false;
+        this.IsPubic = true;
     }
 
     init(id: number,

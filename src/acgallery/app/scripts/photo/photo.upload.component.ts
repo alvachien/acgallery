@@ -5,11 +5,12 @@ import { PhotoService }                     from '../services/photo.service';
 import { Observable }                       from 'rxjs/Observable';
 import { Http, Response, RequestOptions }   from '@angular/http';
 import '../rxjs-operators';
-import { Album }                            from '../model/album';
+import { Album, AlbumPhotoByAlbum }         from '../model/album';
 import { DialogService }                    from '../services/dialog.service';
 import { AuthService }                      from '../services/auth.service';
 import { Subscription }                     from 'rxjs/Subscription';
 import { DebugLogging }                     from '../app.setting';
+import { AlbumService }                     from '../services/album.service';
 declare var qq: any;
 
 @Component({
@@ -25,12 +26,16 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
     public photoMaxKBSize: number = 0;
     public photoMinKBSize: number = 0;
     public arUpdPhotos: UpdPhoto[] = [];
-    private subUpdProgress: Subscription;
-    private subUpload: Subscription;
     private uploader: any = null;
     public assignAlbum: number = 0;
     private canCrtAlbum: boolean = false;
     public albumcreate: Album = null;
+    private photoHadUploaded: Photo[] = [];
+    private aruploadflags: any[] = [];
+
+    private subUpdProgress: Subscription = null;
+    private subUpload: Subscription = null;
+    private subAlbumCreated: Subscription = null;
     @ViewChild('uploadFileRef') elemUploadFile;
 
     constructor(
@@ -40,9 +45,11 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
         private dlgservice: DialogService,
         private authservice: AuthService,
         private renderer: Renderer,
-        private elm: ElementRef) {
+        private elm: ElementRef,
+        private albumservice: AlbumService) {
         if (DebugLogging) {
             console.log("Entering constructor of PhotoUploadComponent");
+            console.log(elm);
         }
 
         this.authservice.authContent.subscribe((x) => {
@@ -74,9 +81,10 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
             this.subUpdProgress = this.photoservice.uploadprog$.subscribe(data => this.onUploadProgress(data),
                 error => { console.log(error); });
         }
-        if (!this.subUpload) {
-            this.subUpload = this.photoservice.upload$.subscribe(data => this.onUploading(data),
-                error => { console.log(error); });
+        if (!this.subAlbumCreated) {
+            this.subAlbumCreated = this.albumservice.curalbum$.subscribe(data => {
+                this.afterAlbumCreated(data);
+            });
         }
     }
 
@@ -127,12 +135,12 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
                         }
                         insPhoto.exifTags = responseJSON.exitTags;
 
-                        that.arUpdPhotos.every((value, index, array) => {
+                        that.arUpdPhotos.every((value) => {
                             if (value.ID === +id) {
                                 insPhoto.title = value.Title;
                                 insPhoto.desp = value.Desp;
                                 insPhoto.isPublic = value.IsPublic;
-                                return false;
+                                return true;
                             }
                         });
 
@@ -147,6 +155,16 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
                             if (DebugLogging) {
                                 console.log("Record created successfully!");
                             }
+
+                            that.aruploadflags.forEach((value, index) => {
+                                if (+value.id === +id) {
+                                    value.success = true;
+                                }
+                            });
+
+                            that.photoHadUploaded.push(insPhoto);
+
+                            that.createAlbumPhotoLinkage();
                         }, error => {
                             if (DebugLogging) {
                                 console.log("Record created failed: " + error);
@@ -164,9 +182,14 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
                             if (DebugLogging) {
                                 console.log("All completed successfully!");
                             }
-
-                            // Navigate!
-                            that.onUploading(null);
+                            // Check whether need create to album
+                            if (+that.assignAlbum === 2) {
+                                that.albumservice.createAlbum(that.albumcreate);
+                            }
+                            else {
+                                // Navigate!
+                                that.onAfterUploadComplete(null);
+                            }
                         }
                     },
                     onStatusChange: function (id: number, oldstatus, newstatus) {
@@ -241,9 +264,9 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
             this.subUpdProgress.unsubscribe();
             this.subUpdProgress = null;
         }
-        if (this.subUpload) {
-            this.subUpload.unsubscribe();
-            this.subUpload = null;
+        if (this.subAlbumCreated) {
+            this.subAlbumCreated.unsubscribe();
+            this.subAlbumCreated = null;
         }
     }
 
@@ -277,7 +300,7 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     onChange(event) {
-
+        // Elder version for handling file uploading
         var files = event.srcElement.files;
         var errors = "";
         if (!files) {
@@ -291,6 +314,7 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
                 if ((/\.(png|jpeg|jpg|gif)$/i).test(file.name)) {
+                    // Commit the follow line because the logic has been changed
                     //this.readImage(i, file, this.arUpdPhotos);
                 } else {
                     let updphoto: UpdPhoto = new UpdPhoto();
@@ -344,6 +368,9 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     onUploadProgress(data: number) {
+        if (DebugLogging) {
+            console.log("Entering onUploadProgress: " + data);
+        }
         this.zone.run(() => {
             this.progressNum = +data;
         });
@@ -352,18 +379,92 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
     onSubmit(event) {
         // Ensure the uploading criteria
         if (!this.arUpdPhotos || this.arUpdPhotos.length <= 0) {
+            this.dlgservice.confirm("Select photos before uploading!");
             return;
+        }
+
+        this.aruploadflags = [];
+        this.arUpdPhotos.forEach((value, index) => {
+            this.aruploadflags.push({ id: value.ID, success: false });
+        });
+
+        if (this.assignAlbum === 2) {
+            // Check the album is valid or not
+            if (!this.albumcreate.Title) {
+                this.dlgservice.confirm("Title is a must for creating an album!");
+                return;
+            }
+            this.albumcreate.CreatedAt = new Date();
+            this.albumcreate.CreatedBy = this.authservice.authSubject.getValue().getUserName();
+            this.aruploadflags.push({ id: 'Album', success: false });
         }
 
         this.isUploading = true;
         this.uploader.uploadStoredFiles();
-
-        //this.photoservice.uploadFile([], this.selectedFiles);
     }
 
-    onUploading(data: any) {
+    onAfterUploadComplete(data: any = null) {
+         if (DebugLogging) {
+            console.log("Entering onAfterUploadComplete of PhotoUploadComponent: Navigation!");
+        }
         this.isUploading = false;
         this.router.navigate(['/photo']);
+    }
+
+    afterAlbumCreated(data: any) {
+        // Add the photos to this new created album
+        if (DebugLogging) {
+            console.log("Entering afterAlbumCreated of PhotoUploadComponent: Assign uploaded photo to new created album");
+            console.log(data);
+        }
+
+        this.albumcreate.Id = +data.id;
+
+        this.aruploadflags.forEach(value => {
+            if (value.id === 'Album') {
+                value.success = true;
+            }
+        });
+
+        this.createAlbumPhotoLinkage();
+    }
+
+    createAlbumPhotoLinkage() {
+        // Add the photos to this new created album
+        if (DebugLogging) {
+            console.log("Entering createAlbumPhotoLinkage of PhotoUploadComponent: Assign uploaded photo to new created album");
+        }
+
+        if (this.aruploadflags.every(value => value.success == true)) {
+            if (DebugLogging) {
+                console.log("All items have success flag set, continuing...");
+            }
+        } else {
+            if (DebugLogging) {
+                console.log("Not all items have success flag, quiting...");
+            }
+
+            return;
+        }
+
+        let apba = new AlbumPhotoByAlbum();
+        apba.AlbumId = this.albumcreate.Id;
+        apba.PhotoIDList = new Array<string>();
+        for (let i = 0; i < this.photoHadUploaded.length; i++) {
+            apba.PhotoIDList.push(this.photoHadUploaded[i].photoId);
+        }
+
+        this.albumservice.updateAlbumPhotoByAlbum(apba).subscribe(
+            x => {
+                this.onAfterUploadComplete(null);
+            },
+            error => {
+                if (DebugLogging) {
+                    console.log("Failed to assign photo to new created album: " + error);
+                }
+            }
+        );
+        this.photoHadUploaded = [];
     }
 }
 
