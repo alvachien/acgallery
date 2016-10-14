@@ -30,8 +30,8 @@ The web app also provides the authority control over the album and photos. The i
 
 
 ## Relevant API/App
-- AC ID Server: an Identity service hosted in [Azure (will be obseleted soon) ] (http://acidserver.azurewebsites.net);
-- AC HIH API: an Web API hosted in [Azure (will be obseleted soon) ] (http://achihapi.azurewebsites.net).
+- AC ID Server [Github Project] (https://github.com/alvachien/acidserver) : an Identity service hosted in [Azure (will be obseleted soon) ] (http://acidserver.azurewebsites.net);
+- AC HIH API [Github Project] (https://github.com/alvachien/achihapi) : an Web API hosted in [Azure (will be obseleted soon) ] (http://achihapi.azurewebsites.net).
 
 
 ## Credits

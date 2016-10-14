@@ -1,5 +1,6 @@
 ﻿import { Component, OnInit }        from '@angular/core';
 import { AuthService }              from './services/auth.service';
+import { DebugLogging } from './app.setting';
 
 @Component({
     selector: 'my-app',
@@ -10,12 +11,13 @@ export class AppComponent implements OnInit {
     public isLoggedIn: boolean;
     public titleLogin: string;
 
-    constructor(public authService: AuthService) {
+    constructor(private authService: AuthService) {
+        if (DebugLogging) {
+            console.log("Entering constructor of AppComponent");
+        }
         this.isLoggedIn = false;
         this.titleLogin = 'Login';
-    }
 
-    ngOnInit() {
         this.authService.authContent.subscribe(x => {
             this.isLoggedIn = x.isAuthorized;
             if (this.isLoggedIn)
@@ -28,7 +30,16 @@ export class AppComponent implements OnInit {
         });
     }
 
+    ngOnInit() {
+        if (DebugLogging) {
+            console.log("Entering ngOnInit of AppComponent");
+        }
+    }
+
     public onLogin() {
+        if (DebugLogging) {
+            console.log("Entering onLogin of AppComponent");
+        }
         if (this.isLoggedIn) {
             this.doLogout();
         } else {            
@@ -37,13 +48,16 @@ export class AppComponent implements OnInit {
     }
 
     private doLogin() {
-        console.log("Perform login logic");
-        //this.loginService.Login();
+        if (DebugLogging) {
+            console.log("Entering doLogin of AppComponent");
+        }
         this.authService.doLogin();
     }
 
     private doLogout() {
-        console.log("Perform logout logic");
+        if (DebugLogging) {
+            console.log("Entering doLogout of AppComponent");
+        }
         //this.loginService.Logoff();
         //this.authService.doLogout();
     }
