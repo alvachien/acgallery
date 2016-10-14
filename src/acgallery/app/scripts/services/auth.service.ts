@@ -23,7 +23,7 @@ export class AuthService {
            client_id: "acgallery.app",
            redirect_uri: ACGalleryCallback,
            response_type: "id_token token",
-           scope: "openid profile api.hihapi api.acgallery",
+           scope: "openid profile api.galleryapi api.acgallery",
            post_logout_redirect_uri: ACGalleryLogoutCallback
         };
 
