@@ -343,6 +343,8 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
                 updPhoto.Name = nname;
                 updPhoto.Width = +image.width;
                 updPhoto.Height = +image.height;
+                updPhoto.Title = file.name;
+                updPhoto.Desp = file.name;
                 let size = Math.round(file.size / 1024);
                 updPhoto.Size = size.toString() + 'KB';
 
