@@ -33,7 +33,7 @@
 
             // other libraries
             'rxjs': 'lib:rxjs',
-            'angular2-in-memory-web-api': 'lib:angular2-in-memory-web-api',
+            'angular-in-memory-web-api': 'lib:angular-in-memory-web-api',
             'moment': 'lib:moment/min/moment.min.js',
             //'jquery': 'lib:jquery/dist/jquery.min.js',
             //'fancybox': 'lib:fancyBox/jquery.fancybox.js',
@@ -53,7 +53,8 @@
             'ng2-bootstrap': {
                 defaultExtension: 'js'
             },
-            'angular2-in-memory-web-api': {
+            'angular-in-memory-web-api': {
+                main: './index.js',
                 defaultExtension: 'js'
             }
         }

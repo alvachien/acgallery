@@ -38,7 +38,7 @@ gulp.task('setup-vendors-js', function () {
         '@angular/**/*.js',
         'moment/min/*.js',
         'ng2-bootstrap/**/*.js',
-        'angular2-in-memory-web-api/**/*.js',
+        'angular-in-memory-web-api/**/*.js',
         'ng2-file-upload/**/*.js',
         'jquery/dist/jquery*.js',
         'bootstrap/dist/js/bootstrap*.js',
@@ -146,11 +146,20 @@ gulp.task('compile-typescript', function (done) {
     //        .pipe(ts(tsProject));
 
     //return tsResult.js.pipe(gulp.dest(paths.tsOutput));
+
+    // Current version
+    //var tsResult = gulp.src([
+    //   "app/scripts/**/*.ts"
+    //])
+    // .pipe(ts(tsProject), undefined, ts.reporter.fullReporter());
+    //return tsResult.js.pipe(gulp.dest(paths.tsOutput));
+
     var tsResult = gulp.src([
        "app/scripts/**/*.ts"
     ])
-     .pipe(ts(tsProject), undefined, ts.reporter.fullReporter());
+     .pipe(tsProject(), undefined, ts.reporter.fullReporter());
     return tsResult.js.pipe(gulp.dest(paths.tsOutput));
+
 });
 
 gulp.task('watch.views', ['before-compile-view'], function () {
