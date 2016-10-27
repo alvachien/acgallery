@@ -11,9 +11,10 @@ import { Photo, SelectablePhoto } from '../model/photo';
 import { PhotoService }           from '../services/photo.service';
 import '../rxjs-operators';
 import { AuthService }            from '../services/auth.service';
+import { DebugLogging }           from '../app.setting';
 
 @Component({
-    selector: 'my-album-orgphoto',
+    selector: 'acgallery-album-orgphoto',
     templateUrl: 'app/views/album/album.orgphoto.html'
 })
 
@@ -31,9 +32,16 @@ export class AlbumOrgPhotoComponent implements OnInit {
         public dialogService: DialogService,
         private albumService: AlbumService,
         private photoService: PhotoService) {
+        if (DebugLogging) {
+            console.log("Entering constructor of AlbumOrgPhotoComponent");
+        }        
     }
 
     ngOnInit() {
+        if (DebugLogging) {
+            console.log("Entering ngOnInit of AlbumOrgPhotoComponent");
+        }        
+
         let aid: number = -1;
         this.route.params.forEach((next: { id: number }) => {
             aid = next.id;
@@ -83,6 +91,10 @@ export class AlbumOrgPhotoComponent implements OnInit {
     }
 
     onAddAssignedPhoto() {    
+        if (DebugLogging) {
+            console.log("Entering onAddAssignedPhoto of AlbumOrgPhotoComponent");
+        }
+
         let tmpPhoto = new Array<SelectablePhoto>();
         for (let i = this.allPhoto.length - 1; i >= 0; i--) {
             if (this.allPhoto[i].isSelected) {
@@ -98,6 +110,10 @@ export class AlbumOrgPhotoComponent implements OnInit {
     }
 
     onRemoveAssignedPhoto() {
+        if (DebugLogging) {
+            console.log("Entering onRemoveAssignedPhoto of AlbumOrgPhotoComponent");
+        }
+
         let tmpPhoto = new Array<SelectablePhoto>();
         for (let i = this.assignedPhoto.length - 1; i >= 0; i--) {
             if (this.assignedPhoto[i].isSelected) {
@@ -113,6 +129,10 @@ export class AlbumOrgPhotoComponent implements OnInit {
     }
 
     onSubmit() {
+        if (DebugLogging) {
+            console.log("Entering onSubmit of AlbumOrgPhotoComponent");
+        }
+
         /*
         let apba = new AlbumPhotoByAlbum();
         apba.AlbumId = this.albumid;
@@ -133,6 +153,10 @@ export class AlbumOrgPhotoComponent implements OnInit {
     }
 
     onCancel() {
+        if (DebugLogging) {
+            console.log("Entering onCancel of AlbumOrgPhotoComponent");
+        }
+
         this.router.navigate(['/album']);
     }
 }

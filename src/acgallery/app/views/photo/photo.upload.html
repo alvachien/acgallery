@@ -58,7 +58,7 @@
             <label>Not assign to album</label>
         </div>
         <div class="row">
-            <input type="radio" disabled name="assignAlbum" [checked]="assignAlbum == 1" (click)="onAssignAblumClick(1)">
+            <input type="radio" name="assignAlbum" [checked]="assignAlbum == 1" (click)="onAssignAblumClick(1)">
             <label>Assign to existing album</label>
         </div>
         <div class="row" *ngIf="canCreateAlbum()">
@@ -77,17 +77,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let album of allAlbum">
-                    <td><div class="checkbox"><input type="checkbox" [(ngModel)]="album.IsSelected"></div></td>
-                    <td><img src="{{album.Thumbnail}}" class="img-rounded pull-xs-left" alt="..."></td>
-                    <td>{{album.Title}}</td>
+                <tr *ngFor="let existAlbum of allAlbum">
+                    <td><div class="checkbox"><input type="checkbox" [(ngModel)]="existAlbum.IsSelected"></div></td>
+                    <td><img src="{{existAlbum.Thumbnail}}" class="img-rounded pull-xs-left" alt="..."></td>
+                    <td>{{existAlbum.Title}}</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
     <div class="row" *ngIf="isAssginToNewAlbum()">
-        <form #albumCreateForm="ngForm" style="border:5px solid red;">
+        <form #albumCreateForm="ngForm" style="border:2px solid black;">
             <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" class="form-control" id="title"

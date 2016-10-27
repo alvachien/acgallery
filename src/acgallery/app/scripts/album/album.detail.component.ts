@@ -13,12 +13,13 @@ import { Photo }                  from '../model/photo';
 import { PhotoService }           from '../services/photo.service';
 import { AuthService }            from '../services/auth.service';
 import '../rxjs-operators';
+import { DebugLogging }           from '../app.setting';
 declare var $: any;
 //import 'jquery';
 //import 'fancybox';
 
 @Component({
-    selector: 'my-album-detail',
+    selector: 'acgallery-album-detail',
     templateUrl: 'app/views/album/album.detail.html'
 })
 
@@ -38,14 +39,25 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
         private albumService: AlbumService,
         private photoService: PhotoService,
         private authService: AuthService) {
-        
-        this.subCurAlbum = this.albumService.curalbum$.subscribe(data => this.getCurrentAlbumData(data),
-            error => this.handleError(error));
-        this.subAlbumPhotos = this.photoService.photosByAlbum$.subscribe(data => this.getCurrentAlbumPhotos(data),
-            error => this.handleError(error));
+        if (DebugLogging) {
+            console.log("Entering constructor of AlbumDetailComponent");
+        }        
     }
 
     ngOnInit() {
+        if (DebugLogging) {
+            console.log("Entering ngOnInit of AlbumDetailComponent");
+        }
+
+        if (!this.subCurAlbum) {
+            this.subCurAlbum = this.albumService.curalbum$.subscribe(data => this.getCurrentAlbumData(data),
+                error => this.handleError(error));
+        }
+        if (!this.subAlbumPhotos) {
+            this.subAlbumPhotos = this.photoService.photosByAlbum$.subscribe(data => this.getCurrentAlbumPhotos(data),
+                error => this.handleError(error));
+        }
+
         let aid: number = -1;
         this.route.params.forEach((next: { id: number }) => {
             aid = next.id;
@@ -58,15 +70,25 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
+        if (DebugLogging) {
+            console.log("Entering ngOnDestroy of AlbumDetailComponent");
+        }
+
         if (this.subCurAlbum) {
             this.subCurAlbum.unsubscribe();
+            this.subCurAlbum = null;
         }
         if (this.subAlbumPhotos) {
             this.subAlbumPhotos.unsubscribe();
+            this.subAlbumPhotos = null;
         }
     }
 
     getCurrentAlbumData(album: Album) {
+        if (DebugLogging) {
+            console.log("Entering getCurrentAlbumData of AlbumDetailComponent");
+        }
+
         this.zone.run(() => {
             this.album = album;
         });
@@ -88,7 +110,12 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
             this.photoService.loadAlbumPhoto(album.Id);
         }
     }
+
     getCurrentAlbumPhotos(data: any) {
+        if (DebugLogging) {
+            console.log("Entering getCurrentAlbumPhotos of AlbumDetailComponent");
+        }
+
         this.zone.run(() => {
             this.photos = data;
         });
@@ -113,6 +140,10 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
     }
 
     handleError(error: any) {
+        if (DebugLogging) {
+            console.log("Entering handleError of AlbumDetailComponent");
+        }
+
         console.log(error);
         if (error.status === 401) {
             this.dialogService.confirm("Unauthorized! It most likely you input an WRONG access code!");
@@ -120,6 +151,10 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
     }
 
     gotoAlbumes() {
+        if (DebugLogging) {
+            console.log("Entering gotoAlbumes of AlbumDetailComponent");
+        }
+
         let albumid = this.album ? this.album.Id : null;
         this.router.navigate(['/album', { id: albumid, foo: 'foo' }]);
     }
@@ -129,6 +164,10 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
     }
 
     onSavePhotoMetadata() {
+        if (DebugLogging) {
+            console.log("Entering onSavePhotoMetadata of AlbumDetailComponent");
+        }
+
         // Verify the title and desp
         if (!this.selectedPhoto.title) {
             this.dialogService.confirm("Title is a must!");

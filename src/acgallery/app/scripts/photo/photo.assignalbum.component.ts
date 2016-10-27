@@ -12,7 +12,7 @@ import '../rxjs-operators';
 import { AuthService }            from '../services/auth.service';
 
 @Component({
-    selector: 'my-photo-assignalbum',
+    selector: 'acgallery-photo-assignalbum',
     templateUrl: 'app/views/photo/photo.assign.html'
 })
 

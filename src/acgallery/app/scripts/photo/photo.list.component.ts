@@ -17,7 +17,7 @@ declare var $: any;
 //import 'fancybox';
 
 @Component({
-    selector: 'my-photo-list',
+    selector: 'acgallery-photo-list',
     templateUrl: 'app/views/photo/photo.list.html'
 })
 

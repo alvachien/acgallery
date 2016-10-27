@@ -6,9 +6,10 @@ import { Subscription }                     from 'rxjs/Subscription';
 import { DialogService }                    from '../services/dialog.service';
 import '../rxjs-operators';
 import { AuthService }                      from '../services/auth.service';
+import { DebugLogging }                     from '../app.setting';
 
 @Component({
-    selector: 'my-album-create',
+    selector: 'acgallery-album-create',
     templateUrl: 'app/views/album/album.create.html'
 })
 
@@ -22,10 +23,18 @@ export class AlbumCreateComponent implements OnInit, OnDestroy {
         private albumService: AlbumService,
         private dialogService: DialogService,
         private authService: AuthService) {
+        if (DebugLogging) {
+            console.log("Entering constructor of AlbumCreateComponent");
+        }
+
         this.album = new Album();
     }
 
     ngOnInit() {
+        if (DebugLogging) {
+            console.log("Entering ngOnInit of AlbumCreateComponent");
+        }
+
         if (!this.canCreateAlbum()) {
             if (this.authService.authSubject.getValue().getUserName()) {
                 this.router.navigate(['/unauthorized']);
@@ -41,6 +50,10 @@ export class AlbumCreateComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
+        if (DebugLogging) {
+            console.log("Entering ngOnDestroy of AlbumCreateComponent");
+        }
+
         if (this.curSub) {
             this.curSub.unsubscribe();
             this.curSub = null;
@@ -48,6 +61,10 @@ export class AlbumCreateComponent implements OnInit, OnDestroy {
     }
 
     onSubmit() {
+        if (DebugLogging) {
+            console.log("Entering onSubmit of AlbumCreateComponent");
+        }
+
         // Do the basic check
         if (!this.album.Title) {
             this.dialogService.confirm("Title is a must!");

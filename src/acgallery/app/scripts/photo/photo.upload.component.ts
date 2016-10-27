@@ -14,7 +14,7 @@ import { AlbumService }                     from '../services/album.service';
 declare var qq: any;
 
 @Component({
-    selector: 'my-photo-upload',
+    selector: 'acgallery-photo-upload',
     templateUrl: 'app/views/photo/photo.upload.html'
 })
 
@@ -70,6 +70,7 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
         if (DebugLogging) {
             console.log("Entering ngOnInit of PhotoUploadComponent");
         }
+
         if (!this.canUploadPhoto()) {
             if (this.authservice.authSubject.getValue().getUserName()) {
                 this.router.navigate(['/unauthorized']);
@@ -373,6 +374,7 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
         if (DebugLogging) {
             console.log("Entering onUploadProgress: " + data);
         }
+
         this.zone.run(() => {
             this.progressNum = +data;
         });
