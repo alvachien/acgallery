@@ -38,7 +38,7 @@
                             <i class="fa fa-pencil-square-o fa-fw"></i>&nbsp;About<b class="caret"></b>
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" [routerLink]="['/about']" routerLinkActive="active">About</a>
+                            <a class="dropdown-item" [routerLink]="['/about']" routerLinkActive="active"><i class="fa fa-pencil-square-o fa-fw"></i>&nbsp;About</a>
                             <a class="dropdown-item" [routerLink]="['/credits']" routerLinkActive="active">Credits</a>
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header">Websites</h6>
@@ -51,9 +51,20 @@
                         </div>
                     </li>
                 </ul>
-                <ul class="nav navbar-nav pull-xs-right pull-sm-right pull-md-right pull-lg-right">
-                    <li class="nav-item">
-                        <a class="nav-link" (click)="onLogin()">{{titleLogin}}</a>
+
+                <ul class="nav navbar-nav float-xs-right float-sm-right float-md-right float-lg-right">
+                    <li class="nav-item" *ngIf="!isLoggedIn">
+                        <a class="nav-link" (click)="onLogin()">{{'Login.Login' | translate}}</a>
+                    </li>
+                    <li class="nav-item dropdown" *ngIf="isLoggedIn">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user"></i>&nbsp;{{titleLogin}}<b class="caret"></b>
+                        </a>
+                        <div class="dropdown-menu">
+                            <h6 class="dropdown-header">{{'Login.User' | translate}}</h6>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" (click)="onLogout()">{{'Login.Logout' | translate}}</a>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -72,9 +83,3 @@
         <span class="text-muted">Written by Alva Chien, 2016</span>
     </div>
 </nav>
-
-<!--<footer class="footer">
-    <div class="container">
-        <span class="text-muted">Written by Alva Chien, 2016</span>
-    </div>
-</footer>-->
