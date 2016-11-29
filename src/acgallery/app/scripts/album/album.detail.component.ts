@@ -1,6 +1,4 @@
-﻿/// <reference path="../../../typings/globals/jquery/index.d.ts" />
-/// <reference path="../../../typings/globals/fancybox/index.d.ts" />
-
+﻿
 import {
     Component, OnInit, OnDestroy, NgZone }   from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
