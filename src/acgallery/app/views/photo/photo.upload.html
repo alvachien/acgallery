@@ -77,10 +77,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let existAlbum of allAlbum">
-                    <td><div class="checkbox"><input type="checkbox" [(ngModel)]="existAlbum.IsSelected"></div></td>
-                    <td><img src="{{existAlbum.Thumbnail}}" class="img-rounded pull-xs-left" alt="..."></td>
-                    <td>{{existAlbum.Title}}</td>
+                <tr *ngFor="let album of allAlbum">
+                    <td><div class="checkbox"><input type="checkbox" [(ngModel)]="album.IsSelected"></div></td>
+                    <td><img src="{{album.Thumbnail}}" class="img-rounded pull-xs-left" style="display: block; width: 100% !important;height: auto !important;" alt="..."></td>
+                    <td>{{album.Title}}</td>
                 </tr>
             </tbody>
         </table>

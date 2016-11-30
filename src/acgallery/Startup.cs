@@ -1,4 +1,7 @@
-﻿using System;
+﻿#define USE_MICROSOFTAZURE
+// define USE_ALIYUN
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -67,7 +70,10 @@ namespace acgallery
 #if DEBUG
                 Authority = "http://localhost:41016",
 #else
+#if USE_MICROSOFTAZURE
                 Authority = "http://acidserver.azurewebsites.net",
+#elif USE_ALIYUN
+#endif
 #endif
                 RequireHttpsMetadata = false,
 

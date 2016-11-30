@@ -52,10 +52,12 @@ export class AlbumService {
         if (this.authService.authSubject.getValue().isAuthorized)
             headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
-        this.http.get(this.albumUrl, { headers: headers })
+        this.http.get(this.albumUrl + "?top=100", { headers: headers })
             .map(this.extractData)
             .catch(this.handleError)
             .subscribe(data => {
+                console.log(data);
+
                 this.buffService.setAlbums(data);
                 this._albums$.next(this.buffService.albums);
             },
@@ -287,9 +289,9 @@ export class AlbumService {
 
     private extractData(res: Response) {
         let body = res.json();
-        if (body && body instanceof Array) {
+        if (body && body.contentList && body.contentList instanceof Array) {
             let almes = new Array<Album>();
-            for (let alm of body) {
+            for (let alm of body.contentList) {
                 let alm2 = new Album();
                 alm2.init(alm.id, alm.title, alm.desp, alm.firstPhotoThumnailUrl, alm.createdAt, alm.createdBy,
                     alm.isPublic, alm.accessCode, alm.photoCount);

@@ -62,15 +62,7 @@
   "scripts": {
     "prepublish": [
       "npm install",
-      "npm install gulp",
-      "npm install path",
-      "npm install gulp-clean",
-      "npm install gulp-concat",
-      "npm install gulp-typescript",
-      "npm install gulp-tsc",
-      "npm install del",
-      "npm install run-sequence",
-      "typings install",
+      "npm install @types/jasmine @types/node @types/jquery @types/fancybox @types/selenium-webdriver",
       "gulp --gulpfile gulpfile.js build"
     ],
     "postpublish": [

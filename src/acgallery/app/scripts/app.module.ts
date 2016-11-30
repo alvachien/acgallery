@@ -1,11 +1,12 @@
 ﻿import { NgModule }       from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { FormsModule }    from '@angular/forms';
-import { HttpModule }     from '@angular/http';
+import { HttpModule, Http } from '@angular/http';
 import { AppComponent }   from './app.component';
 import { routing,
     appRoutingProviders } from './app.routing';
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { TranslateModule, TranslateLoader, TranslateStaticLoader } from "ng2-translate";
 
 import { AlbumModule }    from './album/album.module';
 import { PhotoModule }    from './photo/photo.module';
@@ -27,6 +28,11 @@ import { HomeComponent }  from './home/home.component';
         HttpModule,
         routing,
         Ng2BootstrapModule,
+        TranslateModule.forRoot({
+            provide: TranslateLoader,
+            useFactory: (http: Http) => new TranslateStaticLoader(http, '/app/locales/', '.json'),
+            deps: [Http]
+        }),
         AlbumModule,
         PhotoModule
     ],

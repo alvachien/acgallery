@@ -46,7 +46,6 @@ export class PhotoService {
     }
 
     loadPhotos(forceReload?: boolean) {
-
         if (!forceReload && this.buffService.isPhotoLoaded) {
             this._photos$.next(this.buffService.photos);
             return;
@@ -57,11 +56,12 @@ export class PhotoService {
         if (this.authService.authSubject.getValue().isAuthorized)
             headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
-        this.http.get(this.photoAPIUrl, { headers: headers })
+        this.http.get(this.photoAPIUrl + "?top=100", { headers: headers })
             .map(this.extractData)
             .catch(this.handleError)
             .subscribe(data => {
-                this.buffService.setPhotos(data);
+                console.log(data);
+                this.buffService.setPhotos(data.contentList);
                 this._photos$.next(this.buffService.photos);
             },
             error => {
@@ -134,8 +134,10 @@ export class PhotoService {
             .map(this.extractData)
             //.catch(this.handleError)
             .subscribe(data => {
+                console.log(data);
+
                 let arlinks: Array<AlbumPhotoLink> = new Array<AlbumPhotoLink>();
-                data.forEach((value, index, array) => {
+                data.contentList.forEach((value, index, array) => {
                     let idx: number = -1;
                     this.buffService.photos.every((value2, index2, array2) => {
                         if (value2.photoId === value.photoId) {

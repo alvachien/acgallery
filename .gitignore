@@ -255,3 +255,6 @@ typings/
 /src/acgallery/wwwroot/logoutcallback.html
 /src/acgallery/wwwroot/systemjs.config.js
 /src/acgallery/wwwroot/favicon.ico
+
+# Publish folder
+PublishProfiles/
