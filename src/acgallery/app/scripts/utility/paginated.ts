@@ -1,4 +1,6 @@
-﻿//export class Paginated {
+﻿import { DebugLogging } from '../app.setting';
+
+//export class Paginated {
 //    public _page: number = 0;
 //    public _pagesCount: number = 0;
 //    public _totalCount: number = 0;

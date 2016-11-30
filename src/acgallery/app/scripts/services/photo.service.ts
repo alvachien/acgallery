@@ -45,28 +45,23 @@ export class PhotoService {
         return this._photosByAlbum$.asObservable();
     }
 
-    loadPhotos(forceReload?: boolean) {
-        if (!forceReload && this.buffService.isPhotoLoaded) {
-            this._photos$.next(this.buffService.photos);
-            return;
-        }
-
+    loadPhotos(paramString: string) {
         var headers = new Headers();
         headers.append('Accept', 'application/json');
         if (this.authService.authSubject.getValue().isAuthorized)
             headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
-        this.http.get(this.photoAPIUrl + "?top=100", { headers: headers })
-            .map(this.extractData)
-            .catch(this.handleError)
-            .subscribe(data => {
-                console.log(data);
-                this.buffService.setPhotos(data.contentList);
-                this._photos$.next(this.buffService.photos);
-            },
-            error => {
-                // It should be handled already
-            });
+        return this.http.get(this.photoAPIUrl + paramString, { headers: headers })
+            .map(response => response.json());
+            //.catch(this.handleError)
+            //.subscribe(data => {
+            //    console.log(data);
+            //    this.buffService.setPhotos(data.contentList);
+            //    this._photos$.next(this.buffService.photos);
+            //},
+            //error => {
+            //    // It should be handled already
+            //});
     }
 
     loadPhoto(id: string | number, forceReload?: boolean) {

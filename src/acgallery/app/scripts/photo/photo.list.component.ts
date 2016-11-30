@@ -1,6 +1,4 @@
-﻿
-
-import { Component, OnInit, OnDestroy,
+﻿import { Component, OnInit, OnDestroy,
     NgZone  }                               from '@angular/core';
 import { ActivatedRoute, Router }           from '@angular/router';
 import { Photo }                            from '../model/photo';
@@ -10,6 +8,7 @@ import { DialogService }                    from '../services/dialog.service';
 import { AuthService }                      from '../services/auth.service';
 import { DebugLogging }                     from '../app.setting';
 import '../rxjs-operators';
+import { UIPagination }                     from '../utility/paginated';
 // To avoid load the files twice
 declare var $: any;
 //import 'jquery';
@@ -23,8 +22,9 @@ declare var $: any;
 export class PhotoListComponent implements OnInit, OnDestroy {
     public photos: Photo[] = [];
     public errorMessage: any;
-    private subPhotos: Subscription = null;
+    //private subPhotos: Subscription = null;
     public selectedPhoto: Photo = null;
+    private objUtil: UIPagination = null;
 
     constructor(
         private zone: NgZone,
@@ -36,38 +36,14 @@ export class PhotoListComponent implements OnInit, OnDestroy {
         if (DebugLogging) {
             console.log("Entering constructor of PhotoListComponent");
         }
+
+        this.objUtil = new UIPagination(15, 5);
     }
 
     ngOnInit() {
         if (DebugLogging) {
             console.log("Entering ngOnInit of PhotoListComponent");
         }
-        if (!this.subPhotos) {
-            this.subPhotos = this.photoService.photos$.subscribe(data => this.onPhotoLoaded(data),
-                error => this.onHandleError(error));
-
-            this.photoService.loadPhotos(true);
-        }
-    }
-
-    ngOnDestroy() {
-        if (DebugLogging) {
-            console.log("Entering ngOnDestroy of PhotoListComponent");
-        }
-        if (this.subPhotos) {
-            this.subPhotos.unsubscribe();
-            this.subPhotos = null;
-        }
-    }
-
-    onPhotoLoaded(photos) {
-        if (DebugLogging) {
-            console.log("Entering onPhotoLoaded of PhotoListComponent");
-        }
-
-        this.zone.run(() => {
-            this.photos = photos;
-        });
 
         $('.popup-gallery').magnificPopup({
             delegate: 'a',
@@ -86,7 +62,88 @@ export class PhotoListComponent implements OnInit, OnDestroy {
                 }
             }
         });
+
+        //if (!this.subPhotos) {
+        //    this.subPhotos = this.photoService.photos$.subscribe(data => this.onPhotoLoaded(data),
+        //        error => this.onHandleError(error));
+
+        //    this.photoService.loadPhotos(true);
+        //}
+        this.onPageClick(1);
     }
+
+    ngOnDestroy() {
+        if (DebugLogging) {
+            console.log("Entering ngOnDestroy of PhotoListComponent");
+        }
+
+        //if (this.subPhotos) {
+        //    this.subPhotos.unsubscribe();
+        //    this.subPhotos = null;
+        //}
+    }
+
+    onPagePreviousClick() {
+        if (DebugLogging) {
+            console.log("Entering onPagePreviousClick of Event.EventListComponent");
+        }
+
+        if (this.objUtil.currentPage > 1) {
+            this.onPageClick(this.objUtil.currentPage - 1);
+        }
+    }
+
+    onPageNextClick() {
+        if (DebugLogging) {
+            console.log("Entering onPageNextClick of Event.EventListComponent");
+        }
+
+        this.onPageClick(this.objUtil.currentPage + 1);
+    }
+
+    onPageClick(pageIdx: number) {
+        if (DebugLogging) {
+            console.log("Entering onPageClick of Event.EventListComponent");
+        }
+
+        if (this.objUtil.currentPage != pageIdx) {
+            this.objUtil.currentPage = pageIdx;
+
+            let paraString = this.objUtil.nextAPIString;
+            this.photoService.loadPhotos(paraString).subscribe(data => {
+                if (DebugLogging) {
+                    console.log("Photos loaded successfully of Event.EventListComponent");
+                }
+
+                this.objUtil.totalCount = data.totalCount;
+                this.zone.run(() => {
+                    this.photos = [];
+                    if (data && data.contentList && data.contentList instanceof Array) {
+                        this.photos = data.contentList;
+                    }
+                });
+            }, error => {
+                if (DebugLogging) {
+                    console.log("Error occurred during event loading of Event.EventListComponent");
+                    console.log(error);
+                }
+            }, () => {
+                if (DebugLogging) {
+                    console.log("Events loaded completed of Event.EventListComponent");
+                }
+            });
+        }
+    }
+
+    //onPhotoLoaded(photos) {
+    //    if (DebugLogging) {
+    //        console.log("Entering onPhotoLoaded of PhotoListComponent");
+    //    }
+
+    //    this.zone.run(() => {
+    //        this.photos = photos;
+    //    });
+    //}
 
     onHandleError(error) {
         if (DebugLogging) {
@@ -99,6 +156,7 @@ export class PhotoListComponent implements OnInit, OnDestroy {
         if (DebugLogging) {
             console.log("Entering onSetSelectedPhoto of PhotoListComponent");
         }
+
         this.selectedPhoto = photo;
     }
 
