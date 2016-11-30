@@ -60,7 +60,8 @@ export class PhotoService {
             .map(this.extractData)
             .catch(this.handleError)
             .subscribe(data => {
-                this.buffService.setPhotos(data);
+                console.log(data);
+                this.buffService.setPhotos(data.contentList);
                 this._photos$.next(this.buffService.photos);
             },
             error => {
@@ -133,8 +134,10 @@ export class PhotoService {
             .map(this.extractData)
             //.catch(this.handleError)
             .subscribe(data => {
+                console.log(data);
+
                 let arlinks: Array<AlbumPhotoLink> = new Array<AlbumPhotoLink>();
-                data.forEach((value, index, array) => {
+                data.contentList.forEach((value, index, array) => {
                     let idx: number = -1;
                     this.buffService.photos.every((value2, index2, array2) => {
                         if (value2.photoId === value.photoId) {
