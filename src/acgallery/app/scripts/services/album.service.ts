@@ -52,11 +52,11 @@ export class AlbumService {
         if (this.authService.authSubject.getValue().isAuthorized)
             headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
-        this.http.get(this.albumUrl, { headers: headers })
+        this.http.get(this.albumUrl + "?top=100", { headers: headers })
             .map(this.extractData)
             .catch(this.handleError)
             .subscribe(data => {
-                this.buffService.setAlbums(data);
+                this.buffService.setAlbums(data.contentList);
                 this._albums$.next(this.buffService.albums);
             },
             error => {

@@ -19,7 +19,7 @@
                 <tbody>
                     <tr *ngFor="let photo of assignedPhoto">
                         <td><div class="checkbox"><input type="checkbox" [(ngModel)]="photo.IsSelected"></div></td>
-                        <td><img src="{{photo.thumbnailFileUrl}}" /></td>
+                        <td><img class="img img-responsive thumbnail" src="{{photo.thumbnailFileUrl}}" /></td>
                         <td>{{photo.title}}</td>
                     </tr>
                 </tbody>
@@ -51,7 +51,7 @@
                 <tbody>
                     <tr *ngFor="let photo of allPhoto">
                         <td><div class="checkbox"><input type="checkbox" [(ngModel)]="photo.IsSelected"></div></td>
-                        <td><img src="{{photo.thumbnailFileUrl}}" /></td>
+                        <td><img class="img img-responsive thumbnail" style="display: block; width: 100% !important;height: auto !important;" src="{{photo.thumbnailFileUrl}}" /></td>
                         <td>{{photo.title}}</td>
                     </tr>
                 </tbody>

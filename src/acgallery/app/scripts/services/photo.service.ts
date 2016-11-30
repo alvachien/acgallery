@@ -46,7 +46,6 @@ export class PhotoService {
     }
 
     loadPhotos(forceReload?: boolean) {
-
         if (!forceReload && this.buffService.isPhotoLoaded) {
             this._photos$.next(this.buffService.photos);
             return;
@@ -57,7 +56,7 @@ export class PhotoService {
         if (this.authService.authSubject.getValue().isAuthorized)
             headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
-        this.http.get(this.photoAPIUrl, { headers: headers })
+        this.http.get(this.photoAPIUrl + "?top=100", { headers: headers })
             .map(this.extractData)
             .catch(this.handleError)
             .subscribe(data => {

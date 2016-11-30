@@ -1,9 +1,10 @@
 ﻿import { Component, OnInit }        from '@angular/core';
 import { AuthService }              from './services/auth.service';
-import { DebugLogging } from './app.setting';
+import { DebugLogging }             from './app.setting';
+import { TranslateService }         from 'ng2-translate';
 
 @Component({
-    selector: 'my-app',
+    selector: 'acgallery-app',
     templateUrl: 'app/views/main.html'
 })
 export class AppComponent implements OnInit {
@@ -11,12 +12,16 @@ export class AppComponent implements OnInit {
     public isLoggedIn: boolean;
     public titleLogin: string;
 
-    constructor(private authService: AuthService) {
+    constructor(private authService: AuthService,
+        private translateService: TranslateService) {
         if (DebugLogging) {
             console.log("Entering constructor of AppComponent");
         }
         this.isLoggedIn = false;
         this.titleLogin = 'Login';
+
+        translateService.addLangs(["en", "zh"]);
+        translateService.setDefaultLang('en');
 
         this.authService.authContent.subscribe(x => {
             this.isLoggedIn = x.isAuthorized;

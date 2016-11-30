@@ -79,7 +79,7 @@
             <tbody>
                 <tr *ngFor="let album of allAlbum">
                     <td><div class="checkbox"><input type="checkbox" [(ngModel)]="album.IsSelected"></div></td>
-                    <td><img src="{{album.Thumbnail}}" class="img-rounded pull-xs-left" alt="..."></td>
+                    <td><img src="{{album.Thumbnail}}" class="img-rounded pull-xs-left" style="display: block; width: 100% !important;height: auto !important;" alt="..."></td>
                     <td>{{album.Title}}</td>
                 </tr>
             </tbody>
