@@ -39,6 +39,7 @@
             //'fancybox': 'lib:fancyBox/jquery.fancybox.js',
             //'fancybox-thumbs': 'lib:fancyBox/jquery.fancybox-thumbs.js',
             'ng2-bootstrap': 'lib:ng2-bootstrap',
+            'ng2-translate': 'lib:ng2-translate',
             'oidc-client': 'lib:oidc-client/dist/oidc-client.min.js'
         },
         packages: {
@@ -51,6 +52,9 @@
                 defaultExtension: 'js'
             },
             'ng2-bootstrap': {
+                defaultExtension: 'js'
+            },
+            'ng2-translate': {
                 defaultExtension: 'js'
             },
             'angular-in-memory-web-api': {

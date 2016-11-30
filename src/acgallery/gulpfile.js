@@ -17,6 +17,7 @@ var paths = {
 
     cssApp: app + 'css/',
     viewsApp: app + 'views/',
+    localeApp: app + 'locales/',
 
     jsVendors: lib + 'js/',    
     cssVendors: lib + 'css/',
@@ -38,6 +39,7 @@ gulp.task('setup-vendors-js', function () {
         '@angular/**/*.js',
         'moment/min/*.js',
         'ng2-bootstrap/**/*.js',
+        'ng2-translate/**/*.js',
         'angular-in-memory-web-api/**/*.js',
         'ng2-file-upload/**/*.js',
         'jquery/dist/jquery*.js',
@@ -141,6 +143,12 @@ gulp.task('build-css', function () {
     ]).pipe(gulp.dest(paths.cssApp));
 });
 
+gulp.task('build-locales', function () {
+    gulp.src([
+        'app/locales/**/*.json'
+    ]).pipe(gulp.dest(paths.localeApp));
+});
+
 gulp.task('compile-typescript', function (done) {
     //var tsResult = tsProject.src() // instead of gulp.src(...) 
     //        .pipe(ts(tsProject));
@@ -186,5 +194,5 @@ gulp.task('build-clean', ['clean-lib', 'clean-app']);
 
 gulp.task('build', function () {
     runSequence('build-clean',
-              ['setup-vendors', 'setup-environment', 'build-view', 'build-css', 'compile-typescript']);
+              ['setup-vendors', 'setup-environment', 'build-view', 'build-css', 'build-locales', 'compile-typescript']);
 });
