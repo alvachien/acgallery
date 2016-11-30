@@ -66,5 +66,41 @@
     "DeleteConfirmation": "Delete Confirmation",
     "ConfirmToDeleteSelectedItem": "The selected item(s) will be deleted. Do you confirm to continue?",
     "SearchViaName": "Select an item via the name..."
+  },
+  "Login": {
+    "User": "User",
+    "Password": "Password",
+    "Register": "Register",
+    "Login": "Login",
+    "SignIn": "Sign in",
+    "SignUp": "Sign up",
+    "Logout": "Logout",
+    "ConfirmToLogout": "You can currently log out. Do you confirm to continue?",
+    "LoginTitle": "Login into the System",
+    "RegisterTitle": "Register a new User",
+    "Email": "Email",
+    "Gender": "Gender",
+    "DisplayAs": "Display As",
+    "ConfirmedPassword": "Confirm Password",
+    "Male": "Male",
+    "Female": "Female",
+    "LastLogin": "Last Login",
+    "SeqNo": "Seq. No",
+    "RegisterDate": "Register Date"
+  },
+  "Nav": {
+    "Home": "Home",
+    "Users": "Users",
+    "UserList": "User List",
+    "UserDetail": "User Detail",
+    "TakeALookAtUserDetail": "Take a look at User Detail",
+    "LearningTrace": "Learning Trace",
+    "FinanceTrace": "Finance Trace",
+    "EventTrace": "Event Trace",
+    "About": "About",
+    "Acknowledgements": "Acknowledgements",
+    "Credits": "Credits",
+    "Version": "Version",
+    "Libraries": "Libraries"
   }
 }

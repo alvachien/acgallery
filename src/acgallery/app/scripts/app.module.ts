@@ -6,7 +6,7 @@ import { AppComponent }   from './app.component';
 import { routing,
     appRoutingProviders } from './app.routing';
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
-import { TranslateModule, TranslateLoader, TranslateStaticLoader } from "ng2-translate/ng2-translate";
+import { TranslateModule, TranslateLoader, TranslateStaticLoader } from "ng2-translate";
 
 import { AlbumModule }    from './album/album.module';
 import { PhotoModule }    from './photo/photo.module';

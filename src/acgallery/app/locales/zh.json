@@ -66,5 +66,41 @@
     "DeleteConfirmation": "确认删除操作",
     "ConfirmToDeleteSelectedItem": "选择项将被删除，请确认继续？",
     "SearchViaName": "根据名字来搜索项..."
+  },
+  "Login": {
+    "User": "用户",
+    "Password": "密码",
+    "Register": "注册",
+    "Login": "登录",
+    "Logout": "登出",
+    "SignIn": "登录",
+    "SignUp": "注册",
+    "ConfirmToLogout": "即将登出系统。请确认继续？",
+    "LoginTitle": "登录到系统",
+    "RegisterTitle": "注册新用户",
+    "Email": "电子邮箱",
+    "Gender": "性别",
+    "DisplayAs": "显示为",
+    "ConfirmedPassword": "确认密码",
+    "Male": "男",
+    "Female": "女",
+    "LastLogin": "最近一次登陆",
+    "SeqNo": "序号",
+    "RegisterDate": "注册日期"
+  },
+  "Nav": {
+    "Home": "主页",
+    "Users": "用户",
+    "UserList": "用户列表",
+    "UserDetail": "用户详细信息",
+    "TakeALookAtUserDetail": "查看当前用户详细信息",
+    "LearningTrace": "学习记录系统",
+    "EventTrace": "事务记录系统",
+    "FinanceTrace": "财务记录系统",
+    "About": "关于",
+    "Acknowledgements": "致谢",
+    "Credits": "Credits",
+    "Version": "版本",
+    "Libraries": "资料库"
   }
 }
