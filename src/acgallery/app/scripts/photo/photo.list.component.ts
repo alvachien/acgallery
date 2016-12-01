@@ -18,7 +18,6 @@ declare var $: any;
     selector: 'acgallery-photo-list',
     templateUrl: 'app/views/photo/photo.list.html'
 })
-
 export class PhotoListComponent implements OnInit, OnDestroy {
     public photos: Photo[] = [];
     public errorMessage: any;
@@ -85,7 +84,7 @@ export class PhotoListComponent implements OnInit, OnDestroy {
 
     onPagePreviousClick() {
         if (DebugLogging) {
-            console.log("Entering onPagePreviousClick of Event.EventListComponent");
+            console.log("Entering onPagePreviousClick of PhotoListComponent");
         }
 
         if (this.objUtil.currentPage > 1) {
@@ -95,7 +94,7 @@ export class PhotoListComponent implements OnInit, OnDestroy {
 
     onPageNextClick() {
         if (DebugLogging) {
-            console.log("Entering onPageNextClick of Event.EventListComponent");
+            console.log("Entering onPageNextClick of PhotoListComponent");
         }
 
         this.onPageClick(this.objUtil.currentPage + 1);
@@ -103,16 +102,16 @@ export class PhotoListComponent implements OnInit, OnDestroy {
 
     onPageClick(pageIdx: number) {
         if (DebugLogging) {
-            console.log("Entering onPageClick of Event.EventListComponent");
+            console.log("Entering onPageClick of PhotoListComponent");
         }
 
         if (this.objUtil.currentPage != pageIdx) {
             this.objUtil.currentPage = pageIdx;
 
             let paraString = this.objUtil.nextAPIString;
-            this.photoService.loadPhotos(paraString).subscribe(data => {
+            this.photoService.loadPhotosex(paraString).subscribe(data => {
                 if (DebugLogging) {
-                    console.log("Photos loaded successfully of Event.EventListComponent");
+                    console.log("Photos loaded successfully of PhotoListComponent");
                 }
 
                 this.objUtil.totalCount = data.totalCount;
@@ -124,12 +123,12 @@ export class PhotoListComponent implements OnInit, OnDestroy {
                 });
             }, error => {
                 if (DebugLogging) {
-                    console.log("Error occurred during event loading of Event.EventListComponent");
+                    console.log("Error occurred during photo loading of PhotoListComponent");
                     console.log(error);
                 }
             }, () => {
                 if (DebugLogging) {
-                    console.log("Events loaded completed of Event.EventListComponent");
+                    console.log("Photos loaded completed of PhotoListComponent");
                 }
             });
         }
@@ -149,6 +148,7 @@ export class PhotoListComponent implements OnInit, OnDestroy {
         if (DebugLogging) {
             console.log("Entering onHandleError of PhotoListComponent");
         }
+
         this.errorMessage = <any>error;
     }
 

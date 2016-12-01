@@ -2,7 +2,7 @@
 //import { LoginService }             from '../login.service';
 
 @Component({
-    selector: 'my-app-home',
+    selector: 'acgallery-app-home',
     templateUrl: 'app/views/home.html'
 })
 

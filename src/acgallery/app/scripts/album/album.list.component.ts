@@ -13,7 +13,6 @@ import { DebugLogging }                     from '../app.setting';
     selector: 'acgallery-album-list',
     templateUrl: 'app/views/album/album.list.html'
 })
-
 export class AlbumListComponent implements OnInit, OnDestroy {
     private selectedId: number;
     private subAlbums: Subscription;
@@ -41,7 +40,7 @@ export class AlbumListComponent implements OnInit, OnDestroy {
     ngOnInit() {
         if (DebugLogging) {
             console.log("Entering ngOnInit of AlbumListComponent");
-        }        
+        }
         if (!this.subAlbums) {
             this.subAlbums = this.albumService.albums$.subscribe(data => this.onAlbumLoaded(data),
                 error => this.onHandleError(error));

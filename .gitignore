@@ -247,14 +247,7 @@ ModelManifest.xml
 # Javascript application
 bower_components/
 typings/
-/src/acgallery/wwwroot/app
-/src/acgallery/wwwroot/libs
-/src/acgallery/wwwroot/uploads
-/src/acgallery/wwwroot/index.html
-/src/acgallery/wwwroot/logincallback.html
-/src/acgallery/wwwroot/logoutcallback.html
-/src/acgallery/wwwroot/systemjs.config.js
-/src/acgallery/wwwroot/favicon.ico
+/src/acgallery/wwwroot/
 
 # Publish folder
 PublishProfiles/

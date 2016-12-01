@@ -1,5 +1,4 @@
-﻿
-import {
+﻿import {
     Component, OnInit, OnDestroy, NgZone }   from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Album }                  from '../model/album';
@@ -20,7 +19,6 @@ declare var $: any;
     selector: 'acgallery-album-detail',
     templateUrl: 'app/views/album/album.detail.html'
 })
-
 export class AlbumDetailComponent implements OnInit, OnDestroy {
     public album: Album;
     public photos: Photo[];

@@ -4,6 +4,26 @@
     </div>
 
     <div class="panel-body">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item" [class.disabled]="!objUtil.isPreviousVisible">
+                    <a class="page-link" (click)="onPagePreviousClick()" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                <li class="page-item" *ngFor="let pageidx of objUtil.visPags" [class.active]="objUtil.currentPage === pageidx">
+                    <a class="page-link" (click)="onPageClick(pageidx)">{{pageidx}}</a>
+                </li>
+                <li class="page-item" [class.disabled]="!objUtil.isNextVisible">
+                    <a class="page-link" (click)="onPageNextClick()" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
         <div class="card-deck-wrapper">
             <div class="card-deck popup-gallery">
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 card card-block text-xs-center" *ngFor="let photo of photos">

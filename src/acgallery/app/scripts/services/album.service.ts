@@ -65,6 +65,15 @@ export class AlbumService {
                 // It should be handled already
             });
     }
+    loadAlbumsex(paramString: string) {
+        var headers = new Headers();
+        headers.append('Accept', 'application/json');
+        if (this.authService.authSubject.getValue().isAuthorized)
+            headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
+
+        return this.http.get(this.albumUrl + paramString, { headers: headers })
+            .map(response => response.json());
+    }
 
     loadAlbum(id: number | string, forceReload?: boolean) {
         if (!forceReload) {
