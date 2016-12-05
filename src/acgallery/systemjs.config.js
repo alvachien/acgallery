@@ -20,6 +20,7 @@
             '@angular/http': 'lib:@angular/http/bundles/http.umd.js',
             '@angular/router': 'lib:@angular/router/bundles/router.umd.js',
             '@angular/forms': 'lib:@angular/forms/bundles/forms.umd.js',
+            '@angular/material': 'npm:@angular/material/material.umd.js',
 
             // angular testing umd bundles
             '@angular/core/testing': 'lib:@angular/core/bundles/core-testing.umd.js',
@@ -33,13 +34,6 @@
 
             // other libraries
             'rxjs': 'lib:rxjs',
-            'angular-in-memory-web-api': 'lib:angular-in-memory-web-api',
-            'moment': 'lib:moment/min/moment.min.js',
-            //'jquery': 'lib:jquery/dist/jquery.min.js',
-            //'fancybox': 'lib:fancyBox/jquery.fancybox.js',
-            //'fancybox-thumbs': 'lib:fancyBox/jquery.fancybox-thumbs.js',
-            'ng2-bootstrap': 'lib:ng2-bootstrap',
-            'ng2-translate': 'lib:ng2-translate/bundles',
             'oidc-client': 'lib:oidc-client/dist/oidc-client.min.js'
         },
         packages: {
@@ -49,17 +43,6 @@
                 defaultExtension: 'js'
             },
             'rxjs': {
-                defaultExtension: 'js'
-            },
-            'ng2-bootstrap': {
-                defaultExtension: 'js'
-            },
-            'ng2-translate': {
-                main: './index.js',
-                defaultExtension: 'js'
-            },
-            'angular-in-memory-web-api': {
-                main: './index.js',
                 defaultExtension: 'js'
             }
         }

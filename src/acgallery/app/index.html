@@ -1,72 +1,514 @@
-﻿<!DOCTYPE html>
-
+﻿
+<!doctype html>
 <html>
-<head>
-    <base href="/">
-    <title>AC Photo Gallery</title>
+  <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta content="initial-scale=1, minimum-scale=1, width=device-width" name="viewport">
+    <meta content="noindex" name="alvachien">
+    <title>AC Gallery</title>
+    <link href="favicon.ico" id="favicon" rel="shortcut icon">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Extended" rel="stylesheet">
+    <link href="app/css/common.css" rel="stylesheet">
+    <style>
+      .section {
+        border: none;
+      }
 
-    <link href="libs/css/tether.min.css" rel="stylesheet" />
-    <link href="libs/css/tether-theme-basic.min.css" rel="stylesheet" />
-    <link href="libs/css/tether-theme-arrows.min.css" rel="stylesheet" />
-    <link href="libs/css/bootstrap.css" rel="stylesheet" />
-    <link href="libs/css/font-awesome.css" rel="stylesheet" />
-    <link href="libs/css/jquery.fancybox.css" rel="stylesheet" />
-    <link href="libs/css/jquery.fancybox-thumbs.css" rel="stylesheet" />
-    <link href="libs/css/magnific-popup.css" rel="stylesheet">
-    <link href="app/css/alertify.css" rel="stylesheet" id="alertifyCSS" />
-    <link href="app/css/stylesheet.css" rel="stylesheet" />
+      .section-intro {
+        background-image: url(app/imgs/bg-2048w.jpg);
+      }
 
-    <!-- 1. Load libraries -->
-    <!-- Polyfill(s) for older browsers -->
-    <script>
-        (function () {
-            var vendors = ['webkit', 'moz'];
-            for (var i = 0; i < vendors.length && !window.requestAnimationFrame; ++i) {
-                var vp = vendors[i];
-                window.requestAnimationFrame = window[vp + 'RequestAnimationFrame'];
-                window.cancelAnimationFrame = (window[vp + 'CancelAnimationFrame']
-                                           || window[vp + 'CancelRequestAnimationFrame']);
-            }
-            if (!window.requestAnimationFrame || !window.cancelAnimationFrame) {
-                var lastTime = 0;
-                window.requestAnimationFrame = function (callback) {
-                    var now = new Date().getTime();
-                    var nextTime = Math.max(lastTime + 16, now);
-                    return setTimeout(function () { callback(lastTime = nextTime); },
-                                      nextTime - now);
-                };
-                window.cancelAnimationFrame = clearTimeout;
-            }
-        }());
-    </script>
-    <script src="libs/js/jquery/dist/jquery.min.js"></script>
-    <script src="libs/js/oidc-client/dist/oidc-client.min.js"></script>
-    <script src="libs/js/alertify.js/dist/js/alertify.js"></script>
-    <script src="libs/js/tether/dist/js/tether.min.js"></script>
-    <script src="libs/js/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="libs/fineuploader/fine-uploader.core.js"></script>
-    <script src="libs/js/magnific-popup/dist/jquery.magnific-popup.js"></script>
-    <script src="libs/js/core-js/client/shim.min.js"></script>
-    <script src="libs/js/zone.js/dist/zone.js"></script>
-    <script src="libs/js/reflect-metadata/Reflect.js"></script>
-    <script src="libs/js/systemjs/dist/system.js"></script>
+      @media (max-width: 1280px),
+             screen and (max-width: 640px) (min-resolution: 192dpi),
+             screen and (max-width: 640px) and (-webkit-min-device-pixel-ratio: 2) {
+        .section-intro {
+          background-image: url(app/imgs/bg-1024w.jpg);
+        }
+      }
 
-    <!-- 2. Configure SystemJS -->
-    <script src="systemjs.config.js"></script>
-    <script>
-        System.import('app').catch(function (err) {
-            console.error(err);
-        });
-    </script>
-</head>
+      @media (max-width: 640px),
+             screen and (max-width: 320px) (min-resolution: 192dpi),
+             screen and (max-width: 320px) and (-webkit-min-device-pixel-ratio: 2) {
+        .section-intro {
+          background-image: url(app/imgs/bg-640w.jpg);
+        }
+      }
 
-<!-- 3. Display the application -->
-<body>
-    <div id="nav-separator"></div>
-    <acgallery-app>AC Photo Gallery is loading...</acgallery-app>
-</body>
+      .md-display-2 {
+        font-weight: 400;
+        text-align: center;
+      }
+
+      .section-inner {
+        padding: 40px;
+      }
+
+      .section:not(.section-next-page) .section-inner {
+        max-width: 720px;
+        text-align: left;
+      }
+
+      .section .md-display-1 {
+        margin-bottom: 1em;
+        text-align: center;
+      }
+
+      @media screen and (max-width: 768px) {
+        .section-inner {
+          padding: 20px;
+        }
+      }
+
+      /** Typography */
+
+      ul.md-body {
+        padding-left: 1.5em;
+      }
+
+      /** Images */
+
+      figure,
+      .md-headline {
+        text-align: center;
+      }
+
+      figure > img {
+        max-width: 180px;
+        width: 100%;
+      }
+
+      /** Accent box */
+
+      .accent {
+        margin: 40px auto 0 auto;
+        max-width: 420px;
+        padding: 40px;
+        text-align: left;
+      }
+
+      .accent .md-headline {
+        margin: 0 0 0.5em 0;
+        font-size: 21px;
+      }
+
+      .accent .md-body:last-child {
+        margin-bottom: 0;
+      }
+
+      @media screen and (max-width: 768px) {
+        .accent {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="header-wrap">
+      <a aria-label="Main menu" class="header-nav-toggle" href="javascript:;" role="button" tabindex="0">
+        <span class="material-icons-extended">&#xE5D2;</span>
+      </a>
+
+      <a class="header-title-link" href="/">
+        <img alt="Photo Gallery, by Alva Chien"
+             class="header-logo"
+             src="app/imgs/logo@2X.png">
+      </a>
+
+      <nav class="sidebar-nav">
+        <ul class="nav-section">
+          <li class="nav-item">
+            <a class="nav-link" href="..">Albums
+                <sup class="nav-link-beta">Beta</sup>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../data-explorer/">
+              Photos
+              <sup class="nav-link-beta">Beta</sup>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="../about/">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../how-it-works/">Credits</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../process/">Installation process</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../faq/">About</a>
+          </li>
+        </ul>
+        <ul class="nav-section">
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:;" data-action="feedback">Send feedback</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://www.google.com/intl/en/policies/privacy/" target="_blank">Privacy</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://www.google.com/intl/en/policies/terms/" target="_blank">Terms</a>
+          </li>
+        </ul>
+      </nav>
+      <nav class="header-nav">
+        <ul class="nav-section">
+          <li class="nav-item">
+            <a class="nav-link" href="..">Albums</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../data-explorer/">
+              Photos
+              <sup class="nav-link-beta">Beta</sup>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../how-it-works/">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../faq/">FAQ</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="nav-mask"></div>
+
+    <div class="main-content-wrapper">
+      <div class="main-content">
+
+        <div class="section section-intro">
+          <div class="section-inner">
+            <h1 class="md-display-2">AC Photo Grallery</h1>
+          </div>
+        </div>
+
+        <acgallery-app></acgallery-app>
+
+        <div id="why-are-we-doing-this" class="section">
+          <div class="section-inner">
+            <figure>
+              <img alt=""
+                   src="app/imgs/1-why.png"
+                   style="max-width: 120px">
+            </figure>
+            <h3 class="md-display-1">
+              Why do I doing this?
+            </h3>
+            <p class="md-body">
+              As the price of installing solar has gotten less expensive, more
+              homeowners are turning to it as a possible option for decreasing
+              their energy bill. We want to make installing solar panels easy
+              and understandable for anyone.
+            </p>
+            <p class="md-body">
+              Project Sunroof puts Google's expansive data in mapping and
+              computing resources to use, helping calculate the best solar plan
+              for you.
+            </p>
+          </div>
+        </div>
+
+        <div id="how-it-works" class="section">
+          <div class="section-inner">
+            <figure>
+              <img alt=""
+                   src="../images/about/2b-how-works.png"
+                   style="max-width: 150px">
+            </figure>
+            <h3 class="md-display-1">
+              How it works
+            </h3>
+            <p class="md-body">
+              When you enter your address, Project Sunroof looks up your home in
+              Google Maps and combines that information with other databases to
+              create your personalized roof analysis. Don�t worry, Project
+              Sunroof doesn't give the address to anybody else unless you ask it
+              to.
+            </p>
+          </div>
+        </div>
+
+        <!--<div id="customizing-for-your-roof" class="section">
+          <div class="section-inner">
+            <figure>
+              <img alt="" src="../images/about/3-customizing-roof.png">
+            </figure>
+            <h3 class="md-display-1">
+              Customizing for your roof
+            </h3>
+            <p class="md-body">
+              Project Sunroof computes how much sunlight hits your roof in a
+              year. It takes into account:
+            </p>
+            <ul class="md-body">
+              <li>Google's database of aerial imagery and maps</li>
+              <li>3D modeling of your roof</li>
+              <li>Shadows cast by nearby structures and trees</li>
+              <li>All possible sun positions over the course of a year</li>
+              <li>
+                Historical cloud and temperature patterns that might affect
+                solar energy production
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div id="choose-what-you-need" class="section">
+          <div class="section-inner">
+            <figure>
+              <img alt="" src="../images/about/4c-choose-need.png">
+            </figure>
+            <h3 class="md-display-1">
+              Choose what you need
+            </h3>
+            <p class="md-body">
+              Project Sunroof recommends an installation size to generate close
+              to 100% of your electricity use, based on roof size, the amount of
+              sun hitting the roof, and your electricity bill.
+            </p>
+            <p class="md-body">
+              We recommend an installation that covers less than 100% of your
+              electrical usage because, in most areas, there is little financial
+              benefit to producing more power than you can consume.
+            </p>
+          </div>
+        </div>
+
+        <div id="computing-your-savings" class="section">
+          <div class="section-inner">
+            <figure>
+              <img alt=""
+                   src="../images/about/5b-computing-savings.png"
+                   style="max-width: 120px;">
+            </figure>
+            <h3 class="md-display-1">
+              Computing your savings
+            </h3>
+            <p class="md-body">
+              Project Sunroof uses current solar industry pricing data to run
+              the numbers on leasing, taking a loan, or buying solar panels for
+              your house to help you choose what's best for you.
+            </p>
+            <p class="md-body">
+              Project Sunroof also compiles the following incentives to
+              calculate your final cost:
+            </p>
+            <ul class="md-body">
+              <li>Federal and state tax credits</li>
+              <li>Utility rebates</li>
+              <li>Renewable energy credits and net metering</li>
+            </ul>
+            <p class="md-body">
+              <a class="flat-btn" href="../faq/#financial-considerations">
+                More about financial estimates
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <div class="section section-grey section-providers-address">
+          <div class="section-inner">
+            <h3 class="md-headline">
+              See how much you can save
+            </h3>
+            <div class="address-wrapper">
+              <form autocomplete="off"
+                    class="address-form AddressForm"
+                    id="AddressForm2">
+                <input class="address-input border AddressInput"
+                       type="text" maxlength=150
+                       placeholder="Enter home address"
+                       id="AddressInput2">
+                <button class="btn btn-fill-orange" aria-label="Estimate">
+                  Estimate
+                </button>
+              </form>
+            </div>
+            <div class="md-body landing-privacy">
+              <img alt="Lock icon"
+                   class="landing-privacy-icon"
+                   src="../images/lock-icon-dark.png"
+                   srcset="../images/lock-icon-dark.png 1x,
+                           ../images/lock-icon-dark@2X.png 2x">
+              Project Sunroof will only share the information you�ve entered on
+              this site when you select solar providers to contact you.
+            </div>
+          </div>
+        </div>
+
+        <div id="taking-next-steps" class="section">
+          <div class="section-inner">
+            <figure class="align-paragraph">
+              <img alt="" src="../images/about/6-taking-steps.png">
+            </figure>
+            <h3 class="md-display-1">
+              Taking next steps
+            </h3>
+            <p class="md-body">
+              If you�d like to know more or to get started on going solar,
+              Project Sunroof can put you in touch with solar providers who
+              serve your area.
+            </p>
+            <p class="md-body">
+              Project Sunroof will only send information you provide to solar
+              providers that you selected.
+            </p>
+          </div>
+        </div>
+
+        <div class="section section-grey section-next-page">
+          <div class="section-inner">
+            <h3 class="md-headline">
+              Still have questions?
+            </h3>
+            <a class="flat-btn" href="../faq/">
+              See our FAQ
+            </a>
+          </div>
+        </div>-->
+
+      </div>
+
+      <!-- Footer -->
+      <div class="footer-wrapper border-gradient-top">
+        <!--<div class="footer-title-link">
+          <img alt="Google logo"
+               class="footer-logo"
+               src="https://www.gstatic.com/images/branding/googlelogo/1x/googlelogo_black_color_60x24dp.png"
+               srcset="https://www.gstatic.com/images/branding/googlelogo/1x/googlelogo_black_color_60x24dp.png 1x,
+                       https://www.gstatic.com/images/branding/googlelogo/2x/googlelogo_black_color_60x24dp.png 2x">
+        </div>-->
+        <span class="footer-links">
+          <a class="footer-link" href="../about/" id="SuncatcherAboutLink">About</a>
+          <a class="footer-link" href="../faq/" id="SuncatcherFaqLink">FAQ</a>
+          <a class="footer-link"
+             href="/intl/en/policies/privacy/"
+             target="_blank"
+             id="SuncatcherPrivacyLink">Privacy</a>
+          <a class="footer-link"
+             href="/intl/en/policies/terms/"
+             target="_blank"
+             id="SuncatcherTermsLink">Terms</a>
+          <a class="footer-link mobile-hide"
+             href="javascript:;"
+             data-action="feedback">Send feedback</a>
+        </span>
+      </div>
+    </div>
+	
+	<script>
+		(function() {
+		  /**
+		   * Controller for sidebar navigation UI.
+		   * @param {!Element} el Wrapper element for navigation.
+		   * @param {!Element} btnEl Button element used to toggle navigation.
+		   * @constructor
+		   */
+		  var Navigation = function(el, btnEl) {
+			/** @private {!Element} */
+			this.el_ = el;
+			/** @private {!Element} */
+			this.btnEl_ = btnEl;
+			/** @private {!Element} */
+			this.feedbackBtnEl_ = el.querySelector('[data-action=feedback]');
+
+			// Style active links.
+			[].slice.call(el.querySelectorAll('.nav-link')).forEach(function(link) {
+			  if (link.pathname === window.location.pathname) {
+				link.className += ' active';
+			  }
+			});
+
+			// Feedback modal.
+			this.feedbackBtnEl_.addEventListener(
+				'click', this.startFeedback.bind(this));
+
+			// Events are bound to 'mousedown' and 'touchstart', rather than 'click'.
+			// Mobile Safari disregards the event spec, and suppresses 'click' events on
+			// non-interactive elements. We need clicks anywhere outside the sidebar to
+			// *close* the sidebar, so the 'click' event isn't an option.
+			// See: http://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
+			//
+			// Sidebar state changes:
+			// - Button: toggle the sidebar.
+			// - Document: Close the sidebar, if open.
+			// - Sidebar: Stop bubbling, so sidebar does not close during navigation.
+			this.btnEl_.addEventListener('mousedown', this.toggle.bind(this));
+			this.btnEl_.addEventListener('touchstart', this.toggle.bind(this));
+			var stopPropagation = function(e) { e.stopPropagation(); };
+			this.el_.addEventListener('mousedown', stopPropagation);
+			this.el_.addEventListener('touchstart', stopPropagation);
+			document.addEventListener('mousedown', this.close_.bind(this));
+			document.addEventListener('touchstart', this.close_.bind(this));
+		  };
+
+		  /**
+		   * @return {boolean} Whether the sidebar UI is open.
+		   * @private
+		   */
+		  Navigation.prototype.isOpen_ = function() {
+			return !!document.body.className.match(/\snav\-open/);
+		  };
+
+		  /**
+		   * Opens the sidebar UI.
+		   * @private
+		   */
+		  Navigation.prototype.open_ = function() {
+			document.body.className += ' nav-open';
+		  };
+
+		  /**
+		   * Closes the sidebar UI.
+		   * @private
+		   */
+		  Navigation.prototype.close_ = function() {
+			if (this.isOpen_()) {
+			  var body = document.body;
+			  body.className = body.className.replace(/\snav\-open/, '');
+			}
+		  };
+
+		  /**
+		   * Shows/hides the sidebar UI.
+		   * @param {!Event} e
+		   */
+		  Navigation.prototype.toggle = function(e) {
+			if (this.isOpen_()) {
+			  this.close_();
+			} else {
+			  this.open_();
+			}
+			// These are redundant (preventing default is not theoretically necessary),
+			// but mobile Safari disagrees.
+			this.btnEl_.blur();
+			e.preventDefault();
+			e.stopPropagation();
+		  };
+
+		  /**
+		   * Shows the 'send feedback' modal (go/feedback-api).
+		   */
+		  Navigation.prototype.startFeedback = function() {
+			window.userfeedback.api.startFeedback(
+				{'productId': '411345', 'bucket': 'ff_wave_1'});
+			this.close_();
+		  };
+
+		  /** Bootstrap */
+		  var el = document.querySelector('.sidebar-nav');
+		  var btnEl = document.querySelector('.header-nav-toggle');
+		  if (el && btnEl) {
+			var nav = new Navigation(el, btnEl);
+		  }
+		}());
+	</script>
+
+    <script src="../js/address_form.js"></script>
+    <script src="../js/footer.js"></script>
+  </body>
 </html>

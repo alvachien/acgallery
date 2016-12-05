@@ -18,10 +18,11 @@ var paths = {
     cssApp: app + 'css/',
     viewsApp: app + 'views/',
     localeApp: app + 'locales/',
+    imgApp: app + 'imgs/',
 
     jsVendors: lib + 'js/',    
     cssVendors: lib + 'css/',
-    imgVendors: lib + 'img/',
+    imgVendors: lib + 'imgs/',
     fontsVendors: lib + 'fonts/'
 };
 
@@ -33,92 +34,23 @@ gulp.task('setup-vendors-js', function () {
     gulp.src([
         'core-js/client/*.js',
         'systemjs/dist/system*.js',
-        'reflect-metadata/*.js',
         'rxjs/**/*.js',
         'zone.js/dist/*.js',
         '@angular/**/*.js',
-        'moment/min/*.js',
-        'ng2-bootstrap/**/*.js',
-        'ng2-translate/**/*.js',
-        'angular-in-memory-web-api/**/*.js',
-        'ng2-file-upload/**/*.js',
-        'jquery/dist/jquery*.js',
-        'bootstrap/dist/js/bootstrap*.js',
-        'tether/dist/js/tether*.js',
         'oidc-client/dist/*.js',
-        'alertify.js/dist/js/*.js',
-        'magnific-popup/dist/**/*.js'
         ], {
             cwd: "node_modules/**"
         })
         .pipe(gulp.dest(paths.jsVendors));
-
-    gulp.src([
-        'app/libs/fancyBox/*.js',
-       ])
-        .pipe(gulp.dest(paths.jsVendors + 'fancyBox/'));
 });
 
 gulp.task('setup-vendors-css', function () {
-    gulp.src([
-      paths.npm + 'tether/dist/css/tether*.css',
-      paths.npm + 'bootstrap/dist/css/bootstrap.css',
-      paths.npm + 'font-awesome/css/font-awesome*.css',
-      paths.npm + 'magnific-popup/dist/**/*.css'
-    ]).pipe(gulp.dest(paths.cssVendors));
-
-    gulp.src([
-        'app/libs/fancyBox/*.css',
-    ])
-    .pipe(gulp.dest(paths.cssVendors));
-});
-
-gulp.task('setup-vendors-webuploader', function () {
-    gulp.src([
-        'app/libs/webuploader.html5only.min.js',
-    ]).pipe(gulp.dest(paths.jsVendors));
-    gulp.src([
-        'app/libs/webuploader.css',
-    ]).pipe(gulp.dest(paths.cssVendors));
-});
-
-gulp.task('setup-vendors-fineuploader', function () {
-    gulp.src([
-      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.core.js',
-      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.core.js.map',
-      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.js',
-      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.js.map',
-      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.min.js',
-      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.min.js.map',
-      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-new.css',
-      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-new.min.css',
-      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-new.min.css.map',
-      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-gallery.css',
-      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-gallery.min.css',
-      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-gallery.min.css.map',
-    ]).pipe(gulp.dest(lib + 'fineuploader/'));
-
-    gulp.src([
-      paths.npm + 'fine-uploader/fine-uploader/templates/*.html',
-    ]).pipe(gulp.dest(lib + 'fineuploader/templates/'));
-
-    gulp.src([
-      paths.npm + 'fine-uploader/fine-uploader/placeholders/*.png',
-    ]).pipe(gulp.dest(lib + 'fineuploader/placeholders/'));
 });
 
 gulp.task('setup-vendors-font', function () {
-    gulp.src([
-      paths.npm + 'font-awesome/fonts/FontAwesome.otf',
-      paths.npm + 'font-awesome/fonts/fontawesome-webfont.eot',
-      paths.npm + 'font-awesome/fonts/fontawesome-webfont.svg',
-      paths.npm + 'font-awesome/fonts/fontawesome-webfont.ttf',
-      paths.npm + 'font-awesome/fonts/fontawesome-webfont.woff',
-      paths.npm + 'font-awesome/fonts/fontawesome-webfont.woff2',
-    ]).pipe(gulp.dest(paths.fontsVendors));
 });
 
-gulp.task('setup-vendors', ['setup-vendors-js', 'setup-vendors-css', 'setup-vendors-font', 'setup-vendors-fineuploader']);
+gulp.task('setup-vendors', ['setup-vendors-js' ]);
 
 gulp.task('setup-environment', function (done) {
     gulp.src([
@@ -149,6 +81,12 @@ gulp.task('build-locales', function () {
     ]).pipe(gulp.dest(paths.localeApp));
 });
 
+gulp.task('build-img', function () {
+    gulp.src([
+        'app/imgs/**/*.*'
+    ]).pipe(gulp.dest(paths.imgApp));
+});
+
 gulp.task('compile-typescript', function (done) {
     //var tsResult = tsProject.src() // instead of gulp.src(...) 
     //        .pipe(ts(tsProject));
@@ -170,19 +108,6 @@ gulp.task('compile-typescript', function (done) {
 
 });
 
-gulp.task('watch.views', ['before-compile-view'], function () {
-    return gulp.watch('app/views/*.html', ['before-compile-view']);
-});
-gulp.task('watch.css', ['before-compile-css'], function () {
-    return gulp.watch('app/css/*.css', ['before-compile-css']);
-});
-
-gulp.task('watch.ts', ['compile-typescript'], function () {
-    return gulp.watch('app/scripts/**/*.ts', ['compile-typescript']);
-});
-
-gulp.task('watch', ['watch.ts', 'watch.views', 'watch.css']);
-
 gulp.task('clean-lib', function () {
     return del([lib]);
 });
@@ -194,5 +119,5 @@ gulp.task('build-clean', ['clean-lib', 'clean-app']);
 
 gulp.task('build', function () {
     runSequence('build-clean',
-              ['setup-vendors', 'setup-environment', 'build-view', 'build-css', 'build-locales', 'compile-typescript']);
+              ['setup-vendors', 'setup-environment', 'build-view', 'build-css', 'build-locales', 'build-img', 'compile-typescript']);
 });

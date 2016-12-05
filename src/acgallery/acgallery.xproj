@@ -21,6 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <DnxInvisibleFolder Include="bower_components\" />
+    <DnxInvisibleFolder Include="ElderFiles\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\DotNet.Web\Microsoft.DotNet.Web.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>
