@@ -20,7 +20,7 @@
             '@angular/http': 'lib:@angular/http/bundles/http.umd.js',
             '@angular/router': 'lib:@angular/router/bundles/router.umd.js',
             '@angular/forms': 'lib:@angular/forms/bundles/forms.umd.js',
-            '@angular/material': 'npm:@angular/material/material.umd.js',
+            '@angular/material': 'lib:@angular/material/material.umd.js',
 
             // angular testing umd bundles
             '@angular/core/testing': 'lib:@angular/core/bundles/core-testing.umd.js',
@@ -34,6 +34,7 @@
 
             // other libraries
             'rxjs': 'lib:rxjs',
+            'ng2-translate': 'lib:ng2-translate/bundles/index.js',
             'oidc-client': 'lib:oidc-client/dist/oidc-client.min.js'
         },
         packages: {

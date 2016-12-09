@@ -1,0 +1,106 @@
+﻿<div class="header-wrap">
+    <a aria-label="Main menu" class="header-nav-toggle" href="javascript:;" role="button" tabindex="0">
+        <span class="material-icons-extended">&#xE5D2;</span>
+    </a>
+    <a class="header-title-link" [routerLink]="['/home']" routerLinkActive="active">
+        <img alt="Photo Gallery, by Alva Chien"
+             class="header-logo"
+             src="app/imgs/logo@2X.png">
+    </a>
+
+    <nav class="sidebar-nav">
+        <ul class="nav-section">
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/album']" routerLinkActive="active">
+                    Albums
+                    <sup class="nav-link-beta">Beta</sup>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/photo']" routerLinkActive="active">
+                    Photos
+                    <sup class="nav-link-beta">Beta</sup>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="../about/">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../how-it-works/">Credits</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../process/">Installation process</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../faq/">About</a>
+            </li>
+        </ul>
+        <ul class="nav-section">
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:;" data-action="feedback">Send feedback</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://www.google.com/intl/en/policies/privacy/" target="_blank">Privacy</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://www.google.com/intl/en/policies/terms/" target="_blank">Terms</a>
+            </li>
+        </ul>
+    </nav>
+
+    <nav class="header-nav">
+        <ul class="nav-section">
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/album']" routerLinkActive="active">
+                    Albums
+                    <sup class="nav-link-beta">Beta</sup>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/photo']" routerLinkActive="active">
+                    Photos
+                    <sup class="nav-link-beta">Beta</sup>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../how-it-works/">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../faq/">FAQ</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<div class="main-content-wrapper">
+    <div class="main-content">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+
+<div class="footer-wrapper border-gradient-top">
+    <!--<div class="footer-title-link">
+        <img alt="Google logo"
+            class="footer-logo"
+            src="https://www.gstatic.com/images/branding/googlelogo/1x/googlelogo_black_color_60x24dp.png"
+            srcset="https://www.gstatic.com/images/branding/googlelogo/1x/googlelogo_black_color_60x24dp.png 1x,
+                    https://www.gstatic.com/images/branding/googlelogo/2x/googlelogo_black_color_60x24dp.png 2x">
+    </div>-->
+    <span class="footer-links">
+        <a class="footer-link" href="../about/" id="SuncatcherAboutLink">About</a>
+        <a class="footer-link" href="../faq/" id="SuncatcherFaqLink">FAQ</a>
+        <a class="footer-link"
+            href="/intl/en/policies/privacy/"
+            target="_blank"
+            id="SuncatcherPrivacyLink">Privacy</a>
+        <a class="footer-link"
+            href="/intl/en/policies/terms/"
+            target="_blank"
+            id="SuncatcherTermsLink">Terms</a>
+        <a class="footer-link mobile-hide"
+            href="javascript:;"
+            data-action="feedback">Send feedback</a>
+    </span>
+</div>
+
+

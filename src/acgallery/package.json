@@ -23,6 +23,7 @@
     "@angular/router": "^3.2.0",
     "@angular/upgrade": "^2.2.0",
     "@angular/material": "^2.0.0-alpha.10",
+    "ng2-translate": "^4.2.0",
 
     "core-js": "^2.4.1",
     "oidc-client": "^1.2.2",

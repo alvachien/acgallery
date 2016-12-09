@@ -37,6 +37,7 @@ gulp.task('setup-vendors-js', function () {
         'rxjs/**/*.js',
         'zone.js/dist/*.js',
         '@angular/**/*.js',
+        'ng2-translate/**/*.js',
         'oidc-client/dist/*.js',
         ], {
             cwd: "node_modules/**"

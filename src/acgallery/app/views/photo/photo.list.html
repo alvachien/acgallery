@@ -1,0 +1,139 @@
+﻿<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Photos List</h3>
+    </div>
+
+    <div class="panel-body">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item" [class.disabled]="!objUtil.isPreviousVisible">
+                    <a class="page-link" (click)="onPagePreviousClick()" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                <li class="page-item" *ngFor="let pageidx of objUtil.visPags" [class.active]="objUtil.currentPage === pageidx">
+                    <a class="page-link" (click)="onPageClick(pageidx)">{{pageidx}}</a>
+                </li>
+                <li class="page-item" [class.disabled]="!objUtil.isNextVisible">
+                    <a class="page-link" (click)="onPageNextClick()" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="card-deck-wrapper">
+            <div class="card-deck popup-gallery">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 card card-block text-xs-center" *ngFor="let photo of photos">
+                    <a href="{{photo.fileUrl}}" title="{{photo.title}}">
+                        <img class="img img-responsive thumbnail" style="display: block; width: 100% !important;height: auto !important;" src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" width="260" height="172" />
+                    </a>
+                    <div class="card-block">
+                        <h4 class="card-title">{{photo.title}}</h4>
+                        <p class="card-text">{{photo.desp}}</p>
+                        <div class="card-block">
+                            <button class="btn btn-link" *ngIf="canChangePhoto(photo)" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhoto">
+                                Change
+                            </button>
+                            <button class="btn btn-link" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhotoExif">
+                                EXIF
+                            </button>
+                            <button class="btn btn-link" *ngIf="canChangePhoto(photo)" (click)="onAssignAlbum(photo)">
+                                Assign
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item" [class.disabled]="!objUtil.isPreviousVisible">
+                    <a class="page-link" (click)="onPagePreviousClick()" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                <li class="page-item" *ngFor="let pageidx of objUtil.visPags" [class.active]="objUtil.currentPage === pageidx">
+                    <a class="page-link" (click)="onPageClick(pageidx)">{{pageidx}}</a>
+                </li>
+                <li class="page-item" [class.disabled]="!objUtil.isNextVisible">
+                    <a class="page-link" (click)="onPageNextClick()" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="modal fade" id="modalPhoto" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" *ngIf="selectedPhoto">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Change Photo metadata</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label for="title-input" class="col-xs-2 col-form-label">Title</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" id="title-input" [(ngModel)]="selectedPhoto.title">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="desp-input" class="col-xs-2 col-form-label">Desp</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" id="desp-input" [(ngModel)]="selectedPhoto.desp">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" (click)="onSavePhotoMetadata()" data-dismiss="modal">Save changes</button>
+                    </div>
+                </div> <!-- /.modal-content -->
+            </div> <!-- /.modal-dialog -->
+        </div> <!-- /.modal -->
+
+        <div class="modal fade" id="modalPhotoExif" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content" *ngIf="selectedPhoto">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">EXIF info</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div style="max-height: 300px; overflow: auto;">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Group</th>
+                                        <th>Name</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let exif of selectedPhoto.exifTags">
+                                        <td>{{exif.group}}</td>
+                                        <td>{{exif.name}}</td>
+                                        <td>{{exif.value}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div> <!-- /.modal-content -->
+            </div> <!-- /.modal-dialog -->
+        </div> <!-- /.modal -->
+    </div>
+</div>
