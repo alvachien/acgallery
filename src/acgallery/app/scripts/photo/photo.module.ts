@@ -1,6 +1,7 @@
 ﻿import { NgModule }                 from '@angular/core';
 import { FormsModule }              from '@angular/forms';
 import { CommonModule }             from '@angular/common';
+import { MaterialModule }           from '@angular/material';
 
 import { PhotoService }             from '../services/photo.service';
 
@@ -14,6 +15,7 @@ import { photoRouting }             from './photo.routing';
     imports: [
         CommonModule,
         FormsModule,
+        MaterialModule.forRoot(),
         photoRouting
     ],
     declarations: [

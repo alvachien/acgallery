@@ -22,16 +22,6 @@
             '@angular/forms': 'lib:@angular/forms/bundles/forms.umd.js',
             '@angular/material': 'lib:@angular/material/material.umd.js',
 
-            // angular testing umd bundles
-            '@angular/core/testing': 'lib:@angular/core/bundles/core-testing.umd.js',
-            '@angular/common/testing': 'lib:@angular/common/bundles/common-testing.umd.js',
-            '@angular/compiler/testing': 'lib:@angular/compiler/bundles/compiler-testing.umd.js',
-            '@angular/platform-browser/testing': 'lib:@angular/platform-browser/bundles/platform-browser-testing.umd.js',
-            '@angular/platform-browser-dynamic/testing': 'lib:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic-testing.umd.js',
-            '@angular/http/testing': 'lib:@angular/http/bundles/http-testing.umd.js',
-            '@angular/router/testing': 'lib:@angular/router/bundles/router-testing.umd.js',
-            '@angular/forms/testing': 'lib:@angular/forms/bundles/forms-testing.umd.js',
-
             // other libraries
             'rxjs': 'lib:rxjs',
             'ng2-translate': 'lib:ng2-translate/bundles/index.js',

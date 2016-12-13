@@ -7,6 +7,7 @@ import { DialogService }                    from '../services/dialog.service';
 import '../rxjs-operators';
 import { AuthService }                      from '../services/auth.service';
 import { DebugLogging }                     from '../app.setting';
+import { MdSnackBar, MdSnackBarConfig }     from '@angular/material';
 
 @Component({
     selector: 'acgallery-album-create',
@@ -35,18 +36,18 @@ export class AlbumCreateComponent implements OnInit, OnDestroy {
             console.log("Entering ngOnInit of AlbumCreateComponent");
         }
 
-        if (!this.canCreateAlbum()) {
-            if (this.authService.authSubject.getValue().getUserName()) {
-                this.router.navigate(['/unauthorized']);
-            } else {
-                this.router.navigate(['/forbidden']);
-            }
-        }
-        if (!this.curSub) {
-            this.curSub = this.albumService.curalbum$.subscribe(data => {
-                this.afterAlbumCreated(data);
-            });
-        }
+        //if (!this.canCreateAlbum()) {
+        //    if (this.authService.authSubject.getValue().getUserName()) {
+        //        this.router.navigate(['/unauthorized']);
+        //    } else {
+        //        this.router.navigate(['/forbidden']);
+        //    }
+        //}
+        //if (!this.curSub) {
+        //    this.curSub = this.albumService.curalbum$.subscribe(data => {
+        //        this.afterAlbumCreated(data);
+        //    });
+        //}
     }
 
     ngOnDestroy() {

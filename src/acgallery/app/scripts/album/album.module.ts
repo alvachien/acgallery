@@ -1,7 +1,7 @@
 ﻿import { NgModule }                 from '@angular/core';
 import { FormsModule }              from '@angular/forms';
 import { CommonModule }             from '@angular/common';
-
+import { MaterialModule }           from '@angular/material';
 import { AlbumService }             from '../services/album.service';
 
 import { AlbumComponent }           from './album.component';
@@ -15,6 +15,7 @@ import { albumRouting }             from './album.routing';
     imports: [
         CommonModule,
         FormsModule,
+        MaterialModule.forRoot(),
         albumRouting
     ],
     declarations: [

@@ -2,6 +2,7 @@
     <a aria-label="Main menu" class="header-nav-toggle" href="javascript:;" role="button" tabindex="0">
         <span class="material-icons-extended">&#xE5D2;</span>
     </a>
+
     <a class="header-title-link" [routerLink]="['/home']" routerLinkActive="active">
         <img alt="Photo Gallery, by Alva Chien"
              class="header-logo"
@@ -17,22 +18,24 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link active" [routerLink]="['/album/list']" routerLinkActive="active">Album List</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" [routerLink]="['/album/create']" routerLinkActive="active">Create an Album</a>
+            </li>
+        </ul>
+        <ul class="nav-section">
+            <li class="nav-item">
                 <a class="nav-link" [routerLink]="['/photo']" routerLinkActive="active">
                     Photos
                     <sup class="nav-link-beta">Beta</sup>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="../about/">About</a>
+                <a class="nav-link active" [routerLink]="['/photo/list']" routerLinkActive="active">Photo List</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="../how-it-works/">Credits</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../process/">Installation process</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../faq/">About</a>
+                <a class="nav-link active" [routerLink]="['/photo/upload']" routerLinkActive="active">Upload photos</a>
             </li>
         </ul>
         <ul class="nav-section">
