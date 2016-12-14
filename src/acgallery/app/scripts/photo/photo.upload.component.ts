@@ -15,9 +15,9 @@ declare var qq: any;
 
 @Component({
     selector: 'acgallery-photo-upload',
-    templateUrl: 'app/views/photo/photo.upload.html'
+    templateUrl: 'app/views/photo/photo.upload.html',
+    styleUrls: ['app/css/photo/upload.css'],
 })
-
 export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public selectedFiles: any;

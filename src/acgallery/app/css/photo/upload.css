@@ -1,0 +1,14 @@
+﻿.photo-upload-container {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.photo-upload-left {
+  flex:30;
+  margin: inherit;
+}
+
+.photo-upload-table {
+    flex:70;
+    margin:inherit;
+}

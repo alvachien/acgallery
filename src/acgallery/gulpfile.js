@@ -1,22 +1,20 @@
-/// <binding AfterBuild='build' Clean='clean-lib' />
-const gulp  = require('gulp'),
-    sass    = require('gulp-sass'),
-    ts      = require('gulp-typescript'),
-    fs      = require("fs"),
-    del     = require('del'),
-    path    = require('path'),
-    runSequence = require('run-sequence');
+const gulp = require('gulp');
+const ts   = require('gulp-typescript');
+const fs = require('fs');
+const del = require('del');
+const path = require('path');
+const runSequence = require('run-sequence');
 
-var lib = "./wwwroot/libs/";
-var app = "./wwwroot/app/";
-var srcRoot = "./app/";
+var lib = './wwwroot/libs/';
+var app = './wwwroot/app/';
+var srcRoot = './app/';
 
 var paths = {
     npm: './node_modules/',
 
     srcCode: srcRoot + 'scripts/**/*.ts',
     srcView: srcRoot + 'views/**/*.html',
-    srcScss: srcRoot + 'scss/**/*.scss',
+    srcCss: srcRoot + 'css/**/*.css',
     srcLocales: srcRoot + 'locales/**/*.json',
     srcImgs: srcRoot + 'imgs/**/*.*',
 
@@ -57,7 +55,32 @@ gulp.task('setup-vendors-css', function () {
 gulp.task('setup-vendors-font', function () {
 });
 
-gulp.task('setup-vendors', ['setup-vendors-js' ]);
+gulp.task('setup-vendors-fineuploader', function () {
+    gulp.src([
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.core.js',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.core.js.map',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.js',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.js.map',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.min.js',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader.min.js.map',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-new.css',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-new.min.css',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-new.min.css.map',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-gallery.css',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-gallery.min.css',
+      paths.npm + 'fine-uploader/fine-uploader/fine-uploader-gallery.min.css.map',
+    ]).pipe(gulp.dest(lib + 'fineuploader/'));
+
+    gulp.src([
+      paths.npm + 'fine-uploader/fine-uploader/templates/*.html',
+    ]).pipe(gulp.dest(lib + 'fineuploader/templates/'));
+
+    gulp.src([
+      paths.npm + 'fine-uploader/fine-uploader/placeholders/*.png',
+    ]).pipe(gulp.dest(lib + 'fineuploader/placeholders/'));
+});
+
+gulp.task('setup-vendors', ['setup-vendors-js', 'setup-vendors-fineuploader']);
 
 gulp.task('setup-environment', function (done) {
     gulp.src([
@@ -72,10 +95,8 @@ gulp.task('build-view', function () {
     gulp.src(paths.srcView).pipe(gulp.dest(paths.viewsApp));
 });
 
-gulp.task('build-sass', function () {
-    return gulp.src(paths.srcScss)
-      .pipe(sass().on('error', sass.logError))
-      .pipe(gulp.dest(paths.cssApp));
+gulp.task('build-css', function () {
+    gulp.src(paths.srcCss).pipe(gulp.dest(paths.cssApp));
 });
 
 //gulp.task('sass:watch', function () {
@@ -93,8 +114,7 @@ gulp.task('build-img', function () {
 gulp.task('compile-typescript', function (done) {
     var tsResult = gulp.src(paths.srcCode)
      .pipe(tsProject(), undefined, ts.reporter.fullReporter());
-    return tsResult.js.pipe(gulp.dest(paths.tsOutput));
-
+    return tsResult.js.pipe(gulp.dest(paths.jsApp));
 });
 
 gulp.task('clean-lib', function () {
@@ -108,5 +128,5 @@ gulp.task('build-clean', ['clean-lib', 'clean-app']);
 
 gulp.task('build', function () {
     runSequence('build-clean',
-              ['setup-vendors', 'setup-environment', 'build-view', 'build-scss', 'build-locales', 'build-img', 'compile-typescript']);
+              ['setup-vendors', 'setup-environment', 'build-view', 'build-css', 'build-locales', 'build-img', 'compile-typescript']);
 });

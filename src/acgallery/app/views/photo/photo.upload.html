@@ -1,4 +1,25 @@
-﻿<!--<div class="container">
+﻿<div class="photo-upload-container" *ngIf="canUploadPhoto()">
+    <div class="photo-upload-left">
+        <button md-raised-button id="load-file-button-id" #uploadFileRef>Select files</button>
+    </div>
+
+    <div class="photo-upload-table">
+        <div md-headline>Files</div>
+
+        <md-list>
+            <md-list-item *ngFor="let updphoto of arUpdPhotos">
+                <h3 md-line>{{updphoto.ID}}</h3>
+                <p md-line>
+                    <span>{{updphoto.OrgName}} -- </span>
+                    <span>{{updphoto.Size}}</span>
+                    <span>{{updphoto.Dimension}}</span>
+                </p>
+            </md-list-item>
+        </md-list>
+    </div>
+</div>
+
+<!--<div class="container">
 <div class="alert alert-danger" role="alert" *ngIf="!canUploadPhoto()">
     <strong>Oh snap!</strong> You have no authority to upload a photo.
     <br />
