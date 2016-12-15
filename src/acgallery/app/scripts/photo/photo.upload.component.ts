@@ -52,17 +52,22 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
             console.log(elm);
         }
 
-        this.authservice.authContent.subscribe((x) => {
-            if (x.canUploadPhoto()) {
-                let sizes = x.getUserUploadKBSize();
-                this.photoMinKBSize = sizes[0];
-                this.photoMaxKBSize = sizes[1];
-            } else {
-                this.photoMinKBSize = 0;
-                this.photoMaxKBSize = 0;
-            }
-            });
-        this.canCrtAlbum = this.authservice.authSubject.getValue().canCreateAlbum();
+        //this.authservice.authContent.subscribe((x) => {
+        //    if (x.canUploadPhoto()) {
+        //        let sizes = x.getUserUploadKBSize();
+        //        this.photoMinKBSize = sizes[0];
+        //        this.photoMaxKBSize = sizes[1];
+        //    } else {
+        //        this.photoMinKBSize = 0;
+        //        this.photoMaxKBSize = 0;
+        //    }
+        //    });
+        //this.canCrtAlbum = this.authservice.authSubject.getValue().canCreateAlbum();
+        //this.albumcreate = new Album();
+
+        // For testing purpose
+        this.photoMaxKBSize = 10000;
+        this.canCrtAlbum = true;
         this.albumcreate = new Album();
     }
 
@@ -97,7 +102,7 @@ export class PhotoUploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if (!this.uploader) {
             this.uploader = new qq.FineUploaderBasic({
-                button: that.elemUploadFile.nativeElement,
+                button: that.elemUploadFile._elementRef.nativeElement,                
                 autoUpload: false,
                 request: {
                     endpoint: 'api/file',

@@ -1,9 +1,9 @@
-﻿<div class="photo-upload-container" *ngIf="canUploadPhoto()">
-    <div class="photo-upload-left">
-        <button md-raised-button id="load-file-button-id" #uploadFileRef>Select files</button>
+﻿<div layout="row" layout-xs="column" layout-wrap *ngIf="canUploadPhoto()">
+    <div flex="30">
+        <button md-raised-button  id="load-file-button-id" #uploadFileRef>Select files</button>
     </div>
 
-    <div class="photo-upload-table">
+    <div flex="70">
         <div md-headline>Files</div>
 
         <md-list>
