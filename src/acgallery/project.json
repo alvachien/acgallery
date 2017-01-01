@@ -1,7 +1,5 @@
 {
   "dependencies": {
-    "IdentityServer4.AccessTokenValidation": "1.0.1-rc3",
-    "Magick.NET.Core-Q8": "7.0.3.502",
     "Microsoft.AspNetCore.Mvc": "1.1.0",
     "Microsoft.AspNetCore.Diagnostics": "1.1.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
@@ -13,7 +11,9 @@
     "Microsoft.AspNetCore.Razor.Tools": {
       "version": "1.1.0-preview4-final",
       "type": "build"
-    }
+    },
+    "Magick.NET.Core-Q8": "7.0.4.100",
+    "IdentityServer4.AccessTokenValidation": "1.0.1"
   },
 
   "tools": {

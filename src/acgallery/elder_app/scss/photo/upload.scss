@@ -1,0 +1,33 @@
+﻿.photo-upload-container {
+  display: flex;
+  flex-flow: row;
+  padding: 8px;
+  box-shadow: 0px 2px 5px 0 rgba(52, 47, 51, 0.63);
+  opacity: 0.9;
+  color: #fff;
+  text-align: center;
+
+  md-list, md-nav-list {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    width: 350px;
+    margin: 20px 20px 0 0;
+  }
+
+  photo-upload-left {
+    display:flex;
+  }
+
+  photo-upload-table {
+    display:flex;
+  }
+
+  md-icon {
+    color: rgba(0, 0, 0, 0.12);
+  }
+
+  [md-list-icon] {
+    color: white;
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
+

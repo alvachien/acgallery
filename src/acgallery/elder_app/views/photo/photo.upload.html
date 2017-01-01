@@ -1,17 +1,21 @@
-﻿<div layout="row" layout-xs="column" layout-wrap *ngIf="canUploadPhoto()">
-    <div flex="30">
+﻿<div class="photo-upload-container" layout-wrap *ngIf="canUploadPhoto()">
+    <div fx-flex="30" class="photo-upload-left">
         <button md-raised-button  id="load-file-button-id" #uploadFileRef>Select files</button>
     </div>
 
-    <div flex="70">
+    <div fx-flex="60" class="photo-upload-table">
         <div md-headline>Files</div>
 
         <md-list>
             <md-list-item *ngFor="let updphoto of arUpdPhotos">
                 <h3 md-line>{{updphoto.ID}}</h3>
                 <p md-line>
-                    <span>{{updphoto.OrgName}} -- </span>
+                    <span>{{updphoto.OrgName}}</span>
+                </p>
+                <p md-line>
                     <span>{{updphoto.Size}}</span>
+                </p>
+                <p md-line>
                     <span>{{updphoto.Dimension}}</span>
                 </p>
             </md-list-item>

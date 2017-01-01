@@ -77,7 +77,7 @@ namespace acgallery
 #endif
                 RequireHttpsMetadata = false,
 
-                ScopeName = "api.acgallery",
+                ApiName = "api.acgallery",
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
                 AuthenticationScheme = "Bearer"

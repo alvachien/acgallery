@@ -13,7 +13,6 @@ import { MdSnackBar, MdSnackBarConfig }     from '@angular/material';
     selector: 'acgallery-album-create',
     templateUrl: 'app/views/album/album.create.html'
 })
-
 export class AlbumCreateComponent implements OnInit, OnDestroy {
     album: Album = null;
     curSub: Subscription = null;

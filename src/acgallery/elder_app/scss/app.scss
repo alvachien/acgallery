@@ -2,25 +2,6 @@
 border: none;
 }
 
-.section-intro {
-background-image: url(app/imgs/bg-2048w.jpg);
-}
-
-@media (max-width: 1280px),
-        screen and (max-width: 640px) (min-resolution: 192dpi),
-        screen and (max-width: 640px) and (-webkit-min-device-pixel-ratio: 2) {
-.section-intro {
-    background-image: url(app/imgs/bg-1024w.jpg);
-}
-}
-
-@media (max-width: 640px),
-        screen and (max-width: 320px) (min-resolution: 192dpi),
-        screen and (max-width: 320px) and (-webkit-min-device-pixel-ratio: 2) {
-.section-intro {
-    background-image: url(app/imgs/bg-640w.jpg);
-}
-}
 
 .md-display-2 {
 font-weight: 400;

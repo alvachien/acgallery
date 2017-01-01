@@ -7,6 +7,7 @@ import { routing,
     appRoutingProviders } from './app.routing';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from "ng2-translate";
 import { MaterialModule } from '@angular/material';
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 import { AlbumModule }    from './album/album.module';
 import { PhotoModule }    from './photo/photo.module';
@@ -33,6 +34,7 @@ import { HomeComponent }  from './home/home.component';
             deps: [Http]
         }),
         MaterialModule.forRoot(),
+        FlexLayoutModule.forRoot(),
         AlbumModule,
         PhotoModule
     ],
