@@ -1,0 +1,100 @@
+
+
+<md-card>
+  <md-card-title>Photo Upload</md-card-title>
+  <md-card-subtitle>Upload the photos</md-card-subtitle>
+  <md-divider></md-divider>
+
+  <div class="w3-row-padding">
+      <div class="w3-container w3-quarter">
+          <div class="w3-btn w3-white w3-border" #uploadFileRef>
+            <div>Select files</div>
+          </div>
+      </div>
+
+      <div class="w3-container w3-rest">
+        <table td-data-table>
+          <th td-data-table-column
+              *ngFor="let column of clnUpdPhotos"
+              [numeric]="column.numeric">
+            {{column.label}}
+          </th>
+          <th td-data-table-column>
+            Is Public
+          </th>
+          <th td-data-table-column>
+            Title
+          </th>
+          <th td-data-table-column>
+            Desp
+          </th>
+          <tr td-data-table-row *ngFor="let row of arUpdPhotos">
+            <td td-data-table-cell *ngFor="let column of clnUpdPhotos" [numeric]="column.numeric">
+              {{row[column.name]}}
+            </td>
+            <td td-data-table-cell class="upload-input-field">
+              <md-slide-toggle [(ngModel)]="row.IsPublic"></md-slide-toggle>
+            </td>
+            <td td-data-table-cell class="upload-input-field">
+              <md-input [(ngModel)]="row.Title" type="text" placeholder="Title" name="title"></md-input>
+            </td>
+            <td td-data-table-cell class="upload-input-field">
+              <md-input [(ngModel)]="row.Desp" type="text" placeholder="Desp" name="desp"></md-input>
+            </td>
+          </tr>
+        </table>
+      </div>
+  </div>
+
+  <md-divider ></md-divider>
+
+  <div class="w3-row-padding" style="margin-top:20px;">
+    <md-radio-group [(ngModel)]="selectedAlbumOption">
+      <md-radio-button *ngFor="let o of albumOptions" [value]="o.value" style="margin-right:20px;">
+        {{o.label}}
+      </md-radio-button>
+    </md-radio-group>
+  </div>
+
+  <div class="w3-row-padding" *ngIf="isAssginToExistingAlbum()">
+  </div>
+
+  <div class="w3-row-padding" *ngIf="isAssginToNewAlbum()">
+    <form #albumCreateForm="ngForm" class="albumcreate-form">
+      <table style="width: 100%" cellspacing="0">
+        <tr>
+          <td>
+            <md-input class="albumcreate-full-width" [(ngModel)]="albumcreate.Title" type="text" placeholder="Title" name="title"></md-input>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <md-input class="albumcreate-full-width" [(ngModel)]="albumcreate.Desp" type="text" placeholder="Desp" name="desp"></md-input>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <md-slide-toggle [(ngModel)]="albumcreate.IsPublic" name="isPublic">Is Public</md-slide-toggle>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <md-input class="albumcreate-full-width" [(ngModel)]="albumcreate.AccessCode" type="text" placeholder="Access Code" name="accesscode"></md-input>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <md-divider ></md-divider>
+
+  <md-progress-bar style="margin-top:20px;" mode="determinate" *ngIf="IsUploading" value="40"></md-progress-bar>
+
+  <md-divider></md-divider>
+
+  <md-card-actions>
+    <button md-button color="accent" (click)="onSubmit($event)">Upload</button>
+    <button md-button color="accent">Abort</button>
+  </md-card-actions>
+</md-card>
+

@@ -82,9 +82,16 @@ namespace acgallery
         }
 
         [HttpPost]
-        [Authorize(Policy = "FileUploadPolicy")]
+        //[Authorize(Policy = "FileUploadPolicy")]
         public async Task<IActionResult> UploadPhotos(ICollection<IFormFile> files)
         {
+#if DEBUG
+            foreach (var clm in User.Claims.AsEnumerable())
+            {
+                System.Diagnostics.Debug.WriteLine("Type = " + clm.Type + "; Value = " + clm.Value);
+            }
+#endif
+
             var uploads = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot/uploads");
             if (!Directory.Exists(uploads))
             {
@@ -103,12 +110,6 @@ namespace acgallery
             {
                 return new ObjectResult(new PhotoViewModelEx(false, String.Empty));
             }
-#if DEBUG
-            foreach (var clm in User.Claims.AsEnumerable())
-            {
-                System.Diagnostics.Debug.WriteLine("Type = " + clm.Type + "; Value = " + clm.Value);
-            }
-#endif
             var usrName = User.FindFirst(c => c.Type == "sub").Value;
 
             var rst = new PhotoViewModelEx(true, String.Empty);
