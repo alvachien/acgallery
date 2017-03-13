@@ -1,3 +1,130 @@
-<p>
-  photoupload works!
-</p>
+<div class="container">
+<div class="alert alert-danger" role="alert" *ngIf="!canUploadPhoto()">
+    <strong>Oh snap!</strong> You have no authority to upload a photo.
+    <br />
+    Please register yourself first. 
+    <br />
+        If you already signed-in, please contact <address>
+        Alva Chien (<a href="mailto:alvachien@live.com">email</a>, <a href="http://www.flickr.com/photos/alvachien">Flickr</a>, etc)
+    </address> for help.
+</div>
+
+<div class="container" *ngIf="canUploadPhoto()">
+    <div class="col-md-3">
+        <div class="row">
+            <!--<input type="file" class="form-control-file" (change)="onChange($event)" multiple />-->
+            <div class="form-control-file btn btn-primary" id="load-file-button-id" #uploadFileRef>
+                <div>Select files</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9" style="margin-bottom: 40px">
+
+        <h3>Upload queue</h3>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="10%">ID</th>
+                    <th width="15%">OrgName</th>
+                    <th width="15%">Size</th>
+                    <th width="15%">Dimension</th>
+                    <th width="5%">Public</th>
+                    <th width="15%">Title</th>
+                    <th width="15%">Desp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let updphoto of arUpdPhotos">
+                    <td><strong>{{updphoto.ID}}</strong></td>
+                    <td><strong>{{updphoto.OrgName}}</strong></td>
+                    <td nowrap>{{updphoto.Size}}</td>
+                    <td nowrap>{{updphoto.Dimension}}</td>
+                    <td><input type="checkbox" [(ngModel)]="updphoto.IsPublic" /></td>
+                    <td><input type="text" [(ngModel)]="updphoto.Title" /></td>
+                    <td><input type="text" [(ngModel)]="updphoto.Desp" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+    <br />
+
+    <div class="row">
+        <div class="row">
+            <input type="radio" name="assignAlbum" [checked]="assignAlbum == 0" (click)="onAssignAblumClick(0)">
+            <label>Not assign to album</label>
+        </div>
+        <div class="row">
+            <input type="radio" name="assignAlbum" [checked]="assignAlbum == 1" (click)="onAssignAblumClick(1)">
+            <label>Assign to existing album</label>
+        </div>
+        <div class="row" *ngIf="canCreateAlbum()">
+            <input type="radio" name="assignAlbum" [checked]="assignAlbum == 2" (click)="onAssignAblumClick(2)">
+            <label>Assign to a new album</label>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="isAssginToExistingAlbum()">
+        <table class="table">
+            <thead class="thead-default">
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>Title</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let album of allAlbum">
+                    <td><div class="checkbox"><input type="checkbox" [(ngModel)]="album.IsSelected"></div></td>
+                    <td><img src="{{album.Thumbnail}}" class="img-rounded pull-xs-left" style="display: block; width: 100% !important;height: auto !important;" alt="..."></td>
+                    <td>{{album.Title}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row" *ngIf="isAssginToNewAlbum()">
+        <form #albumCreateForm="ngForm" style="border:2px solid black;">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title"
+                        required
+                        [(ngModel)]="albumcreate.Title" name="title"
+                        #title="ngModel">
+                <div [hidden]="title.valid || title.pristine"
+                        class="alert alert-danger">
+                    Title is required
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="desp">Desp</label>
+                <input type="text" class="form-control" id="desp"
+                        [(ngModel)]="albumcreate.Desp" name="desp">
+            </div>
+            <div class="form-group">
+                <label class="btn btn-secondary">
+                    <input type="checkbox" autocomplete="off" id="isPublic"
+                            [(ngModel)]="albumcreate.IsPublic" name="isPublic"> Is Public
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="accesscode">Access Code</label>
+                <input type="text" class="form-control" id="accesscode"
+                        [(ngModel)]="albumcreate.AccessCode" name="accesscode">
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <!--<progressbar max="100" >
+            <span style="color:white; white-space:nowrap;">{{progressNum}} %</span>
+        </progressbar>-->
+    </div>
+
+    <div class="row">
+        <input type="submit" [disabled]="!arUpdPhotos || arUpdPhotos.length <= 0 || isUploading" (click)="onSubmit($event)" />
+    </div>
+</div>

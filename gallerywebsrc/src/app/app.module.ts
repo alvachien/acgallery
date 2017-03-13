@@ -15,6 +15,8 @@ import { PhotouploadComponent } from './photoupload/photoupload.component';
 import { HomeComponent } from './home/home.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { PhotolistComponent } from './photolist/photolist.component';
+import { AboutComponent } from './about/about.component';
+import { CreditsComponent } from './credits/credits.component';
 
 export function funcHttpLoaderFactory(http: Http) {
     return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
@@ -28,7 +30,9 @@ export function funcHttpLoaderFactory(http: Http) {
     PhotouploadComponent,
     HomeComponent,
     PagenotfoundComponent,
-    PhotolistComponent
+    PhotolistComponent,
+    AboutComponent,
+    CreditsComponent
   ],
   imports: [
     BrowserModule,

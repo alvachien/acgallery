@@ -54,6 +54,9 @@
   },
   "defaults": {
     "styleExt": "css",
-    "component": {}
+    "serve": {
+        "port": 29522,
+        "host": "localhost"
+    }
   }
 }
