@@ -1,10 +1,10 @@
-import { GallerywebappPage } from './app.po';
+import { GallerywebsrcPage } from './app.po';
 
-describe('gallerywebapp App', function() {
-  let page: GallerywebappPage;
+describe('gallerywebsrc App', () => {
+  let page: GallerywebsrcPage;
 
   beforeEach(() => {
-    page = new GallerywebappPage();
+    page = new GallerywebsrcPage();
   });
 
   it('should display message saying app works', () => {

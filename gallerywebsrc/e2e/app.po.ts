@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class GallerywebappPage {
+export class GallerywebsrcPage {
   navigateTo() {
     return browser.get('/');
   }
