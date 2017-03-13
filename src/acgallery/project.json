@@ -1,19 +1,19 @@
 {
   "dependencies": {
-    "Microsoft.AspNetCore.Mvc": "1.1.0",
-    "Microsoft.AspNetCore.Diagnostics": "1.1.0",
-    "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.1.0",
-    "Microsoft.AspNetCore.StaticFiles": "1.1.0",
-    "Microsoft.Extensions.Logging.Console": "1.1.0",
     "System.Data.Common": "4.3.0",
     "System.Data.SqlClient": "4.3.0",
     "Microsoft.AspNetCore.Razor.Tools": {
       "version": "1.1.0-preview4-final",
       "type": "build"
     },
-    "Magick.NET.Core-Q8": "7.0.4.100",
-    "IdentityServer4.AccessTokenValidation": "1.0.1"
+    "IdentityServer4.AccessTokenValidation": "1.1.0",
+    "Magick.NET.Core-Q8": "7.0.4.701",
+    "Microsoft.AspNetCore.Diagnostics": "1.1.1",
+    "Microsoft.AspNetCore.Mvc": "1.1.2",
+    "Microsoft.AspNetCore.Server.IISIntegration": "1.1.1",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.1.1",
+    "Microsoft.AspNetCore.StaticFiles": "1.1.1",
+    "Microsoft.Extensions.Logging.Console": "1.1.1"
   },
 
   "tools": {
@@ -27,10 +27,6 @@
   "frameworks": {
     "netcoreapp1.1": {
       "dependencies": {
-        "Microsoft.NETCore.App": {
-          "type": "platform",
-          "version": "1.1.0-*"
-        }
       },
       "imports": "dnxcore50"
     }
@@ -54,16 +50,11 @@
       "favicon.ico"
     ],
     "exclude": [
-      "node_modules",
-      "bower_components"
     ]
   },
 
   "scripts": {
     "prepublish": [
-      "npm install",
-      "npm install @types/jasmine @types/node @types/jquery @types/fancybox @types/selenium-webdriver",
-      "gulp --gulpfile gulpfile.js build"
     ],
     "postpublish": [
       "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
