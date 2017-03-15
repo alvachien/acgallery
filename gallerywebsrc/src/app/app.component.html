@@ -1,12 +1,13 @@
 <nav class="navbar fixed-top navbar-toggleable-md navbar-light bg-faded">
-   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarContainer" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-     <span class="navbar-toggler-icon"></span>
-   </button>
-    <div class="collapse navbar-collapse" id="navbarContainer">
-        <a class="navbar-brand" href="#">
-            <img src="/assets/favicon.ico" width="30" height="30" class="d-inline-block align-top" alt=""> AC Gallery
-        </a>
-        <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+    <a class="navbar-brand" [routerLink]="['/']">
+        <img src="/assets/favicon.ico" width="30" height="30" class="d-inline-block align-top" alt=""> AC Gallery
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuAlbum" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <md-icon>ic_photo_album</md-icon>&nbsp;Album<b class="caret"></b>
@@ -28,7 +29,7 @@
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdownAbout" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownAbout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <md-icon>info</md-icon>&nbsp;About<b class="caret"></b>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuAbout">
@@ -48,83 +49,13 @@
                 </div>
             </li>
         </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" *ngIf="!isLoggedIn" (click)="onLogin()">{{'Login.Login' | translate}}</button>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" *ngIf="isLoggedIn" (click)="onUserDetail()">{{titleLogin}}</button>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" *ngIf="isLoggedIn" (click)="onLogout()">{{'Login.Logout' | translate}}</button>
+        </form>        
     </div>
 </nav>
-
-<!--<div class="pos-f-t">
-    <div class="collapse" id="navbar-header">
-        <div class="container bg-inverse p-a-1">
-            <h3>Collapsed content</h3>
-            <p>Toggleable via the navbar brand.</p>
-        </div>
-    </div>
-    <nav class="navbar navbar-light fixed-top bg-faded">
-        <div class="container">
-            <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
-                &#9776;
-            </button>
-            <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
-                <a class="navbar-brand" [routerLink]="['/home']" routerLinkActive="active">AC Photo Gallery</a>
-                <ul class="nav navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <md-icon>ic_photo_album</md-icon>&nbsp;Album<b class="caret"></b>
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" [routerLink]="['/album']" routerLinkActive="active">Albums</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" [routerLink]="['/album/create']" routerLinkActive="active">Create an album</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <md-icon>photo</md-icon>&nbsp;Photo<b class="caret"></b>
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" [routerLink]="['/photo']" routerLinkActive="active">Photos</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" [routerLink]="['/photo/upload']" routerLinkActive="active">Upload</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <md-icon>info</md-icon>&nbsp;About<b class="caret"></b>
-                        </a>
-                        <div class="dropdown-menu">
-                            <h6 class="dropdown-header">Help</h6>
-                            <a class="dropdown-item" [routerLink]="['/about']" routerLinkActive="active"><md-icon>info</md-icon>&nbsp;About</a>
-                            <a class="dropdown-item" [routerLink]="['/credits']" routerLinkActive="active">Credits</a>
-                            <div class="dropdown-divider"></div>
-                            <h6 class="dropdown-header">Websites</h6>
-                            <a class="dropdown-item" href="http://www.alvachien.com/alvablog/" target="_blank"><md-icon>home</md-icon>&nbsp;Personal Website</a>
-                            <div class="dropdown-divider"></div>
-                            <h6 class="dropdown-header">Social Network</h6>
-                            <a class="dropdown-item" href="https://github.com/alvachien" target="_blank"><i class="fa fa-github fa-fw"></i>&nbsp;Github</a>
-                            <a class="dropdown-item" href="https://www.flickr.com/photos/alvachien" target="_blank"><i class="fa fa-flickr fa-fw"></i>&nbsp;Flickr</a>
-                            <a class="dropdown-item" href="https://www.facebook.com/alva.chien" target="_blank"><i class="fa fa-facebook fa-fw"></i>&nbsp;Facebook</a>
-                        </div>
-                    </li>
-                </ul>
-
-                <ul class="nav navbar-nav float-xs-right float-sm-right float-md-right float-lg-right">
-                    <li class="nav-item" *ngIf="!isLoggedIn">
-                        <a class="nav-link" (click)="onLogin()">{{'Login.Login' | translate}}</a>
-                    </li>
-                    <li class="nav-item dropdown" *ngIf="isLoggedIn">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-user"></i>&nbsp;{{titleLogin}}<b class="caret"></b>
-                        </a>
-                        <div class="dropdown-menu">
-                            <h6 class="dropdown-header">{{'Login.User' | translate}}</h6>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" (click)="onLogout()">{{'Login.Logout' | translate}}</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</div>-->
 
 <div class="m-t-1" style="padding-top: 70px; padding-bottom: 70px;">
     <div id="alertifyjs">

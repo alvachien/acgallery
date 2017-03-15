@@ -9,12 +9,20 @@ import { environment } from '../environments/environment';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  public isLoggedIn: boolean;
+  public titleLogin: string;
+
   constructor(private _translateService: TranslateService) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-
     }
     
     this._translateService.addLangs(["en", "zh"]);
     this._translateService.setDefaultLang('en');    
+
+  }
+
+  onLogin() : void {
+  }
+  onLogout() : void {    
   }
 }
