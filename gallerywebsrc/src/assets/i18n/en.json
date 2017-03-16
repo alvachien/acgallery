@@ -90,6 +90,13 @@
   },
   "Nav": {
     "Home": "Home",
+    "Photo": "Photo",
+    "Photos": "Photos",
+    "Album": "Album",
+    "Albums": "Albums",
+    "AlbumCreate": "Create an Album",
+    "PhotoUpload": "Upload",
+
     "Users": "Users",
     "UserList": "User List",
     "UserDetail": "User Detail",
@@ -102,5 +109,9 @@
     "Credits": "Credits",
     "Version": "Version",
     "Libraries": "Libraries"
+  },
+  "Language": {
+    "English": "English",
+    "SimpChinese": "Simplified Chinese"
   }
 }

@@ -90,6 +90,13 @@
   },
   "Nav": {
     "Home": "主页",
+    "Photo": "照片",
+    "Photos": "照片",
+    "Album": "相册",
+    "Albums": "相册",
+    "AlbumCreate": "新建相册",
+    "PhotoUpload": "上传照片",
+    
     "Users": "用户",
     "UserList": "用户列表",
     "UserDetail": "用户详细信息",
@@ -102,5 +109,9 @@
     "Credits": "Credits",
     "Version": "版本",
     "Libraries": "资料库"
+  },
+  "Language": {
+    "English": "英语",
+    "SimpChinese": "简体中文"
   }
 }

@@ -10,27 +10,27 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuAlbum" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <md-icon>ic_photo_album</md-icon>&nbsp;Album<b class="caret"></b>
+                    <md-icon>ic_photo_album</md-icon>&nbsp;{{'Nav.Album' | translate}}<b class="caret"></b>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuAlbum">
-                    <a class="dropdown-item" [routerLink]="['/album']" routerLinkActive="active">Albums</a>
+                    <a class="dropdown-item" [routerLink]="['/album']" routerLinkActive="active">{{'Nav.Albums' | translate}}</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" [routerLink]="['/album/create']" routerLinkActive="active">Create an album</a>
+                    <a class="dropdown-item" [routerLink]="['/album/create']" routerLinkActive="active">{{'Nav.AlbumCreate' | translate}}</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuPhoto" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <md-icon>photo</md-icon>&nbsp;Photo<b class="caret"></b>
+                    <md-icon>photo</md-icon>&nbsp;{{'Nav.Photo' | translate}}<b class="caret"></b>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuPhoto">
-                    <a class="dropdown-item" [routerLink]="['/photo']" routerLinkActive="active">Photos</a>
+                    <a class="dropdown-item" [routerLink]="['/photo']" routerLinkActive="active">{{'Nav.Photos' | translate}}</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" [routerLink]="['/photo/upload']" routerLinkActive="active">Upload</a>
+                    <a class="dropdown-item" [routerLink]="['/photo/upload']" routerLinkActive="active">{{'Nav.PhotoUpload' | translate}}</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownAbout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <md-icon>info</md-icon>&nbsp;About<b class="caret"></b>
+                    <md-icon>info</md-icon>&nbsp;{{'Nav.About' | translate}}<b class="caret"></b>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuAbout">
                     <h6 class="dropdown-header">Help</h6>
@@ -51,9 +51,8 @@
         </ul>
 
         <form class="form-inline my-2 my-lg-0">
-            <select class="form-control my-2 my-sm-0" >
-                <option selected="true">English</option>
-                <option >Others</option>
+            <select class="form-control my-2 my-sm-0" [(ngModel)]="curLang" (change)="onCurLanguageChanged()" name="applang" #applang="ngModel" >
+                <option *ngFor="let lang of arLangs" [value]="lang.Value">{{lang.DisplayString | translate}}</option>
             </select>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit" *ngIf="!isLoggedIn" (click)="onLogin()">{{'Login.Login' | translate}}</button>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit" *ngIf="isLoggedIn" (click)="onUserDetail()">{{titleLogin}}</button>

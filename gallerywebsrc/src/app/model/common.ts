@@ -11,3 +11,7 @@ export enum LogLevel {
     Debug = 4
 }
 
+export class AppLang {
+    Value: string = "";
+    DisplayString: string = "";
+}
