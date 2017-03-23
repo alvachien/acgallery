@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-albumlist',
@@ -7,7 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AlbumlistComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _authService: AuthService) {
+  }
 
   ngOnInit() {
   }

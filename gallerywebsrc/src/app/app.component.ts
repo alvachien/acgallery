@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LogLevel, AppLang } from './model/common';
 import { environment } from '../environments/environment';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'acgallery-root',
@@ -14,18 +15,36 @@ export class AppComponent {
   public arLangs: Array<AppLang>;
   public curLang: string = "";
 
-  constructor(private _translateService: TranslateService) {
+  constructor(private _translateService: TranslateService,
+    private _authService: AuthService) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
     }
     
     this.initLang();
+
+    // Register the Auth service
+    this._authService.authContent.subscribe(x => {
+      // this._uistatus.setIsLogin(x.isAuthorized);
+      // if (x.isAuthorized) {
+      //   this.titleLogin = x.getUserName();
+      //   this._uistatus.setTitleLogin(x.getUserName());
+      // }
+    }, error => {
+      // Error occurred
+    }, () => {
+      // Completed
+    });
   }
 
   // Handlers
   onLogin() : void {
+    this._authService.doLogin();
   }
-  onLogout() : void {    
+  
+  onLogout() : void {
+    this._authService.doLogout();
   } 
+
   onCurLanguageChanged($event): void {
     if (this.curLang !== this._translateService.currentLang) {
       this._translateService.setDefaultLang(this.curLang);
