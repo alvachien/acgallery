@@ -1,3 +1,4 @@
+import { User } from 'oidc-client';
 
 export class UserDetail {
     public UserId: string;
@@ -32,11 +33,11 @@ export class UserHistory {
 
 export class UserAuthInfo {
     public isAuthorized: boolean;
-    private currentUser: any;
+    private currentUser: User;
     private userName: string;
     private accessToken: string;
 
-    public setContent(user: any) : void {
+    public setContent(user: User) : void {
         if (user) {
             this.currentUser = user;
             this.isAuthorized = true;

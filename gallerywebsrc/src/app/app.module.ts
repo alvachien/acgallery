@@ -7,6 +7,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
+import 'oidc-client';
+
+import { AuthService } from './services/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AppComponent } from './app.component';
 import { AlbumComponent } from './album/album.component';
@@ -49,7 +53,10 @@ export function funcHttpLoaderFactory(http: Http) {
     FlexLayoutModule.forRoot(),
     AppRoutingModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    AuthService,
+    TranslateService
+  ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

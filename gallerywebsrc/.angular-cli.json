@@ -9,7 +9,7 @@
       "outDir": "../src/acgallery/wwwroot",
       "assets": [
         "assets",
-        "favicon.ico"
+        "logincallback.html"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -28,8 +28,7 @@
         "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/tether/dist/js/tether.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
-        "../node_modules/hammerjs/hammer.min.js",
-        "../node_modules/oidc-client/dist/oidc-client.min.js"
+        "../node_modules/hammerjs/hammer.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
