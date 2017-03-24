@@ -36,7 +36,7 @@ export class AuthService {
         that.authSubject.value.setContent(u);
 
         // Broadcast event
-        this.userLoadededEvent.emit(u);
+        that.userLoadededEvent.emit(u);
       }
       else {
         that.authSubject.value.cleanContent();

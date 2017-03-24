@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LogLevel, AppLang } from './model/common';
 import { environment } from '../environments/environment';
@@ -16,7 +16,8 @@ export class AppComponent {
   public curLang: string = "";
 
   constructor(private _translateService: TranslateService,
-    private _authService: AuthService) {
+    private _authService: AuthService,
+    private _zone: NgZone) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
     }
     
@@ -24,13 +25,16 @@ export class AppComponent {
 
     // Register the Auth service
     this._authService.authContent.subscribe(x => {
-      // this._uistatus.setIsLogin(x.isAuthorized);
-      // if (x.isAuthorized) {
-      //   this.titleLogin = x.getUserName();
-      //   this._uistatus.setTitleLogin(x.getUserName());
-      // }
+      this._zone.run(() => {
+        this.isLoggedIn = x.isAuthorized;
+        if (this.isLoggedIn) {
+          this.titleLogin = x.getUserName();
+        }
+      });
     }, error => {
-      // Error occurred
+      if (environment.LoggingLevel >= LogLevel.Error) {
+        console.error("ACGallery Log [Error]: Failed in subscribe to User", error);
+      }
     }, () => {
       // Completed
     });

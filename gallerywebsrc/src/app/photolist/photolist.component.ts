@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-photolist',
+  selector: 'acgallery-photolist',
   templateUrl: './photolist.component.html',
   styleUrls: ['./photolist.component.css']
 })

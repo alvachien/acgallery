@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment';
 import { AuthService } from '../services/auth.service';
 
 @Component({
-  selector: 'app-albumlist',
+  selector: 'acgallery-albumlist',
   templateUrl: './albumlist.component.html',
   styleUrls: ['./albumlist.component.css']
 })

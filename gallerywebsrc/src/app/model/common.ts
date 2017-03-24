@@ -15,3 +15,9 @@ export class AppLang {
     Value: string = "";
     DisplayString: string = "";
 }
+
+export enum UIMode {
+    Create = 1,
+    Change = 2,
+    Display = 3
+};

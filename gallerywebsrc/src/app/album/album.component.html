@@ -1,20 +1,15 @@
-<div *ngIf="album" class="container">
+<div *ngIf="objAlbum" class="container">
     <form (ngSubmit)="onSubmit()" #albumForm="ngForm">
         <div class="form-group">
             <label for="title">Title</label>
-            <input type="text" class="form-control" id="title"
-                   required readonly
-                   [(ngModel)]="album.Title" name="title"
-                   #title="ngModel">
-            <div [hidden]="title.valid || title.pristine"
-                 class="alert alert-danger">
+            <input type="text" class="form-control" id="title" required readonly [(ngModel)]="album.Title" name="title" #title="ngModel">
+            <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
                 Title is required
             </div>
         </div>
         <div class="form-group">
             <label for="desp">Desp</label>
-            <input type="text" class="form-control" id="desp" readonly
-                   [(ngModel)]="album.Desp" name="desp">
+            <input type="text" class="form-control" id="desp" readonly [(ngModel)]="album.Desp" name="desp">
         </div>
     </form>
 
@@ -25,7 +20,8 @@
             <div class="card-deck popup-gallery">
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 card card-block text-xs-center" *ngFor="let photo of photos">
                     <a href="{{photo.fileUrl}}" title="{{photo.title}}">
-                        <img src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" class="img img-responsive thumbnail" style="display: block; width: 100% !important;height: auto !important;" />
+                        <img src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" class="img img-responsive thumbnail" style="display: block; width: 100% !important;height: auto !important;"
+                        />
                     </a>
                     <div class="card-block">
                         <h4 class="card-title">{{photo.title}}</h4>
@@ -70,9 +66,12 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary" (click)="onSavePhotoMetadata()">Save changes</button>
                     </div>
-                </div> <!-- /.modal-content -->
-            </div> <!-- /.modal-dialog -->
-        </div> <!-- /.modal -->
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
 
         <div class="modal fade" id="modalPhotoExif" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
@@ -106,9 +105,12 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
-                </div> <!-- /.modal-content -->
-            </div> <!-- /.modal-dialog -->
-        </div> <!-- /.modal -->
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
     </div>
 
     <div class="modal fade" id="modalAccessCode" tabindex="-1" role="dialog">
@@ -127,7 +129,10 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
-            </div> <!-- /.modal-content -->
-        </div> <!-- /.modal-dialog -->
-    </div> <!-- /.modal -->
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 </div>
