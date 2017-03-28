@@ -1,15 +1,15 @@
 <div *ngIf="objAlbum" class="container">
     <form (ngSubmit)="onSubmit()" #albumForm="ngForm">
         <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" class="form-control" id="title" required readonly [(ngModel)]="album.Title" name="title" #title="ngModel">
+            <label for="title">{{"Common.Title" | translate}}</label>
+            <input type="text" class="form-control" id="title" required readonly [(ngModel)]="objAlbum.Title" name="title" #title="ngModel">
             <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
-                Title is required
+                {{"Message.TitleIsMust" | translate}}
             </div>
         </div>
         <div class="form-group">
-            <label for="desp">Desp</label>
-            <input type="text" class="form-control" id="desp" readonly [(ngModel)]="album.Desp" name="desp">
+            <label for="desp">{{"Common.Description" | translate}}</label>
+            <input type="text" class="form-control" id="desp" readonly [(ngModel)]="objAlbum.Desp" name="desp">
         </div>
     </form>
 
