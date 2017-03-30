@@ -66,7 +66,7 @@ export class AppComponent {
     lo.Value = "zh";
     lo.DisplayString = "Language.SimpChinese";
     this.arLangs.push(lo);
-    this.curLang = "zh";
+    this.curLang = "en"; // Default language 
 
     this._translateService.addLangs(["en", "zh"]);
     this._translateService.setDefaultLang(this.curLang);

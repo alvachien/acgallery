@@ -21,7 +21,7 @@ import { Subject } from 'rxjs/Subject';
 })
 export class AlbumComponent implements OnInit {
   private objAlbum: Album = null;
-  private uiMode: UIMode;
+  private uiMode: UIMode = UIMode.Display;
   private currentMode: string;
   private routerID: number;
 
@@ -73,5 +73,9 @@ export class AlbumComponent implements OnInit {
     }, () => {
       // Completed
     });
+  }
+
+  public needShowAccessCode(): boolean {
+    return this.uiMode === UIMode.Create || this.uiMode === UIMode.Change;
   }
 }

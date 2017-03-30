@@ -1,47 +1,47 @@
 <div class="container">
-<div class="container" *ngIf="canUploadPhoto()">
-    <div class="col-md-3">
-        <div class="row">
-            <div class="form-control-file btn btn-primary" id="load-file-button-id" #uploadFileRef>
-                <div>Select files</div>
+    <div class="container" *ngIf="canUploadPhoto()">
+        <div class="col-md-3">
+            <div class="row">
+                <div class="form-control-file btn btn-primary" id="load-file-button-id" #uploadFileRef>
+                    <div>Select files</div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-9" style="margin-bottom: 40px">
+        <div class="col-md-9" style="margin-bottom: 40px">
 
-        <h3>Upload queue</h3>
+            <h3>Upload queue</h3>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th width="10%">ID</th>
-                    <th width="15%">OrgName</th>
-                    <th width="15%">Size</th>
-                    <th width="15%">Dimension</th>
-                    <th width="5%">Public</th>
-                    <th width="15%">Title</th>
-                    <th width="15%">Desp</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let updphoto of arUpdPhotos">
-                    <td><strong>{{updphoto.ID}}</strong></td>
-                    <td><strong>{{updphoto.OrgName}}</strong></td>
-                    <td nowrap>{{updphoto.Size}}</td>
-                    <td nowrap>{{updphoto.Dimension}}</td>
-                    <td><input type="checkbox" [(ngModel)]="updphoto.IsPublic" /></td>
-                    <td><input type="text" [(ngModel)]="updphoto.Title" /></td>
-                    <td><input type="text" [(ngModel)]="updphoto.Desp" /></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="10%">ID</th>
+                        <th width="15%">OrgName</th>
+                        <th width="15%">Size</th>
+                        <th width="15%">Dimension</th>
+                        <th width="5%">Public</th>
+                        <th width="15%">Title</th>
+                        <th width="15%">Desp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let updphoto of arUpdPhotos">
+                        <td><strong>{{updphoto.ID}}</strong></td>
+                        <td><strong>{{updphoto.OrgName}}</strong></td>
+                        <td nowrap>{{updphoto.Size}}</td>
+                        <td nowrap>{{updphoto.Dimension}}</td>
+                        <td><input type="checkbox" [(ngModel)]="updphoto.IsPublic" /></td>
+                        <td><input type="text" [(ngModel)]="updphoto.Title" /></td>
+                        <td><input type="text" [(ngModel)]="updphoto.Desp" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <br />
 
-    <div class="row">
+    <div class="container">
         <div class="row">
             <input type="radio" name="assignAlbum" [checked]="assignAlbum == 0" (click)="onAssignAblumClick(0)">
             <label>Not assign to album</label>
@@ -67,8 +67,11 @@
             </thead>
             <tbody>
                 <tr *ngFor="let album of allAlbum">
-                    <td><div class="checkbox"><input type="checkbox" [(ngModel)]="album.IsSelected"></div></td>
-                    <td><img src="{{album.Thumbnail}}" class="img-rounded pull-xs-left" style="display: block; width: 100% !important;height: auto !important;" alt="..."></td>
+                    <td>
+                        <div class="checkbox"><input type="checkbox" [(ngModel)]="album.IsSelected"></div>
+                    </td>
+                    <td><img src="{{album.Thumbnail}}" class="img-rounded pull-xs-left" style="display: block; width: 100% !important;height: auto !important;"
+                            alt="..."></td>
                     <td>{{album.Title}}</td>
                 </tr>
             </tbody>
@@ -76,35 +79,33 @@
     </div>
 
     <div class="row" *ngIf="isAssginToNewAlbum()">
-        <form #albumCreateForm="ngForm" style="border:2px solid black;">
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input type="text" class="form-control" id="title"
-                        required
-                        [(ngModel)]="albumCreate.Title" name="title"
-                        #title="ngModel">
-                <div [hidden]="title.valid || title.pristine"
-                        class="alert alert-danger">
-                    Title is required
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="desp">Desp</label>
-                <input type="text" class="form-control" id="desp"
-                        [(ngModel)]="albumCreate.Desp" name="desp">
-            </div>
-            <div class="form-group">
-                <label class="btn btn-secondary">
-                    <input type="checkbox" autocomplete="off" id="isPublic"
-                            [(ngModel)]="albumCreate.IsPublic" name="isPublic"> Is Public
-                </label>
-            </div>
-            <div class="form-group">
-                <label for="accesscode">Access Code</label>
-                <input type="text" class="form-control" id="accesscode"
-                        [(ngModel)]="albumCreate.AccessCode" name="accesscode">
-            </div>
-        </form>
+        <md-card>
+            <md-card-header>
+                <md-card-title>New Album</md-card-title>
+            </md-card-header>
+            <md-card-content>
+                <form #albumForm="ngForm">
+                    <md-input-container class="control-full-width">
+                        <input mdInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="albumCreate.Title" name="title"
+                            #title="ngModel">
+                        <md-hint align="end">{{albumCreate.Title && albumCreate.Title.length}} / 20</md-hint>
+                    </md-input-container>
+
+                    <md-input-container class="control-full-width">
+                        <input mdInput placeholder="{{'Common.Description' | translate}}" maxlength="20" [(ngModel)]="albumCreate.Desp" name="albumdesp"
+                            #albumdesp="ngModel">
+                        <md-hint align="end">{{albumCreate.Desp && albumCreate.Desp.length}} / 20</md-hint>
+                    </md-input-container>
+
+                    <md-checkbox class="control-full-width" [(ngModel)]="albumCreate.IsPublic" name="ispubl">Is Public</md-checkbox>
+
+                    <md-input-container class="control-full-width">
+                        <input mdInput placeholder="Access Code" maxlength="20" [(ngModel)]="albumCreate.AccessCode" name="accesscode" #accesscode="ngModel">
+                        <md-hint align="end">{{albumCreate.AccessCode && albumCreate.AccessCode.length}} / 20</md-hint>
+                    </md-input-container>
+                </form>
+            </md-card-content>
+        </md-card>
     </div>
 
     <div class="row">
@@ -114,6 +115,6 @@
     </div>
 
     <div class="row">
-        <input type="submit" [disabled]="!arUpdPhotos || arUpdPhotos.length <= 0 || isUploading" (click)="onSubmit($event)" />
+        <input type="submit" class="btn btn-secondary" (click)="onSubmit($event)" />
     </div>
 </div>

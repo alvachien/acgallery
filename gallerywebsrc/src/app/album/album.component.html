@@ -1,18 +1,31 @@
 <div *ngIf="objAlbum" class="container">
-    <form (ngSubmit)="onSubmit()" #albumForm="ngForm">
-        <div class="form-group">
-            <label for="title">{{"Common.Title" | translate}}</label>
-            <input type="text" class="form-control" id="title" required readonly [(ngModel)]="objAlbum.Title" name="title" #title="ngModel">
-            <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
-                {{"Message.TitleIsMust" | translate}}
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="desp">{{"Common.Description" | translate}}</label>
-            <input type="text" class="form-control" id="desp" readonly [(ngModel)]="objAlbum.Desp" name="desp">
-        </div>
-    </form>
+    <md-card>
+        <md-card-header>
+            <md-card-title>New Album</md-card-title>
+        </md-card-header>
+        <md-card-content>
+            <form (ngSubmit)="onSubmit()" #albumForm="ngForm">
+                <md-input-container class="control-full-width">
+                    <input mdInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="albumCreate.Title" name="title"
+                        #title="ngModel">
+                    <md-hint align="end">{{albumCreate.Title && albumCreate.Title.length}} / 20</md-hint>
+                </md-input-container>
 
+                <md-input-container class="control-full-width">
+                    <input mdInput placeholder="{{'Common.Description' | translate}}" maxlength="20" [(ngModel)]="albumCreate.Desp" name="albumdesp"
+                        #albumdesp="ngModel">
+                    <md-hint align="end">{{albumCreate.Desp && albumCreate.Desp.length}} / 20</md-hint>
+                </md-input-container>
+
+                <md-checkbox class="control-full-width" [(ngModel)]="albumCreate.IsPublic" name="ispubl">Is Public</md-checkbox>
+
+                <md-input-container class="control-full-width" *ngIf="needShowAccessCode()">
+                    <input mdInput placeholder="Access Code" maxlength="20" [(ngModel)]="albumCreate.AccessCode" name="accesscode" #accesscode="ngModel">
+                    <md-hint align="end">{{albumCreate.AccessCode && albumCreate.AccessCode.length}} / 20</md-hint>
+                </md-input-container>
+            </form>
+        </md-card-content>
+    </md-card>
     <hr />
 
     <div class="panel-body">
