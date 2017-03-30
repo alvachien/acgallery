@@ -12,10 +12,9 @@ export class PhotoService {
 
   constructor(private _http: Http,
     private _authService: AuthService) {
-
   }
 
-  public updateFileMetadata(photo: Photo) {
+  public updateFileMetadata(photo: Photo): Observable<any> {
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
@@ -27,7 +26,7 @@ export class PhotoService {
       .map(response => response.json());
   }
 
-  public createFile(fileRecord: any) {
+  public createFile(fileRecord: any): Observable<any> {
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');

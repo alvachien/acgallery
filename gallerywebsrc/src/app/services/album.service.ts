@@ -1,9 +1,64 @@
 import { environment } from '../../environments/environment';
 import { Injectable, EventEmitter } from '@angular/core';
+import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angular/http';
+import { Album, AlbumPhotoLink, AlbumPhotoByAlbum, AlbumPhotoByPhoto } from '../model/album';
+import { Photo } from '../model/photo';
+import { AuthService } from './auth.service';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AlbumService {
 
-  constructor() { }
+  constructor(private _http: Http,
+    private _authService: AuthService) {
+  }
 
+  public createAlbum(album: Album) : Observable<any> {
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+
+    var data = JSON && JSON.stringify(album);
+
+    return this._http.post(environment.AlbumAPIUrl, data, { headers: headers })
+      .map(response => response.json());
+  }
+
+  public updateAlbumPhotoByAlbum(apba: AlbumPhotoByAlbum): Observable<any> {
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+
+    var data = JSON && JSON.stringify(apba);
+
+    return this._http.post(environment.AlbumPhotoByAlbumAPIUrl, data, { headers: headers })
+      .map(response => response.json());
+  }
+
+  public updateAlbumPhotoByPhoto(apbp: AlbumPhotoByPhoto): Observable<any> {
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+
+    var data = JSON && JSON.stringify(apbp);
+
+    return this._http.post(environment.AlbumPhotoByPhotoAPIUrl, data, { headers: headers })
+      .map(response => response.json());
+  }
+
+  public updateMetadata(album: Album): Observable<any> {
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+
+    var data = JSON && JSON.stringify(album);
+
+    return this._http.put(environment.AlbumAPIUrl, data, { headers: headers })
+      .map(response => response.json());
+  }
 }

@@ -5,7 +5,8 @@ import { Router } from '@angular/router';
 import 'fine-uploader';
 import { AuthService } from '../services/auth.service';
 import { PhotoService } from '../services/photo.service';
-import { Album } from '../model/album';
+import { AlbumService } from '../services/album.service';
+import { Album, AlbumPhotoByAlbum } from '../model/album';
 import { Photo, UpdPhoto } from '../model/photo';
 import { LogLevel } from '../model/common';
 import { environment } from '../../environments/environment';
@@ -34,6 +35,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private _zone: NgZone,
     private _router: Router,
     private _authService: AuthService,
+    private _albumService: AlbumService,
     private _photoService: PhotoService,
     private _elmRef: ElementRef,
     public _snackBar: MdSnackBar) {
@@ -81,13 +83,13 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
           sizeLimit: that.photoMaxKBSize * 1024
         },
         callbacks: {
-          onComplete: function(id: number, name, responseJSON) {
+          onComplete: function (id: number, name, responseJSON) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
               console.log("ACGallery [Debug]: Entering uploader_onComplete of PhotoUploadComponent upon ID: " + id.toString() + "; name: " + name);
             }
 
             if (!responseJSON.success)
-                return;
+              return;
 
             // Then, update the record to Database.
             let insPhoto = new Photo();
@@ -103,37 +105,37 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
             insPhoto.uploadedTime = responseJSON.uploadedTime;
             insPhoto.orgFileName = responseJSON.orgFileName;
             if (!insPhoto.orgFileName) {
-                insPhoto.orgFileName = name;
+              insPhoto.orgFileName = name;
             }
             insPhoto.exifTags = responseJSON.exitTags;
 
             if (!insPhoto.title) {
-                insPhoto.title = insPhoto.orgFileName;
+              insPhoto.title = insPhoto.orgFileName;
             }
             if (!insPhoto.desp) {
-                insPhoto.desp = insPhoto.orgFileName;
+              insPhoto.desp = insPhoto.orgFileName;
             }
 
             that._photoService.createFile(insPhoto).subscribe(x => {
-                if (environment.LoggingLevel >= LogLevel.Debug) {
-                  console.log("ACGallery [Debug]: Record created successfully: " + x);
-                }
+              if (environment.LoggingLevel >= LogLevel.Debug) {
+                console.log("ACGallery [Debug]: Record created successfully: " + x);
+              }
 
-                that.photoHadUploaded.push(insPhoto);
+              that.photoHadUploaded.push(insPhoto);
 
-                that.createAlbumPhotoLinkage();
+              that.createAlbumPhotoLinkage();
             }, error => {
-                if (environment.LoggingLevel >= LogLevel.Debug) {
-                  console.log("ACGallery [Debug]: Record created failed: " + error);
-                }
-            });            
+              if (environment.LoggingLevel >= LogLevel.Debug) {
+                console.log("ACGallery [Debug]: Record created failed: " + error);
+              }
+            });
           },
-          onAllComplete: function(succids, failids) {
+          onAllComplete: function (succids, failids) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
               console.log("Entering uploader_onAllComplete of uploader_onAllComplete with succids: " + succids.toString() + "; failids: " + failids.toString());
             }
           },
-          onStatusChange: function(id: number, oldstatus, newstatus) {
+          onStatusChange: function (id: number, oldstatus, newstatus) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
               console.log("Entering uploader_onStatusChange of PhotoUploadComponent upon ID: " + id.toString() + "; From " + oldstatus + " to " + newstatus);
             }
@@ -155,12 +157,12 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
             //DELETE_FAILED
             //PAUSED
           },
-          onSubmit: function(id: number, name: string) {
+          onSubmit: function (id: number, name: string) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
               console.log("ACGallery [Debug]: Entering uploader_onSubmit of PhotoUploadComponent upon ID: " + id.toString() + "; name: " + name);
             }
           },
-          onSubmitted: function(id: number, name: string) {
+          onSubmitted: function (id: number, name: string) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
               console.log("ACGallery [Debug]: Entering uploader_onSubmitted of PhotoUploadComponent upon ID: " + id.toString() + "; name: " + name);
             }
@@ -173,17 +175,17 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
               that._snackBar.open(errormsg);
             }
           },
-          onTotalProgress: function(totalUploadedBytes: number, totalBytes: number) {
+          onTotalProgress: function (totalUploadedBytes: number, totalBytes: number) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
               console.log("ACGallery [Debug]: Entering uploader_onTotalProgress of PhotoUploadComponent with totalUploadedBytes: " + totalUploadedBytes.toString() + "; totalBytes: " + totalUploadedBytes.toString());
             }
           },
-          onUpload: function(id: number, name: string) {
+          onUpload: function (id: number, name: string) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
               console.log("ACGallery [Debug]: Entering uploader_onUpload of PhotoUploadComponent upon ID: " + id.toString() + "; name: " + name);
             }
           },
-          onValidate: function(data) {
+          onValidate: function (data) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
               console.log("ACGallery [Debug]: Entering uploader_onValidate of PhotoUploadComponent with data: " + data);
             }
@@ -200,16 +202,16 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log("ACGallery [Debug]: Entering onSubmit of PhotoUploadComponent");
     }
-    
+
     if (!this.uploader) {
-        this._snackBar.open("Fatal error: uploader not initialized yet!");
-        return;
+      this._snackBar.open("Fatal error: uploader not initialized yet!");
+      return;
     }
 
     // Photo have been choosed already
     if (!this.arUpdPhotos || this.arUpdPhotos.length <= 0) {
-        this._snackBar.open("Select photos before uploading!");
-        return;
+      this._snackBar.open("Select photos before uploading!");
+      return;
     }
 
     if (this.isAssginToNewAlbum()) {
@@ -219,10 +221,23 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         return;
       }
       this.albumCreate.CreatedAt = new Date();
+
+      this._albumService.createAlbum(this.albumCreate).subscribe(x => {
+        this.albumCreate.Id = +x.id;
+        this.doRealUpload();
+      }, error => {
+
+      }, () => {
+
+      });
     } else if (this.isAssginToExistingAlbum()) {
 
-    } 
+    } else {
+      this.doRealUpload();
+    }
+  }
 
+  private doRealUpload(): void {
     // Now the do the real upload
     this.isUploading = true;
     this.photoHadUploaded = [];
@@ -259,6 +274,10 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private readImage(fid: number, file, nname, arPhotos: UpdPhoto[]) {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log("ACGallery [Debug]: Entering onSubmit of PhotoUploadComponent");
+    }
+
     var reader = new FileReader();
     let that = this;
 
@@ -296,5 +315,31 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     reader.readAsDataURL(file);
+  }
+
+  createAlbumPhotoLinkage() {
+    // Add the photos to this new created album
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log("ACGallery [Debug]: Entering createAlbumPhotoLinkage of PhotoUploadComponent: Assign uploaded photo to new created album");
+    }
+
+    let apba = new AlbumPhotoByAlbum();
+    apba.AlbumId = this.albumCreate.Id;
+    apba.PhotoIDList = new Array<string>();
+    for (let i = 0; i < this.photoHadUploaded.length; i++) {
+      apba.PhotoIDList.push(this.photoHadUploaded[i].photoId);
+    }
+
+    this._albumService.updateAlbumPhotoByAlbum(apba).subscribe(
+      x => {
+        //this.onAfterUploadComplete(null);
+      },
+      error => {
+        if (environment.LoggingLevel >= LogLevel.Error) {
+          console.log("ACGallery [Error]: Failed to assign photo to new created album: " + error);
+        }
+      }
+    );
+    this.photoHadUploaded = [];
   }
 }
