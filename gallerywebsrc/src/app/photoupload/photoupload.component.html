@@ -1,27 +1,25 @@
 <div class="container">
     <div class="container" *ngIf="canUploadPhoto()">
         <div class="col-md-3">
-            <div class="row">
-                <div class="form-control-file btn btn-primary" id="load-file-button-id" #uploadFileRef>
-                    <div>Select files</div>
-                </div>
+            <div class="form-control-file btn btn-primary mx-auto" id="load-file-button-id" #uploadFileRef>
+                <div>{{'Photo.ChoosePhoto' | translate}}</div>
             </div>
         </div>
 
         <div class="col-md-9" style="margin-bottom: 40px">
 
-            <h3>Upload queue</h3>
+            <h3>{{'Photo.UploadQueue' | translate}}</h3>
 
             <table class="table">
                 <thead>
                     <tr>
-                        <th width="10%">ID</th>
-                        <th width="15%">OrgName</th>
-                        <th width="15%">Size</th>
-                        <th width="15%">Dimension</th>
-                        <th width="5%">Public</th>
-                        <th width="15%">Title</th>
-                        <th width="15%">Desp</th>
+                        <th width="10%">{{'Common.ID' | translate}}</th>
+                        <th width="15%">{{'Common.Name' | translate}}</th>
+                        <th width="15%">{{'Photo.FileSize' | translate}}</th>
+                        <th width="15%">{{'Photo.Dimension' |translate}}</th>
+                        <th width="5%">{{'Album.IsPublic' | translate}}</th>
+                        <th width="15%">{{'Common.Title' | translate}}</th>
+                        <th width="15%">{{'Common.Description' | translate}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,25 +42,25 @@
     <div class="container">
         <div class="row">
             <input type="radio" name="assignAlbum" [checked]="assignAlbum == 0" (click)="onAssignAblumClick(0)">
-            <label>Not assign to album</label>
+            <label>{{"Photo.Upload_NoAlbum" | translate}}</label>
         </div>
         <div class="row">
             <input type="radio" name="assignAlbum" [checked]="assignAlbum == 1" (click)="onAssignAblumClick(1)">
-            <label>Assign to existing album</label>
+            <label>{{"Photo.Upload_AssignExistAlbum" | translate}}</label>
         </div>
         <div class="row" *ngIf="canCreateAlbum()">
             <input type="radio" name="assignAlbum" [checked]="assignAlbum == 2" (click)="onAssignAblumClick(2)">
-            <label>Assign to a new album</label>
+            <label>{{"Photo.Upload_AssignNewAlbum" | translate}}</label>
         </div>
     </div>
 
     <div class="row" *ngIf="isAssginToExistingAlbum()">
-        <table class="table">
+        <table class="table w-100 p-3">
             <thead class="thead-default">
                 <tr>
                     <th></th>
                     <th></th>
-                    <th>Title</th>
+                    <th>{{'Common.Title' | translate}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -79,28 +77,28 @@
     </div>
 
     <div class="row" *ngIf="isAssginToNewAlbum()">
-        <md-card>
+        <md-card class="w-100 p-3">
             <md-card-header>
-                <md-card-title>New Album</md-card-title>
+                <md-card-title>{{"Photo.Upload_AssignNewAlbum" | translate}}</md-card-title>
             </md-card-header>
             <md-card-content>
                 <form #albumForm="ngForm">
-                    <md-input-container class="control-full-width">
+                    <md-input-container class="w-100 p-3">
                         <input mdInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="albumCreate.Title" name="title"
                             #title="ngModel">
                         <md-hint align="end">{{albumCreate.Title && albumCreate.Title.length}} / 20</md-hint>
                     </md-input-container>
 
-                    <md-input-container class="control-full-width">
+                    <md-input-container class="w-100 p-3">
                         <input mdInput placeholder="{{'Common.Description' | translate}}" maxlength="20" [(ngModel)]="albumCreate.Desp" name="albumdesp"
                             #albumdesp="ngModel">
                         <md-hint align="end">{{albumCreate.Desp && albumCreate.Desp.length}} / 20</md-hint>
                     </md-input-container>
 
-                    <md-checkbox class="control-full-width" [(ngModel)]="albumCreate.IsPublic" name="ispubl">Is Public</md-checkbox>
+                    <md-checkbox [(ngModel)]="albumCreate.IsPublic" name="ispubl">{{"Album.IsPublic" | translate}}</md-checkbox>
 
-                    <md-input-container class="control-full-width">
-                        <input mdInput placeholder="Access Code" maxlength="20" [(ngModel)]="albumCreate.AccessCode" name="accesscode" #accesscode="ngModel">
+                    <md-input-container class="w-100 p-3">
+                        <input mdInput placeholder="{{'Album.AccessCode' | translate}}" maxlength="20" [(ngModel)]="albumCreate.AccessCode" name="accesscode" #accesscode="ngModel">
                         <md-hint align="end">{{albumCreate.AccessCode && albumCreate.AccessCode.length}} / 20</md-hint>
                     </md-input-container>
                 </form>
@@ -109,12 +107,18 @@
     </div>
 
     <div class="row">
-        <!--<progressbar max="100" >
-            <span style="color:white; white-space:nowrap;">{{progressNum}} %</span>
-        </progressbar>-->
+      <section class="m-10">
+        <md-progress-bar
+            class="m-10"
+            color="primary"
+            mode="determinate"
+            [value]="progressNum">
+        </md-progress-bar>
+      </section>
     </div>
 
-    <div class="row">
+    <hr />
+    <div class="row p-3 m-10">
         <input type="submit" class="btn btn-secondary" (click)="onSubmit($event)" />
     </div>
 </div>

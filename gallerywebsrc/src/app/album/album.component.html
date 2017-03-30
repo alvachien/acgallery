@@ -17,10 +17,10 @@
                     <md-hint align="end">{{albumCreate.Desp && albumCreate.Desp.length}} / 20</md-hint>
                 </md-input-container>
 
-                <md-checkbox class="control-full-width" [(ngModel)]="albumCreate.IsPublic" name="ispubl">Is Public</md-checkbox>
+                <md-checkbox class="control-full-width" [(ngModel)]="albumCreate.IsPublic" name="ispubl">{{'Album.IsPublic' | translate}}</md-checkbox>
 
                 <md-input-container class="control-full-width" *ngIf="needShowAccessCode()">
-                    <input mdInput placeholder="Access Code" maxlength="20" [(ngModel)]="albumCreate.AccessCode" name="accesscode" #accesscode="ngModel">
+                    <input mdInput placeholder="{{'Album.AccessCode' | translate}}" maxlength="20" [(ngModel)]="albumCreate.AccessCode" name="accesscode" #accesscode="ngModel">
                     <md-hint align="end">{{albumCreate.AccessCode && albumCreate.AccessCode.length}} / 20</md-hint>
                 </md-input-container>
             </form>

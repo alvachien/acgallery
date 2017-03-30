@@ -117,5 +117,18 @@
   },
   "Message": {
     "TitleIsMust": "标题是必填项"
+  },
+  "Album":{
+    "IsPublic": "公开访问",
+    "AccessCode": "访问码"
+  },
+  "Photo": {
+    "FileSize": "文件大小",
+    "Dimension": "尺寸",
+    "UploadQueue": "上传照片序列",
+    "ChoosePhoto": "选择图片",
+    "Upload_NoAlbum": "不加入相册",
+    "Upload_AssignExistAlbum": "加入已有的相册",
+    "Upload_AssignNewAlbum": "创建一个新相册并加入"
   }
 }

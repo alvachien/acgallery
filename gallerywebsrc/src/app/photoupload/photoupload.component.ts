@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import 'fine-uploader';
 import { AuthService } from '../services/auth.service';
+import { PhotoService } from '../services/photo.service';
 import { Album } from '../model/album';
 import { Photo, UpdPhoto } from '../model/photo';
 import { LogLevel } from '../model/common';
@@ -16,21 +17,24 @@ import { MdSnackBar } from '@angular/material';
   styleUrls: ['./photoupload.component.css']
 })
 export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
-  public selectedFiles: any;
   public progressNum: number = 0;
   public isUploading: boolean = false;
+  public assignAlbum: number = 0;
+
   public photoMaxKBSize: number = 0;
   public photoMinKBSize: number = 0;
   public arUpdPhotos: UpdPhoto[] = [];
-  private uploader: any = null;
-  public assignAlbum: number = 0;
-  private canCrtAlbum: boolean;
-  private albumCreate: Album;
+  private photoHadUploaded: Photo[] = [];
+  public uploader: any = null;
+  public canCrtAlbum: boolean;
+  public albumCreate: Album;
+  public allAlbum: Album[] = [];
   @ViewChild('uploadFileRef') elemUploadFile;
 
   constructor(private _zone: NgZone,
     private _router: Router,
     private _authService: AuthService,
+    private _photoService: PhotoService,
     private _elmRef: ElementRef,
     public _snackBar: MdSnackBar) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
@@ -79,8 +83,50 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         callbacks: {
           onComplete: function(id: number, name, responseJSON) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log("Entering uploader_onComplete of PhotoUploadComponent upon ID: " + id.toString() + "; name: " + name);
+              console.log("ACGallery [Debug]: Entering uploader_onComplete of PhotoUploadComponent upon ID: " + id.toString() + "; name: " + name);
             }
+
+            if (!responseJSON.success)
+                return;
+
+            // Then, update the record to Database.
+            let insPhoto = new Photo();
+            insPhoto.photoId = responseJSON.photoId;
+            insPhoto.width = responseJSON.width;
+            insPhoto.height = responseJSON.height;
+            insPhoto.thumbwidth = responseJSON.thumbWidth;
+            insPhoto.thumbheight = responseJSON.thumbHeight;
+            insPhoto.fileUrl = responseJSON.fileUrl;
+            insPhoto.thumbnailFileUrl = responseJSON.thumbnailFileUrl;
+            insPhoto.fileFormat = responseJSON.fileFormat;
+            insPhoto.uploadedBy = responseJSON.uploadedBy;
+            insPhoto.uploadedTime = responseJSON.uploadedTime;
+            insPhoto.orgFileName = responseJSON.orgFileName;
+            if (!insPhoto.orgFileName) {
+                insPhoto.orgFileName = name;
+            }
+            insPhoto.exifTags = responseJSON.exitTags;
+
+            if (!insPhoto.title) {
+                insPhoto.title = insPhoto.orgFileName;
+            }
+            if (!insPhoto.desp) {
+                insPhoto.desp = insPhoto.orgFileName;
+            }
+
+            that._photoService.createFile(insPhoto).subscribe(x => {
+                if (environment.LoggingLevel >= LogLevel.Debug) {
+                  console.log("ACGallery [Debug]: Record created successfully: " + x);
+                }
+
+                that.photoHadUploaded.push(insPhoto);
+
+                that.createAlbumPhotoLinkage();
+            }, error => {
+                if (environment.LoggingLevel >= LogLevel.Debug) {
+                  console.log("ACGallery [Debug]: Record created failed: " + error);
+                }
+            });            
           },
           onAllComplete: function(succids, failids) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
@@ -152,8 +198,35 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSubmit($event): void {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log("Entering onSubmit of PhotoUploadComponent");
+      console.log("ACGallery [Debug]: Entering onSubmit of PhotoUploadComponent");
     }
+    
+    if (!this.uploader) {
+        this._snackBar.open("Fatal error: uploader not initialized yet!");
+        return;
+    }
+
+    // Photo have been choosed already
+    if (!this.arUpdPhotos || this.arUpdPhotos.length <= 0) {
+        this._snackBar.open("Select photos before uploading!");
+        return;
+    }
+
+    if (this.isAssginToNewAlbum()) {
+      // Check the validity of New Album
+      if (!this.albumCreate.Title) {
+        this._snackBar.open("Title is a must for creating an album!");
+        return;
+      }
+      this.albumCreate.CreatedAt = new Date();
+    } else if (this.isAssginToExistingAlbum()) {
+
+    } 
+
+    // Now the do the real upload
+    this.isUploading = true;
+    this.photoHadUploaded = [];
+    this.uploader.uploadStoredFiles();
   }
 
   getcustomHeader() {

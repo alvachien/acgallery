@@ -117,5 +117,18 @@
   },
   "Message": {
     "TitleIsMust": "Title is manadatory"
+  },
+  "Album":{
+    "IsPublic": "Is Public",
+    "AccessCode": "Access Code"
+  },
+  "Photo": {
+    "FileSize": "File Size",
+    "Dimension": "Dimension",
+    "UploadQueue": "Queue of photo to upload",
+    "ChoosePhoto": "Choose photo",
+    "Upload_NoAlbum": "Without assign to album",
+    "Upload_AssignExistAlbum": "Assign to an existed album",
+    "Upload_AssignNewAlbum": "Create an album and assign"
   }
 }
