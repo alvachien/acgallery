@@ -123,7 +123,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
               that.photoHadUploaded.push(insPhoto);
 
-              that.createAlbumPhotoLinkage();
+              //that.createAlbumPhotoLinkage();
             }, error => {
               if (environment.LoggingLevel >= LogLevel.Debug) {
                 console.log("ACGallery [Debug]: Record created failed: " + error);
@@ -179,6 +179,8 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
             if (environment.LoggingLevel >= LogLevel.Debug) {
               console.log("ACGallery [Debug]: Entering uploader_onTotalProgress of PhotoUploadComponent with totalUploadedBytes: " + totalUploadedBytes.toString() + "; totalBytes: " + totalUploadedBytes.toString());
             }
+
+            that.onUploadProgress(Math.floor(100 * totalUploadedBytes / totalBytes));
           },
           onUpload: function (id: number, name: string) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
@@ -271,6 +273,16 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
   canCreateAlbum(): boolean {
     return this.canCrtAlbum;
+  }
+
+  onUploadProgress(data: number) {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log("ACGallery [Debug]: Uploading progress: " + +data);
+    }
+
+    this._zone.run(() => {
+        this.progressNum = +data;
+    });
   }
 
   private readImage(fid: number, file, nname, arPhotos: UpdPhoto[]) {

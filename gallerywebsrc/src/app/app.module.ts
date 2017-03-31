@@ -10,6 +10,9 @@ import { AppRoutingModule } from './app-routing.module';
 import 'oidc-client';
 
 import { AuthService } from './services/auth.service';
+import { PhotoService } from './services/photo.service';
+import { AlbumService } from './services/album.service';
+import { UIStatusService } from './services/uistatus.service';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AppComponent } from './app.component';
@@ -55,7 +58,10 @@ export function funcHttpLoaderFactory(http: Http) {
   ],
   providers: [
     AuthService,
-    TranslateService
+    TranslateService,
+    PhotoService,
+    AlbumService,
+    UIStatusService
   ],
   bootstrap: [ AppComponent ]
 })

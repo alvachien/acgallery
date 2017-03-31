@@ -1,22 +1,25 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LogLevel, AppLang } from './model/common';
 import { environment } from '../environments/environment';
 import { AuthService } from './services/auth.service';
+import { UIStatusService } from './services/uistatus.service';
 
 @Component({
   selector: 'acgallery-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   public isLoggedIn: boolean;
   public titleLogin: string;
   public arLangs: Array<AppLang>;
   public curLang: string = "";
+  @ViewChild('pswp') elemPSWP;
 
   constructor(private _translateService: TranslateService,
     private _authService: AuthService,
+    private _uistatusService: UIStatusService,
     private _zone: NgZone) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
     }
@@ -38,6 +41,12 @@ export class AppComponent {
     }, () => {
       // Completed
     });
+  }
+
+  ngOnInit() : void {
+    if (this.elemPSWP) {
+      this._uistatusService.elemPSWP = this.elemPSWP;
+    }
   }
 
   // Handlers

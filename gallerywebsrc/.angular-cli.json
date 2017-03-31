@@ -22,14 +22,18 @@
         "styles.css",
         "../node_modules/tether/dist/css/tether-theme-arrows-dark.min.css",
         "../node_modules/tether/dist/css/tether.min.css",
-        "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "../node_modules/photoswipe/dist/photoswipe.css",
+        "../node_modules/photoswipe/dist/default-skin/default-skin.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/tether/dist/js/tether.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
         "../node_modules/hammerjs/hammer.min.js",
-        "../node_modules/fine-uploader/fine-uploader/fine-uploader.core.min.js"
+        "../node_modules/fine-uploader/fine-uploader/fine-uploader.core.min.js",
+        "../node_modules/photoswipe/dist/photoswipe.min.js",
+        "../node_modules/photoswipe/dist/photoswipe-ui-default.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
