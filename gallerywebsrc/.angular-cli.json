@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "../src/acgallery/wwwroot",
+      "outDir": "target",
       "assets": [
         "assets",
         "logincallback.html"

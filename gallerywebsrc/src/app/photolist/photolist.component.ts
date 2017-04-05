@@ -14,6 +14,8 @@ import { LogLevel } from '../model/common';
 import { environment } from '../../environments/environment';
 import { MdSnackBar } from '@angular/material';
 import { UIPagination } from '../model/paginated';
+declare var PhotoSwipe;
+declare var PhotoSwipeUI_Default;
 
 @Component({
   selector: 'acgallery-photolist',
@@ -24,6 +26,7 @@ export class PhotolistComponent implements OnInit {
   public photos: Photo[] = [];
   public selectedPhoto: Photo = null;
   private objUtil: UIPagination = null;
+  private gallery: any = null;
 
   constructor(private _zone: NgZone,
     private _router: Router,
@@ -36,11 +39,35 @@ export class PhotolistComponent implements OnInit {
 
   ngOnInit() {
     this._photoService.loadPhotos().subscribe(x => {
-      this.photos = x;
+      this.photos = x.contentList;
+      let count = x.totalCount;
     }, error => {
-
     }, () => {
-
     });
   }  
+
+  onPictureClick(): void {
+    let items = [];
+    for(let pht of this.photos) {
+      items.push({
+        src: pht.fileUrl,
+        w: pht.width,
+        h: pht.height
+      });
+    }
+
+    // define options (if needed)
+    var options = {
+      history: false,
+      focus: false,
+
+      showAnimationDuration: 0,
+      hideAnimationDuration: 0,
+      index: 0 // start at first slide
+    };
+
+    // Initializes and opens PhotoSwipe
+    this.gallery = new PhotoSwipe( this._uistatusService.elemPSWP, PhotoSwipeUI_Default, items, options);
+    this.gallery.init();
+  }
 }

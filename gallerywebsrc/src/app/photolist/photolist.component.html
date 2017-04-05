@@ -24,75 +24,20 @@
             </ul>
         </nav>
 
-        <div id="demo-test-gallery" class="demo-gallery">
-            <a *ngFor="let photo of photos"
-            >
-            </a>
-            <a href="https://farm4.staticflickr.com/3894/15008518202_c265dfa55f_h.jpg" data-size="1600x1600" data-med="https://farm4.staticflickr.com/3894/15008518202_b016d7d289_b.jpg"
-                data-med-size="1024x1024" data-author="Folkert Gorter" class="demo-gallery__img--main">
-                <img src="https://farm4.staticflickr.com/3894/15008518202_b016d7d289_m.jpg" alt="" />
-                <figure>This is dummy caption.</figure>
-            </a>
+        <div class="acgallery-container" itemscope itemtype="http://schema.org/ImageGallery">
+            <figure *ngFor="let photo of photos" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                <a href="{{photo.fileUrl}}" itemprop="contentUrl"
+                    (click)="onPictureClick()">
+                    <img src="{{photo.thumbnailFileUrl}}" itemprop="thumbnail" alt="{{photo.updtime}}" />
+                </a>
 
-            <a href="https://farm4.staticflickr.com/3894/15008518202_c265dfa55f_h.jpg" data-size="1600x1600" data-med="https://farm4.staticflickr.com/3894/15008518202_b016d7d289_b.jpg"
-                data-med-size="1024x1024" data-author="Folkert Gorter" class="demo-gallery__img--main">
-                <img src="https://farm4.staticflickr.com/3894/15008518202_b016d7d289_m.jpg" alt="" />
-                <figure>This is dummy caption.</figure>
-            </a>
+                <!-- optionally use this method to store image dimensions for PhotoSwipe -->
+                <meta itemprop="width" content="{{photo.width}}">
+                <meta itemprop="height" content="{{photo.height}}">
 
-            <a href="https://farm6.staticflickr.com/5591/15008867125_b61960af01_h.jpg" data-size="1600x1068" data-med="https://farm6.staticflickr.com/5591/15008867125_68a8ed88cc_b.jpg"
-                data-med-size="1024x683" data-author="Samuel Rohl">
-                <img src="https://farm6.staticflickr.com/5591/15008867125_68a8ed88cc_m.jpg" alt="" />
-                <figure>This is dummy caption. It has been placed here solely to demonstrate the look and feel of finished, typeset
-                    text.</figure>
-            </a>
-
-
-            <a href="https://farm4.staticflickr.com/3902/14985871946_24f47d4b53_h.jpg" data-size="1600x1067" data-med="https://farm4.staticflickr.com/3902/14985871946_86abb8c56f_b.jpg"
-                data-med-size="1024x683" data-author="Ales Krivec">
-                <img src="https://farm4.staticflickr.com/3902/14985871946_86abb8c56f_m.jpg" alt="" />
-                <figure>This is dummy caption. It is not meant to be read.</figure>
-            </a>
-
-
-            <a href="https://farm6.staticflickr.com/5584/14985868676_b51baa4071_h.jpg" data-size="1600x1067" data-med="https://farm6.staticflickr.com/5584/14985868676_4b802b932a_b.jpg"
-                data-med-size="1024x683" data-author="Michael Hull">
-                <img src="https://farm6.staticflickr.com/5584/14985868676_4b802b932a_m.jpg" alt="" />
-                <figure>Dummy caption. It's Greek to you. Unless, of course, you're Greek, in which case, it really makes no sense.</figure>
-            </a>
-
-            <a href="https://farm4.staticflickr.com/3920/15008465772_d50c8f0531_h.jpg" data-size="1600x1067" data-med="https://farm4.staticflickr.com/3920/15008465772_383e697089_b.jpg"
-                data-med-size="1024x683" data-author="Thomas Lefebvre">
-                <img src="https://farm4.staticflickr.com/3920/15008465772_383e697089_m.jpg" alt="" />
-                <figure>It's a dummy caption. He who searches for meaning here will be sorely disappointed.</figure>
-            </a>
-        </div>
-
-        <div class="card-deck-wrapper">
-            <div class="card-deck popup-gallery">
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 card card-block text-xs-center" *ngFor="let photo of photos">
-                    <a href="{{photo.fileUrl}}" title="{{photo.title}}">
-                        <img class="img img-responsive thumbnail" style="display: block; width: 100% !important;height: auto !important;" src="{{photo.thumbnailFileUrl}}"
-                            alt="{{photo.updtime}}" width="260" height="172" />
-                    </a>
-                    <div class="card-block">
-                        <h4 class="card-title">{{photo.title}}</h4>
-                        <p class="card-text">{{photo.desp}}</p>
-                        <div class="card-block">
-                            <button class="btn btn-link" *ngIf="canChangePhoto(photo)" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhoto">
-                                Change
-                            </button>
-                            <button class="btn btn-link" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhotoExif">
-                                EXIF
-                            </button>
-                            <button class="btn btn-link" *ngIf="canChangePhoto(photo)" (click)="onAssignAlbum(photo)">
-                                Assign
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                <figcaption itemprop="caption description">{{photo.title}}</figcaption>
+            </figure>
+        </div>        
 
         <nav aria-label="Page navigation">
             <ul class="pagination">

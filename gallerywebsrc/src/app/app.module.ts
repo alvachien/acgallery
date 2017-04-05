@@ -53,7 +53,7 @@ export function funcHttpLoaderFactory(http: Http) {
         }
     }),
     MaterialModule,
-    FlexLayoutModule.forRoot(),
+    FlexLayoutModule,
     AppRoutingModule
   ],
   providers: [
