@@ -13,8 +13,7 @@
     "Microsoft.AspNetCore.Server.IISIntegration": "1.1.1",
     "Microsoft.AspNetCore.Server.Kestrel": "1.1.1",
     "Microsoft.AspNetCore.StaticFiles": "1.1.1",
-    "Microsoft.Extensions.Logging.Console": "1.1.1",
-    "Microsoft.NETCore.App": "1.1.1"
+    "Microsoft.Extensions.Logging.Console": "1.1.1"
   },
 
   "tools": {
