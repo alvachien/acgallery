@@ -35,5 +35,12 @@ export class PhotolistComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._photoService.loadPhotos().subscribe(x => {
+      this.photos = x;
+    }, error => {
+
+    }, () => {
+
+    });
   }  
 }

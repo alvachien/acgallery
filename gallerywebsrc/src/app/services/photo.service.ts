@@ -71,4 +71,14 @@ export class PhotoService {
 
     xhr.send(formData);
   }
+
+  public loadPhotos(): Observable<any> {
+    let headers = new Headers();
+    headers.append('Accept', 'application/json');
+    if (this._authService.authSubject.getValue().isAuthorized)
+      headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+
+    return this._http.get(environment.PhotoAPIUrl, { headers: headers })
+      .map(response => response.json());
+  }
 }
