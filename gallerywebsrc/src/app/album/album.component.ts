@@ -2,7 +2,7 @@ import {
   Component, OnInit, OnDestroy, AfterViewInit, NgZone,
   EventEmitter, Input, Output, ViewContainerRef
 } from '@angular/core';
-import { UIMode } from '../model/common';
+import { UIMode, LogLevel } from '../model/common';
 import { Album } from '../model/album';
 import { Photo } from '../model/photo';
 import { AuthService } from '../services/auth.service';
@@ -46,7 +46,7 @@ export class AlbumComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (environment.DebugLogging) {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log("Entering ngOnInit of AlbumComponent");
     }
 
