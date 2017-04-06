@@ -81,4 +81,19 @@ export class PhotoService {
     return this._http.get(environment.PhotoAPIUrl, { headers: headers })
       .map(response => response.json());
   }
+
+  public loadAlbumPhoto(albumid: string | number, accesscode?: string): Observable<any> {
+    let headers = new Headers();
+    headers.append('Accept', 'application/json');
+    if (this._authService.authSubject.getValue().isAuthorized)
+      headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('albumid', albumid.toString());
+    if (accesscode) {
+      params.set('accesscode', accesscode);
+    }
+
+    return this._http.get(environment.PhotoAPIUrl, { search: params, headers: headers })
+      .map(response => response.json());
+  }
 }

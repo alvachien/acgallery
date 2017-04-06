@@ -6,11 +6,11 @@
     <div class="panel-body">
         <div class="acalbumlist-container" itemscope itemtype="http://schema.org/ImageGallery">
             <figure *ngFor="let album of albumes" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                <a  class="page-link" (click)="onAlbumClick(album.id)" itemprop="contentUrl">
-                    <img src="{{album.firstPhotoThumnailUrl}}" itemprop="thumbnail" alt="{{album.photoCount}}" />
+                <a  class="page-link" (click)="onAlbumClick(album.Id)" itemprop="contentUrl">
+                    <img src="{{album.Thumbnail}}" itemprop="thumbnail" alt="{{album.PhotoCount}}" />
                 </a>
 
-                <figcaption itemprop="caption description">{{album.title}}</figcaption>
+                <figcaption itemprop="caption description">{{album.Title}}</figcaption>
             </figure>
         </div>
     </div>

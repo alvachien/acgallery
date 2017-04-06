@@ -15,7 +15,6 @@ import { LogLevel } from '../model/common';
 import { MdSnackBar } from '@angular/material';
 import { UIPagination } from '../model/paginated';
 
-
 @Component({
   selector: 'acgallery-albumlist',
   templateUrl: './albumlist.component.html',
@@ -36,7 +35,20 @@ export class AlbumlistComponent implements OnInit {
   ngOnInit() {
     this._albumService.loadAlbums().subscribe(x => {
       this._zone.run(() => {
-        this.albumes = x.contentList;
+        this.albumes = [];
+        for(let alb of x.contentList) {
+          let album = new Album();
+          album.init(alb.id, 
+            alb.title,
+            alb.desp,
+            alb.firstPhotoThumnailUrl,
+            alb.createdAt,
+            alb.createdBy,
+            alb.isPublic,
+            alb.accessCode,
+            alb.photoCount);
+          this.albumes.push(album);
+        }
       });
     }, error => {
     }, () => {

@@ -1,0 +1,9 @@
+<h1 md-dialog-title>Input Access Code</h1>
+<div md-dialog-content>
+    <input mdInput #accessCode maxlength="20" placeholder="Access Code" value="">
+    <md-hint align="end">{{accessCode.value.length}} / 20</md-hint>
+</div>
+<div md-dialog-actions>
+  <button md-button (click)="dialogRef.close(accessCode.value)">Submit</button>
+  <button md-button (click)="dialogRef.close()">Cancel</button>
+</div>

@@ -1,0 +1,22 @@
+<h1 md-dialog-title>EXIF Metadata</h1>
+<div md-dialog-content>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Group</th>
+                <th>Name</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let exif of selectedPhoto.exifTags">
+                <td>{{exif.group}}</td>
+                <td>{{exif.name}}</td>
+                <td>{{exif.value}}</td>
+            </tr>
+        </tbody>
+    </table>    
+</div>
+<div md-dialog-actions>
+  <button md-button (click)="dialogRef.close()">Close</button>
+</div>

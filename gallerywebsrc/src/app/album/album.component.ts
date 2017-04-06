@@ -4,16 +4,17 @@ import {
 } from '@angular/core';
 import { UIMode } from '../model/common';
 import { Album } from '../model/album';
+import { Photo } from '../model/photo';
 import { AuthService } from '../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Http, Headers, Response, RequestOptions,
-  URLSearchParams } from '@angular/http';
+import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angular/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { PhotoService } from '../services/photo.service';
 import { AlbumService } from '../services/album.service';
 import { UIStatusService } from '../services/uistatus.service';
+import { MdDialog, MdDialogRef } from '@angular/material';
 
 @Component({
   selector: 'acgallery-album',
@@ -21,7 +22,10 @@ import { UIStatusService } from '../services/uistatus.service';
   styleUrls: ['./album.component.css']
 })
 export class AlbumComponent implements OnInit {
-  private objAlbum: Album = null;
+  public objAlbum: Album = null;
+  public photos: Photo[] = [];
+  public selectedPhoto: Photo;
+
   private uiMode: UIMode = UIMode.Display;
   private currentMode: string;
   private routerID: number;
@@ -33,7 +37,8 @@ export class AlbumComponent implements OnInit {
     private _authService: AuthService,
     private _albumService: AlbumService,
     private _photoService: PhotoService,
-    private _uistatus: UIStatusService) { 
+    private _uistatus: UIStatusService,
+    public _dialog: MdDialog) { 
     this.objAlbum = new Album();
   }
 
@@ -83,15 +88,76 @@ export class AlbumComponent implements OnInit {
     return this.uiMode === UIMode.Create || this.uiMode === UIMode.Change;
   }
 
+  private openAccessCodeDialog(): void {
+    let dialogRef = this._dialog.open(AlbumAccessCodeDialog);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.objAlbum.AccessCode = result;
+      }
+    });
+  }
+
+  private onViewPhotoEXIFDialog(selphoto: any): void {
+    this.selectedPhoto = selphoto;
+    
+    let dialogRef = this._dialog.open(AlbumPhotoEXIFDialog, {
+      height: '400px',
+      width: '600px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      // Do nothing.
+    });
+  }
+
+  private onChangePhotoAssign(selphoto: any): void {
+
+  }
+
   private readAlbum(): void {
     this._albumService.loadAlbum(this.routerID).subscribe(x => {
       this._zone.run(() => {
-        this.objAlbum = x;
+        this.objAlbum = new Album();
+        this.objAlbum.init(x.id, 
+          x.title,
+          x.desp,
+          x.thumnail,
+          x.dateCreated,
+          x.createdby,
+          x.isPublic,
+          x.accessCode,
+          x.photocnt);
+      });
+
+      if (this.objAlbum.AccessCode === "1") {
+        // Show the dialog
+        this.openAccessCodeDialog();
+      }
+
+      this._photoService.loadAlbumPhoto(this.routerID, this.objAlbum.AccessCode).subscribe(x2 => {
+        this.photos = x2.contentList;
+      }, error => {
+      }, () => {
       });
     }, error => {
-
     }, () => {
-
     });
+  }
+}
+
+@Component({
+  selector: 'album-accesscode-dialog',
+  templateUrl: './album.accesscode.dialog.html',
+})
+export class AlbumAccessCodeDialog {
+  constructor(public dialogRef: MdDialogRef<AlbumAccessCodeDialog>) {    
+  }
+}
+
+@Component({
+  selector: 'album-photoexif-dialog',
+  templateUrl: './album.photoexif.dialog.html',
+})
+export class AlbumPhotoEXIFDialog {
+  constructor(public dialogRef: MdDialogRef<AlbumPhotoEXIFDialog>) {    
   }
 }

@@ -6,23 +6,23 @@
         <md-card-content>
             <form (ngSubmit)="onSubmit()" #albumForm="ngForm">
                 <md-input-container class="control-full-width">
-                    <input mdInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="albumCreate.Title" name="title"
+                    <input mdInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="objAlbum.Title" name="title"
                         #title="ngModel">
-                    <md-hint align="end">{{albumCreate.Title && albumCreate.Title.length}} / 20</md-hint>
+                    <md-hint align="end">{{objAlbum.Title && objAlbum.Title.length}} / 20</md-hint>
                 </md-input-container>
 
                 <md-input-container class="control-full-width">
-                    <input mdInput placeholder="{{'Common.Description' | translate}}" maxlength="20" [(ngModel)]="albumCreate.Desp" name="albumdesp"
+                    <input mdInput placeholder="{{'Common.Description' | translate}}" maxlength="20" [(ngModel)]="objAlbum.Desp" name="albumdesp"
                         #albumdesp="ngModel">
-                    <md-hint align="end">{{albumCreate.Desp && albumCreate.Desp.length}} / 20</md-hint>
+                    <md-hint align="end">{{objAlbum.Desp && objAlbum.Desp.length}} / 20</md-hint>
                 </md-input-container>
 
-                <md-checkbox class="control-full-width" [(ngModel)]="albumCreate.IsPublic" name="ispubl">{{'Album.IsPublic' | translate}}</md-checkbox>
+                <md-checkbox class="control-full-width" [(ngModel)]="objAlbum.IsPublic" name="ispubl">{{'Album.IsPublic' | translate}}</md-checkbox>
 
                 <md-input-container class="control-full-width" *ngIf="needShowAccessCode()">
-                    <input mdInput placeholder="{{'Album.AccessCode' | translate}}" maxlength="20" [(ngModel)]="albumCreate.AccessCode" name="accesscode"
+                    <input mdInput placeholder="{{'Album.AccessCode' | translate}}" maxlength="20" [(ngModel)]="objAlbum.AccessCode" name="accesscode"
                         #accesscode="ngModel">
-                    <md-hint align="end">{{albumCreate.AccessCode && albumCreate.AccessCode.length}} / 20</md-hint>
+                    <md-hint align="end">{{objAlbum.AccessCode && objAlbum.AccessCode.length}} / 20</md-hint>
                 </md-input-container>
             </form>
         </md-card-content>
@@ -30,24 +30,15 @@
     <hr />
 
     <div class="panel-body">
-        <div class="card-deck-wrapper">
-            <div class="card-deck popup-gallery">
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 card card-block text-xs-center" *ngFor="let photo of photos">
-                    <a href="{{photo.fileUrl}}" title="{{photo.title}}">
-                        <img src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" class="img img-responsive thumbnail" style="display: block; width: 100% !important;height: auto !important;"
-                        />
-                    </a>
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-xs-12 col-lg-4" *ngFor="let photo of photos">
+                <div class="card">
+                    <img class="card-img-top" src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}">
                     <div class="card-block">
                         <h4 class="card-title">{{photo.title}}</h4>
                         <p class="card-text">{{photo.desp}}</p>
-                        <div class="card-block">
-                            <button class="btn btn-link" *ngIf="canChangeAlbum(album)" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhoto">
-                                Change
-                            </button>
-                            <button class="btn btn-link" (click)="onSetSelectedPhoto(photo)" data-toggle="modal" data-target="#modalPhotoExif">
-                                EXIF
-                            </button>
-                        </div>
+                        <a (click)="onChangePhotoAssign(photo)" class="card-link">Change</a>
+                        <a (click)="onViewPhotoEXIFDialog(photo)" class="card-link">EXIF</a>
                     </div>
                 </div>
             </div>
