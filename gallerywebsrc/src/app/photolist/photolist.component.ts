@@ -2,6 +2,7 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MdDialog, MdDialogRef } from '@angular/material';
 
 import { AuthService } from '../services/auth.service';
 import { PhotoService } from '../services/photo.service';
@@ -33,7 +34,8 @@ export class PhotolistComponent implements OnInit {
     private _route: ActivatedRoute,
     private _uistatusService: UIStatusService,
     private _photoService: PhotoService,
-    private _authService: AuthService) {
+    private _authService: AuthService,
+    private _dialog: MdDialog) {
     this.objUtil = new UIPagination(15, 5);
   }
 
@@ -46,7 +48,7 @@ export class PhotolistComponent implements OnInit {
     });
   }  
 
-  onPictureClick(): void {
+  onPhotoClick(): void {
     let items = [];
     for(let pht of this.photos) {
       items.push({
@@ -69,5 +71,27 @@ export class PhotolistComponent implements OnInit {
     // Initializes and opens PhotoSwipe
     this.gallery = new PhotoSwipe( this._uistatusService.elemPSWP, PhotoSwipeUI_Default, items, options);
     this.gallery.init();
+  }
+
+  onViewPhotoEXIFDialog(photo: any): void {
+    this._uistatusService.selPhotoInPhotoList = photo;
+
+    let dialogRef = this._dialog.open(PhotoListPhotoEXIFDialog);
+    dialogRef.afterClosed().subscribe(result => {
+      // Do nothing.
+    });
+  }
+}
+
+@Component({
+  selector: 'photolist-photoexif-dialog',
+  templateUrl: './photolist.photoexif.dialog.html',
+})
+export class PhotoListPhotoEXIFDialog {
+  public currentPhoto: any;
+
+  constructor(public _dialogRef: MdDialogRef<PhotoListPhotoEXIFDialog>,
+    public _uistatus: UIStatusService) {    
+      this.currentPhoto = this._uistatus.selPhotoInPhotoList;
   }
 }

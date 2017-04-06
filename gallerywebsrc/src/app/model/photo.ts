@@ -24,9 +24,27 @@ export class Photo {
     public uploadedTime: Date;
     public orgFileName: string;
     public isPublic: boolean;
-    public exifTags: Array<PhotoExif>
+    public exifTags: Array<PhotoExif>;
 
     constructor() {
+    }
+
+    init(data: any) {
+        if (data && data.title) {
+            this.title = data.title;
+        }
+        if (data && data.desp) {
+            this.desp = data.desp;
+        }
+        if (data && data.width) {
+            this.width = data.width;
+        }
+        if (data && data.height) {
+            this.height = data.height;
+        }
+        if (data && data.fileUrl) {
+            this.fileUrl = data.fileUrl;
+        }
     }
 }
 

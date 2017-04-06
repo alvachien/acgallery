@@ -4,58 +4,36 @@
     </div>
 
     <div class="panel-body">
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li class="page-item" [class.disabled]="!objUtil.isPreviousVisible">
-                    <a class="page-link" (click)="onPagePreviousClick()" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>
-                <li class="page-item" *ngFor="let pageidx of objUtil.visPags" [class.active]="objUtil.currentPage === pageidx">
-                    <a class="page-link" (click)="onPageClick(pageidx)">{{pageidx}}</a>
-                </li>
-                <li class="page-item" [class.disabled]="!objUtil.isNextVisible">
-                    <a class="page-link" (click)="onPageNextClick()" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
 
-        <div class="acgallery-container" itemscope itemtype="http://schema.org/ImageGallery">
+        <div class="card-deck">
+            <div class="card p-3" *ngFor="let photo of photos">
+                <a (click)="onPhotoClick()" title="{{photo.title}}">
+                    <img class="card-img" src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" />
+                    <!--style="display: block; width: 100% !important;height: auto !important;" />-->
+                </a>
+                <div class="card-block">
+                    <h4 class="card-title">{{photo.title}}</h4>
+                    <p class="card-text">{{photo.desp}}</p>
+                    <a (click)="onChangePhotoAssign(photo)" class="card-link">Change</a>
+                    <a (click)="onViewPhotoEXIFDialog(photo)" class="card-link">EXIF</a>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="acgallery-container" itemscope itemtype="http://schema.org/ImageGallery">
             <figure *ngFor="let photo of photos" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
                 <a  class="page-link" (click)="onPictureClick()" itemprop="contentUrl">
                     <img src="{{photo.thumbnailFileUrl}}" itemprop="thumbnail" alt="{{photo.updtime}}" />
                 </a>
 
-                <!-- optionally use this method to store image dimensions for PhotoSwipe -->
+                <! -- optionally use this method to store image dimensions for PhotoSwipe -->
+                <!--
                 <meta itemprop="width" content="{{photo.width}}">
                 <meta itemprop="height" content="{{photo.height}}">
 
                 <figcaption itemprop="caption description">{{photo.title}}</figcaption>
             </figure>
-        </div>
+        </div>-->
 
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li class="page-item" [class.disabled]="!objUtil.isPreviousVisible">
-                    <a class="page-link" (click)="onPagePreviousClick()" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>
-                <li class="page-item" *ngFor="let pageidx of objUtil.visPags" [class.active]="objUtil.currentPage === pageidx">
-                    <a class="page-link" (click)="onPageClick(pageidx)">{{pageidx}}</a>
-                </li>
-                <li class="page-item" [class.disabled]="!objUtil.isNextVisible">
-                    <a class="page-link" (click)="onPageNextClick()" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
     </div>
 </div>

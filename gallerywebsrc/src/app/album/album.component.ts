@@ -15,6 +15,8 @@ import { PhotoService } from '../services/photo.service';
 import { AlbumService } from '../services/album.service';
 import { UIStatusService } from '../services/uistatus.service';
 import { MdDialog, MdDialogRef } from '@angular/material';
+declare var PhotoSwipe;
+declare var PhotoSwipeUI_Default;
 
 @Component({
   selector: 'acgallery-album',
@@ -29,6 +31,7 @@ export class AlbumComponent implements OnInit {
   private uiMode: UIMode = UIMode.Display;
   private currentMode: string;
   private routerID: number;
+  private gallery: any;
 
   constructor(private _http: Http,
     private _router: Router,
@@ -88,6 +91,31 @@ export class AlbumComponent implements OnInit {
     return this.uiMode === UIMode.Create || this.uiMode === UIMode.Change;
   }
 
+  private onPhotoClick(): void {
+    let items = [];
+    for(let pht of this.photos) {
+      items.push({
+        src: pht.fileUrl,
+        w: pht.width,
+        h: pht.height
+      });
+    }
+
+    // define options (if needed)
+    var options = {
+      history: false,
+      focus: false,
+
+      showAnimationDuration: 0,
+      hideAnimationDuration: 0,
+      index: 0 // start at first slide
+    };
+
+    // Initializes and opens PhotoSwipe
+    this.gallery = new PhotoSwipe( this._uistatus.elemPSWP, PhotoSwipeUI_Default, items, options);
+    this.gallery.init();
+  }
+
   private openAccessCodeDialog(): void {
     let dialogRef = this._dialog.open(AlbumAccessCodeDialog);
     dialogRef.afterClosed().subscribe(result => {
@@ -98,12 +126,9 @@ export class AlbumComponent implements OnInit {
   }
 
   private onViewPhotoEXIFDialog(selphoto: any): void {
-    this.selectedPhoto = selphoto;
+    this._uistatus.selPhotoInAblum = selphoto;
     
-    let dialogRef = this._dialog.open(AlbumPhotoEXIFDialog, {
-      height: '400px',
-      width: '600px',
-    });
+    let dialogRef = this._dialog.open(AlbumPhotoEXIFDialog);
     dialogRef.afterClosed().subscribe(result => {
       // Do nothing.
     });
@@ -158,6 +183,10 @@ export class AlbumAccessCodeDialog {
   templateUrl: './album.photoexif.dialog.html',
 })
 export class AlbumPhotoEXIFDialog {
-  constructor(public dialogRef: MdDialogRef<AlbumPhotoEXIFDialog>) {    
+  public currentPhoto: any;
+
+  constructor(public _dialogRef: MdDialogRef<AlbumPhotoEXIFDialog>,
+    public _uistatus: UIStatusService) {    
+      this.currentPhoto = this._uistatus.selPhotoInAblum;
   }
 }

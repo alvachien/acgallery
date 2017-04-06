@@ -29,18 +29,17 @@
     </md-card>
     <hr />
 
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-sm-6 col-md-6 col-xs-12 col-lg-4" *ngFor="let photo of photos">
-                <div class="card">
-                    <img class="card-img-top" src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}">
-                    <div class="card-block">
-                        <h4 class="card-title">{{photo.title}}</h4>
-                        <p class="card-text">{{photo.desp}}</p>
-                        <a (click)="onChangePhotoAssign(photo)" class="card-link">Change</a>
-                        <a (click)="onViewPhotoEXIFDialog(photo)" class="card-link">EXIF</a>
-                    </div>
-                </div>
+    <div class="card-deck">
+        <div class="card p-3" *ngFor="let photo of photos">
+            <a (click)="onPhotoClick()" title="{{photo.title}}">
+                <img class="card-img" src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" />
+                <!--style="display: block; width: 100% !important;height: auto !important;" />-->
+            </a>
+            <div class="card-block">
+                <h4 class="card-title">{{photo.title}}</h4>
+                <p class="card-text">{{photo.desp}}</p>
+                <a (click)="onChangePhotoAssign(photo)" class="card-link">Change</a>
+                <a (click)="onViewPhotoEXIFDialog(photo)" class="card-link">EXIF</a>
             </div>
         </div>
     </div>

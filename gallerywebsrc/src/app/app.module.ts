@@ -16,12 +16,12 @@ import { UIStatusService } from './services/uistatus.service';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AppComponent } from './app.component';
-import { AlbumComponent } from './album/album.component';
+import { AlbumComponent, AlbumAccessCodeDialog, AlbumPhotoEXIFDialog } from './album/album.component';
 import { AlbumlistComponent } from './albumlist/albumlist.component';
 import { PhotouploadComponent } from './photoupload/photoupload.component';
 import { HomeComponent } from './home/home.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
-import { PhotolistComponent } from './photolist/photolist.component';
+import { PhotolistComponent, PhotoListPhotoEXIFDialog } from './photolist/photolist.component';
 import { AboutComponent } from './about/about.component';
 import { CreditsComponent } from './credits/credits.component';
 
@@ -33,13 +33,21 @@ export function funcHttpLoaderFactory(http: Http) {
   declarations: [
     AppComponent,
     AlbumComponent,
+    AlbumAccessCodeDialog,
+    AlbumPhotoEXIFDialog,
     AlbumlistComponent,
     PhotouploadComponent,
     HomeComponent,
     PagenotfoundComponent,
     PhotolistComponent,
+    PhotoListPhotoEXIFDialog,
     AboutComponent,
     CreditsComponent
+  ],
+  entryComponents: [
+    AlbumAccessCodeDialog,
+    AlbumPhotoEXIFDialog,
+    PhotoListPhotoEXIFDialog
   ],
   imports: [
     BrowserModule,
