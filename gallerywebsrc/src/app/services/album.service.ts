@@ -14,7 +14,7 @@ export class AlbumService {
     private _authService: AuthService) {
   }
 
-  public createAlbum(album: Album) : Observable<any> {
+  public createAlbum(album: Album): Observable<any> {
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
@@ -59,6 +59,26 @@ export class AlbumService {
     var data = JSON && JSON.stringify(album);
 
     return this._http.put(environment.AlbumAPIUrl, data, { headers: headers })
+      .map(response => response.json());
+  }
+
+  public loadAlbums() {
+    var headers = new Headers();
+    headers.append('Accept', 'application/json');
+    if (this._authService.authSubject.getValue().isAuthorized)
+      headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+
+    return this._http.get(environment.AlbumAPIUrl, { headers: headers })
+      .map(response => response.json());
+  }
+
+  public loadAlbum(id: number | string) {
+    var headers = new Headers();
+    headers.append('Accept', 'application/json');
+    if (this._authService.authSubject.getValue().isAuthorized)
+      headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+
+    return this._http.get(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers })
       .map(response => response.json());
   }
 }

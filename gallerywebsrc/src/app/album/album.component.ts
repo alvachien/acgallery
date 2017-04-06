@@ -6,13 +6,14 @@ import { UIMode } from '../model/common';
 import { Album } from '../model/album';
 import { AuthService } from '../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import {
-  Http, Headers, Response, RequestOptions,
-  URLSearchParams
-} from '@angular/http';
+import { Http, Headers, Response, RequestOptions,
+  URLSearchParams } from '@angular/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { PhotoService } from '../services/photo.service';
+import { AlbumService } from '../services/album.service';
+import { UIStatusService } from '../services/uistatus.service';
 
 @Component({
   selector: 'acgallery-album',
@@ -29,7 +30,10 @@ export class AlbumComponent implements OnInit {
     private _router: Router,
     private _activateRoute: ActivatedRoute,
     private _zone: NgZone,
-    private authService: AuthService) { 
+    private _authService: AuthService,
+    private _albumService: AlbumService,
+    private _photoService: PhotoService,
+    private _uistatus: UIStatusService) { 
     this.objAlbum = new Album();
   }
 
@@ -59,8 +63,8 @@ export class AlbumComponent implements OnInit {
       }
 
       if (this.uiMode === UIMode.Display || this.uiMode === UIMode.Change) {
-        // Load the account
-        //this.readAccount();
+        // Load the album
+        this.readAlbum();
       }
     }, error => {
       // this._dialogService.openAlert({
@@ -77,5 +81,17 @@ export class AlbumComponent implements OnInit {
 
   public needShowAccessCode(): boolean {
     return this.uiMode === UIMode.Create || this.uiMode === UIMode.Change;
+  }
+
+  private readAlbum(): void {
+    this._albumService.loadAlbum(this.routerID).subscribe(x => {
+      this._zone.run(() => {
+        this.objAlbum = x;
+      });
+    }, error => {
+
+    }, () => {
+
+    });
   }
 }

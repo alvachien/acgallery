@@ -134,6 +134,10 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
             if (environment.LoggingLevel >= LogLevel.Debug) {
               console.log("Entering uploader_onAllComplete of uploader_onAllComplete with succids: " + succids.toString() + "; failids: " + failids.toString());
             }
+
+            if (that.isAssginToNewAlbum()) {
+              that.createAlbumPhotoLinkage();
+            }
           },
           onStatusChange: function (id: number, oldstatus, newstatus) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
@@ -344,7 +348,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this._albumService.updateAlbumPhotoByAlbum(apba).subscribe(
       x => {
-        //this.onAfterUploadComplete(null);
+        this.onAfterUploadComplete();
       },
       error => {
         if (environment.LoggingLevel >= LogLevel.Error) {
@@ -353,5 +357,10 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     );
     this.photoHadUploaded = [];
+  }
+
+  private onAfterUploadComplete(): void {
+    // Show a dialog
+    this._snackBar.open("All photos completed!");
   }
 }
