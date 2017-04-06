@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() : void {
     if (this.elemPSWP) {
-      this._uistatusService.elemPSWP = this.elemPSWP;
+      this._uistatusService.elemPSWP = this.elemPSWP.nativeElement;
     }
   }
 

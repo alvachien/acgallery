@@ -26,8 +26,7 @@
 
         <div class="acgallery-container" itemscope itemtype="http://schema.org/ImageGallery">
             <figure *ngFor="let photo of photos" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                <a href="{{photo.fileUrl}}" itemprop="contentUrl"
-                    (click)="onPictureClick()">
+                <a  class="page-link" (click)="onPictureClick()" itemprop="contentUrl">
                     <img src="{{photo.thumbnailFileUrl}}" itemprop="thumbnail" alt="{{photo.updtime}}" />
                 </a>
 
