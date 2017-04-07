@@ -11,8 +11,8 @@
                     <h4 class="card-title">{{album.Title}}</h4>
                     <p class="card-text">{{album.Desp}}</p>
                     <p class="card-text"><small class="text-muted">{{album.PhotoCount}} Photos</small></p>
-                    <a (click)="onViewAlbumClick(album.Id)" class="btn btn-primary">View Photos</a>
-                    <a (click)="onChangeAlbumMetadata(album.Id)" class="btn">Change Metadata</a>
+                    <a class="card-link" (click)="onViewAlbumClick(album.Id)">View Photos</a>
+                    <a class="card-link" (click)="onChangeAlbumMetadata(album.Id)">Change Metadata</a>
                 </div>
             </div>
         </div>

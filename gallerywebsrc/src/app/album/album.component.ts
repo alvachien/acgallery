@@ -119,7 +119,12 @@ export class AlbumComponent implements OnInit {
 
   private openAccessCodeDialog(): Observable<any> {
     let dialogRef = this._dialog.open(AlbumAccessCodeDialog, {
-      viewContainerRef: this._viewContainerRef
+      width: "400",
+      height: "300",
+      position: {
+        top: "200",
+        left: "100"
+      }
     });
     return dialogRef.afterClosed();
   }
@@ -128,7 +133,12 @@ export class AlbumComponent implements OnInit {
     this._uistatus.selPhotoInAblum = selphoto;
     
     let dialogRef = this._dialog.open(AlbumPhotoEXIFDialog, {
-      viewContainerRef: this._viewContainerRef
+      width: "400",
+      height: "300",
+      position: {
+        top: "200",
+        left: "100"
+      }
     });
     dialogRef.afterClosed().subscribe(result => {
       // Do nothing.
@@ -162,6 +172,7 @@ export class AlbumComponent implements OnInit {
             this._photoService.loadAlbumPhoto(this.routerID, this.objAlbum.AccessCode).subscribe(x2 => {
               this.photos = x2.contentList;
             }, error => {
+              
             }, () => {
             });
           }

@@ -78,7 +78,11 @@ export class PhotolistComponent implements OnInit {
     this._uistatusService.selPhotoInPhotoList = photo;
 
     let dialogRef = this._dialog.open(PhotoListPhotoEXIFDialog, {
-      viewContainerRef: this._viewContainerRef
+      width: "300",
+      position: {
+        top: "100",
+        left: "100"
+      }
     });
     dialogRef.afterClosed().subscribe(result => {
       // Do nothing.

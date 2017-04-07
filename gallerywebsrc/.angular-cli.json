@@ -19,12 +19,10 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css",
-        "../node_modules/tether/dist/css/tether-theme-arrows-dark.min.css",
-        "../node_modules/tether/dist/css/tether.min.css",
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "../node_modules/photoswipe/dist/photoswipe.css",
-        "../node_modules/photoswipe/dist/default-skin/default-skin.css"
+        "../node_modules/photoswipe/dist/default-skin/default-skin.css",
+        "styles.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",

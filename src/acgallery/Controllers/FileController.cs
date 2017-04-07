@@ -8,13 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using ImageMagick;
 using Microsoft.Extensions.Logging;
-using System.Data;
-using System.Data.SqlClient;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using Newtonsoft.Json;
-using System.Text;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 
