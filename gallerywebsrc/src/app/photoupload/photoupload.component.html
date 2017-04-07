@@ -40,20 +40,11 @@
     <br />
 
     <div class="row p-3 m-3" [hidden]="isUploading">
-        <div class="container">
-            <div class="row">
-                <input type="radio" name="assignAlbum" [checked]="assignAlbum == 0" (click)="onAssignAblumClick(0)">
-                <label>{{"Photo.Upload_NoAlbum" | translate}}</label>
-            </div>
-            <div class="row">
-                <input type="radio" name="assignAlbum" [checked]="assignAlbum == 1" (click)="onAssignAblumClick(1)">
-                <label>{{"Photo.Upload_AssignExistAlbum" | translate}}</label>
-            </div>
-            <div class="row" *ngIf="canCreateAlbum()">
-                <input type="radio" name="assignAlbum" [checked]="assignAlbum == 2" (click)="onAssignAblumClick(2)">
-                <label>{{"Photo.Upload_AssignNewAlbum" | translate}}</label>
-            </div>
-        </div>
+        <md-radio-group class="photoupload-radio-group" [(ngModel)]="assignMode">
+            <md-radio-button class="photoupload-radio-button" *ngFor="let am of arAssignMode" [value]="am.Value">
+                {{am.Name | translate}}
+            </md-radio-button>
+        </md-radio-group>
     </div>
 
     <div class="row p-3 m-3" *ngIf="isAssginToExistingAlbum()" [hidden]="isUploading">

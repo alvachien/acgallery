@@ -8,3 +8,12 @@
 .progress-margin {
   margin: 0 10px;
 }
+
+.photoupload-radio-group {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.photoupload-radio-button {
+  margin: 5px;
+}

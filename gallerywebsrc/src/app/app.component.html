@@ -4,10 +4,20 @@
     <span class="navbar-toggler-icon"></span>
   </button>
     <a class="navbar-brand" [routerLink]="['/']">
-        <img src="/assets/favicon.ico" width="30" height="30" class="d-inline-block align-top" alt=""> AC Gallery
+        <img src="/assets/acgallery.svg" width="24" height="24" class="d-inline-block align-top" alt=""> AC Gallery
     </a>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuAlbum" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <md-icon>photo_album</md-icon>{{'Nav.Album' | translate}}<b class="caret"></b>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuAlbum">
+                    <a class="dropdown-item" [routerLink]="['/album']" routerLinkActive="active">{{'Nav.Albums' | translate}}</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" [routerLink]="['/album/create']" routerLinkActive="active">{{'Nav.AlbumCreate' | translate}}</a>
+                </div>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuPhoto" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <md-icon>photo</md-icon>{{'Nav.Photo' | translate}}<b class="caret"></b>
@@ -16,16 +26,6 @@
                     <a class="dropdown-item" [routerLink]="['/photo']" routerLinkActive="active">{{'Nav.Photos' | translate}}</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" [routerLink]="['/photo/upload']" routerLinkActive="active">{{'Nav.PhotoUpload' | translate}}</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuAlbum" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <md-icon>ic_photo_album</md-icon>{{'Nav.Album' | translate}}<b class="caret"></b>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuAlbum">
-                    <a class="dropdown-item" [routerLink]="['/album']" routerLinkActive="active">{{'Nav.Albums' | translate}}</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" [routerLink]="['/album/create']" routerLinkActive="active">{{'Nav.AlbumCreate' | translate}}</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -61,7 +61,7 @@
     </div>
 </nav>
 
-<div class="m-t-1" style="padding-top: 70px; padding-bottom: 70px;">
+<div class="m-t-1" style="padding-top: 70px; padding-bottom: 70px; min-height: 100%;">
     <router-outlet></router-outlet>
 </div>
 

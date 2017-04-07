@@ -20,7 +20,7 @@ import { MdSnackBar } from '@angular/material';
 export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   public progressNum: number = 0;
   public isUploading: boolean = false;
-  public assignAlbum: number = 0;
+  public assignMode: number = 0;
 
   public photoMaxKBSize: number = 0;
   public photoMinKBSize: number = 0;
@@ -31,6 +31,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   public albumCreate: Album;
   public albumUpdate: Album;
   public allAlbum: SelectableAlbum[] = [];
+  public arAssignMode: any[] = [];
   @ViewChild('uploadFileRef') elemUploadFile;
 
   constructor(private _zone: NgZone,
@@ -61,6 +62,22 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log("ACGallery [Debug]: Entering ngOnInit of PhotoUploadComponent");
+    }
+
+    // Assign modes
+    this.arAssignMode.push({
+      Value: 0,
+      Name: 'Photo.Upload_NoAlbum'
+    });
+    this.arAssignMode.push({
+      Value: 1,
+      Name: 'Photo.Upload_AssignExistAlbum'
+    });
+    if (this.canCrtAlbum) {
+      this.arAssignMode.push({
+        Value: 2,
+        Name: 'Photo.Upload_AssignNewAlbum'
+      });
     }
 
     this._albumService.loadAlbums().subscribe(x => {
@@ -282,7 +299,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     Observable.forkJoin(rxdata).subscribe(data => {
-      if (this.assignAlbum !== 0) {
+      if (this.assignMode !== 0) {
         let apba = new AlbumPhotoByAlbum();
         if (this.isAssginToNewAlbum()) {
           apba.albumId = this.albumCreate.Id;
@@ -343,16 +360,16 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onAssignAblumClick(num: number | string) {
     this._zone.run(() => {
-      this.assignAlbum = +num;
+      this.assignMode = +num;
     });
   }
 
   isAssginToExistingAlbum(): boolean {
-    return 1 === +this.assignAlbum;
+    return 1 === +this.assignMode;
   }
 
   isAssginToNewAlbum(): boolean {
-    return 2 === +this.assignAlbum;
+    return 2 === +this.assignMode;
   }
 
   canUploadPhoto(): boolean {
@@ -424,6 +441,8 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     // Show a dialog
-    this._snackBar.open("All photos completed!");
+    this._snackBar.open("All photos completed!", 'Close', {
+      duration: 1000,
+    });
   }
 }

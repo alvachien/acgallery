@@ -46,8 +46,7 @@ export class AlbumService {
 
     let data = JSON && JSON.stringify(apba);
 
-    return this._http.post(environment.AlbumPhotoByAlbumAPIUrl, data, { headers: headers })
-      .map(response => response.json());
+    return this._http.post(environment.AlbumPhotoByAlbumAPIUrl, data, { headers: headers });
   }
 
   public updateAlbumPhotoByPhoto(apbp: AlbumPhotoByPhoto): Observable<any> {
@@ -58,8 +57,7 @@ export class AlbumService {
 
     let data = JSON && JSON.stringify(apbp);
 
-    return this._http.post(environment.AlbumPhotoByPhotoAPIUrl, data, { headers: headers })
-      .map(response => response.json());
+    return this._http.post(environment.AlbumPhotoByPhotoAPIUrl, data, { headers: headers });
   }
 
   public updateMetadata(album: Album): Observable<any> {
