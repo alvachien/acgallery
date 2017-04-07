@@ -47,6 +47,10 @@ export class AlbumlistComponent implements OnInit {
             alb.isPublic,
             alb.accessCode,
             alb.photoCount);
+          if (!album.Thumbnail) {
+            album.Thumbnail = '/assets/img/grey.jpg';
+          }
+          
           this.albumes.push(album);
         }
       });

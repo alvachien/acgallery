@@ -116,13 +116,9 @@ export class AlbumComponent implements OnInit {
     this.gallery.init();
   }
 
-  private openAccessCodeDialog(): void {
+  private openAccessCodeDialog(): Observable<any> {
     let dialogRef = this._dialog.open(AlbumAccessCodeDialog);
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.objAlbum.AccessCode = result;
-      }
-    });
+    return dialogRef.afterClosed();
   }
 
   private onViewPhotoEXIFDialog(selphoto: any): void {
@@ -153,16 +149,25 @@ export class AlbumComponent implements OnInit {
           x.photocnt);
       });
 
-      if (this.objAlbum.AccessCode === "1") {
+      if (this.objAlbum.AccessCode && this.objAlbum.AccessCode === "1") {
         // Show the dialog
-        this.openAccessCodeDialog();
+        this.openAccessCodeDialog().subscribe(result => {
+          if (result) {
+            this.objAlbum.AccessCode = result;
+            this._photoService.loadAlbumPhoto(this.routerID, this.objAlbum.AccessCode).subscribe(x2 => {
+              this.photos = x2.contentList;
+            }, error => {
+            }, () => {
+            });
+          }
+        });
+      } else if (!this.objAlbum.AccessCode) {
+          this._photoService.loadAlbumPhoto(this.routerID, this.objAlbum.AccessCode).subscribe(x2 => {
+            this.photos = x2.contentList;
+          }, error => {
+          }, () => {
+          });
       }
-
-      this._photoService.loadAlbumPhoto(this.routerID, this.objAlbum.AccessCode).subscribe(x2 => {
-        this.photos = x2.contentList;
-      }, error => {
-      }, () => {
-      });
     }, error => {
     }, () => {
     });

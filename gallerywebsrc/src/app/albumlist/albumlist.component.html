@@ -4,14 +4,15 @@
     </div>
 
     <div class="panel-body">
-        <div class="acalbumlist-container" itemscope itemtype="http://schema.org/ImageGallery">
-            <figure *ngFor="let album of albumes" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                <a  class="page-link" (click)="onAlbumClick(album.Id)" itemprop="contentUrl">
-                    <img src="{{album.Thumbnail}}" itemprop="thumbnail" alt="{{album.PhotoCount}}" />
-                </a>
-
-                <figcaption itemprop="caption description">{{album.Title}}</figcaption>
-            </figure>
+        <div class="card card-inverse" *ngFor="let album of albumes">
+            <a (click)="onAlbumClick(album.Id)" itemprop="contentUrl">
+                <img class="card-img" src="{{album.Thumbnail}}" itemprop="thumbnail" alt="Thumbnail" />
+            </a>
+            <div class="card-img-overlay">
+                <h4 class="card-title">{{album.Title}}</h4>
+                <p class="card-text">{{album.Desp}}</p>
+                <p class="card-text"><small class="text-muted">{{album.PhotoCount}} Photos</small></p>
+            </div>
         </div>
     </div>
 </div>
