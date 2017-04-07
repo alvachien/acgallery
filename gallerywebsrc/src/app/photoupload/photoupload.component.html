@@ -1,12 +1,12 @@
-<div class="container">
-    <div class="container" *ngIf="canUploadPhoto()">
+<div class="container" *ngIf="canUploadPhoto()">
+    <div class="row m-3 p-3" [hidden]="isUploading">
         <div class="col-md-3">
             <div class="form-control-file btn btn-primary mx-auto" id="load-file-button-id" #uploadFileRef>
                 <div>{{'Photo.ChoosePhoto' | translate}}</div>
             </div>
         </div>
 
-        <div class="col-md-9" style="margin-bottom: 40px">
+        <div class="col-md-9">
 
             <h3>{{'Photo.UploadQueue' | translate}}</h3>
 
@@ -39,22 +39,24 @@
 
     <br />
 
-    <div class="container">
-        <div class="row">
-            <input type="radio" name="assignAlbum" [checked]="assignAlbum == 0" (click)="onAssignAblumClick(0)">
-            <label>{{"Photo.Upload_NoAlbum" | translate}}</label>
-        </div>
-        <div class="row">
-            <input type="radio" name="assignAlbum" [checked]="assignAlbum == 1" (click)="onAssignAblumClick(1)">
-            <label>{{"Photo.Upload_AssignExistAlbum" | translate}}</label>
-        </div>
-        <div class="row" *ngIf="canCreateAlbum()">
-            <input type="radio" name="assignAlbum" [checked]="assignAlbum == 2" (click)="onAssignAblumClick(2)">
-            <label>{{"Photo.Upload_AssignNewAlbum" | translate}}</label>
+    <div class="row p-3 m-3" [hidden]="isUploading">
+        <div class="container">
+            <div class="row">
+                <input type="radio" name="assignAlbum" [checked]="assignAlbum == 0" (click)="onAssignAblumClick(0)">
+                <label>{{"Photo.Upload_NoAlbum" | translate}}</label>
+            </div>
+            <div class="row">
+                <input type="radio" name="assignAlbum" [checked]="assignAlbum == 1" (click)="onAssignAblumClick(1)">
+                <label>{{"Photo.Upload_AssignExistAlbum" | translate}}</label>
+            </div>
+            <div class="row" *ngIf="canCreateAlbum()">
+                <input type="radio" name="assignAlbum" [checked]="assignAlbum == 2" (click)="onAssignAblumClick(2)">
+                <label>{{"Photo.Upload_AssignNewAlbum" | translate}}</label>
+            </div>
         </div>
     </div>
 
-    <div class="row" *ngIf="isAssginToExistingAlbum()">
+    <div class="row p-3 m-3" *ngIf="isAssginToExistingAlbum()" [hidden]="isUploading">
         <table class="table w-100 p-3">
             <thead class="thead-default">
                 <tr>
@@ -68,7 +70,7 @@
                     <td>
                         <div class="checkbox"><input type="checkbox" [(ngModel)]="album.IsSelected"></div>
                     </td>
-                    <td><img src="{{album.Thumbnail}}" class="img-rounded pull-xs-left" style="display: block; width: 100% !important;height: auto !important;"
+                    <td><img src="{{album.Thumbnail}}" class="img-rounded pull-xs-left" style="display: block; width: 300 !important;height: auto !important;"
                             alt="..."></td>
                     <td>{{album.Title}}</td>
                 </tr>
@@ -76,7 +78,7 @@
         </table>
     </div>
 
-    <div class="row" *ngIf="isAssginToNewAlbum()">
+    <div class="row p-3 m-3" *ngIf="isAssginToNewAlbum()" [hidden]="isUploading">
         <md-card class="w-100 p-3">
             <md-card-header>
                 <md-card-title>{{"Photo.Upload_AssignNewAlbum" | translate}}</md-card-title>
@@ -106,19 +108,26 @@
         </md-card>
     </div>
 
-    <div class="row">
-      <section class="m-10">
-        <md-progress-bar
-            class="m-10"
-            color="primary"
-            mode="determinate"
-            [value]="progressNum">
-        </md-progress-bar>
-      </section>
+    <div class="row p-3 m-3" [hidden]="!isUploading">
+        <md-card>
+            <md-card-content>
+                <div style="padding: 20%;text-align:center;">
+                    <h3>Uploading, please wait...</h3>
+                </div>
+
+                <section class="progress-section">
+                    <md-progress-bar
+                        class="progress-margin"
+                        color="primary"
+                        mode="indeterminate">
+                    </md-progress-bar>
+                </section>
+            </md-card-content>
+        </md-card>
     </div>
 
     <hr />
-    <div class="row p-3 m-10">
+    <div class="row p-3 m-10" [hidden]="isUploading">
         <input type="submit" class="btn btn-secondary" (click)="onSubmit($event)" />
     </div>
 </div>
