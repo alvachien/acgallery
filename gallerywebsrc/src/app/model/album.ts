@@ -61,16 +61,16 @@ export class SelectableAlbum
 }
 
 export class AlbumPhotoLink {
-    AlbumID: number;
-    PhotoID: string;
+    albumID: number;
+    photoID: string;
 }
 
 export class AlbumPhotoByAlbum {
-    public AlbumId: number;
-    public PhotoIDList: string[];
+    public albumId: number;
+    public photoIDList: string[];
 }
 
 export class AlbumPhotoByPhoto {
-    public PhotoID: string;
-    public AlbumIDList: number[];
+    public photoID: string;
+    public albumIDList: number[];
 }

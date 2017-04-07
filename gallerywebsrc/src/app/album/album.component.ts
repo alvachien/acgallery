@@ -14,7 +14,7 @@ import { Subject } from 'rxjs/Subject';
 import { PhotoService } from '../services/photo.service';
 import { AlbumService } from '../services/album.service';
 import { UIStatusService } from '../services/uistatus.service';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
 
@@ -41,6 +41,7 @@ export class AlbumComponent implements OnInit {
     private _albumService: AlbumService,
     private _photoService: PhotoService,
     private _uistatus: UIStatusService,
+    private _viewContainerRef: ViewContainerRef,
     public _dialog: MdDialog) { 
     this.objAlbum = new Album();
   }
@@ -54,18 +55,18 @@ export class AlbumComponent implements OnInit {
     this._activateRoute.url.subscribe(x => {
       if (x instanceof Array && x.length > 0) {
         if (x[0].path === "create") {
-          this.currentMode = "Create";
+          this.currentMode = "Common.Create";
           this.objAlbum = new Album();
           this.uiMode = UIMode.Create;
         } else if (x[0].path === "edit") {
           this.routerID = +x[1].path;
 
-          this.currentMode = "Edit"
+          this.currentMode = "Common.Edit"
           this.uiMode = UIMode.Change;
         } else if (x[0].path === "display") {
           this.routerID = +x[1].path;
 
-          this.currentMode = "Display";
+          this.currentMode = "Common.Display";
           this.uiMode = UIMode.Display;
         }
       }
@@ -117,14 +118,18 @@ export class AlbumComponent implements OnInit {
   }
 
   private openAccessCodeDialog(): Observable<any> {
-    let dialogRef = this._dialog.open(AlbumAccessCodeDialog);
+    let dialogRef = this._dialog.open(AlbumAccessCodeDialog, {
+      viewContainerRef: this._viewContainerRef
+    });
     return dialogRef.afterClosed();
   }
 
   private onViewPhotoEXIFDialog(selphoto: any): void {
     this._uistatus.selPhotoInAblum = selphoto;
     
-    let dialogRef = this._dialog.open(AlbumPhotoEXIFDialog);
+    let dialogRef = this._dialog.open(AlbumPhotoEXIFDialog, {
+      viewContainerRef: this._viewContainerRef
+    });
     dialogRef.afterClosed().subscribe(result => {
       // Do nothing.
     });

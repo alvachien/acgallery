@@ -219,3 +219,14 @@ code {
         transform: rotate(360deg);
     }
 }
+
+
+/* MdDialog */
+.md-dialog-container {
+  position: fixed;
+}
+
+md-dialog {
+  max-width: 90%;
+  max-height: 90%;
+}

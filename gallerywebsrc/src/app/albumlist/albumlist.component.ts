@@ -59,7 +59,11 @@ export class AlbumlistComponent implements OnInit {
     });
   }
 
-  public onAlbumClick(id: number | string): void {
+  public onViewAlbumClick(id: number | string): void {
     this._router.navigate(['/album/display/' + id.toString()]);
+  }
+
+  public onChangeAlbumMetadata(id: number | string): void {
+    this._router.navigate(['/album/edit/' + id.toString()]);
   }
 }

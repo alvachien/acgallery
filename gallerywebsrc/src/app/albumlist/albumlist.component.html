@@ -4,14 +4,16 @@
     </div>
 
     <div class="panel-body">
-        <div class="card card-inverse" *ngFor="let album of albumes">
-            <a (click)="onAlbumClick(album.Id)" itemprop="contentUrl">
+        <div class="card-deck">
+            <div class="card p-3 m-3" *ngFor="let album of albumes">
                 <img class="card-img" src="{{album.Thumbnail}}" itemprop="thumbnail" alt="Thumbnail" />
-            </a>
-            <div class="card-img-overlay">
-                <h4 class="card-title">{{album.Title}}</h4>
-                <p class="card-text">{{album.Desp}}</p>
-                <p class="card-text"><small class="text-muted">{{album.PhotoCount}} Photos</small></p>
+                <div class="card-block">
+                    <h4 class="card-title">{{album.Title}}</h4>
+                    <p class="card-text">{{album.Desp}}</p>
+                    <p class="card-text"><small class="text-muted">{{album.PhotoCount}} Photos</small></p>
+                    <a (click)="onViewAlbumClick(album.Id)" class="btn btn-primary">View Photos</a>
+                    <a (click)="onChangeAlbumMetadata(album.Id)" class="btn">Change Metadata</a>
+                </div>
             </div>
         </div>
     </div>

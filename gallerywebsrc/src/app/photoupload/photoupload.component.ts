@@ -6,7 +6,7 @@ import 'fine-uploader';
 import { AuthService } from '../services/auth.service';
 import { PhotoService } from '../services/photo.service';
 import { AlbumService } from '../services/album.service';
-import { Album, AlbumPhotoByAlbum } from '../model/album';
+import { Album, AlbumPhotoByAlbum, SelectableAlbum } from '../model/album';
 import { Photo, UpdPhoto } from '../model/photo';
 import { LogLevel } from '../model/common';
 import { environment } from '../../environments/environment';
@@ -29,7 +29,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   public uploader: any = null;
   public canCrtAlbum: boolean;
   public albumCreate: Album;
-  public allAlbum: Album[] = [];
+  public allAlbum: SelectableAlbum[] = [];
   @ViewChild('uploadFileRef') elemUploadFile;
 
   constructor(private _zone: NgZone,
@@ -61,6 +61,26 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log("ACGallery [Debug]: Entering ngOnInit of PhotoUploadComponent");
     }
+
+    this._albumService.loadAlbums().subscribe(x => {
+      for (let alb of x.contentList) {
+        let album = new SelectableAlbum();
+        album.init(alb.id,
+          alb.title,
+          alb.desp,
+          alb.firstPhotoThumnailUrl,
+          alb.createdAt,
+          alb.createdBy,
+          alb.isPublic,
+          alb.accessCode,
+          alb.photoCount);
+        if (!album.Thumbnail) {
+          album.Thumbnail = '/assets/img/grey.jpg';
+        }
+
+        this.allAlbum.push(album);
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -285,7 +305,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this._zone.run(() => {
-        this.progressNum = +data;
+      this.progressNum = +data;
     });
   }
 
@@ -340,10 +360,10 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     let apba = new AlbumPhotoByAlbum();
-    apba.AlbumId = this.albumCreate.Id;
-    apba.PhotoIDList = new Array<string>();
+    apba.albumId = this.albumCreate.Id;
+    apba.photoIDList = new Array<string>();
     for (let i = 0; i < this.photoHadUploaded.length; i++) {
-      apba.PhotoIDList.push(this.photoHadUploaded[i].photoId);
+      apba.photoIDList.push(this.photoHadUploaded[i].photoId);
     }
 
     this._albumService.updateAlbumPhotoByAlbum(apba).subscribe(

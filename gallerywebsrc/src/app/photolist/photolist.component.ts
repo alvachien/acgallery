@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit, ViewContainerRef } from '@angular/core';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -32,6 +32,7 @@ export class PhotolistComponent implements OnInit {
   constructor(private _zone: NgZone,
     private _router: Router,
     private _route: ActivatedRoute,
+    private _viewContainerRef: ViewContainerRef,
     private _uistatusService: UIStatusService,
     private _photoService: PhotoService,
     private _authService: AuthService,
@@ -76,7 +77,9 @@ export class PhotolistComponent implements OnInit {
   onViewPhotoEXIFDialog(photo: any): void {
     this._uistatusService.selPhotoInPhotoList = photo;
 
-    let dialogRef = this._dialog.open(PhotoListPhotoEXIFDialog);
+    let dialogRef = this._dialog.open(PhotoListPhotoEXIFDialog, {
+      viewContainerRef: this._viewContainerRef
+    });
     dialogRef.afterClosed().subscribe(result => {
       // Do nothing.
     });
