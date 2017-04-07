@@ -6,13 +6,15 @@
     <div class="panel-body">
         <div class="card-deck">
             <div class="card p-3 m-3" *ngFor="let album of albumes">
-                <img class="card-img" src="{{album.Thumbnail}}" itemprop="thumbnail" alt="Thumbnail" />
+                <a role="button" (click)="onViewAlbumClick(album.Id)" title="{{album.Title}}">
+                    <img class="card-img" src="{{album.Thumbnail}}" />
+                </a>
                 <div class="card-block">
                     <h4 class="card-title">{{album.Title}}</h4>
                     <p class="card-text">{{album.Desp}}</p>
                     <p class="card-text"><small class="text-muted">{{album.PhotoCount}} Photos</small></p>
-                    <a class="card-link" (click)="onViewAlbumClick(album.Id)">View Photos</a>
-                    <a class="card-link" (click)="onChangeAlbumMetadata(album.Id)">Change Metadata</a>
+                    <a role="button" class="card-link" (click)="onViewAlbumClick(album.Id)">View Photos</a>
+                    <a role="button" class="card-link" (click)="onChangeAlbumMetadata(album.Id)">Change Metadata</a>
                 </div>
             </div>
         </div>

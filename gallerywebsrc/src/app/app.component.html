@@ -9,18 +9,8 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuAlbum" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <md-icon>ic_photo_album</md-icon>&nbsp;{{'Nav.Album' | translate}}<b class="caret"></b>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuAlbum">
-                    <a class="dropdown-item" [routerLink]="['/album']" routerLinkActive="active">{{'Nav.Albums' | translate}}</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" [routerLink]="['/album/create']" routerLinkActive="active">{{'Nav.AlbumCreate' | translate}}</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuPhoto" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <md-icon>photo</md-icon>&nbsp;{{'Nav.Photo' | translate}}<b class="caret"></b>
+                    <md-icon>photo</md-icon>{{'Nav.Photo' | translate}}<b class="caret"></b>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuPhoto">
                     <a class="dropdown-item" [routerLink]="['/photo']" routerLinkActive="active">{{'Nav.Photos' | translate}}</a>
@@ -29,23 +19,33 @@
                 </div>
             </li>
             <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuAlbum" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <md-icon>ic_photo_album</md-icon>{{'Nav.Album' | translate}}<b class="caret"></b>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuAlbum">
+                    <a class="dropdown-item" [routerLink]="['/album']" routerLinkActive="active">{{'Nav.Albums' | translate}}</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" [routerLink]="['/album/create']" routerLinkActive="active">{{'Nav.AlbumCreate' | translate}}</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownAbout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <md-icon>info</md-icon>&nbsp;{{'Nav.About' | translate}}<b class="caret"></b>
+                    <md-icon>info</md-icon>{{'Nav.About' | translate}}<b class="caret"></b>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuAbout">
                     <h6 class="dropdown-header">Help</h6>
                     <a class="dropdown-item" [routerLink]="['/about']" routerLinkActive="active">
-                        <md-icon>info</md-icon>&nbsp;About</a>
+                        <md-icon>info</md-icon>About</a>
                     <a class="dropdown-item" [routerLink]="['/credits']" routerLinkActive="active">Credits</a>
                     <div class="dropdown-divider"></div>
                     <h6 class="dropdown-header">Websites</h6>
                     <a class="dropdown-item" href="http://www.alvachien.com/alvablog/" target="_blank">
-                        <md-icon>home</md-icon>&nbsp;Personal Website</a>
+                        <md-icon>home</md-icon>Personal Website</a>
                     <div class="dropdown-divider"></div>
                     <h6 class="dropdown-header">Social Network</h6>
-                    <a class="dropdown-item" href="https://github.com/alvachien" target="_blank"><i class="fa fa-github fa-fw"></i>&nbsp;Github</a>
-                    <a class="dropdown-item" href="https://www.flickr.com/photos/alvachien" target="_blank"><i class="fa fa-flickr fa-fw"></i>&nbsp;Flickr</a>
-                    <a class="dropdown-item" href="https://www.facebook.com/alva.chien" target="_blank"><i class="fa fa-facebook fa-fw"></i>&nbsp;Facebook</a>
+                    <a class="dropdown-item" href="https://github.com/alvachien" target="_blank">Github</a>
+                    <a class="dropdown-item" href="https://www.flickr.com/photos/alvachien" target="_blank">Flickr</a>
+                    <a class="dropdown-item" href="https://www.facebook.com/alva.chien" target="_blank">Facebook</a>
                 </div>
             </li>
         </ul>
@@ -54,16 +54,14 @@
             <select class="form-control my-2 my-sm-0" [(ngModel)]="curLang" (change)="onCurLanguageChanged()" name="applang" #applang="ngModel">
                 <option *ngFor="let lang of arLangs" [value]="lang.Value">{{lang.DisplayString | translate}}</option>
             </select>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" *ngIf="!isLoggedIn" (click)="onLogin()">{{'Login.Login' | translate}}</button>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" *ngIf="isLoggedIn" (click)="onUserDetail()">{{titleLogin}}</button>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" *ngIf="isLoggedIn" (click)="onLogout()">{{'Login.Logout' | translate}}</button>
+            <a role="button" class="btn btn-link" *ngIf="!isLoggedIn" (click)="onLogin()">{{'Login.Login' | translate}}</a>
+            <a role="button" class="btn btn-link" *ngIf="isLoggedIn" (click)="onUserDetail()">{{titleLogin}}</a>
+            <a role="button" class="btn btn-link" *ngIf="isLoggedIn" (click)="onLogout()">{{'Login.Logout' | translate}}</a>
         </form>
     </div>
 </nav>
 
 <div class="m-t-1" style="padding-top: 70px; padding-bottom: 70px;">
-    <div id="alertifyjs">
-    </div>
     <router-outlet></router-outlet>
 </div>
 

@@ -12,9 +12,9 @@
                 </md-input-container>
 
                 <md-input-container class="control-full-width">
-                    <input mdInput placeholder="{{'Common.Description' | translate}}" maxlength="20" [(ngModel)]="objAlbum.Desp" name="albumdesp"
+                    <input mdInput placeholder="{{'Common.Description' | translate}}" maxlength="50" [(ngModel)]="objAlbum.Desp" name="albumdesp"
                         #albumdesp="ngModel">
-                    <md-hint align="end">{{objAlbum.Desp && objAlbum.Desp.length}} / 20</md-hint>
+                    <md-hint align="end">{{objAlbum.Desp && objAlbum.Desp.length}} / 50</md-hint>
                 </md-input-container>
 
                 <md-checkbox class="control-full-width" [(ngModel)]="objAlbum.IsPublic" name="ispubl">{{'Album.IsPublic' | translate}}</md-checkbox>
@@ -38,8 +38,8 @@
             <div class="card-block">
                 <h4 class="card-title">{{photo.title}}</h4>
                 <p class="card-text">{{photo.desp}}</p>
-                <a (click)="onChangePhotoAssign(photo)" class="card-link">Change</a>
-                <a (click)="onViewPhotoEXIFDialog(photo)" class="card-link">EXIF</a>
+                <a role="button" (click)="onChangePhotoAssign(photo)" class="card-link">Change</a>
+                <a role="button" (click)="onViewPhotoEXIFDialog(photo)" class="card-link">EXIF</a>
             </div>
         </div>
     </div>

@@ -284,7 +284,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     Observable.forkJoin(rxdata).subscribe(data => {
       if (this.assignAlbum !== 0) {
         let apba = new AlbumPhotoByAlbum();
-        if (this.assignAlbum === 1) {
+        if (this.isAssginToNewAlbum()) {
           apba.albumId = this.albumCreate.Id;
         } else {
           apba.albumId = this.albumUpdate.Id;
@@ -294,13 +294,14 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
           apba.photoIDList.push(data_detail.photoId);
         }
 
-        if (this.assignAlbum === 1) {
-          this._albumService.updateAlbumPhotoByAlbum(apba).subscribe(dat2 => {
-          }, error2 => {
-          }, () => {
+        if (this.isAssginToNewAlbum()) {
+          this._albumService.updateAlbumPhotoByAlbum(apba).subscribe(data2 => {
             this.onAfterUploadComplete();
+          }, error2 => {
+            this.onAfterUploadComplete();
+          }, () => {
           });
-        } else if(this.assignAlbum === 2) {
+        } else if(this.isAssginToExistingAlbum()) {
           let rxdata2: Observable<any>[] = [];
           for(let pid of apba.photoIDList) {
             let apl: AlbumPhotoLink = new AlbumPhotoLink();
@@ -310,9 +311,10 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
           }
 
           Observable.forkJoin(rxdata2).subscribe(data3=>{
-          }, error3 => {
-          }, () => {
             this.onAfterUploadComplete();
+          }, error3 => {
+            this.onAfterUploadComplete();
+          }, () => {
           });
         }
       } else {

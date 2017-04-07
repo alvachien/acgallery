@@ -14,7 +14,7 @@ import { Subject } from 'rxjs/Subject';
 import { PhotoService } from '../services/photo.service';
 import { AlbumService } from '../services/album.service';
 import { UIStatusService } from '../services/uistatus.service';
-import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
+import { MdDialog, MdDialogRef, MdDialogConfig, MdSnackBar } from '@angular/material';
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
 
@@ -42,7 +42,8 @@ export class AlbumComponent implements OnInit {
     private _photoService: PhotoService,
     private _uistatus: UIStatusService,
     private _viewContainerRef: ViewContainerRef,
-    public _dialog: MdDialog) { 
+    private _snackBar: MdSnackBar,
+    private _dialog: MdDialog) {
     this.objAlbum = new Album();
   }
 
@@ -76,13 +77,6 @@ export class AlbumComponent implements OnInit {
         this.readAlbum();
       }
     }, error => {
-      // this._dialogService.openAlert({
-      //   message: error,
-      //   disableClose: false, // defaults to false
-      //   viewContainerRef: this._viewContainerRef, //OPTIONAL
-      //   title: "Error", //OPTIONAL, hides if not provided
-      //   closeButton: 'Close', //OPTIONAL, defaults to 'CLOSE'
-      // });
     }, () => {
       // Completed
     });
@@ -94,7 +88,7 @@ export class AlbumComponent implements OnInit {
 
   private onPhotoClick(): void {
     let items = [];
-    for(let pht of this.photos) {
+    for (let pht of this.photos) {
       items.push({
         src: pht.fileUrl,
         w: pht.width,
@@ -113,47 +107,32 @@ export class AlbumComponent implements OnInit {
     };
 
     // Initializes and opens PhotoSwipe
-    this.gallery = new PhotoSwipe( this._uistatus.elemPSWP, PhotoSwipeUI_Default, items, options);
+    this.gallery = new PhotoSwipe(this._uistatus.elemPSWP, PhotoSwipeUI_Default, items, options);
     this.gallery.init();
   }
 
   private openAccessCodeDialog(): Observable<any> {
-    let dialogRef = this._dialog.open(AlbumAccessCodeDialog, {
-      width: "400",
-      height: "300",
-      position: {
-        top: "200",
-        left: "100"
-      }
-    });
+    let dialogRef = this._dialog.open(AlbumAccessCodeDialog);
     return dialogRef.afterClosed();
   }
 
   private onViewPhotoEXIFDialog(selphoto: any): void {
     this._uistatus.selPhotoInAblum = selphoto;
-    
-    let dialogRef = this._dialog.open(AlbumPhotoEXIFDialog, {
-      width: "400",
-      height: "300",
-      position: {
-        top: "200",
-        left: "100"
-      }
-    });
+
+    let dialogRef = this._dialog.open(AlbumPhotoEXIFDialog);
     dialogRef.afterClosed().subscribe(result => {
       // Do nothing.
     });
   }
 
   private onChangePhotoAssign(selphoto: any): void {
-
   }
 
   private readAlbum(): void {
     this._albumService.loadAlbum(this.routerID).subscribe(x => {
       this._zone.run(() => {
         this.objAlbum = new Album();
-        this.objAlbum.init(x.id, 
+        this.objAlbum.init(x.id,
           x.title,
           x.desp,
           x.thumnail,
@@ -172,17 +151,20 @@ export class AlbumComponent implements OnInit {
             this._photoService.loadAlbumPhoto(this.routerID, this.objAlbum.AccessCode).subscribe(x2 => {
               this.photos = x2.contentList;
             }, error => {
-              
+              // Show error dialog
+              this._snackBar.open("Error occurred: " + error);
             }, () => {
             });
           }
         });
       } else if (!this.objAlbum.AccessCode) {
-          this._photoService.loadAlbumPhoto(this.routerID, this.objAlbum.AccessCode).subscribe(x2 => {
-            this.photos = x2.contentList;
-          }, error => {
-          }, () => {
-          });
+        this._photoService.loadAlbumPhoto(this.routerID, this.objAlbum.AccessCode).subscribe(x2 => {
+          this.photos = x2.contentList;
+        }, error => {
+          // Show error dialog
+          this._snackBar.open("Error occurred: " + error);
+        }, () => {
+        });
       }
     }, error => {
     }, () => {
@@ -195,7 +177,7 @@ export class AlbumComponent implements OnInit {
   templateUrl: './album.accesscode.dialog.html',
 })
 export class AlbumAccessCodeDialog {
-  constructor(public dialogRef: MdDialogRef<AlbumAccessCodeDialog>) {    
+  constructor(public dialogRef: MdDialogRef<AlbumAccessCodeDialog>) {
   }
 }
 
@@ -207,7 +189,7 @@ export class AlbumPhotoEXIFDialog {
   public currentPhoto: any;
 
   constructor(public _dialogRef: MdDialogRef<AlbumPhotoEXIFDialog>,
-    public _uistatus: UIStatusService) {    
-      this.currentPhoto = this._uistatus.selPhotoInAblum;
+    public _uistatus: UIStatusService) {
+    this.currentPhoto = this._uistatus.selPhotoInAblum;
   }
 }
