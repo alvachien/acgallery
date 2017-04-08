@@ -46,19 +46,18 @@ After switch to @angular/cli, the project now use 'ng build' as a 'Prepublish' e
 
 
 ## Credits
-AC Photo Gallery web app built with following technologies:
+AC Photo Gallery web app built with following UI technologies:
 - ASP.NET Core 1;
 - Angular 2;
 - Angular Material 2;
 - Angular CLI 1;
 - Bootstrap V4;
-- TypeScript 2.1.0;
+- TypeScript 2.2.0;
 
-Besides, it also using the following libaries:
+Besides, it also using the following server side libaries:
 - EXIF Tool [Link] (http://www.sno.phy.queensu.ca/~phil/exiftool/);
-- FancyBox 3.0 Beta 1 [Link] (http://fancyapps.com/fancybox/beta/);
-- Alertjs 1.0.12 [Link] (https://alertifyjs.org/); 
-- Magick.NET 7.0.3.1 [Link] (https://magick.codeplex.com/documentation)
+- Magick.NET [Link] (https://www.imagemagick.org/)
+
 
 ## Author
 **Alva Chien | 钱红俊**
