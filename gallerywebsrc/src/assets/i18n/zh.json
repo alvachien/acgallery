@@ -116,7 +116,11 @@
     "SimpChinese": "简体中文"
   },
   "Message": {
-    "TitleIsMust": "标题是必填项"
+    "TitleIsMust": "标题是必填项",
+    "WelcomeTitle": "本web app的创建目的是用于图片的搜集及其互联网维度的分享，也可以用作个人的印象资料存储。",
+    "WelcomeTech": "本web app使用了大量的最新（2016-2017）前后台技术: ASP.NET Core 1, Angular 2.0, TypeScript, BootStrap 4.0, Angular Material 2",
+    "WelcomeAlbumButton": "看看相册功能",
+    "WelcomePhotoButton": "看看图片功能"
   },
   "Album":{
     "IsPublic": "公开访问",

@@ -7,7 +7,7 @@ import { PhotolistComponent } from './photolist/photolist.component';
 import { PhotouploadComponent } from './photoupload/photoupload.component';
 //import { UserdetailComponent } from './userdetail/userdetail.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
-//import { AboutComponent } from './about/about.component';
+import { AboutComponent } from './about/about.component';
 
 //import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
 //import { AuthGuard } from './services/auth-guard.service';
@@ -54,6 +54,7 @@ const appRoutes: Routes = [
         },
     ]
   },
+  { path: 'about', component: AboutComponent },
   { path: '**', component: PagenotfoundComponent },
 ];
 
