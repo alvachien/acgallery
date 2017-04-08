@@ -1,6 +1,6 @@
 <div class="panel panel-info">
     <div class="panel-heading">
-        <h3 class="panel-title">Photos List</h3>
+        <h3 class="panel-title">{{'Nav.Photos' | translate}} - {{'Common.ListView' | translate}}</h3>
     </div>
 
     <div class="panel-body">
@@ -9,12 +9,11 @@
             <div class="card p-3 m-3" *ngFor="let photo of photos">
                 <a (click)="onPhotoClick()" title="{{photo.title}}">
                     <img class="card-img" src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" />
-                    <!--style="display: block; width: 100% !important;height: auto !important;" />-->
                 </a>
                 <div class="card-block">
                     <h4 class="card-title">{{photo.title}}</h4>
                     <p class="card-text">{{photo.desp}}</p>
-                    <a (click)="onChangePhotoAssign(photo)" role="button" class="card-link">Change</a>
+                    <a (click)="onChangePhotoAssign(photo)" role="button" class="card-link">{{'Common.Change' | translate}}</a>
                     <a (click)="onViewPhotoEXIFDialog(photo)" role="button" class="card-link">EXIF</a>
                 </div>
             </div>

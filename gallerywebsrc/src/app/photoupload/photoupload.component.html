@@ -100,21 +100,18 @@
     </div>
 
     <div class="row p-3 m-3" [hidden]="!isUploading">
-        <md-card>
-            <md-card-content>
-                <div style="padding: 20%;text-align:center;">
-                    <h3>Uploading, please wait...</h3>
-                </div>
+        <div style="padding: 20%;text-align:center;">
+            <h3>{{'Message.UploadingInfo' | translate}}</h3>
+        </div>
 
-                <section class="progress-section">
-                    <md-progress-bar
-                        class="progress-margin"
-                        color="primary"
-                        mode="indeterminate">
-                    </md-progress-bar>
-                </section>
-            </md-card-content>
-        </md-card>
+        <section class="progress-section">
+            <md-progress-bar
+                class="progress-margin"
+                color="primary"
+                mode="determinate"
+                [value]="progressNum">
+            </md-progress-bar>
+        </section>
     </div>
 
     <hr />

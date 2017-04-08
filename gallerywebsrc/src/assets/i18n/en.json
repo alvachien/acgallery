@@ -62,7 +62,7 @@
     "Tags": "Tags",
     "Tag": "Tag",
     "Setting": "Setting",
-    "Title": "Title",
+    "Title": "Title",    
 
     "DeleteConfirmation": "Delete Confirmation",
     "ConfirmToDeleteSelectedItem": "The selected item(s) will be deleted. Do you confirm to continue?",
@@ -120,11 +120,18 @@
     "WelcomeTitle": "This is a simple web app for Photo gallery, for the interesting photos, albums and sharing through the websites.",
     "WelcomeTech": "This web app uses tons of new knowledges: ASP.NET Core 1, Angular 2.0, TypeScript, BootStrap 4.0, Angular Material 2",
     "WelcomeAlbumButton": "Take a look upon albums",
-    "WelcomePhotoButton": "Take a look upon photos"
+    "WelcomePhotoButton": "Take a look upon photos",
+    "Unauthorized": "Unauthorized",
+    "UnauthorizedContent": "Your reached this page indicates you are lack of authority to perform the operations you requested to.",
+    "PageNotFound": "Page Not Found",
+    "PageNotFoundContent": "The page you requested could not be found, either contact your webmaster or try again. Use back button to navigate to the page you have prevously come from",
+    "UploadingInfo": "Uploading, please wait..."
   },
   "Album":{
     "IsPublic": "Is Public",
-    "AccessCode": "Access Code"
+    "AccessCode": "Access Code",
+    "ViewPhotos": "View Photos",
+    "ChangeMetadata": "Change Metadata"
   },
   "Photo": {
     "FileSize": "File Size",

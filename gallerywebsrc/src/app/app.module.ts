@@ -24,6 +24,7 @@ import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { PhotolistComponent, PhotoListPhotoEXIFDialog } from './photolist/photolist.component';
 import { AboutComponent } from './about/about.component';
 import { CreditsComponent } from './credits/credits.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 export function funcHttpLoaderFactory(http: Http) {
     return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
@@ -42,7 +43,8 @@ export function funcHttpLoaderFactory(http: Http) {
     PhotolistComponent,
     PhotoListPhotoEXIFDialog,
     AboutComponent,
-    CreditsComponent
+    CreditsComponent,
+    UnauthorizedComponent
   ],
   entryComponents: [
     AlbumAccessCodeDialog,

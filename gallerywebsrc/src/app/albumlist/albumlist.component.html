@@ -1,6 +1,6 @@
 <div class="panel panel-info">
     <div class="panel-heading">
-        <h3 class="panel-title">Album List</h3>
+        <h3 class="panel-title">{{'Nav.Album' | translate}} - {{'Common.ListView' | translate}}</h3>
     </div>
 
     <div class="panel-body">
@@ -12,9 +12,9 @@
                 <div class="card-block">
                     <h4 class="card-title">{{album.Title}}</h4>
                     <p class="card-text">{{album.Desp}}</p>
-                    <p class="card-text"><small class="text-muted">{{album.PhotoCount}} Photos</small></p>
-                    <a role="button" class="card-link" (click)="onViewAlbumClick(album.Id)">View Photos</a>
-                    <a role="button" class="card-link" (click)="onChangeAlbumMetadata(album.Id)">Change Metadata</a>
+                    <p class="card-text"><small class="text-muted">{{album.PhotoCount}} {{'Nav.Photos' | translate}}</small></p>
+                    <a role="button" class="card-link" (click)="onViewAlbumClick(album.Id)">{{'Album.ViewPhotos' | translate}}</a>
+                    <a role="button" class="card-link" (click)="onChangeAlbumMetadata(album.Id)">{{'Album.ChangeMetadata' | translate}}</a>
                 </div>
             </div>
         </div>

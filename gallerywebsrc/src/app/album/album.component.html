@@ -1,7 +1,7 @@
 <div *ngIf="objAlbum" class="container">
     <md-card>
         <md-card-header>
-            <md-card-title>Album: {{currentMode | translate}}</md-card-title>
+            <md-card-title>{{'Nav.Album' | translate}}: {{currentMode | translate}}</md-card-title>
         </md-card-header>
         <md-card-content>
             <form (ngSubmit)="onSubmit()" #albumForm="ngForm">

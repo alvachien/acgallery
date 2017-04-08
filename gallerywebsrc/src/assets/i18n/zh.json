@@ -120,11 +120,18 @@
     "WelcomeTitle": "本web app的创建目的是用于图片的搜集及其互联网维度的分享，也可以用作个人的印象资料存储。",
     "WelcomeTech": "本web app使用了大量的最新（2016-2017）前后台技术: ASP.NET Core 1, Angular 2.0, TypeScript, BootStrap 4.0, Angular Material 2",
     "WelcomeAlbumButton": "看看相册功能",
-    "WelcomePhotoButton": "看看图片功能"
+    "WelcomePhotoButton": "看看图片功能",
+    "Unauthorized": "无授权",
+    "UnauthorizedContent": "当前页面表明你因为缺乏相应操作的权限。",
+    "PageNotFound": "页面未找到",
+    "PageNotFoundContent": "The page you requested could not be found, either contact your webmaster or try again. Use back button to navigate to the page you have prevously come from",
+    "UploadingInfo": "上传中, 请稍候..."
   },
   "Album":{
     "IsPublic": "公开访问",
-    "AccessCode": "访问码"
+    "AccessCode": "访问码",
+    "ViewPhotos": "查看照片",
+    "ChangeMetadata": "更新相册定义"
   },
   "Photo": {
     "FileSize": "文件大小",

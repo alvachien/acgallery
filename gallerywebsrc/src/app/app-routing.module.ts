@@ -8,6 +8,8 @@ import { PhotouploadComponent } from './photoupload/photoupload.component';
 //import { UserdetailComponent } from './userdetail/userdetail.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { AboutComponent } from './about/about.component';
+import { CreditsComponent } from './credits/credits.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 //import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
 //import { AuthGuard } from './services/auth-guard.service';
@@ -55,6 +57,8 @@ const appRoutes: Routes = [
     ]
   },
   { path: 'about', component: AboutComponent },
+  { path: 'credits', component: CreditsComponent },
+  { path: 'unauthorized', component: UnauthorizedComponent },
   { path: '**', component: PagenotfoundComponent },
 ];
 

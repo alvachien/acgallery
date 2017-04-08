@@ -106,6 +106,11 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log("ACGallery [Debug]: Entering ngAfterViewInit of PhotoUploadComponent");
     }
 
+    if (!this.canUploadPhoto()) {
+      this._router.navigate(['/unauthorized']);
+      return;
+    }
+
     let that = this;
     if (!this.uploader && that.elemUploadFile) {
       this.uploader = new qq.FineUploaderBasic({
