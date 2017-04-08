@@ -30,10 +30,9 @@
     <hr />
 
     <div class="card-deck">
-        <div class="card p-3 m-3" *ngFor="let photo of photos">
-            <a (click)="onPhotoClick()" title="{{photo.title}}">
+        <div class="card p-3 m-3" *ngFor="let photo of photos; let idx = index">
+            <a (click)="onPhotoClick(idx)" title="{{photo.title}}">
                 <img class="card-img" src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" />
-                <!--style="display: block; width: 100% !important;height: auto !important;" />-->
             </a>
             <div class="card-block">
                 <h4 class="card-title">{{photo.title}}</h4>

@@ -49,7 +49,7 @@ export class AlbumComponent implements OnInit {
 
   ngOnInit() {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log("Entering ngOnInit of AlbumComponent");
+      console.log("AC Gallery [Debug]: Entering ngOnInit of AlbumComponent");
     }
 
     // Distinguish current mode
@@ -86,7 +86,11 @@ export class AlbumComponent implements OnInit {
     return this.uiMode === UIMode.Create || this.uiMode === UIMode.Change;
   }
 
-  private onPhotoClick(): void {
+  private onPhotoClick(idx: number): void {
+    if (this.photos.length <= 0) {
+      return;
+    }
+
     let items = [];
     for (let pht of this.photos) {
       items.push({
@@ -96,6 +100,15 @@ export class AlbumComponent implements OnInit {
       });
     }
 
+    let idx2: number;
+    if (!idx) {
+      idx2 = 0;
+    } else if (idx < 0 || idx > this.photos.length) {
+      idx2 = 0;
+    } else {
+      idx2 = idx;
+    }
+
     // define options (if needed)
     var options = {
       history: false,
@@ -103,7 +116,7 @@ export class AlbumComponent implements OnInit {
 
       showAnimationDuration: 0,
       hideAnimationDuration: 0,
-      index: 0 // start at first slide
+      index: idx2 // start at first slide
     };
 
     // Initializes and opens PhotoSwipe

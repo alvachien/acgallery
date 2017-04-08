@@ -1,12 +1,130 @@
-<div class="container">
-    <div class="jumbotron">
-        <h1 class="display-3">AC Photo Gallery!</h1>
-        <p class="lead">{{'Message.WelcomeTitle' | translate}}</p>
-        <hr class="m-y-2">
-        <p>{{'Message.WelcomeTech' | translate}}</p>
-        <p class="lead">
-            <a class="btn btn-primary btn-lg" [routerLink]="['/album']" routerLinkActive="active" role="button">{{'Message.WelcomeAlbumButton' | translate}}</a>
-            <a class="btn btn-primary btn-lg" [routerLink]="['/photo']" routerLinkActive="active" role="button">{{'Message.WelcomePhotoButton' | translate}}</a>
-        </p>
+
+<div id="welCarousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#welCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#welCarousel" data-slide-to="1"></li>
+        <li data-target="#welCarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        <div class="carousel-item active">
+            <img class="first-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Login">
+            <div class="container">
+                <div class="carousel-caption d-none d-md-block text-left">
+                    <h1>{{'Message.WelcomeTitle1' | translate}}</h1>
+                    <p>{{'Message.WelcomeContent1' | translate}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img class="second-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Album">
+            <div class="container">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1>{{'Message.WelcomeTitle2' | translate}}</h1>
+                    <p>{{'Message.WelcomeContent2' | translate}}</p>
+                    <p><a class="btn btn-lg btn-primary" [routerLink]="['/album']" routerLinkActive="active" role="button">{{'Message.WelcomeAlbumButton' | translate}}</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img class="third-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Photo">
+            <div class="container">
+                <div class="carousel-caption d-none d-md-block text-right">
+                    <h1>{{'Message.WelcomeTitle3' | translate}}</h1>
+                    <p>{{'Message.WelcomeContent3' | translate}}</p>
+                    <p><a class="btn btn-lg btn-primary" [routerLink]="['/album']" routerLinkActive="active" role="button">{{'Message.WelcomePhotoButton' | translate}}</a></p>
+                </div>
+            </div>
+        </div>
     </div>
+    <a class="carousel-control-prev" href="#welCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">{{'Common.Previous' | translate}}</span>
+    </a>
+    <a class="carousel-control-next" href="#welCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">{{'Common.Next' | translate}}</span>
+    </a>
 </div>
+
+
+<!-- Marketing messaging and featurettes
+    ================================================== -->
+<!-- Wrap the rest of the page in another container to center all the content. -->
+
+<div class="container marketing">
+
+    <!-- Three columns of text below the carousel -->
+    <div class="row">
+        <div class="col-lg-4">
+            <img class="rounded-circle" src="assets/img/accesscode.png" alt="Access Code"
+                width="140" height="140">
+            <h2>{{'Message.MarketingHeader1' | translate }}</h2>
+            <p>{{ 'Message.MarketingContent1' | translate }}}</p>
+        </div>
+        <!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+            <img class="rounded-circle" src="assets/img/lightbox.jpg" alt="Lightbox"
+                width="140" height="140">
+            <h2>{{'Message.MarketingHeader2' | translate }}</h2>
+            <p>{{ 'Message.MarketingContent2' | translate }}}</p>
+        </div>
+        <!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+            <img class="rounded-circle" src="assets/img/opensource.png" alt="Open source"
+                width="140" height="140">
+            <h2>{{'Message.MarketingHeader3' | translate }}</h2>
+            <p>{{ 'Message.MarketingContent3' | translate }}}</p>
+        </div>
+        <!-- /.col-lg-4 -->
+    </div>
+    <!-- /.row -->
+
+
+    <!-- START THE FEATURETTES -->
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7">
+            <h2 class="featurette-heading">{{'Message.FeatureTitle1' | translate }}<span class="text-muted">{{'Message.FeatureSubTitle1' | translate }}</span></h2>
+            <p class="lead">{{'Message.FeatureContent1' | translate }}</p>
+        </div>
+        <div class="col-md-5">
+            <img class="featurette-image img-fluid mx-auto" src="assets/img/feature1.jpg" alt="Generic placeholder image">
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7 push-md-5">
+            <h2 class="featurette-heading">{{'Message.FeatureTitle2' | translate }}<span class="text-muted">{{'Message.FeatureSubTitle2' | translate }}</span></h2>
+            <p class="lead">{{'Message.FeatureContent2' | translate }}</p>
+        </div>
+        <div class="col-md-5 pull-md-7">
+            <img class="featurette-image img-fluid mx-auto" src="assets/img/feature2.jpg" alt="Generic placeholder image">
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+        <div class="col-md-7">
+            <h2 class="featurette-heading">{{'Message.FeatureTitle3' | translate }}<span class="text-muted">{{'Message.FeatureSubTitle3' | translate }}</span></h2>
+            <p class="lead">{{'Message.FeatureContent3' | translate }}</p>
+        </div>
+        <div class="col-md-5">
+            <img class="featurette-image img-fluid mx-auto" src="assets/img/feature3.jpg" alt="Generic placeholder image">
+        </div>
+    </div>
+
+    <hr class="featurette-divider">
+    <!-- /END THE FEATURETTES -->
+
+    <!-- FOOTER -->
+    <footer>
+        <p class="float-right"><a href="#welCarousel">Back to top</a></p>
+        <p>&copy; 2016 - 2017 Alva Chien, &middot; <a href="https://www.github.com/alvachien/acgallery">An Open Source Project in Github</a></p>
+    </footer>
+</div>
+<!-- /.container -->

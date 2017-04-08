@@ -49,7 +49,12 @@ export class PhotolistComponent implements OnInit {
     });
   }  
 
-  onPhotoClick(): void {
+  onPhotoClick(idx: number): void {
+
+    if (this.photos.length <= 0) {
+      return;
+    }
+
     let items = [];
     for(let pht of this.photos) {
       items.push({
@@ -59,6 +64,15 @@ export class PhotolistComponent implements OnInit {
       });
     }
 
+    let idx2: number;
+    if (!idx) {
+      idx2 = 0;
+    } else if(idx < 0 || idx > this.photos.length) {
+      idx2 = 0;
+    } else {
+      idx2 = idx;
+    }
+
     // define options (if needed)
     var options = {
       history: false,
@@ -66,7 +80,7 @@ export class PhotolistComponent implements OnInit {
 
       showAnimationDuration: 0,
       hideAnimationDuration: 0,
-      index: 0 // start at first slide
+      index: idx2 // start at first slide
     };
 
     // Initializes and opens PhotoSwipe
