@@ -82,6 +82,10 @@ export class AlbumComponent implements OnInit {
     });
   }
 
+  public isFieldChangable(): boolean {
+    return this.uiMode === UIMode.Create || this.uiMode === UIMode.Change;
+  }
+  
   public needShowAccessCode(): boolean {
     return this.uiMode === UIMode.Create || this.uiMode === UIMode.Change;
   }
@@ -135,10 +139,13 @@ export class AlbumComponent implements OnInit {
     let dialogRef = this._dialog.open(AlbumPhotoEXIFDialog);
     dialogRef.afterClosed().subscribe(result => {
       // Do nothing.
+      this._uistatus.selPhotoInAblum = null;
     });
   }
 
   private onChangePhotoAssign(selphoto: any): void {
+    this._uistatus.selPhotoInAblum = selphoto;
+    this._router.navigate(['/photo/display']);
   }
 
   private readAlbum(): void {

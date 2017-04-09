@@ -4,6 +4,6 @@
     <md-hint align="end">{{accessCode.value.length}} / 20</md-hint>
 </div>
 <div md-dialog-actions>
-  <button md-button (click)="dialogRef.close(accessCode.value)">Submit</button>
-  <button md-button (click)="dialogRef.close()">Cancel</button>
+  <button md-button (click)="dialogRef.close(accessCode.value)">{{'Common.Submit' | translate}}</button>
+  <button md-button (click)="dialogRef.close()">{{'Common.Cancel' | translate}}</button>
 </div>

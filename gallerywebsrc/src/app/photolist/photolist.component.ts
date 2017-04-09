@@ -37,12 +37,12 @@ export class PhotolistComponent implements OnInit {
     private _photoService: PhotoService,
     private _authService: AuthService,
     private _dialog: MdDialog) {
-    this.objUtil = new UIPagination(30, 5);
+    this.objUtil = new UIPagination(20, 5);
   }
 
   ngOnInit() {
     this.onPageClick(1);
-  }  
+  }
 
   onPhotoClick(idx: number): void {
     if (this.photos.length <= 0) {
@@ -50,7 +50,7 @@ export class PhotolistComponent implements OnInit {
     }
 
     let items = [];
-    for(let pht of this.photos) {
+    for (let pht of this.photos) {
       items.push({
         src: pht.fileUrl,
         w: pht.width,
@@ -61,7 +61,7 @@ export class PhotolistComponent implements OnInit {
     let idx2: number;
     if (!idx) {
       idx2 = 0;
-    } else if(idx < 0 || idx > this.photos.length) {
+    } else if (idx < 0 || idx > this.photos.length) {
       idx2 = 0;
     } else {
       idx2 = idx;
@@ -78,7 +78,7 @@ export class PhotolistComponent implements OnInit {
     };
 
     // Initializes and opens PhotoSwipe
-    this.gallery = new PhotoSwipe( this._uistatusService.elemPSWP, PhotoSwipeUI_Default, items, options);
+    this.gallery = new PhotoSwipe(this._uistatusService.elemPSWP, PhotoSwipeUI_Default, items, options);
     this.gallery.init();
   }
 
@@ -87,22 +87,18 @@ export class PhotolistComponent implements OnInit {
 
     let dialogRef = this._dialog.open(PhotoListPhotoEXIFDialog);
     dialogRef.afterClosed().subscribe(result => {
-      // Do nothing.
+      this._uistatusService.selPhotoInPhotoList = null;
     });
   }
 
   onViewPhotoMetaDialog(photo: any): void {
     this._uistatusService.selPhotoInPhotoList = photo;
-
-    let dialogRef = this._dialog.open(PhotoListPhotoMetaDialog);
-    dialogRef.afterClosed().subscribe(result => {
-      // Do nothing.
-    });
+    this._router.navigate(['/photo/display']);
   }
 
   onPagePreviousClick(): void {
     if (this.objUtil.currentPage > 1) {
-        this.onPageClick(this.objUtil.currentPage - 1);
+      this.onPageClick(this.objUtil.currentPage - 1);
     }
   }
 
@@ -112,37 +108,23 @@ export class PhotolistComponent implements OnInit {
 
   onPageClick(pageIdx: number): void {
     if (this.objUtil.currentPage != pageIdx) {
-        this.objUtil.currentPage = pageIdx;
+      this.objUtil.currentPage = pageIdx;
 
-        let paraString = this.objUtil.nextAPIString;
-        this._photoService.loadPhotos(paraString).subscribe(data => {
-            this.objUtil.totalCount = data.totalCount;
-            this._zone.run(() => {
-                this.photos = [];
-                if (data && data.contentList && data.contentList instanceof Array) {
-                    this.photos = data.contentList;
-                }
-            });
-        }, error => {
-        }, () => {
+      let paraString = this.objUtil.nextAPIString;
+      this._photoService.loadPhotos(paraString).subscribe(data => {
+        this.objUtil.totalCount = data.totalCount;
+        this._zone.run(() => {
+          this.photos = [];
+          if (data && data.contentList && data.contentList instanceof Array) {
+            this.photos = data.contentList;
+          }
         });
+      }, error => {
+      }, () => {
+      });
     }
   }
 }
-
-@Component({
-  selector: 'photolist-photomd-dialog',
-  templateUrl: './photolist.photomd.dialog.html',
-})
-export class PhotoListPhotoMetaDialog {
-  public currentPhoto: any;
-
-  constructor(public _dialogRef: MdDialogRef<PhotoListPhotoMetaDialog>,
-    public _uistatus: UIStatusService) {    
-      this.currentPhoto = this._uistatus.selPhotoInPhotoList;
-  }
-}
-
 
 @Component({
   selector: 'photolist-photoexif-dialog',
@@ -152,7 +134,7 @@ export class PhotoListPhotoEXIFDialog {
   public currentPhoto: any;
 
   constructor(public _dialogRef: MdDialogRef<PhotoListPhotoEXIFDialog>,
-    public _uistatus: UIStatusService) {    
-      this.currentPhoto = this._uistatus.selPhotoInPhotoList;
+    public _uistatus: UIStatusService) {
+    this.currentPhoto = this._uistatus.selPhotoInPhotoList;
   }
 }

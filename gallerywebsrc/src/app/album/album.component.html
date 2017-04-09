@@ -7,17 +7,18 @@
             <form (ngSubmit)="onSubmit()" #albumForm="ngForm">
                 <md-input-container class="control-full-width">
                     <input mdInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="objAlbum.Title" name="title"
-                        #title="ngModel">
+                        #title="ngModel" [disabled]="!isFieldChangable()">
                     <md-hint align="end">{{objAlbum.Title && objAlbum.Title.length}} / 20</md-hint>
                 </md-input-container>
 
                 <md-input-container class="control-full-width">
                     <input mdInput placeholder="{{'Common.Description' | translate}}" maxlength="50" [(ngModel)]="objAlbum.Desp" name="albumdesp"
-                        #albumdesp="ngModel">
+                        #albumdesp="ngModel" [disabled]="!isFieldChangable()">
                     <md-hint align="end">{{objAlbum.Desp && objAlbum.Desp.length}} / 50</md-hint>
                 </md-input-container>
 
-                <md-checkbox class="control-full-width" [(ngModel)]="objAlbum.IsPublic" name="ispubl">{{'Album.IsPublic' | translate}}</md-checkbox>
+                <md-checkbox class="control-full-width" [(ngModel)]="objAlbum.IsPublic" name="ispubl"
+                    [disabled]="!isFieldChangable()">{{'Album.IsPublic' | translate}}</md-checkbox>
 
                 <md-input-container class="control-full-width" *ngIf="needShowAccessCode()">
                     <input mdInput placeholder="{{'Album.AccessCode' | translate}}" maxlength="20" [(ngModel)]="objAlbum.AccessCode" name="accesscode"

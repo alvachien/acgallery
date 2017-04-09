@@ -1,0 +1,82 @@
+<div *ngIf="currentPhoto" class="container">
+    <md-card>
+        <md-card-header>
+            <md-card-title>{{'Nav.Photo' | translate}}: {{currentMode | translate}}</md-card-title>
+        </md-card-header>
+        <md-card-content>
+          <form #photoForm="ngForm">
+              <md-input-container class="w-100 p-3">
+                  <input mdInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="currentPhoto.title" name="title"
+                      #title="ngModel">
+                  <md-hint align="end">{{currentPhoto.title && currentPhoto.title.length}} / 20</md-hint>
+              </md-input-container>
+
+              <md-input-container class="w-100 p-3">
+                  <input mdInput placeholder="{{'Common.Description' | translate}}" maxlength="50" [(ngModel)]="currentPhoto.desp" name="photodesp"
+                      #photodesp="ngModel">
+                  <md-hint align="end">{{currentPhoto.desp && currentPhoto.desp.length}} / 50</md-hint>
+              </md-input-container>
+
+              <md-checkbox [(ngModel)]="currentPhoto.IsPublic" name="ispubl">{{"Album.IsPublic" | translate}}</md-checkbox>
+          </form>
+        </md-card-content>
+    </md-card>
+    <hr />
+
+    <div class="row">
+        <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5">
+            <div class="row">
+                Assigned albums
+            </div>
+            <table class="table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>Title</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let album of assignedAlbum">
+                        <td><div class="checkbox"><input type="checkbox" [(ngModel)]="album.IsSelected"></div></td>
+                        <td><img src="{{album.Thumbnail}}" style="display: block; width: 100% !important;height: auto !important;" class="img-rounded pull-xs-left" alt="..."></td>
+                        <td>{{album.Title}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-1 col-md-1 col-xs-1 col-sm-1">
+            <br />
+            <br />
+            <br />
+            <br />
+            <div class="row">
+                <a class="btn btn-outline-danger" (click)="onRemoveAssignedAlbum()">></a>
+            </div>
+            <div class="row">
+                <a class="btn btn-outline-primary" (click)="onAddAssignedAlbum()"><</a>
+            </div>
+        </div>
+        <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5">
+            <div class="row">
+                Available albums
+            </div>
+            <table class="table">
+                <thead class="thead-default">
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>Title</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let album of allAlbum">
+                        <td><div class="checkbox"><input type="checkbox" [(ngModel)]="album.IsSelected"></div></td>
+                        <td><img src="{{album.Thumbnail}}" class="img-rounded pull-xs-left" alt="..."></td>
+                        <td>{{album.Title}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,7 @@ import { AlbumlistComponent } from './albumlist/albumlist.component';
 import { AlbumComponent } from './album/album.component';
 import { PhotolistComponent } from './photolist/photolist.component';
 import { PhotouploadComponent } from './photoupload/photoupload.component';
+import { PhotochangeComponent } from './photochange/photochange.component';
 //import { UserdetailComponent } from './userdetail/userdetail.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { AboutComponent } from './about/about.component';
@@ -54,6 +55,14 @@ const appRoutes: Routes = [
             path: 'upload',
             component: PhotouploadComponent
         },
+        {
+            path: 'display',
+            component: PhotochangeComponent
+        },
+        {
+            path: 'change',
+            component: PhotochangeComponent
+        }
     ]
   },
   { path: 'about', component: AboutComponent },

@@ -19,9 +19,10 @@ import { AppComponent } from './app.component';
 import { AlbumComponent, AlbumAccessCodeDialog, AlbumPhotoEXIFDialog } from './album/album.component';
 import { AlbumlistComponent } from './albumlist/albumlist.component';
 import { PhotouploadComponent } from './photoupload/photoupload.component';
+import { PhotochangeComponent } from './photochange/photochange.component';
 import { HomeComponent } from './home/home.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
-import { PhotolistComponent, PhotoListPhotoEXIFDialog, PhotoListPhotoMetaDialog } from './photolist/photolist.component';
+import { PhotolistComponent, PhotoListPhotoEXIFDialog } from './photolist/photolist.component';
 import { AboutComponent } from './about/about.component';
 import { CreditsComponent } from './credits/credits.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
@@ -41,16 +42,15 @@ export function funcHttpLoaderFactory(http: Http) {
     HomeComponent,
     PagenotfoundComponent,
     PhotolistComponent,
-    PhotoListPhotoMetaDialog,
     PhotoListPhotoEXIFDialog,
     AboutComponent,
     CreditsComponent,
-    UnauthorizedComponent
+    UnauthorizedComponent,
+    PhotochangeComponent
   ],
   entryComponents: [
     AlbumAccessCodeDialog,
     AlbumPhotoEXIFDialog,
-    PhotoListPhotoMetaDialog,
     PhotoListPhotoEXIFDialog
   ],
   imports: [

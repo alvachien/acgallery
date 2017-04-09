@@ -63,6 +63,11 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log("ACGallery [Debug]: Entering ngOnInit of PhotoUploadComponent");
     }
+    
+    if (!this.canUploadPhoto()) {
+      this._router.navigate(['/unauthorized']);
+      return;
+    }
 
     // Assign modes
     this.arAssignMode.push({
@@ -104,11 +109,6 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log("ACGallery [Debug]: Entering ngAfterViewInit of PhotoUploadComponent");
-    }
-
-    if (!this.canUploadPhoto()) {
-      this._router.navigate(['/unauthorized']);
-      return;
     }
 
     let that = this;
