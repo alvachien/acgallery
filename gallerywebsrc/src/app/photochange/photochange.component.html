@@ -17,16 +17,20 @@
                   <md-hint align="end">{{currentPhoto.desp && currentPhoto.desp.length}} / 50</md-hint>
               </md-input-container>
 
-              <md-checkbox [(ngModel)]="currentPhoto.IsPublic" name="ispubl">{{"Album.IsPublic" | translate}}</md-checkbox>
+              <md-checkbox [(ngModel)]="currentPhoto.isPublic" name="ispubl">{{"Album.IsPublic" | translate}}</md-checkbox>
           </form>
         </md-card-content>
-    </md-card>
+        <md-card-actions>
+            <button md-button disabled>{{'Common.Submit' | translate}}</button>
+            <button md-button disabled>{{'Common.Cancel' | translate}}</button>
+        </md-card-actions>
+      </md-card>
     <hr />
 
     <div class="row">
         <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5">
             <div class="row">
-                Assigned albums
+                {{'Photo.Assignedalbum' | translate}}
             </div>
             <table class="table">
                 <thead class="thead-inverse">
@@ -59,7 +63,7 @@
         </div>
         <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5">
             <div class="row">
-                Available albums
+                {{'Photo.Availablealbum' | translate}}
             </div>
             <table class="table">
                 <thead class="thead-default">

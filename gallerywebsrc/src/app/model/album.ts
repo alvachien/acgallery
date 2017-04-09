@@ -46,6 +46,10 @@ export class Album {
         }        
     }
 
+    initex(data: any) {
+        this.init(data.id, data.title, data.desp, data.thumnail, data.dateCreated, data.createdby, data.isPublic, data.accessCode, data.photocnt);
+    }
+
     setPhotoID(photos: string[]) {
         this.PhotoIDs = photos;
         this.IsPhotoIDFetched = true;

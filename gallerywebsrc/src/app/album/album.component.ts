@@ -114,7 +114,7 @@ export class AlbumComponent implements OnInit {
     }
 
     // define options (if needed)
-    var options = {
+    let options = {
       history: false,
       focus: false,
 
@@ -150,8 +150,8 @@ export class AlbumComponent implements OnInit {
 
   private readAlbum(): void {
     this._albumService.loadAlbum(this.routerID).subscribe(x => {
+      this.objAlbum = new Album();
       this._zone.run(() => {
-        this.objAlbum = new Album();
         this.objAlbum.init(x.id,
           x.title,
           x.desp,

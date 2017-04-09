@@ -161,6 +161,8 @@
     "Dimension": "Dimension",
     "UploadQueue": "Queue of photo to upload",
     "ChoosePhoto": "Choose photo",
+    "AssignedAlbum": "Assigned album",
+    "AvailableAlbum": "Available album",
     "Upload_NoAlbum": "Without assign to album",
     "Upload_AssignExistAlbum": "Assign to an existed album",
     "Upload_AssignNewAlbum": "Create an album and assign"

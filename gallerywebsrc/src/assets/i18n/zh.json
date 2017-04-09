@@ -161,6 +161,8 @@
     "Dimension": "尺寸",
     "UploadQueue": "上传照片序列",
     "ChoosePhoto": "选择图片",
+    "AssignedAlbum": "已加入的相册",
+    "AvailableAlbum": "可加入的相册",
     "Upload_NoAlbum": "不加入相册",
     "Upload_AssignExistAlbum": "加入已有的相册",
     "Upload_AssignNewAlbum": "创建一个新相册并加入"

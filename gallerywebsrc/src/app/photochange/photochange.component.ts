@@ -83,11 +83,14 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
           }
         }
 
-        if (x[1]) {
+        if (x[1] ) {
           for (let alb of allAlbum) {
             let bassign: boolean = false;
-            for (let lk of x[1]) {
-              if (+alb.Id === +lk.Id) {
+            for (let lk of x[1].contentList) {
+              let alb2: SelectableAlbum = new SelectableAlbum();
+              alb2.initex(lk);
+
+              if (+alb.Id === +alb2.Id) {
                 bassign = true;
                 this.assignedAlbum.push(alb);
               }
@@ -117,20 +120,26 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
   }
 
   public onAddAssignedAlbum(): void {
-    for(let alb of this.unassignedAlbum) {
-      if (alb.isSelected) {
-        this.assignedAlbum.push(alb);
-      }
-    }
-    // To-do
+    this.onSwitchArray(this.unassignedAlbum, this.assignedAlbum);
   }
 
   public onRemoveAssignedAlbum() : void {
-    for(let alb of this.assignedAlbum) {
-      if (alb.isSelected) {
-        this.unassignedAlbum.push(alb);
+    this.onSwitchArray(this.assignedAlbum, this.unassignedAlbum);
+  }
+
+  private onSwitchArray(ar1: SelectableAlbum[], ar2: SelectableAlbum[]) {
+    let arpos: number[] = [];
+    for(let i = 0; i < ar1.length; i ++) {
+      if (ar1[i].isSelected) {
+        arpos.push(i);
       }
     }
-    // Todo
+
+    arpos.sort((a, b) => { return b - a; });
+
+    for(let i of arpos) {
+      ar2.push(ar1[i]);
+      ar1.splice(i);
+    }   
   }
 }
