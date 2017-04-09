@@ -4,7 +4,20 @@
     </div>
 
     <div class="panel-body">
-
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" [class.disabled]="!objUtil.isPreviousVisible">
+                    <a class="page-link" (click)="onPagePreviousClick()" tabindex="-1">{{'Common.Previous' | translate}}</a>
+                </li>
+                <li class="page-item" *ngFor="let pageidx of objUtil.visPags" [class.active]="objUtil.currentPage === pageidx">
+                    <a class="page-link" (click)="onPageClick(pageidx)">{{pageidx}}</a>
+                </li>
+                <li class="page-item" [class.disabled]="!objUtil.isNextVisible">
+                    <a class="page-link" (click)="onPageNextClick()">{{'Common.Next' | translate}}</a>
+                </li>
+            </ul>
+        </nav>
+        
         <div class="card-deck">
             <div class="card p-3 m-3" *ngFor="let photo of photos; let idx = index;">
                 <a (click)="onPhotoClick(idx)" title="{{photo.title}}">
@@ -13,7 +26,7 @@
                 <div class="card-block">
                     <h4 class="card-title">{{photo.title}}</h4>
                     <p class="card-text">{{photo.desp}}</p>
-                    <a (click)="onChangePhotoAssign(photo)" role="button" class="card-link">{{'Common.Change' | translate}}</a>
+                    <a (click)="onViewPhotoMetaDialog(photo)" role="button" class="card-link">{{'Common.Change' | translate}}</a>
                     <a (click)="onViewPhotoEXIFDialog(photo)" role="button" class="card-link">EXIF</a>
                 </div>
             </div>

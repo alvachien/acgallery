@@ -1,0 +1,22 @@
+<h1 md-dialog-title>Photo metadata</h1>
+<div md-dialog-content>
+    <form #photoForm="ngForm">
+        <md-input-container class="w-100 p-3">
+            <input mdInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="currentPhoto.Title" name="title"
+                #title="ngModel">
+            <md-hint align="end">{{currentPhoto.Title && currentPhoto.Title.length}} / 20</md-hint>
+        </md-input-container>
+
+        <md-input-container class="w-100 p-3">
+            <input mdInput placeholder="{{'Common.Description' | translate}}" maxlength="50" [(ngModel)]="currentPhoto.Desp" name="photodesp"
+                #photodesp="ngModel">
+            <md-hint align="end">{{currentPhoto.Desp && currentPhoto.Desp.length}} / 50</md-hint>
+        </md-input-container>
+
+        <md-checkbox [(ngModel)]="currentPhoto.IsPublic" name="ispubl">{{"Album.IsPublic" | translate}}</md-checkbox>
+    </form>
+</div>
+<div md-dialog-actions>
+  <button md-button (click)="_dialogRef.close()">Submit</button>
+  <button md-button (click)="_dialogRef.close()">Close</button>
+</div>
