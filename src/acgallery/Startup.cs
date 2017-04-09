@@ -73,6 +73,7 @@ namespace acgallery
 #if USE_MICROSOFTAZURE
                 Authority = "http://acidserver.azurewebsites.net",
 #elif USE_ALIYUN
+                Authority = "http://118.178.58.187:5100",
 #endif
 #endif
                 RequireHttpsMetadata = false,
