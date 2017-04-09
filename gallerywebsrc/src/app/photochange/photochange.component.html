@@ -33,13 +33,13 @@
                     <tr>
                         <th></th>
                         <th></th>
-                        <th>Title</th>
+                        <th>{{'Common.Title' | translate}}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let album of assignedAlbum">
                         <td><div class="checkbox"><input type="checkbox" [(ngModel)]="album.IsSelected"></div></td>
-                        <td><img src="{{album.Thumbnail}}" style="display: block; width: 100% !important;height: auto !important;" class="img-rounded pull-xs-left" alt="..."></td>
+                        <td><img src="{{album.Thumbnail}}" style="display: block; width: 200 !important;height: auto !important;" class="img-rounded pull-xs-left" alt="..."></td>
                         <td>{{album.Title}}</td>
                     </tr>
                 </tbody>
@@ -66,13 +66,13 @@
                     <tr>
                         <th></th>
                         <th></th>
-                        <th>Title</th>
+                        <th>{{'Common.Title' | translate}}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let album of allAlbum">
+                    <tr *ngFor="let album of unassignedAlbum">
                         <td><div class="checkbox"><input type="checkbox" [(ngModel)]="album.IsSelected"></div></td>
-                        <td><img src="{{album.Thumbnail}}" class="img-rounded pull-xs-left" alt="..."></td>
+                        <td><img src="{{album.Thumbnail}}" style="display: block; width: 200 !important;height: auto !important;" class="img-rounded pull-xs-left" alt="..."></td>
                         <td>{{album.Title}}</td>
                     </tr>
                 </tbody>

@@ -97,9 +97,6 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
           alb.isPublic,
           alb.accessCode,
           alb.photoCount);
-        if (!album.Thumbnail) {
-          album.Thumbnail = '/assets/img/grey.jpg';
-        }
 
         this.allAlbum.push(album);
       }

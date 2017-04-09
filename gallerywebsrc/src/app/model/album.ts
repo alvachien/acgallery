@@ -40,6 +40,10 @@ export class Album {
         this.AccessCode = accessCode;
 
         this.PhotoCount = photocnt;
+
+        if (!this.Thumbnail) {
+            this.Thumbnail = '/assets/img/grey.jpg';
+        }        
     }
 
     setPhotoID(photos: string[]) {

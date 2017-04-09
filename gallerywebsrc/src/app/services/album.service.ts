@@ -91,4 +91,16 @@ export class AlbumService {
     return this._http.get(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers })
       .map(response => response.json());
   }
+
+  public loadAlbumContainsPhoto(photoid: string): Observable<any> {
+    let headers = new Headers();
+    headers.append('Accept', 'application/json');
+    if (this._authService.authSubject.getValue().isAuthorized)
+      headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('photoid', photoid);
+
+    return this._http.get(environment.AlbumAPIUrl, { search: params, headers: headers })
+      .map(response => response.json());
+  }
 }

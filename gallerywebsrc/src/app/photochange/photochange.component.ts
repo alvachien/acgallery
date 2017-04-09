@@ -20,7 +20,8 @@ import { UIStatusService } from '../services/uistatus.service';
 export class PhotochangeComponent implements OnInit, OnDestroy {
   public currentPhoto: Photo;
   public currentMode: string;
-  public allAlbum: SelectableAlbum[];
+  public assignedAlbum: SelectableAlbum[];
+  public unassignedAlbum: SelectableAlbum[];
   private uiMode: UIMode;
 
   constructor(private _http: Http,
@@ -32,30 +33,11 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
     private _albumService: AlbumService,
     private _uistatusService: UIStatusService
   ) {
-    this.allAlbum = []; 
+    this.assignedAlbum = [];
+    this.unassignedAlbum = [];
   }
 
   ngOnInit() {
-    this._albumService.loadAlbums().subscribe(x => {
-      for (let alb of x.contentList) {
-        let album = new SelectableAlbum();
-        album.init(alb.id,
-          alb.title,
-          alb.desp,
-          alb.firstPhotoThumnailUrl,
-          alb.createdAt,
-          alb.createdBy,
-          alb.isPublic,
-          alb.accessCode,
-          alb.photoCount);
-        if (!album.Thumbnail) {
-          album.Thumbnail = '/assets/img/grey.jpg';
-        }
-
-        this.allAlbum.push(album);
-      }
-    });
-
     // Distinguish current mode
     this._activateRoute.url.subscribe(x => {
       if (x instanceof Array && x.length > 0) {
@@ -70,11 +52,56 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
 
       if (this._uistatusService.selPhotoInAblum) {
         this.currentPhoto = this._uistatusService.selPhotoInAblum;
-      } else if(this._uistatusService.selPhotoInPhotoList) {
+      } else if (this._uistatusService.selPhotoInPhotoList) {
         this.currentPhoto = this._uistatusService.selPhotoInPhotoList;
-      } else {
-        this._router.navigate(['/pagenotfound']);
       }
+
+      if (!this.currentPhoto) {
+        this._router.navigate(['/pagenotfound']);
+        return;
+      }
+
+      let s1 = this._albumService.loadAlbums();
+      let s2 = this._albumService.loadAlbumContainsPhoto(this.currentPhoto.photoId);
+      let allAlbum: any[] = [];
+
+      Observable.forkJoin([s1, s2]).subscribe(x => {
+        if (x[0]) {
+          for (let alb of x[0].contentList) {
+            let album = new SelectableAlbum();
+            album.init(alb.id,
+              alb.title,
+              alb.desp,
+              alb.firstPhotoThumnailUrl,
+              alb.createdAt,
+              alb.createdBy,
+              alb.isPublic,
+              alb.accessCode,
+              alb.photoCount);
+
+            allAlbum.push(album);
+          }
+        }
+
+        if (x[1]) {
+          for (let alb of allAlbum) {
+            let bassign: boolean = false;
+            for (let lk of x[1]) {
+              if (+alb.Id === +lk.Id) {
+                bassign = true;
+                this.assignedAlbum.push(alb);
+              }
+            }
+            if (!bassign) {
+              this.unassignedAlbum.push(alb);
+            }
+          }
+        } else {
+          for (let alb of allAlbum) {
+            this.unassignedAlbum.push(alb);
+          }
+        }
+      });
     }, error => {
     }, () => {
       // Completed
@@ -84,8 +111,26 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this._uistatusService.selPhotoInAblum) {
       this._uistatusService.selPhotoInAblum = null;
-    } else if(this._uistatusService.selPhotoInPhotoList) {
+    } else if (this._uistatusService.selPhotoInPhotoList) {
       this._uistatusService.selPhotoInPhotoList = null;
-    }    
+    }
+  }
+
+  public onAddAssignedAlbum(): void {
+    for(let alb of this.unassignedAlbum) {
+      if (alb.isSelected) {
+        this.assignedAlbum.push(alb);
+      }
+    }
+    // To-do
+  }
+
+  public onRemoveAssignedAlbum() : void {
+    for(let alb of this.assignedAlbum) {
+      if (alb.isSelected) {
+        this.unassignedAlbum.push(alb);
+      }
+    }
+    // Todo
   }
 }
