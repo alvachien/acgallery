@@ -58,6 +58,13 @@ export class AuthService {
 
       that.authSubject.next(that.authSubject.value);
     });
+
+    this.mgr.events.addAccessTokenExpiring(function () {
+        console.log("token expiring");       
+    });
+    this.mgr.events.addAccessTokenExpired(function () {
+        console.log("token expired");
+    });
   }
 
   public doLogin() {
@@ -243,7 +250,7 @@ const AuthSettings: any = {
   response_type: "id_token token",
   scope: "openid profile api.acgallery api.galleryapi",
 
-  silent_redirect_uri: environment.AppHost,
+  silent_redirect_uri: environment.AppLoginCallbackUrl,
   automaticSilentRenew: true,
   //silentRequestTimeout:10000,
 
