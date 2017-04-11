@@ -7,7 +7,7 @@ export class Album {
     public Thumbnail: string;
     public CreatedAt: Date;
     public CreatedBy: string;
-    public IsPubic: boolean;
+    public IsPublic: boolean;
     public AccessCode: string;
 
     // Runtime info
@@ -17,7 +17,7 @@ export class Album {
 
     constructor() {
         this.IsPhotoIDFetched = false;
-        this.IsPubic = true;
+        this.IsPublic = true;
     }
 
     init(id: number,
@@ -36,7 +36,7 @@ export class Album {
         this.CreatedAt = dateCreated;
         this.CreatedBy = createdby;
 
-        this.IsPubic = isPublic;
+        this.IsPublic = isPublic;
         this.AccessCode = accessCode;
 
         this.PhotoCount = photocnt;

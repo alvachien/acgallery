@@ -97,6 +97,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
           alb.isPublic,
           alb.accessCode,
           alb.photoCount);
+        album.isSelected = false;
 
         this.allAlbum.push(album);
       }
@@ -440,6 +441,10 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     this.photoHadUploaded = [];
     this._zone.run(() => {
       this.isUploading = false;
+
+      this.assignMode = 0;
+      this.arUpdPhotos = [];
+      this.albumCreate = new Album();      
     });
 
     // Show a dialog
