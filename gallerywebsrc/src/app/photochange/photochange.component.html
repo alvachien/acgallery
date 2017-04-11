@@ -3,6 +3,7 @@
         <md-card-header>
             <md-card-title>{{'Nav.Photo' | translate}}: {{currentMode | translate}}</md-card-title>
         </md-card-header>
+        <img md-card-image src="{{currentPhoto.fileUrl}}">
         <md-card-content>
           <form #photoForm="ngForm">
               <md-input-container class="w-100 p-3">
