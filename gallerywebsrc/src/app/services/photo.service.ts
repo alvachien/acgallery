@@ -78,12 +78,12 @@ export class PhotoService {
     if (this._authService.authSubject.getValue().isAuthorized)
       headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
 
+    let apistring = environment.PhotoAPIUrl;
     if (paramString) {
-      return this._http.get(environment.PhotoAPIUrl, { headers: headers })
-        .map(response => response.json());
+      apistring += paramString;
     }
 
-    return this._http.get(environment.PhotoAPIUrl, { headers: headers })
+    return this._http.get(apistring, { headers: headers })
       .map(response => response.json());
   }
 

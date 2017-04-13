@@ -119,6 +119,10 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
     }
   }
 
+  public isFieldChangable(): boolean {
+    return this.uiMode === UIMode.Create || this.uiMode === UIMode.Change;
+  }
+
   public onAddAssignedAlbum(): void {
     this.onSwitchArray(this.unassignedAlbum, this.assignedAlbum);
   }

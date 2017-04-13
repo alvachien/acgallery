@@ -26,7 +26,8 @@
                 <div class="card-block">
                     <h4 class="card-title">{{photo.title}}</h4>
                     <p class="card-text">{{photo.desp}}</p>
-                    <a (click)="onViewPhotoMetaDialog(photo)" role="button" class="card-link">{{'Common.Change' | translate}}</a>
+                    <a (click)="onDisplayPhoto(photo)" role="button" class="card-link">{{'Common.Display' | translate}}</a>
+                    <a (click)="onChangePhoto(photo)" role="button" class="card-link">{{'Common.Change' | translate}}</a>
                     <a (click)="onViewPhotoEXIFDialog(photo)" role="button" class="card-link">EXIF</a>
                 </div>
             </div>

@@ -91,9 +91,14 @@ export class PhotolistComponent implements OnInit {
     });
   }
 
-  onViewPhotoMetaDialog(photo: any): void {
+  public onDisplayPhoto(photo: any): void {
     this._uistatusService.selPhotoInPhotoList = photo;
     this._router.navigate(['/photo/display']);
+  }
+
+  public onChangePhoto(photo: any): void {
+    this._uistatusService.selPhotoInPhotoList = photo;
+    this._router.navigate(['/photo/edit']);
   }
 
   onPagePreviousClick(): void {

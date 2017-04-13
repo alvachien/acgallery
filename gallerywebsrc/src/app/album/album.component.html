@@ -38,6 +38,7 @@
             <div class="card-block">
                 <h4 class="card-title">{{photo.title}}</h4>
                 <p class="card-text">{{photo.desp}}</p>
+                <a role="button" (click)="onDisplayPhotoAssign(photo)" class="card-link">{{'Common.Display' | translate}}</a>
                 <a role="button" (click)="onChangePhotoAssign(photo)" class="card-link">{{'Common.Change' | translate}}</a>
                 <a role="button" (click)="onViewPhotoEXIFDialog(photo)" class="card-link">EXIF</a>
             </div>

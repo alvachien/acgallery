@@ -165,7 +165,9 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
             if (newstatus === "rejected") {
               let errormsg = "File size must smaller than " + that.photoMaxKBSize + " and larger than " + that.photoMinKBSize;
-              that._snackBar.open(errormsg);
+              that._snackBar.open(errormsg, 'Close', {
+                duration: 2000,
+              });
             }
             //SUBMITTED
             //QUEUED
@@ -195,7 +197,9 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
               that.readImage(id, fObj, name, that.arUpdPhotos);
             } else {
               let errormsg = "Failed to process File " + name;
-              that._snackBar.open(errormsg);
+              that._snackBar.open(errormsg, 'Close', {
+                duration: 2000,
+              });
             }
           },
           onTotalProgress: function (totalUploadedBytes: number, totalBytes: number) {
@@ -229,13 +233,17 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     if (!this.uploader) {
-      this._snackBar.open("Fatal error: uploader not initialized yet!");
+      this._snackBar.open("Fatal error: uploader not initialized yet!", 'Close', {
+        duration: 3000,
+      });
       return;
     }
 
     // Photo have been choosed already
     if (!this.arUpdPhotos || this.arUpdPhotos.length <= 0) {
-      this._snackBar.open("Select photos before uploading!");
+      this._snackBar.open("Select photos before uploading!", 'Close', {
+        duration: 3000,
+      });
       return;
     }
 
@@ -264,7 +272,9 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       if (nsel !== 1 || !this.albumUpdate) {
-        this._snackBar.open("Select one and only one album to continue!");
+        this._snackBar.open("Select one and only one album to continue!", 'Close', {
+          duration: 2000,
+        });
         return;
       }
 
@@ -341,6 +351,10 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         this.onAfterUploadComplete();
       }
     }, error=> {
+      this._snackBar.open("Failed: reason: " + error, 'Close', {
+        duration: 3000,
+      });
+      this.onAfterUploadComplete();
     }, () => {
     });
   }
@@ -449,7 +463,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Show a dialog
     this._snackBar.open("All photos completed!", 'Close', {
-      duration: 1000,
+      duration: 3000,
     });
   }
 }

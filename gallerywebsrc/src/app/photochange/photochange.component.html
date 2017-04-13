@@ -8,22 +8,22 @@
           <form #photoForm="ngForm">
               <md-input-container class="w-100 p-3">
                   <input mdInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="currentPhoto.title" name="title"
-                      #title="ngModel">
+                      #title="ngModel" [disabled]="!isFieldChangable()">
                   <md-hint align="end">{{currentPhoto.title && currentPhoto.title.length}} / 20</md-hint>
               </md-input-container>
 
               <md-input-container class="w-100 p-3">
                   <input mdInput placeholder="{{'Common.Description' | translate}}" maxlength="50" [(ngModel)]="currentPhoto.desp" name="photodesp"
-                      #photodesp="ngModel">
+                      #photodesp="ngModel" [disabled]="!isFieldChangable()">
                   <md-hint align="end">{{currentPhoto.desp && currentPhoto.desp.length}} / 50</md-hint>
               </md-input-container>
 
-              <md-checkbox [(ngModel)]="currentPhoto.isPublic" name="ispubl">{{"Album.IsPublic" | translate}}</md-checkbox>
+              <md-checkbox [(ngModel)]="currentPhoto.isPublic" name="ispubl" [disabled]="!isFieldChangable()">{{"Album.IsPublic" | translate}}</md-checkbox>
           </form>
         </md-card-content>
         <md-card-actions>
-            <button md-button disabled>{{'Common.Submit' | translate}}</button>
-            <button md-button disabled>{{'Common.Cancel' | translate}}</button>
+            <button md-button [disabled]="!isFieldChangable()">{{'Common.Submit' | translate}}</button>
+            <button md-button>{{'Common.Cancel' | translate}}</button>
         </md-card-actions>
       </md-card>
     <hr />
@@ -43,7 +43,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let album of assignedAlbum">
-                        <td><div class="checkbox"><input type="checkbox" [(ngModel)]="album.IsSelected"></div></td>
+                        <td><md-checkbox [(ngModel)]="album.IsSelected" name="isuasel" [disabled]="!isFieldChangable()"></md-checkbox></td>
                         <td><img src="{{album.Thumbnail}}" style="display: block; width: 200 !important;height: auto !important;" class="img-rounded pull-xs-left" alt="..."></td>
                         <td>{{album.Title}}</td>
                     </tr>
@@ -56,10 +56,10 @@
             <br />
             <br />
             <div class="row">
-                <a class="btn btn-outline-danger" (click)="onRemoveAssignedAlbum()">></a>
+                <button md-button [disabled]="!isFieldChangable()" (click)="onRemoveAssignedAlbum()">></button>
             </div>
             <div class="row">
-                <a class="btn btn-outline-primary" (click)="onAddAssignedAlbum()"><</a>
+                <button md-button [disabled]="!isFieldChangable()" (click)="onAddAssignedAlbum()"><</button>
             </div>
         </div>
         <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5">
@@ -76,7 +76,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let album of unassignedAlbum">
-                        <td><div class="checkbox"><input type="checkbox" [(ngModel)]="album.IsSelected"></div></td>
+                        <td><md-checkbox [(ngModel)]="album.IsSelected" name="isaasel" [disabled]="!isFieldChangable()"></md-checkbox></td>
                         <td><img src="{{album.Thumbnail}}" style="display: block; width: 200 !important;height: auto !important;" class="img-rounded pull-xs-left" alt="..."></td>
                         <td>{{album.Title}}</td>
                     </tr>

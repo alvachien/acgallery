@@ -143,9 +143,14 @@ export class AlbumComponent implements OnInit {
     });
   }
 
-  private onChangePhotoAssign(selphoto: any): void {
+  public onDisplayPhotoAssign(selphoto: any): void {
     this._uistatus.selPhotoInAblum = selphoto;
     this._router.navigate(['/photo/display']);
+  }
+
+  public onChangePhotoAssign(selphoto: any): void {
+    this._uistatus.selPhotoInAblum = selphoto;
+    this._router.navigate(['/photo/edit']);
   }
 
   private readAlbum(): void {

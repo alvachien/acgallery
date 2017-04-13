@@ -60,7 +60,7 @@ const appRoutes: Routes = [
             component: PhotochangeComponent
         },
         {
-            path: 'change',
+            path: 'edit',
             component: PhotochangeComponent
         }
     ]
