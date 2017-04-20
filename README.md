@@ -5,7 +5,6 @@ AC Photo Gallery is an open-source web app, which designed to organize your phot
 
 ## Snapshots
 ![Initial page](https://github.com/alvachien/acgallery/blob/master/docs/images/indexpage.JPG)
-Index page
 
 
 ![Album List](https://github.com/alvachien/acgallery/blob/master/docs/images/AlbumPage.JPG)
@@ -14,6 +13,7 @@ Album list (Just showing the public shared album and the thumnail is grey meanin
 
 ![Photo List](https://github.com/alvachien/acgallery/blob/master/docs/images/PhotoListPage.JPG)
 Photo List
+
 
 ## Scenarios
 A web app need make its scope and supported scenario very clearly.
@@ -54,7 +54,7 @@ After switch to @angular/cli, the project now use 'ng build' as a 'Prepublish' e
 
 ## Relevant API/App
 - AC ID Server [Github Project] (https://github.com/alvachien/acidserver) : an Identity service hosted in [Azure (will be obseleted soon) ] (http://acidserver.azurewebsites.net);
-- AC HIH API [Github Project] (https://github.com/alvachien/achihapi) : an Web API hosted in [Azure (will be obseleted soon) ] (http://achihapi.azurewebsites.net).
+- AC Gallery API [Github Project] (https://github.com/alvachien/acgalleryapi) : an Web API hosted in [Azure (will be obseleted soon) ] (http://acgalleryapi.azurewebsites.net).
 
 
 ## Credits
