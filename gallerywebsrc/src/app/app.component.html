@@ -14,8 +14,8 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuAlbum">
                     <a class="dropdown-item" [routerLink]="['/album']" routerLinkActive="active">{{'Nav.Albums' | translate}}</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" [routerLink]="['/album/create']" routerLinkActive="active">{{'Nav.AlbumCreate' | translate}}</a>
+                    <div *ngIf="isLoggedIn" class="dropdown-divider"></div>
+                    <a class="dropdown-item" [routerLink]="['/album/create']" *ngIf="isLoggedIn" routerLinkActive="active">{{'Nav.AlbumCreate' | translate}}</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -24,8 +24,8 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuPhoto">
                     <a class="dropdown-item" [routerLink]="['/photo']" routerLinkActive="active">{{'Nav.Photos' | translate}}</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" [routerLink]="['/photo/upload']" routerLinkActive="active">{{'Nav.PhotoUpload' | translate}}</a>
+                    <div *ngIf="isLoggedIn" class="dropdown-divider"></div>
+                    <a class="dropdown-item" [routerLink]="['/photo/upload']" *ngIf="isLoggedIn" routerLinkActive="active">{{'Nav.PhotoUpload' | translate}}</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
