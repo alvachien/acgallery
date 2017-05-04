@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MaterialModule } from '@angular/material';
@@ -57,6 +58,7 @@ export function funcHttpLoaderFactory(http: Http) {
     BrowserModule,
     FormsModule,
     HttpModule,
+    BrowserAnimationsModule,
     TranslateModule.forRoot({
         loader: {
             provide: TranslateLoader,
