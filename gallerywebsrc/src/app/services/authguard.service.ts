@@ -9,7 +9,16 @@ import { AuthService }      from './auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
-  constructor(private authService: AuthService, private router: Router) {}
+  private isLoggedIn: boolean = false;
+  constructor(private authService: AuthService, private router: Router) {
+    this.authService.authContent.subscribe(x => {
+       this.isLoggedIn = x.isAuthorized;
+    }, error => {
+    }, () => {
+      // Completed
+    });
+    
+  }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     let url: string = state.url;
@@ -21,5 +30,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     return this.canActivate(route, state);
   }
 
-/* . . . */
+  private checkLogin(url: string): boolean {
+    return this.isLoggedIn;
+  }
 }

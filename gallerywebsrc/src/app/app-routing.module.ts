@@ -13,7 +13,7 @@ import { CreditsComponent } from './credits/credits.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 //import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
-//import { AuthGuard } from './services/auth-guard.service';
+import { AuthGuard } from './services/authguard.service';
 //import { PreloadSelectedModules } from './services/selective-preload-strategy';
 
 const appRoutes: Routes = [
@@ -32,7 +32,8 @@ const appRoutes: Routes = [
         },
         {
             path: 'create',
-            component: AlbumComponent
+            component: AlbumComponent,
+            canActivate: [AuthGuard]
         },
         {
             path: 'display/:id',
@@ -40,7 +41,8 @@ const appRoutes: Routes = [
         },
         {
             path: 'edit/:id',
-            component: AlbumComponent
+            component: AlbumComponent,
+            canActivate: [AuthGuard]
         },
     ]
   },
@@ -53,7 +55,8 @@ const appRoutes: Routes = [
         },
         {
             path: 'upload',
-            component: PhotouploadComponent
+            component: PhotouploadComponent,
+            canActivate: [AuthGuard]
         },
         {
             path: 'display',
@@ -61,7 +64,8 @@ const appRoutes: Routes = [
         },
         {
             path: 'edit',
-            component: PhotochangeComponent
+            component: PhotochangeComponent,
+            canActivate: [AuthGuard]
         }
     ]
   },
