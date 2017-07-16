@@ -17,74 +17,74 @@ import { AuthGuard } from './services/authguard.service';
 //import { PreloadSelectedModules } from './services/selective-preload-strategy';
 
 const appRoutes: Routes = [
-  { path: 'home', component: HomeComponent },
-  {
-    path: '',
-    redirectTo: '/home',
-    pathMatch: 'full'
-  },
-  {
-    path: 'album',
-    children: [
-        {
-            path: '',
-            component: AlbumlistComponent
-        },
-        {
-            path: 'create',
-            component: AlbumComponent,
-            canActivate: [AuthGuard]
-        },
-        {
-            path: 'display/:id',
-            component: AlbumComponent
-        },
-        {
-            path: 'edit/:id',
-            component: AlbumComponent,
-            canActivate: [AuthGuard]
-        },
-    ]
-  },
-  {
-    path: 'photo',
-    children: [
-        {
-            path: '',
-            component: PhotolistComponent
-        },
-        {
-            path: 'upload',
-            component: PhotouploadComponent,
-            canActivate: [AuthGuard]
-        },
-        {
-            path: 'display',
-            component: PhotochangeComponent
-        },
-        {
-            path: 'edit',
-            component: PhotochangeComponent,
-            canActivate: [AuthGuard]
-        }
-    ]
-  },
-  { path: 'about', component: AboutComponent },
-  { path: 'credits', component: CreditsComponent },
-  { path: 'unauthorized', component: UnauthorizedComponent },
-  { path: '**', component: PagenotfoundComponent },
+    { path: 'home', component: HomeComponent },
+    {
+        path: '',
+        redirectTo: '/home',
+        pathMatch: 'full'
+    },
+    {
+        path: 'album',
+        children: [
+            {
+                path: '',
+                component: AlbumlistComponent
+            },
+            {
+                path: 'create',
+                component: AlbumComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'display/:id',
+                component: AlbumComponent
+            },
+            {
+                path: 'edit/:id',
+                component: AlbumComponent,
+                canActivate: [AuthGuard]
+            },
+        ]
+    },
+    {
+        path: 'photo',
+        children: [
+            {
+                path: '',
+                component: PhotolistComponent
+            },
+            {
+                path: 'upload',
+                component: PhotouploadComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'display',
+                component: PhotochangeComponent
+            },
+            {
+                path: 'edit',
+                component: PhotochangeComponent,
+                canActivate: [AuthGuard]
+            }
+        ]
+    },
+    { path: 'about', component: AboutComponent },
+    { path: 'credits', component: CreditsComponent },
+    { path: 'unauthorized', component: UnauthorizedComponent },
+    { path: '**', component: PagenotfoundComponent },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(
-      appRoutes
-    )
-  ],
-  exports: [
-    RouterModule
-  ],
-  providers: [
-  ]
+    imports: [
+        RouterModule.forRoot(
+            appRoutes
+        )
+    ],
+    exports: [
+        RouterModule
+    ],
+    providers: [
+    ]
 })
 export class AppRoutingModule { }

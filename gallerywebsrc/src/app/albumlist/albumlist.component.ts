@@ -22,7 +22,7 @@ import { UIPagination } from '../model/paginated';
 })
 export class AlbumlistComponent implements OnInit {
 
-  public albumes: Album[]  = [];
+  public albumes: Album[] = [];
 
   constructor(private _authService: AuthService,
     private _albumService: AlbumService,
@@ -36,9 +36,9 @@ export class AlbumlistComponent implements OnInit {
     this._albumService.loadAlbums().subscribe(x => {
       this._zone.run(() => {
         this.albumes = [];
-        for(let alb of x.contentList) {
+        for (let alb of x.contentList) {
           let album = new Album();
-          album.init(alb.id, 
+          album.init(alb.id,
             alb.title,
             alb.desp,
             alb.firstPhotoThumnailUrl,
@@ -47,7 +47,7 @@ export class AlbumlistComponent implements OnInit {
             alb.isPublic,
             alb.accessCode,
             alb.photoCount);
-          
+
           this.albumes.push(album);
         }
       });

@@ -4,20 +4,19 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   CanActivateChild
-}                           from '@angular/router';
-import { AuthService }      from './auth.service';
+} from '@angular/router';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
   private isLoggedIn: boolean = false;
   constructor(private authService: AuthService, private router: Router) {
     this.authService.authContent.subscribe(x => {
-       this.isLoggedIn = x.isAuthorized;
+      this.isLoggedIn = x.isAuthorized;
     }, error => {
     }, () => {
       // Completed
     });
-    
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
