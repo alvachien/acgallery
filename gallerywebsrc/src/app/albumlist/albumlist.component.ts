@@ -12,7 +12,7 @@ import { UIStatusService } from '../services/uistatus.service';
 import { Album, AlbumPhotoByAlbum } from '../model/album';
 import { Photo, UpdPhoto } from '../model/photo';
 import { LogLevel } from '../model/common';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { UIPagination } from '../model/paginated';
 
 @Component({
@@ -29,7 +29,7 @@ export class AlbumlistComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
     private _zone: NgZone,
-    private _snackbar: MdSnackBar) {
+    private _snackbar: MatSnackBar) {
   }
 
   ngOnInit() {

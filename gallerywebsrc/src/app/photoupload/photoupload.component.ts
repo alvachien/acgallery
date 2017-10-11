@@ -10,7 +10,7 @@ import { Album, AlbumPhotoLink, AlbumPhotoByAlbum, SelectableAlbum } from '../mo
 import { Photo, UpdPhoto } from '../model/photo';
 import { LogLevel } from '../model/common';
 import { environment } from '../../environments/environment';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'acgallery-photoupload',
@@ -40,7 +40,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     private _albumService: AlbumService,
     private _photoService: PhotoService,
     private _elmRef: ElementRef,
-    public _snackBar: MdSnackBar) {
+    public _snackBar: MatSnackBar) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log("ACGallery [Debug]: Entering onSubmit of PhotoUploadComponent");
     }

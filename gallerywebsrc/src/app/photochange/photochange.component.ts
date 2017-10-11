@@ -2,7 +2,7 @@ import { Component, NgZone, OnInit, ViewContainerRef, OnDestroy } from '@angular
 import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { UIMode } from '../model/common';
 import { Photo } from '../model/photo';

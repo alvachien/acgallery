@@ -14,7 +14,7 @@ import { Subject } from 'rxjs/Subject';
 import { PhotoService } from '../services/photo.service';
 import { AlbumService } from '../services/album.service';
 import { UIStatusService } from '../services/uistatus.service';
-import { MdDialog, MdDialogRef, MdDialogConfig, MdSnackBar } from '@angular/material';
+import { MatDialog, MatDialogRef, MatDialogConfig, MatSnackBar } from '@angular/material';
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
 
@@ -42,8 +42,8 @@ export class AlbumComponent implements OnInit {
     private _photoService: PhotoService,
     private _uistatus: UIStatusService,
     private _viewContainerRef: ViewContainerRef,
-    private _snackBar: MdSnackBar,
-    private _dialog: MdDialog) {
+    private _snackBar: MatSnackBar,
+    private _dialog: MatDialog) {
     this.objAlbum = new Album();
   }
 
@@ -202,7 +202,7 @@ export class AlbumComponent implements OnInit {
   templateUrl: './album.accesscode.dialog.html',
 })
 export class AlbumAccessCodeDialog {
-  constructor(public dialogRef: MdDialogRef<AlbumAccessCodeDialog>) {
+  constructor(public dialogRef: MatDialogRef<AlbumAccessCodeDialog>) {
   }
 }
 
@@ -213,7 +213,7 @@ export class AlbumAccessCodeDialog {
 export class AlbumPhotoEXIFDialog {
   public currentPhoto: any;
 
-  constructor(public _dialogRef: MdDialogRef<AlbumPhotoEXIFDialog>,
+  constructor(public _dialogRef: MatDialogRef<AlbumPhotoEXIFDialog>,
     public _uistatus: UIStatusService) {
     this.currentPhoto = this._uistatus.selPhotoInAblum;
   }

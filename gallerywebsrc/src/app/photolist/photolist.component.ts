@@ -2,7 +2,7 @@ import { Component, NgZone, OnInit, ViewContainerRef } from '@angular/core';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { AuthService } from '../services/auth.service';
 import { PhotoService } from '../services/photo.service';
@@ -13,7 +13,7 @@ import { Album, AlbumPhotoByAlbum } from '../model/album';
 import { Photo, UpdPhoto } from '../model/photo';
 import { LogLevel } from '../model/common';
 import { environment } from '../../environments/environment';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { UIPagination } from '../model/paginated';
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
@@ -36,7 +36,7 @@ export class PhotolistComponent implements OnInit {
     private _uistatusService: UIStatusService,
     private _photoService: PhotoService,
     private _authService: AuthService,
-    private _dialog: MdDialog) {
+    private _dialog: MatDialog) {
     this.objUtil = new UIPagination(20, 5);
   }
 
@@ -138,7 +138,7 @@ export class PhotolistComponent implements OnInit {
 export class PhotoListPhotoEXIFDialog {
   public currentPhoto: any;
 
-  constructor(public _dialogRef: MdDialogRef<PhotoListPhotoEXIFDialog>,
+  constructor(public _dialogRef: MatDialogRef<PhotoListPhotoEXIFDialog>,
     public _uistatus: UIStatusService) {
     this.currentPhoto = this._uistatus.selPhotoInPhotoList;
   }

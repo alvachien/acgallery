@@ -1,31 +1,31 @@
 <div *ngIf="currentPhoto" class="container">
-    <md-card>
-        <md-card-header>
-            <md-card-title>{{'Nav.Photo' | translate}}: {{currentMode | translate}}</md-card-title>
-        </md-card-header>
-        <img md-card-image src="{{currentPhoto.fileUrl}}">
-        <md-card-content>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{'Nav.Photo' | translate}}: {{currentMode | translate}}</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image src="{{currentPhoto.fileUrl}}">
+        <mat-card-content>
           <form #photoForm="ngForm">
-              <md-input-container class="w-100 p-3">
-                  <input mdInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="currentPhoto.title" name="title"
+              <mat-form-field class="w-100 p-3">
+                  <input matInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="currentPhoto.title" name="title"
                       #title="ngModel" [disabled]="!isFieldChangable()">
-                  <md-hint align="end">{{currentPhoto.title && currentPhoto.title.length}} / 20</md-hint>
-              </md-input-container>
+                  <mat-hint align="end">{{currentPhoto.title && currentPhoto.title.length}} / 20</mat-hint>
+              </mat-form-field>
 
-              <md-input-container class="w-100 p-3">
-                  <input mdInput placeholder="{{'Common.Description' | translate}}" maxlength="50" [(ngModel)]="currentPhoto.desp" name="photodesp"
+              <mat-form-field class="w-100 p-3">
+                  <input matInput placeholder="{{'Common.Description' | translate}}" maxlength="50" [(ngModel)]="currentPhoto.desp" name="photodesp"
                       #photodesp="ngModel" [disabled]="!isFieldChangable()">
-                  <md-hint align="end">{{currentPhoto.desp && currentPhoto.desp.length}} / 50</md-hint>
-              </md-input-container>
+                  <mat-hint align="end">{{currentPhoto.desp && currentPhoto.desp.length}} / 50</mat-hint>
+              </mat-form-field>
 
-              <md-checkbox [(ngModel)]="currentPhoto.isPublic" name="ispubl" [disabled]="!isFieldChangable()">{{"Album.IsPublic" | translate}}</md-checkbox>
+              <mat-checkbox [(ngModel)]="currentPhoto.isPublic" name="ispubl" [disabled]="!isFieldChangable()">{{"Album.IsPublic" | translate}}</mat-checkbox>
           </form>
-        </md-card-content>
-        <md-card-actions>
-            <button md-button [disabled]="!isFieldChangable()">{{'Common.Submit' | translate}}</button>
-            <button md-button>{{'Common.Cancel' | translate}}</button>
-        </md-card-actions>
-      </md-card>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button [disabled]="!isFieldChangable()">{{'Common.Submit' | translate}}</button>
+            <button mat-button>{{'Common.Cancel' | translate}}</button>
+        </mat-card-actions>
+      </mat-card>
     <hr />
 
     <div class="row">
@@ -43,7 +43,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let album of assignedAlbum">
-                        <td><md-checkbox [(ngModel)]="album.IsSelected" name="isuasel" [disabled]="!isFieldChangable()"></md-checkbox></td>
+                        <td><mat-checkbox [(ngModel)]="album.IsSelected" name="isuasel" [disabled]="!isFieldChangable()"></mat-checkbox></td>
                         <td><img src="{{album.Thumbnail}}" style="display: block; width: 200 !important;height: auto !important;" class="img-rounded pull-xs-left" alt="..."></td>
                         <td>{{album.Title}}</td>
                     </tr>
@@ -56,10 +56,10 @@
             <br />
             <br />
             <div class="row">
-                <button md-button [disabled]="!isFieldChangable()" (click)="onRemoveAssignedAlbum()">></button>
+                <button mat-button [disabled]="!isFieldChangable()" (click)="onRemoveAssignedAlbum()">></button>
             </div>
             <div class="row">
-                <button md-button [disabled]="!isFieldChangable()" (click)="onAddAssignedAlbum()"><</button>
+                <button mat-button [disabled]="!isFieldChangable()" (click)="onAddAssignedAlbum()"><</button>
             </div>
         </div>
         <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5">
@@ -76,7 +76,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let album of unassignedAlbum">
-                        <td><md-checkbox [(ngModel)]="album.IsSelected" name="isaasel" [disabled]="!isFieldChangable()"></md-checkbox></td>
+                        <td><mat-checkbox [(ngModel)]="album.IsSelected" name="isaasel" [disabled]="!isFieldChangable()"></mat-checkbox></td>
                         <td><img src="{{album.Thumbnail}}" style="display: block; width: 200 !important;height: auto !important;" class="img-rounded pull-xs-left" alt="..."></td>
                         <td>{{album.Title}}</td>
                     </tr>

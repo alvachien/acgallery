@@ -40,11 +40,11 @@
     <br />
 
     <div class="row p-3 m-3" [hidden]="isUploading">
-        <md-radio-group class="photoupload-radio-group" [(ngModel)]="assignMode">
-            <md-radio-button class="photoupload-radio-button" *ngFor="let am of arAssignMode" [value]="am.Value">
+        <mat-radio-group class="photoupload-radio-group" [(ngModel)]="assignMode">
+            <mat-radio-button class="photoupload-radio-button" *ngFor="let am of arAssignMode" [value]="am.Value">
                 {{am.Name | translate}}
-            </md-radio-button>
-        </md-radio-group>
+            </mat-radio-button>
+        </mat-radio-group>
     </div>
 
     <div class="row p-3 m-3" *ngIf="isAssginToExistingAlbum()" [hidden]="isUploading">
@@ -59,7 +59,7 @@
             <tbody>
                 <tr *ngFor="let album of allAlbum">
                     <td>
-                        <md-checkbox [(ngModel)]="album.isSelected" name="isalbumsel"></md-checkbox>
+                        <mat-checkbox [(ngModel)]="album.isSelected" name="isalbumsel"></mat-checkbox>
                     </td>
                     <td><img src="{{album.Thumbnail}}" class="img-rounded pull-xs-left" style="display: block; width: 300 !important;height: auto !important;"
                             alt="..."></td>
@@ -70,33 +70,33 @@
     </div>
 
     <div class="row p-3 m-3" *ngIf="isAssginToNewAlbum()" [hidden]="isUploading">
-        <md-card class="w-100 p-3">
-            <md-card-header>
-                <md-card-title>{{"Photo.Upload_AssignNewAlbum" | translate}}</md-card-title>
-            </md-card-header>
-            <md-card-content>
+        <mat-card class="w-100 p-3">
+            <mat-card-header>
+                <mat-card-title>{{"Photo.Upload_AssignNewAlbum" | translate}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
                 <form #albumForm="ngForm">
-                    <md-input-container class="w-100 p-3">
-                        <input mdInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="albumCreate.Title" name="title"
+                    <mat-form-field class="w-100 p-3">
+                        <input matInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="albumCreate.Title" name="title"
                             #title="ngModel">
-                        <md-hint align="end">{{albumCreate.Title && albumCreate.Title.length}} / 20</md-hint>
-                    </md-input-container>
+                        <mat-hint align="end">{{albumCreate.Title && albumCreate.Title.length}} / 20</mat-hint>
+                    </mat-form-field>
 
-                    <md-input-container class="w-100 p-3">
-                        <input mdInput placeholder="{{'Common.Description' | translate}}" maxlength="20" [(ngModel)]="albumCreate.Desp" name="albumdesp"
+                    <mat-form-field class="w-100 p-3">
+                        <input matInput placeholder="{{'Common.Description' | translate}}" maxlength="20" [(ngModel)]="albumCreate.Desp" name="albumdesp"
                             #albumdesp="ngModel">
-                        <md-hint align="end">{{albumCreate.Desp && albumCreate.Desp.length}} / 20</md-hint>
-                    </md-input-container>
+                        <mat-hint align="end">{{albumCreate.Desp && albumCreate.Desp.length}} / 20</mat-hint>
+                    </mat-form-field>
 
-                    <md-checkbox [(ngModel)]="albumCreate.IsPublic" name="ispubl">{{"Album.IsPublic" | translate}}</md-checkbox>
+                    <mat-checkbox [(ngModel)]="albumCreate.IsPublic" name="ispubl">{{"Album.IsPublic" | translate}}</mat-checkbox>
 
-                    <md-input-container class="w-100 p-3">
-                        <input mdInput placeholder="{{'Album.AccessCode' | translate}}" maxlength="20" [(ngModel)]="albumCreate.AccessCode" name="accesscode" #accesscode="ngModel">
-                        <md-hint align="end">{{albumCreate.AccessCode && albumCreate.AccessCode.length}} / 20</md-hint>
-                    </md-input-container>
+                    <mat-form-field class="w-100 p-3">
+                        <input matInput placeholder="{{'Album.AccessCode' | translate}}" maxlength="20" [(ngModel)]="albumCreate.AccessCode" name="accesscode" #accesscode="ngModel">
+                        <mat-hint align="end">{{albumCreate.AccessCode && albumCreate.AccessCode.length}} / 20</mat-hint>
+                    </mat-form-field>
                 </form>
-            </md-card-content>
-        </md-card>
+            </mat-card-content>
+        </mat-card>
     </div>
 
     <div class="row p-3 m-3" [hidden]="!isUploading">
@@ -105,11 +105,11 @@
         </div>
 
         <section class="progress-section">
-            <md-progress-bar
+            <mat-progress-bar
                 class="progress-margin"
                 color="primary"
                 mode="indeterminate">
-            </md-progress-bar>
+            </mat-progress-bar>
         </section>
     </div>
 
