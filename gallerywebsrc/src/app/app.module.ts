@@ -1,11 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { HttpModule, Http } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
 import 'oidc-client';
@@ -30,8 +30,8 @@ import { AboutComponent } from './about/about.component';
 import { CreditsComponent } from './credits/credits.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
-export function funcHttpLoaderFactory(http: Http) {
-    return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
+export function funcHttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
 }
 
 @NgModule({
@@ -62,13 +62,12 @@ export function funcHttpLoaderFactory(http: Http) {
     HttpModule,
     BrowserAnimationsModule,
     TranslateModule.forRoot({
-        loader: {
-            provide: TranslateLoader,
-            useFactory: funcHttpLoaderFactory,
-            deps: [Http]
-        }
+      loader: {
+        provide: TranslateLoader,
+        useFactory: funcHttpLoaderFactory,
+        deps: [Http]
+      }
     }),
-    MaterialModule,
     FlexLayoutModule,
     AppRoutingModule
   ],
@@ -81,6 +80,6 @@ export function funcHttpLoaderFactory(http: Http) {
     AuthGuard,
     CanDeactivateGuard
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
