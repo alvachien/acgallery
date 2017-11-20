@@ -1,0 +1,120 @@
+<div class="container" *ngIf="canUploadPhoto()">
+    <div class="row m-3 p-3" [hidden]="isUploading">
+        <div class="col-md-3">
+            <div class="form-control-file btn btn-primary mx-auto" id="load-file-button-id" #uploadFileRef>
+                <div>{{'Photo.ChoosePhoto' | translate}}</div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+
+            <h3>{{'Photo.UploadQueue' | translate}}</h3>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="10%">{{'Common.ID' | translate}}</th>
+                        <th width="15%">{{'Common.Name' | translate}}</th>
+                        <th width="15%">{{'Photo.FileSize' | translate}}</th>
+                        <th width="15%">{{'Photo.Dimension' |translate}}</th>
+                        <th width="5%">{{'Album.IsPublic' | translate}}</th>
+                        <th width="15%">{{'Common.Title' | translate}}</th>
+                        <th width="15%">{{'Common.Description' | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let updphoto of arUpdPhotos">
+                        <td><strong>{{updphoto.ID}}</strong></td>
+                        <td><strong>{{updphoto.OrgName}}</strong></td>
+                        <td nowrap>{{updphoto.Size}}</td>
+                        <td nowrap>{{updphoto.Dimension}}</td>
+                        <td><input type="checkbox" [(ngModel)]="updphoto.IsPublic" /></td>
+                        <td><input type="text" [(ngModel)]="updphoto.Title" /></td>
+                        <td><input type="text" [(ngModel)]="updphoto.Desp" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row p-3 m-3" [hidden]="isUploading">
+        <mat-radio-group class="photoupload-radio-group" [(ngModel)]="assignMode">
+            <mat-radio-button class="photoupload-radio-button" *ngFor="let am of arAssignMode" [value]="am.Value">
+                {{am.Name | translate}}
+            </mat-radio-button>
+        </mat-radio-group>
+    </div>
+
+    <div class="row p-3 m-3" *ngIf="isAssginToExistingAlbum()" [hidden]="isUploading">
+        <table class="table w-100 p-3">
+            <thead class="thead-default">
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>{{'Common.Title' | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let album of allAlbum">
+                    <td>
+                        <mat-checkbox [(ngModel)]="album.isSelected" name="isalbumsel"></mat-checkbox>
+                    </td>
+                    <td><img src="{{album.Thumbnail}}" class="img-rounded pull-xs-left" style="display: block; width: 300 !important;height: auto !important;"
+                            alt="..."></td>
+                    <td>{{album.Title}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row p-3 m-3" *ngIf="isAssginToNewAlbum()" [hidden]="isUploading">
+        <mat-card class="w-100 p-3">
+            <mat-card-header>
+                <mat-card-title>{{"Photo.Upload_AssignNewAlbum" | translate}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <form #albumForm="ngForm">
+                    <mat-form-field class="w-100 p-3">
+                        <input matInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="albumCreate.Title" name="title"
+                            #title="ngModel">
+                        <mat-hint align="end">{{albumCreate.Title && albumCreate.Title.length}} / 20</mat-hint>
+                    </mat-form-field>
+
+                    <mat-form-field class="w-100 p-3">
+                        <input matInput placeholder="{{'Common.Description' | translate}}" maxlength="20" [(ngModel)]="albumCreate.Desp" name="albumdesp"
+                            #albumdesp="ngModel">
+                        <mat-hint align="end">{{albumCreate.Desp && albumCreate.Desp.length}} / 20</mat-hint>
+                    </mat-form-field>
+
+                    <mat-checkbox [(ngModel)]="albumCreate.IsPublic" name="ispubl">{{"Album.IsPublic" | translate}}</mat-checkbox>
+
+                    <mat-form-field class="w-100 p-3">
+                        <input matInput placeholder="{{'Album.AccessCode' | translate}}" maxlength="20" [(ngModel)]="albumCreate.AccessCode" name="accesscode" #accesscode="ngModel">
+                        <mat-hint align="end">{{albumCreate.AccessCode && albumCreate.AccessCode.length}} / 20</mat-hint>
+                    </mat-form-field>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div class="row p-3 m-3" [hidden]="!isUploading">
+        <div style="padding: 20%;text-align:center;">
+            <h3>{{'Message.UploadingInfo' | translate}}</h3>
+        </div>
+
+        <section class="progress-section">
+            <mat-progress-bar
+                class="progress-margin"
+                color="primary"
+                mode="indeterminate">
+            </mat-progress-bar>
+        </section>
+    </div>
+
+    <hr />
+    <div class="row p-3 m-10" [hidden]="isUploading">
+        <input type="submit" class="btn btn-secondary" (click)="onSubmit($event)" />
+    </div>
+</div>

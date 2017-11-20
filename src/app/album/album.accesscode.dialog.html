@@ -1,0 +1,9 @@
+<h1 matDialogTitle>Input Access Code</h1>
+<div mat-dialog-content>
+    <input matInput #accessCode maxlength="20" placeholder="Access Code" value="">
+    <mat-hint align="end">{{accessCode.value.length}} / 20</mat-hint>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close(accessCode.value)">{{'Common.Submit' | translate}}</button>
+  <button mat-button (click)="dialogRef.close()">{{'Common.Cancel' | translate}}</button>
+</div>
