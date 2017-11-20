@@ -1,5 +1,4 @@
 import { Component, NgZone, OnInit, ViewContainerRef, OnDestroy } from '@angular/core';
-import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material';
@@ -24,7 +23,7 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
   public unassignedAlbum: SelectableAlbum[];
   private uiMode: UIMode;
 
-  constructor(private _http: Http,
+  constructor(
     private _router: Router,
     private _activateRoute: ActivatedRoute,
     private _zone: NgZone,

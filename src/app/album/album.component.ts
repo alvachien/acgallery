@@ -7,7 +7,6 @@ import { Album } from '../model/album';
 import { Photo } from '../model/photo';
 import { AuthService } from '../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angular/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -33,7 +32,7 @@ export class AlbumComponent implements OnInit {
   private routerID: number;
   private gallery: any;
 
-  constructor(private _http: Http,
+  constructor(
     private _router: Router,
     private _activateRoute: ActivatedRoute,
     private _zone: NgZone,

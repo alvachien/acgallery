@@ -18,6 +18,7 @@
     "@angular/common": "^5.0.0",
     "@angular/compiler": "^5.0.0",
     "@angular/core": "^5.0.0",
+    "@angular/flex-layout": "^2.0.0-beta.10-4905443",
     "@angular/forms": "^5.0.0",
     "@angular/material": "^5.0.0-rc0",
     "@angular/material-moment-adapter": "^5.0.0-rc0",

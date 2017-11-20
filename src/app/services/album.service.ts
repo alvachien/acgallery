@@ -1,6 +1,5 @@
 import { environment } from '../../environments/environment';
 import { Injectable, EventEmitter } from '@angular/core';
-import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angular/http';
 import { Album, AlbumPhotoLink, AlbumPhotoByAlbum, AlbumPhotoByPhoto } from '../model/album';
 import { Photo } from '../model/photo';
 import { AuthService } from './auth.service';
