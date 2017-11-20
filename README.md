@@ -42,15 +42,6 @@ The web app allows end user uploads the image files to public folder (the privat
 
 The web app also provides the authority control over the album and photos. The identification upon user is hosted on another Azure application ACIdServer.
 
-### Structure of Project
-The project structure defined with two parts: 
- - src\  This the source folder contains the ASP.NET Core Project.
- - gallerywebsrc\ This is the source folder contains the web app logic.
-
-### Deployment
-Previously, the project use the standard .Net Core deployment functionality plus the gulp for web app logic.
-
-After switch to @angular/cli, the project now use 'ng build' as a 'Prepublish' embedded in .Net Core deployment.
 
 ## Relevant API/App
 - AC ID Server [Github Project](https://github.com/alvachien/acidserver) : an Identity service hosted in [Azure (will be obseleted soon)](http://acidserver.azurewebsites.net);
@@ -59,12 +50,12 @@ After switch to @angular/cli, the project now use 'ng build' as a 'Prepublish' e
 
 ## Credits
 AC Photo Gallery web app built with following UI technologies:
-- ASP.NET Core 1;
-- Angular 2;
+- Angular 5;
 - Angular Material 2;
-- Angular CLI 1;
+- Angular-CLI ;
 - Bootstrap V4;
-- TypeScript 2.2.0;
+- TypeScript 2;
+
 
 Besides, it also using the following server side libaries:
 - EXIF Tool [Link] (http://www.sno.phy.queensu.ca/~phil/exiftool/);
