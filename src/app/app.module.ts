@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -9,12 +9,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
 import 'oidc-client';
 
-import { AuthService } from './services/auth.service';
-import { PhotoService } from './services/photo.service';
-import { AlbumService } from './services/album.service';
-import { UIStatusService } from './services/uistatus.service';
-import { AuthGuard } from './services/authguard.service';
-import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
+import { AuthService, PhotoService, AlbumService, UIStatusService, AuthGuard, CanDeactivateGuardService } from './services';
+
 import { TranslateService } from '@ngx-translate/core';
 
 import { AppComponent } from './app.component';
@@ -58,13 +54,13 @@ export function funcHttpLoaderFactory(http: HttpClient) {
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: funcHttpLoaderFactory,
-        deps: [Http]
+        deps: [HttpClient]
       }
     }),
     FlexLayoutModule,
@@ -77,7 +73,7 @@ export function funcHttpLoaderFactory(http: HttpClient) {
     AlbumService,
     UIStatusService,
     AuthGuard,
-    CanDeactivateGuard
+    CanDeactivateGuardService
   ],
   bootstrap: [AppComponent]
 })

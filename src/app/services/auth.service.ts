@@ -7,6 +7,23 @@ import { LogLevel } from '../model/common';
 import { UserAuthInfo } from '../model/userinfo';
 import { UserManager, Log, MetadataService, User } from 'oidc-client';
 
+const AuthSettings: any = {
+  authority: environment.IDServerUrl,
+  client_id: "acgallery.app",
+  redirect_uri: environment.AppLoginCallbackUrl,
+  post_logout_redirect_uri: environment.AppLogoutCallbackUrl,
+  response_type: "id_token token",
+  scope: "openid profile api.galleryapi",
+
+  silent_redirect_uri: environment.AppLoginCallbackUrl,
+  automaticSilentRenew: true,
+  accessTokenExpiringNotificationTime: 4,
+  //silentRequestTimeout:10000,
+
+  filterProtocolClaims: true,
+  loadUserInfo: true
+};
+
 @Injectable()
 export class AuthService {
   public authSubject: BehaviorSubject<UserAuthInfo> = new BehaviorSubject(new UserAuthInfo());
@@ -15,9 +32,7 @@ export class AuthService {
   private authHeaders: Headers;
   public userLoadededEvent: EventEmitter<User> = new EventEmitter<User>();
 
-  constructor(
-    private http: Http
-  ) {
+  constructor() {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log("ACGallery Log [Debug]: Entering AuthService constructor...");
     }
@@ -26,12 +41,13 @@ export class AuthService {
 
     let that = this;
     this.mgr.getUser().then(function (u) {
-      if (environment.LoggingLevel >= LogLevel.Debug) {
-        console.log("ACGallery Log [Debug]: AuthService constructor, user get successfully as following: ");
-        console.log(u);
-      }
-
       if (u) {
+        if (environment.LoggingLevel >= LogLevel.Debug) {
+          console.log("ACGallery Log [Debug]: AuthService constructor, user get successfully as following: ");
+          console.log(u);
+        }
+
+        // Set the content
         that.authSubject.value.setContent(u);
 
         // Broadcast event
@@ -77,11 +93,11 @@ export class AuthService {
           console.info("ACGallery Log [Debug]: Redirecting for login...");
         }
       })
-        .catch(function (er) {
-          if (environment.LoggingLevel >= LogLevel.Error) {
-            console.error("ACGallery Log [Error]: Sign-in error", er);
-          }
-        });
+      .catch(function (er) {
+        if (environment.LoggingLevel >= LogLevel.Error) {
+          console.error("ACGallery Log [Error]: Sign-in error", er);
+        }
+      });
     }
   }
 
@@ -96,11 +112,11 @@ export class AuthService {
           console.info("ACGallery Log [Debug]: redirecting for logout...");
         }
       })
-        .catch(function (er) {
-          if (environment.LoggingLevel >= LogLevel.Error) {
-            console.error("ACGallery Log [Error]: Sign-out error", er);
-          }
-        });
+      .catch(function (er) {
+        if (environment.LoggingLevel >= LogLevel.Error) {
+          console.error("ACGallery Log [Error]: Sign-out error", er);
+        }
+      });
     }
   }
 
@@ -165,98 +181,4 @@ export class AuthService {
       console.log(err);
     });
   };
-
-  /**
-   * Example of how you can make auth request using angulars http methods.
-   * @param options if options are not supplied the default content type is application/json
-   */
-  AuthGet(url: string, options?: RequestOptions): Observable<Response> {
-    if (options) {
-      options = this._setRequestOptions(options);
-    }
-    else {
-      options = this._setRequestOptions();
-    }
-    return this.http.get(url, options);
-  }
-
-  /**
-   * @param options if options are not supplied the default content type is application/json
-   */
-  AuthPut(url: string, data: any, options?: RequestOptions): Observable<Response> {
-
-    let body = JSON.stringify(data);
-
-    if (options) {
-      options = this._setRequestOptions(options);
-    }
-    else {
-      options = this._setRequestOptions();
-    }
-    return this.http.put(url, body, options);
-  }
-
-  /**
-   * @param options if options are not supplied the default content type is application/json
-   */
-  AuthDelete(url: string, options?: RequestOptions): Observable<Response> {
-
-    if (options) {
-      options = this._setRequestOptions(options);
-    }
-    else {
-      options = this._setRequestOptions();
-    }
-    return this.http.delete(url, options);
-  }
-
-  /**
-   * @param options if options are not supplied the default content type is application/json
-   */
-  AuthPost(url: string, data: any, options?: RequestOptions): Observable<Response> {
-
-    let body = JSON.stringify(data);
-
-    if (options) {
-      options = this._setRequestOptions(options);
-    }
-    else {
-      options = this._setRequestOptions();
-    }
-    return this.http.post(url, body, options);
-  }
-
-  private _setAuthHeaders(user: any) {
-    this.authHeaders = new Headers();
-    this.authHeaders.append('Authorization', user.token_type + " " + user.access_token);
-    this.authHeaders.append('Content-Type', 'application/json');
-  }
-
-  private _setRequestOptions(options?: RequestOptions) {
-
-    if (options) {
-      options.headers.append(this.authHeaders.keys[0], this.authHeaders.values[0]);
-    }
-    else {
-      options = new RequestOptions({ headers: this.authHeaders, body: "" });
-    }
-
-    return options;
-  }
 }
-
-const AuthSettings: any = {
-  authority: environment.IDServerUrl,
-  client_id: "acgallery.app",
-  redirect_uri: environment.AppLoginCallbackUrl,
-  post_logout_redirect_uri: environment.AppLogoutCallbackUrl,
-  response_type: "id_token token",
-  scope: "openid profile api.acgallery api.galleryapi",
-
-  silent_redirect_uri: environment.AppLoginCallbackUrl,
-  automaticSilentRenew: true,
-  //silentRequestTimeout:10000,
-
-  filterProtocolClaims: true,
-  loadUserInfo: true
-};

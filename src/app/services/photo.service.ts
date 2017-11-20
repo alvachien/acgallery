@@ -5,36 +5,37 @@ import { Observable } from 'rxjs/Observable';
 import { Album, AlbumPhotoLink } from '../model/album';
 import { Photo } from '../model/photo';
 import { AuthService } from './auth.service';
+import { HttpParams, HttpClient, HttpHeaders, HttpResponse, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class PhotoService {
 
-  constructor(private _http: Http,
+  constructor(private _http: HttpClient,
     private _authService: AuthService) {
   }
 
   public updateFileMetadata(photo: Photo): Observable<any> {
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
-    headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+      .append('Accept', 'application/json')
+      .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
 
     var data = JSON && JSON.stringify(photo);
 
-    return this._http.put(environment.PhotoAPIUrl, data, { headers: headers })
-      .map(response => response.json());
+    return this._http.put(environment.PhotoAPIUrl, data, { headers: headers, withCredentials: true })
+      .map(response => <any>response);
   }
 
   public createFile(fileRecord: any): Observable<any> {
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
-    headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+      .append('Accept', 'application/json')
+      .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
 
     var data = JSON && JSON.stringify(fileRecord);
 
-    return this._http.post(environment.PhotoAPIUrl, data, { headers: headers })
-      .map(response => response.json());
+    return this._http.post(environment.PhotoAPIUrl, data, { headers: headers, withCredentials: true })
+      .map(response => <any>response);
   }
 
   public uploadFile(params: string[], files: File[]) {
@@ -72,32 +73,36 @@ export class PhotoService {
   }
 
   public loadPhotos(paramString?: string): Observable<any> {
-    let headers = new Headers();
-    headers.append('Accept', 'application/json');
-    if (this._authService.authSubject.getValue().isAuthorized)
-      headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+      .append('Accept', 'application/json')
+      .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
 
     let apistring = environment.PhotoAPIUrl;
     if (paramString) {
       apistring += paramString;
     }
 
-    return this._http.get(apistring, { headers: headers })
-      .map(response => response.json());
+    return this._http.get(apistring, { headers: headers, withCredentials: true })
+      .map(response => <any>response);
   }
 
   public loadAlbumPhoto(albumid: string | number, accesscode?: string): Observable<any> {
-    let headers = new Headers();
-    headers.append('Accept', 'application/json');
-    if (this._authService.authSubject.getValue().isAuthorized)
-      headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
-    let params: URLSearchParams = new URLSearchParams();
-    params.set('albumid', albumid.toString());
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+      .append('Accept', 'application/json')
+      .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+
+    let params: HttpParams = new HttpParams();
+    params = params.append('albumid', albumid.toString());
     if (accesscode) {
-      params.set('accesscode', accesscode);
+      params = params.append('accesscode', accesscode);
     }
 
-    return this._http.get(environment.PhotoAPIUrl, { search: params, headers: headers })
-      .map(response => response.json());
+    return this._http.get(environment.PhotoAPIUrl, { 
+      headers: headers,
+      params: params,
+      withCredentials: true })
+      .map(response => <any>response);
   }
 }

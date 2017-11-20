@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, NgZone, ViewChild, Renderer, ElementRef } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import 'fine-uploader';
 import { AuthService } from '../services/auth.service';
