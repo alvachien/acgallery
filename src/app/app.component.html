@@ -1,4 +1,53 @@
-<nav class="navbar fixed-top navbar-toggleable-md navbar-light bg-faded">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" [routerLink]="['/']">
+    <img src="/assets/acgallery.ico" width="24" height="24" class="d-inline-block align-top" alt=""> AC Gallery
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" [routerLink]="['/home']">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAlbum" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <!-- <mat-icon>photo_album</mat-icon>{{'Nav.Album' | translate}} -->
+          Album
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownAlbum">
+          <a class="dropdown-item" [routerLink]="['/album']" routerLinkActive="active">{{'Nav.Albums' | translate}}</a>
+          <div *ngIf="isLoggedIn" class="dropdown-divider"></div>
+          <a class="dropdown-item" [routerLink]="['/album/create']" *ngIf="isLoggedIn" routerLinkActive="active">{{'Nav.AlbumCreate' | translate}}</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPhoto" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <mat-icon>photo</mat-icon>{{'Nav.Photo' | translate}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownPhoto">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+<!-- <nav class="navbar fixed-top navbar-toggleable-md navbar-light bg-faded">
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
     aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -62,7 +111,7 @@
       <a role="button" class="btn btn-link" *ngIf="isLoggedIn" (click)="onLogout()">{{'Login.Logout' | translate}}</a>
     </form>
   </div>
-</nav>
+</nav> -->
 
 <div class="m-t-1" style="padding-top: 70px; min-height: 100%;">
   <router-outlet></router-outlet>
