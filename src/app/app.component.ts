@@ -58,7 +58,7 @@ export class AppComponent implements OnInit {
     this._authService.doLogout();
   } 
 
-  onCurLanguageChanged($event): void {
+  onCurLanguageChanged(): void {
     if (this.curLang !== this._translateService.currentLang) {
       this._translateService.setDefaultLang(this.curLang);
     }

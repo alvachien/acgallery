@@ -1,7 +1,8 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, NgZone, ViewChild, Renderer, ElementRef } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
-import 'fine-uploader';
+//import 'fine-uploader';
+import { FineUploaderBasic } from 'fine-uploader/lib/core'
 import { AuthService } from '../services/auth.service';
 import { PhotoService } from '../services/photo.service';
 import { AlbumService } from '../services/album.service';
@@ -41,7 +42,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     private _elmRef: ElementRef,
     public _snackBar: MatSnackBar) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log("ACGallery [Debug]: Entering onSubmit of PhotoUploadComponent");
+      console.log('ACGallery [Debug]: Entering onSubmit of PhotoUploadComponent');
     }
 
     this._authService.authContent.subscribe((x) => {
@@ -60,9 +61,9 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log("ACGallery [Debug]: Entering ngOnInit of PhotoUploadComponent");
+      console.log('ACGallery [Debug]: Entering ngOnInit of PhotoUploadComponent');
     }
-    
+
     if (!this.canUploadPhoto()) {
       this._router.navigate(['/unauthorized']);
       return;
@@ -105,12 +106,12 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log("ACGallery [Debug]: Entering ngAfterViewInit of PhotoUploadComponent");
+      console.log('ACGallery [Debug]: Entering ngAfterViewInit of PhotoUploadComponent');
     }
 
     let that = this;
     if (!this.uploader && that.elemUploadFile) {
-      this.uploader = new qq.FineUploaderBasic({
+      this.uploader = new FineUploaderBasic({
         button: that.elemUploadFile.nativeElement,
         autoUpload: false,
         request: {
@@ -125,11 +126,12 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         callbacks: {
           onComplete: function (id: number, name, responseJSON) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log("ACGallery [Debug]: Entering uploader_onComplete of PhotoUploadComponent upon ID: " + id.toString() + "; name: " + name);
+              console.log('ACGallery [Debug]: Entering uploader_onComplete of PhotoUploadComponent upon ID: ' + id.toString() + '; name: ' + name);
             }
 
-            if (!responseJSON.success)
+            if (!responseJSON.success) {
               return;
+            }
 
             let insPhoto = new Photo();
             insPhoto.photoId = responseJSON.photoId;
@@ -152,18 +154,18 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
           },
           onAllComplete: function (succids, failids) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log("ACGallery [Debug]: Entering uploader_onAllComplete of uploader_onAllComplete with succids: " + succids.toString() + "; failids: " + failids.toString());
+              console.log('ACGallery [Debug]: Entering uploader_onAllComplete of uploader_onAllComplete with succids: ' + succids.toString() + '; failids: ' + failids.toString());
             }
 
             that.onAllCompleted();
           },
           onStatusChange: function (id: number, oldstatus, newstatus) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log("ACGallery [Debug]: Entering uploader_onStatusChange of PhotoUploadComponent upon ID: " + id.toString() + "; From " + oldstatus + " to " + newstatus);
+              console.log('ACGallery [Debug]: Entering uploader_onStatusChange of PhotoUploadComponent upon ID: ' + id.toString() + '; From ' + oldstatus + ' to ' + newstatus);
             }
 
-            if (newstatus === "rejected") {
-              let errormsg = "File size must smaller than " + that.photoMaxKBSize + " and larger than " + that.photoMinKBSize;
+            if (newstatus === 'rejected') {
+              let errormsg = 'File size must smaller than ' + that.photoMaxKBSize + ' and larger than ' + that.photoMinKBSize;
               that._snackBar.open(errormsg, 'Close', {
                 duration: 2000,
               });
@@ -183,19 +185,19 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
           },
           onSubmit: function (id: number, name: string) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log("ACGallery [Debug]: Entering uploader_onSubmit of PhotoUploadComponent upon ID: " + id.toString() + "; name: " + name);
+              console.log('ACGallery [Debug]: Entering uploader_onSubmit of PhotoUploadComponent upon ID: ' + id.toString() + '; name: ' + name);
             }
           },
           onSubmitted: function (id: number, name: string) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log("ACGallery [Debug]: Entering uploader_onSubmitted of PhotoUploadComponent upon ID: " + id.toString() + "; name: " + name);
+              console.log('ACGallery [Debug]: Entering uploader_onSubmitted of PhotoUploadComponent upon ID: ' + id.toString() + '; name: ' + name);
             }
 
             if (that.uploader) {
-              var fObj = that.uploader.getFile(id);
+              let fObj = that.uploader.getFile(id);
               that.readImage(id, fObj, name, that.arUpdPhotos);
             } else {
-              let errormsg = "Failed to process File " + name;
+              let errormsg = 'Failed to process File ' + name;
               that._snackBar.open(errormsg, 'Close', {
                 duration: 2000,
               });
@@ -203,19 +205,19 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
           },
           onTotalProgress: function (totalUploadedBytes: number, totalBytes: number) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log("ACGallery [Debug]: Entering uploader_onTotalProgress of PhotoUploadComponent with totalUploadedBytes: " + totalUploadedBytes.toString() + "; totalBytes: " + totalUploadedBytes.toString());
+              console.log('ACGallery [Debug]: Entering uploader_onTotalProgress of PhotoUploadComponent with totalUploadedBytes: ' + totalUploadedBytes.toString() + '; totalBytes: ' + totalUploadedBytes.toString());
             }
 
             that.onUploadProgress(Math.floor(100 * totalUploadedBytes / totalBytes));
           },
           onUpload: function (id: number, name: string) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log("ACGallery [Debug]: Entering uploader_onUpload of PhotoUploadComponent upon ID: " + id.toString() + "; name: " + name);
+              console.log('ACGallery [Debug]: Entering uploader_onUpload of PhotoUploadComponent upon ID: ' + id.toString() + '; name: ' + name);
             }
           },
           onValidate: function (data) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log("ACGallery [Debug]: Entering uploader_onValidate of PhotoUploadComponent with data: " + data);
+              console.log('ACGallery [Debug]: Entering uploader_onValidate of PhotoUploadComponent with data: ' + data);
             }
           }
         }
@@ -228,11 +230,11 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSubmit($event): void {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log("ACGallery [Debug]: Entering onSubmit of PhotoUploadComponent");
+      console.log('ACGallery [Debug]: Entering onSubmit of PhotoUploadComponent');
     }
 
     if (!this.uploader) {
-      this._snackBar.open("Fatal error: uploader not initialized yet!", 'Close', {
+      this._snackBar.open('Fatal error: uploader not initialized yet!', 'Close', {
         duration: 3000,
       });
       return;
@@ -240,7 +242,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Photo have been choosed already
     if (!this.arUpdPhotos || this.arUpdPhotos.length <= 0) {
-      this._snackBar.open("Select photos before uploading!", 'Close', {
+      this._snackBar.open('Select photos before uploading!', 'Close', {
         duration: 3000,
       });
       return;
@@ -249,7 +251,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isAssginToNewAlbum()) {
       // Check the validity of New Album
       if (!this.albumCreate.Title) {
-        this._snackBar.open("Title is a must for creating an album!");
+        this._snackBar.open('Title is a must for creating an album!');
         return;
       }
       this.albumCreate.CreatedAt = new Date();
@@ -296,7 +298,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!insPhoto.height && pht.Height) {
           insPhoto.height = pht.Height;
         }
-        
+
         break;
       }
     }
@@ -349,8 +351,8 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         this.onAfterUploadComplete();
       }
-    }, error=> {
-      this._snackBar.open("Failed: reason: " + error, 'Close', {
+    }, error => {
+      this._snackBar.open('Failed: reason: ' + error, 'Close', {
         duration: 3000,
       });
       this.onAfterUploadComplete();
@@ -398,7 +400,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onUploadProgress(data: number) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log("ACGallery [Debug]: Uploading progress: " + +data);
+      console.log('ACGallery [Debug]: Uploading progress: ' + +data);
     }
 
     this._zone.run(() => {
@@ -408,7 +410,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private readImage(fid: number, file, nname, arPhotos: UpdPhoto[]) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log("ACGallery [Debug]: Entering onSubmit of PhotoUploadComponent");
+      console.log('ACGallery [Debug]: Entering onSubmit of PhotoUploadComponent');
     }
 
     var reader = new FileReader();
@@ -457,11 +459,11 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.assignMode = 0;
       this.arUpdPhotos = [];
-      this.albumCreate = new Album();      
+      this.albumCreate = new Album();
     });
 
     // Show a dialog
-    this._snackBar.open("All photos completed!", 'Close', {
+    this._snackBar.open('All photos completed!', 'Close', {
       duration: 3000,
     });
   }

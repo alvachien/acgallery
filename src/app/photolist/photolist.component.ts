@@ -25,7 +25,7 @@ declare var PhotoSwipeUI_Default;
 export class PhotolistComponent implements OnInit {
   public photos: Photo[] = [];
   public selectedPhoto: Photo = null;
-  private objUtil: UIPagination = null;
+  public objUtil: UIPagination = null;
   private gallery: any = null;
 
   constructor(private _zone: NgZone,

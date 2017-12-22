@@ -1,125 +1,128 @@
 <nav class="navbar fixed-top navbar-toggleable-md navbar-light bg-faded">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-    <a class="navbar-brand" [routerLink]="['/']">
-        <img src="/assets/acgallery.ico" width="24" height="24" class="d-inline-block align-top" alt=""> AC Gallery
-    </a>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuAlbum" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <mat-icon>photo_album</mat-icon>{{'Nav.Album' | translate}}<b class="caret"></b>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuAlbum">
-                    <a class="dropdown-item" [routerLink]="['/album']" routerLinkActive="active">{{'Nav.Albums' | translate}}</a>
-                    <div *ngIf="isLoggedIn" class="dropdown-divider"></div>
-                    <a class="dropdown-item" [routerLink]="['/album/create']" *ngIf="isLoggedIn" routerLinkActive="active">{{'Nav.AlbumCreate' | translate}}</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuPhoto" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <mat-icon>photo</mat-icon>{{'Nav.Photo' | translate}}<b class="caret"></b>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuPhoto">
-                    <a class="dropdown-item" [routerLink]="['/photo']" routerLinkActive="active">{{'Nav.Photos' | translate}}</a>
-                    <div *ngIf="isLoggedIn" class="dropdown-divider"></div>
-                    <a class="dropdown-item" [routerLink]="['/photo/upload']" *ngIf="isLoggedIn" routerLinkActive="active">{{'Nav.PhotoUpload' | translate}}</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdownAbout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <mat-icon>info</mat-icon>{{'Nav.About' | translate}}<b class="caret"></b>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuAbout">
-                    <h6 class="dropdown-header">Help</h6>
-                    <a class="dropdown-item" [routerLink]="['/about']" routerLinkActive="active">
-                        <mat-icon>info</mat-icon>About</a>
-                    <a class="dropdown-item" [routerLink]="['/credits']" routerLinkActive="active">Credits</a>
-                    <div class="dropdown-divider"></div>
-                    <h6 class="dropdown-header">Websites</h6>
-                    <a class="dropdown-item" href="http://www.alvachien.com/alvablog/" target="_blank">
-                        <mat-icon>home</mat-icon>Personal Website</a>
-                    <div class="dropdown-divider"></div>
-                    <h6 class="dropdown-header">Social Network</h6>
-                    <a class="dropdown-item" href="https://github.com/alvachien" target="_blank">Github</a>
-                    <a class="dropdown-item" href="https://www.flickr.com/photos/alvachien" target="_blank">Flickr</a>
-                    <a class="dropdown-item" href="https://www.facebook.com/alva.chien" target="_blank">Facebook</a>
-                </div>
-            </li>
-        </ul>
+  <a class="navbar-brand" [routerLink]="['/']">
+    <img src="/assets/acgallery.ico" width="24" height="24" class="d-inline-block align-top" alt=""> AC Gallery
+  </a>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuAlbum" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <mat-icon>photo_album</mat-icon>{{'Nav.Album' | translate}}
+          <b class="caret"></b>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuAlbum">
+          <a class="dropdown-item" [routerLink]="['/album']" routerLinkActive="active">{{'Nav.Albums' | translate}}</a>
+          <div *ngIf="isLoggedIn" class="dropdown-divider"></div>
+          <a class="dropdown-item" [routerLink]="['/album/create']" *ngIf="isLoggedIn" routerLinkActive="active">{{'Nav.AlbumCreate' | translate}}</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuPhoto" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <mat-icon>photo</mat-icon>{{'Nav.Photo' | translate}}
+          <b class="caret"></b>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuPhoto">
+          <a class="dropdown-item" [routerLink]="['/photo']" routerLinkActive="active">{{'Nav.Photos' | translate}}</a>
+          <div *ngIf="isLoggedIn" class="dropdown-divider"></div>
+          <a class="dropdown-item" [routerLink]="['/photo/upload']" *ngIf="isLoggedIn" routerLinkActive="active">{{'Nav.PhotoUpload' | translate}}</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownAbout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <mat-icon>info</mat-icon>{{'Nav.About' | translate}}
+          <b class="caret"></b>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuAbout">
+          <h6 class="dropdown-header">Help</h6>
+          <a class="dropdown-item" [routerLink]="['/about']" routerLinkActive="active">
+            <mat-icon>info</mat-icon>About</a>
+          <a class="dropdown-item" [routerLink]="['/credits']" routerLinkActive="active">Credits</a>
+          <div class="dropdown-divider"></div>
+          <h6 class="dropdown-header">Websites</h6>
+          <a class="dropdown-item" href="http://www.alvachien.com/alvablog/" target="_blank">
+            <mat-icon>home</mat-icon>Personal Website</a>
+          <div class="dropdown-divider"></div>
+          <h6 class="dropdown-header">Social Network</h6>
+          <a class="dropdown-item" href="https://github.com/alvachien" target="_blank">Github</a>
+          <a class="dropdown-item" href="https://www.flickr.com/photos/alvachien" target="_blank">Flickr</a>
+          <a class="dropdown-item" href="https://www.facebook.com/alva.chien" target="_blank">Facebook</a>
+        </div>
+      </li>
+    </ul>
 
-        <form class="form-inline my-2 my-lg-0">
-            <select class="form-control my-2 my-sm-0" [(ngModel)]="curLang" (change)="onCurLanguageChanged()" name="applang" #applang="ngModel">
-                <option *ngFor="let lang of arLangs" [value]="lang.Value">{{lang.DisplayString | translate}}</option>
-            </select>
-            <a role="button" class="btn btn-link" *ngIf="!isLoggedIn" (click)="onLogin()">{{'Login.Login' | translate}}</a>
-            <a role="button" class="btn btn-link" *ngIf="isLoggedIn" (click)="onUserDetail()">{{titleLogin}}</a>
-            <a role="button" class="btn btn-link" *ngIf="isLoggedIn" (click)="onLogout()">{{'Login.Logout' | translate}}</a>
-        </form>
-    </div>
+    <form class="form-inline my-2 my-lg-0">
+      <select class="form-control my-2 my-sm-0" [(ngModel)]="curLang" (change)="onCurLanguageChanged()" name="applang" #applang="ngModel">
+        <option *ngFor="let lang of arLangs" [value]="lang.Value">{{lang.DisplayString | translate}}</option>
+      </select>
+      <a role="button" class="btn btn-link" *ngIf="!isLoggedIn" (click)="onLogin()">{{'Login.Login' | translate}}</a>
+      <a role="button" class="btn btn-link" *ngIf="isLoggedIn" (click)="onUserDetail()">{{titleLogin}}</a>
+      <a role="button" class="btn btn-link" *ngIf="isLoggedIn" (click)="onLogout()">{{'Login.Logout' | translate}}</a>
+    </form>
+  </div>
 </nav>
 
 <div class="m-t-1" style="padding-top: 70px; min-height: 100%;">
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>
 
 <!-- Root element of PhotoSwipe. Must have class pswp. -->
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true" #pswp>
 
-    <!-- Background of PhotoSwipe. 
+  <!-- Background of PhotoSwipe. 
          It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
+  <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
 
-        <!-- Container that holds slides. 
+    <!-- Container that holds slides. 
             PhotoSwipe keeps only 3 of them in the DOM to save memory.
             Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-
-            <div class="pswp__top-bar">
-
-                <!--  Controls are self-explanatory. Order can be changed. -->
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                        <div class="pswp__preloader__cut">
-                            <div class="pswp__preloader__donut"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
     </div>
+
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+
+      <div class="pswp__top-bar">
+
+        <!--  Controls are self-explanatory. Order can be changed. -->
+
+        <div class="pswp__counter"></div>
+
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+        <button class="pswp__button pswp__button--share" title="Share"></button>
+
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip"></div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center"></div>
+      </div>
+    </div>
+  </div>
 </div>
