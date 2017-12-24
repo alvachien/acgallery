@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
       });
     }, error => {
       if (environment.LoggingLevel >= LogLevel.Error) {
-        console.error("ACGallery Log [Error]: Failed in subscribe to User", error);
+        console.error('ACGallery [Error]: Failed in subscribe to User', error);
       }
     }, () => {
       // Completed
@@ -68,16 +68,16 @@ export class AppComponent implements OnInit {
   initLang() : void {
     this.arLangs = new Array<AppLang>();
     let lo: AppLang = new AppLang();
-    lo.Value = "en";
-    lo.DisplayString = "Language.English";
+    lo.Value = 'en';
+    lo.DisplayString = 'Language.English';
     this.arLangs.push(lo);
     lo = new AppLang();
-    lo.Value = "zh";
-    lo.DisplayString = "Language.SimpChinese";
+    lo.Value = 'zh';
+    lo.DisplayString = 'Language.SimpChinese';
     this.arLangs.push(lo);
-    this.curLang = "en"; // Default language 
+    this.curLang = 'en'; // Default language 
 
-    this._translateService.addLangs(["en", "zh"]);
+    this._translateService.addLangs(['en', 'zh']);
     this._translateService.setDefaultLang(this.curLang);
   }
 }
