@@ -27,7 +27,7 @@
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/tether/dist/js/tether.min.js",
-        "../node_modules/popper.js/dist/popper.min.js",
+        "../node_modules/popper.js/dist/umd/popper.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
         "../node_modules/hammerjs/hammer.min.js",
         "../node_modules/photoswipe/dist/photoswipe.min.js",
@@ -64,7 +64,7 @@
   "defaults": {
     "styleExt": "css",
     "serve": {
-        "port": 29522,
+        "port": 1601,
         "host": "localhost"
     }
   }

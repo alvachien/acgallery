@@ -11,5 +11,4 @@ export class CreditsComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }
