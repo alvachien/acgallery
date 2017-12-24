@@ -5,31 +5,43 @@ import {
   RouterStateSnapshot,
   CanActivateChild
 } from '@angular/router';
+import { environment } from '../../environments/environment';
+import { LogLevel, UserAuthInfo } from '../model';
 import { AuthService } from './auth.service';
 
 @Injectable()
-export class AuthGuard implements CanActivate, CanActivateChild {
-  private isLoggedIn: boolean = false;
-  constructor(private authService: AuthService, private router: Router) {
-    this.authService.authContent.subscribe(x => {
-      this.isLoggedIn = x.isAuthorized;
-    }, error => {
-    }, () => {
-      // Completed
-    });
-  }
+export class AuthGuard implements CanActivate {
+  constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    let url: string = state.url;
+    const url: string = state.url;
+
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: entering can Activate of AuthGuard');
+    }
 
     return this.checkLogin(url);
   }
 
-  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    return this.canActivate(route, state);
-  }
+  checkLogin(url: string): boolean {
 
-  private checkLogin(url: string): boolean {
-    return this.isLoggedIn;
+    if (this.authService.authSubject.getValue().isAuthorized) {
+      if (environment.LoggingLevel >= LogLevel.Debug) {
+        console.log('ACGallery [Debug]: entering checkLogin of AuthGuard with TRUE');
+      }
+      return true;
+    }
+
+    // For ACGallery: we cannot store the attempted URL because the whole page will be reloaded.
+    // Store the attempted URL for redirecting
+    //this.authService.redirectUrl = url;
+
+    // Navigate to the login page with extras
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: entering checkLogin of AuthGuard with FALSE, therefore redirecting...');
+    }
+    this.authService.doLogin();
+
+    return false;
   }
 }

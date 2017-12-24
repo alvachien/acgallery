@@ -48,25 +48,25 @@ export class AlbumComponent implements OnInit {
 
   ngOnInit() {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log("AC Gallery [Debug]: Entering ngOnInit of AlbumComponent");
+      console.log('AC Gallery [Debug]: Entering ngOnInit of AlbumComponent');
     }
 
     // Distinguish current mode
     this._activateRoute.url.subscribe(x => {
       if (x instanceof Array && x.length > 0) {
-        if (x[0].path === "create") {
-          this.currentMode = "Common.Create";
+        if (x[0].path === 'create') {
+          this.currentMode = 'Common.Create';
           this.objAlbum = new Album();
           this.uiMode = UIMode.Create;
-        } else if (x[0].path === "edit") {
+        } else if (x[0].path === 'edit') {
           this.routerID = +x[1].path;
 
-          this.currentMode = "Common.Edit"
+          this.currentMode = 'Common.Edit';
           this.uiMode = UIMode.Change;
-        } else if (x[0].path === "display") {
+        } else if (x[0].path === 'display') {
           this.routerID = +x[1].path;
 
-          this.currentMode = "Common.Display";
+          this.currentMode = 'Common.Display';
           this.uiMode = UIMode.Display;
         }
       }

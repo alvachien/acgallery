@@ -67,8 +67,8 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  */
 // import 'intl';  // Run `npm install --save intl`.
 
-// Oidc
-import 'oidc-client';
-// Fine uploader
-import 'fine-uploader';
+// // Oidc
+// import 'oidc-client';
+// // Fine uploader
+// import 'fine-uploader';
 

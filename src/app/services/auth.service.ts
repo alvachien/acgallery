@@ -34,7 +34,7 @@ export class AuthService {
 
   constructor() {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log("ACGallery Log [Debug]: Entering AuthService constructor...");
+      console.log('ACGallery [Debug]: Entering AuthService constructor...');
     }
 
     this.mgr = new UserManager(AuthSettings);
@@ -43,7 +43,7 @@ export class AuthService {
     this.mgr.getUser().then(function (u) {
       if (u) {
         if (environment.LoggingLevel >= LogLevel.Debug) {
-          console.log("ACGallery Log [Debug]: AuthService constructor, user get successfully as following: ");
+          console.log('ACGallery [Debug]: AuthService constructor, user get successfully as following: ');
           console.log(u);
         }
 
@@ -60,14 +60,14 @@ export class AuthService {
       that.authSubject.next(that.authSubject.value);
     }, function (reason) {
       if (environment.LoggingLevel >= LogLevel.Error) {
-        console.log("ACGallery Log [Error]: AuthService failed to fetch user:");
+        console.log('ACGallery [Error]: AuthService failed to fetch user:');
         console.log(reason);
       }
     });
 
     this.mgr.events.addUserUnloaded((e) => {
       if (environment.LoggingLevel >= LogLevel.Debug) {
-        console.log("ACGallery Log [Debug]: User unloaded");
+        console.log('ACGallery [Debug]: User unloaded');
       }
       that.authSubject.value.cleanContent();
 
@@ -75,27 +75,34 @@ export class AuthService {
     });
 
     this.mgr.events.addAccessTokenExpiring(function () {
-      console.log("token expiring");
+      if (environment.LoggingLevel >= LogLevel.Debug) {
+        console.warn('ACGallery [Debug]: token expiring');
+      }
     });
+
     this.mgr.events.addAccessTokenExpired(function () {
-      console.log("token expired");
+      if (environment.LoggingLevel >= LogLevel.Debug) {
+        console.warn('ACGallery [Debug]: token expired');
+      }
+
+      that.doLogin();
     });
   }
 
   public doLogin() {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log("ACGallery Log [Debug]: Start the login...");
+      console.log('ACGallery [Debug]: Start the login...');
     }
 
     if (this.mgr) {
       this.mgr.signinRedirect().then(function () {
         if (environment.LoggingLevel >= LogLevel.Debug) {
-          console.info("ACGallery Log [Debug]: Redirecting for login...");
+          console.info('ACGallery [Debug]: Redirecting for login...');
         }
       })
       .catch(function (er) {
         if (environment.LoggingLevel >= LogLevel.Error) {
-          console.error("ACGallery Log [Error]: Sign-in error", er);
+          console.error('ACGallery [Error]: Sign-in error', er);
         }
       });
     }
@@ -103,18 +110,18 @@ export class AuthService {
 
   public doLogout() {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log("ACGallery Log [Debug]: Start the logout...");
+      console.log('ACGallery [Debug]: Start the logout...');
     }
 
     if (this.mgr) {
       this.mgr.signoutRedirect().then(function () {
         if (environment.LoggingLevel >= LogLevel.Debug) {
-          console.info("ACGallery Log [Debug]: redirecting for logout...");
+          console.info('ACGallery [Debug]: redirecting for logout...');
         }
       })
       .catch(function (er) {
         if (environment.LoggingLevel >= LogLevel.Error) {
-          console.error("ACGallery Log [Error]: Sign-out error", er);
+          console.error('ACGallery [Error]: Sign-out error', er);
         }
       });
     }
@@ -122,63 +129,91 @@ export class AuthService {
 
   clearState() {
     this.mgr.clearStaleState().then(function () {
-      console.log("clearStateState success");
+      if (environment.LoggingLevel >= LogLevel.Debug) {
+        console.log('ACGallery [Debug]: clearStateState success');
+      }
     }).catch(function (e) {
-      console.log("clearStateState error", e.message);
+      if (environment.LoggingLevel >= LogLevel.Error) {
+        console.error('ACGallery [Debug]: clearStateState error', e.message);
+      }
     });
   }
 
   getUser() {
     this.mgr.getUser().then((user) => {
-      console.log("got user", user);
+      if (environment.LoggingLevel >= LogLevel.Debug) {
+        console.log('ACGallery [Debug]: got user', user);
+      }
+
       this.userLoadededEvent.emit(user);
     }).catch(function (err) {
-      console.log(err);
+      if (environment.LoggingLevel >= LogLevel.Error) {
+        console.error(err);
+      }
     });
   }
 
   removeUser() {
     this.mgr.removeUser().then(() => {
       this.userLoadededEvent.emit(null);
-      console.log("user removed");
+      if (environment.LoggingLevel >= LogLevel.Debug) {
+        console.log('ACGallery [Debug]: user removed');
+      }
     }).catch(function (err) {
-      console.log(err);
+      if (environment.LoggingLevel >= LogLevel.Error) {
+        console.error(err);
+      }
     });
   }
 
   startSigninMainWindow() {
     this.mgr.signinRedirect({ data: 'some data' }).then(function () {
-      console.log("signinRedirect done");
+      if (environment.LoggingLevel >= LogLevel.Debug) {
+        console.log('ACGallery [Debug]: signinRedirect done');
+      }
     }).catch(function (err) {
-      console.log(err);
+      if (environment.LoggingLevel >= LogLevel.Error) {
+        console.error(err);
+      }
     });
   }
   
   endSigninMainWindow() {
     this.mgr.signinRedirectCallback().then(function (user) {
-      console.log("signed in", user);
+      if (environment.LoggingLevel >= LogLevel.Debug) {
+        console.log('ACGallery [Debug]: signed in', user);
+      }
     }).catch(function (err) {
-      console.log(err);
+      if (environment.LoggingLevel >= LogLevel.Error) {
+        console.error(err);
+      }
     });
   }
 
   startSignoutMainWindow() {
     this.mgr.signoutRedirect().then(function (resp) {
-      console.log("signed out", resp);
+      if (environment.LoggingLevel >= LogLevel.Debug) {
+        console.log('ACGallery [Debug]: signed out', resp);
+      }
       setTimeout(5000, () => {
-        console.log("testing to see if fired...");
-
+        console.log('ACGallery [Debug]: testing to see if fired...');
       })
     }).catch(function (err) {
-      console.log(err);
+      if (environment.LoggingLevel >= LogLevel.Error) {
+        console.error(err);
+      }
     });
   };
 
   endSignoutMainWindow() {
     this.mgr.signoutRedirectCallback().then(function (resp) {
-      console.log("signed out", resp);
+      if (environment.LoggingLevel >= LogLevel.Debug) {
+        console.log('ACGallery [Debug]: signed out', resp);
+      }
     }).catch(function (err) {
-      console.log(err);
+      if (environment.LoggingLevel >= LogLevel.Error) {
+        console.error(err);
+      }
     });
   };
 }
