@@ -2,9 +2,7 @@ import { Component, OnInit, AfterViewInit, OnDestroy, NgZone, ViewChild, Rendere
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { FineUploaderBasic } from 'fine-uploader/lib/core'
-import { AuthService } from '../services/auth.service';
-import { PhotoService } from '../services/photo.service';
-import { AlbumService } from '../services/album.service';
+import { AuthService, PhotoService, AlbumService} from '../services';
 import { Album, AlbumPhotoLink, AlbumPhotoByAlbum, SelectableAlbum } from '../model/album';
 import { Photo, UpdPhoto } from '../model/photo';
 import { LogLevel } from '../model/common';
@@ -41,7 +39,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     private _elmRef: ElementRef,
     public _snackBar: MatSnackBar) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering onSubmit of PhotoUploadComponent');
+      console.log('ACGallery [Debug]: Entering constructor of PhotoUploadComponent.');
     }
 
     this._authService.authContent.subscribe((x) => {
@@ -54,6 +52,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         this.photoMaxKBSize = 0;
       }
     });
+    
     this.canCrtAlbum = this._authService.authSubject.getValue().canCreateAlbum();
     this.albumCreate = new Album();
   }
@@ -114,7 +113,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         button: that.elemUploadFile.nativeElement,
         autoUpload: false,
         request: {
-          endpoint: 'api/file',
+          endpoint: environment.PhotoFileAPIUrl,
           customHeaders: that.getcustomHeader()
         },
         validation: {
