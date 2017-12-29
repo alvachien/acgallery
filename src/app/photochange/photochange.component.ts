@@ -3,13 +3,9 @@ import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material';
 
-import { UIMode } from '../model/common';
-import { Photo } from '../model/photo';
-import { Album, SelectableAlbum } from '../model/album';
-import { AuthService } from '../services/auth.service';
-import { AlbumService } from '../services/album.service';
-import { PhotoService } from '../services/photo.service';
-import { UIStatusService } from '../services/uistatus.service';
+import { UIMode, LogLevel, Photo, Album, SelectableAlbum } from '../model';
+import { AuthService, AlbumService, PhotoService, UIStatusService } from '../services';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-photochange',
@@ -32,19 +28,31 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
     private _albumService: AlbumService,
     private _uistatusService: UIStatusService
   ) {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering constructor in PhotochangeComponent.');
+    }
+
     this.assignedAlbum = [];
     this.unassignedAlbum = [];
   }
 
   ngOnInit() {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering ngOnInit in PhotochangeComponent.');
+    }
+
     // Distinguish current mode
     this._activateRoute.url.subscribe(x => {
+      if (environment.LoggingLevel >= LogLevel.Debug) {
+        console.log('ACGallery [Debug]: Entering activateRoute subscribe of ngOnInit in PhotochangeComponent.');
+      }
+
       if (x instanceof Array && x.length > 0) {
-        if (x[0].path === "edit") {
-          this.currentMode = "Common.Edit"
+        if (x[0].path === 'edit') {
+          this.currentMode = 'Common.Edit';
           this.uiMode = UIMode.Change;
-        } else if (x[0].path === "display") {
-          this.currentMode = "Common.Display";
+        } else if (x[0].path === 'display') {
+          this.currentMode = 'Common.Display';
           this.uiMode = UIMode.Display;
         }
       }

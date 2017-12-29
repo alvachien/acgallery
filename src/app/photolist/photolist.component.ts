@@ -3,17 +3,10 @@ import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material';
 
-import { AuthService } from '../services/auth.service';
-import { PhotoService } from '../services/photo.service';
-import { AlbumService } from '../services/album.service';
-import { UIStatusService } from '../services/uistatus.service';
-
-import { Album, AlbumPhotoByAlbum } from '../model/album';
-import { Photo, UpdPhoto } from '../model/photo';
-import { LogLevel } from '../model/common';
+import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
+import { LogLevel, Album, AlbumPhotoByAlbum, Photo, UpdPhoto, UIPagination } from '../model';
 import { environment } from '../../environments/environment';
 import { MatSnackBar } from '@angular/material';
-import { UIPagination } from '../model/paginated';
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
 
@@ -36,14 +29,26 @@ export class PhotolistComponent implements OnInit {
     private _photoService: PhotoService,
     private _authService: AuthService,
     private _dialog: MatDialog) {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering constructor of PhotolistComponent');
+    }
+
     this.objUtil = new UIPagination(20, 5);
   }
 
   ngOnInit() {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering ngOnInit of PhotolistComponent');
+    }
+
     this.onPageClick(1);
   }
 
   onPhotoClick(idx: number): void {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering onPhotoClick of PhotolistComponent');
+    }
+
     if (this.photos.length <= 0) {
       return;
     }
@@ -51,7 +56,7 @@ export class PhotolistComponent implements OnInit {
     let items = [];
     for (let pht of this.photos) {
       items.push({
-        src: pht.fileUrl,
+        src: pht.fileInAPIUrl,
         w: pht.width,
         h: pht.height
       });
@@ -82,6 +87,10 @@ export class PhotolistComponent implements OnInit {
   }
 
   onViewPhotoEXIFDialog(photo: any): void {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering onViewPhotoEXIFDialog of PhotolistComponent');
+    }
+
     this._uistatusService.selPhotoInPhotoList = photo;
 
     let dialogRef = this._dialog.open(PhotoListPhotoEXIFDialog);
@@ -91,26 +100,46 @@ export class PhotolistComponent implements OnInit {
   }
 
   public onDisplayPhoto(photo: any): void {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering onDisplayPhoto of PhotolistComponent');
+    }
+
     this._uistatusService.selPhotoInPhotoList = photo;
     this._router.navigate(['/photo/display']);
   }
 
   public onChangePhoto(photo: any): void {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering onChangePhoto of PhotolistComponent');
+    }
+
     this._uistatusService.selPhotoInPhotoList = photo;
     this._router.navigate(['/photo/edit']);
   }
 
   onPagePreviousClick(): void {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering onPagePreviousClick of PhotolistComponent');
+    }
+
     if (this.objUtil.currentPage > 1) {
       this.onPageClick(this.objUtil.currentPage - 1);
     }
   }
 
   onPageNextClick(): void {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering onPageNextClick of PhotolistComponent');
+    }
+
     this.onPageClick(this.objUtil.currentPage + 1);
   }
 
   onPageClick(pageIdx: number): void {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering onPageClick of PhotolistComponent');
+    }
+
     if (this.objUtil.currentPage != pageIdx) {
       this.objUtil.currentPage = pageIdx;
 
@@ -144,6 +173,10 @@ export class PhotoListPhotoEXIFDialog {
 
   constructor(public _dialogRef: MatDialogRef<PhotoListPhotoEXIFDialog>,
     public _uistatus: UIStatusService) {
-    this.currentPhoto = this._uistatus.selPhotoInPhotoList;
+      if (environment.LoggingLevel >= LogLevel.Debug) {
+        console.log('ACGallery [Debug]: Entering constructor of PhotoListPhotoEXIFDialog');
+      }
+
+      this.currentPhoto = this._uistatus.selPhotoInPhotoList;
   }
 }
