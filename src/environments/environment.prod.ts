@@ -8,6 +8,7 @@ export const environment = {
   AlbumPhotoByAlbumAPIUrl: 'http://acgalleryapi.azurewebsites.net/api/albumphotobyalbum',
   AlbumPhotoByPhotoAPIUrl: 'http://acgalleryapi.azurewebsites.net/api/albumphotobyphoto',
   AlbumPhotoLinkUrl: 'http://acgalleryapi.azurewebsites.net/api/albumphotolink',
+  PublicPhotoInAPIBaseUrl: 'http://acgalleryapi.azurewebsites.net/updphoto',
 
   IDServerUrl: 'http://acidserver.azurewebsites.net/',
   AppLoginCallbackUrl: 'http://acgallery.azurewebsites.net/logincallback.html',

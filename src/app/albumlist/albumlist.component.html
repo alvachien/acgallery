@@ -1,22 +1,24 @@
 <div class="panel panel-info">
-    <div class="panel-heading ml-1">
-        <h3 class="panel-title">{{'Nav.Album' | translate}} - {{'Common.ListView' | translate}}</h3>
-    </div>
+  <div class="panel-heading ml-1">
+    <h3 class="panel-title">{{'Nav.Album' | translate}} - {{'Common.ListView' | translate}}</h3>
+  </div>
 
-    <div class="panel-body">
-        <div class="card-deck">
-            <div class="card p-3 m-3" *ngFor="let album of albumes">
-                <a role="button" (click)="onViewAlbumClick(album.Id)" title="{{album.Title}}">
-                    <img class="card-img" src="{{album.Thumbnail}}" />
-                </a>
-                <div class="card-block">
-                    <h4 class="card-title">{{album.Title}}</h4>
-                    <p class="card-text">{{album.Desp}}</p>
-                    <p class="card-text"><small class="text-muted">{{album.PhotoCount}} {{'Nav.Photos' | translate}}</small></p>
-                    <a role="button" class="card-link" (click)="onViewAlbumClick(album.Id)">{{'Album.ViewPhotos' | translate}}</a>
-                    <a role="button" class="card-link" (click)="onChangeAlbumMetadata(album.Id)">{{'Album.ChangeMetadata' | translate}}</a>
-                </div>
-            </div>
+  <div class="panel-body">
+    <div class="card-deck">
+      <div class="card p-3 m-3" *ngFor="let album of albumes">
+        <a role="button" (click)="onViewAlbumClick(album.Id)" title="{{album.Title}}">
+          <img class="card-img" src="{{album.ThumbnailInAPIUrl}}" />
+        </a>
+        <div class="card-block">
+          <h4 class="card-title">{{album.Title}}</h4>
+          <p class="card-text">{{album.Desp}}</p>
+          <p class="card-text">
+            <small class="text-muted">{{album.PhotoCount}} {{'Nav.Photos' | translate}}</small>
+          </p>
+          <a role="button" class="card-link" (click)="onViewAlbumClick(album.Id)">{{'Album.ViewPhotos' | translate}}</a>
+          <a role="button" class="card-link" (click)="onChangeAlbumMetadata(album.Id)">{{'Album.ChangeMetadata' | translate}}</a>
         </div>
+      </div>
     </div>
+  </div>
 </div>

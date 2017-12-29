@@ -132,21 +132,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
             }
 
             let insPhoto = new Photo();
-            insPhoto.photoId = responseJSON.photoId;
-            insPhoto.width = responseJSON.width;
-            insPhoto.height = responseJSON.height;
-            insPhoto.thumbwidth = responseJSON.thumbWidth;
-            insPhoto.thumbheight = responseJSON.thumbHeight;
-            insPhoto.fileUrl = responseJSON.fileUrl;
-            insPhoto.thumbnailFileUrl = responseJSON.thumbnailFileUrl;
-            insPhoto.fileFormat = responseJSON.fileFormat;
-            insPhoto.uploadedBy = responseJSON.uploadedBy;
-            insPhoto.uploadedTime = responseJSON.uploadedTime;
-            insPhoto.orgFileName = responseJSON.orgFileName;
-            if (!insPhoto.orgFileName) {
-              insPhoto.orgFileName = name;
-            }
-            insPhoto.exifTags = responseJSON.exifTags;
+            insPhoto.init(responseJSON);
 
             that.onSingleComplete(id, insPhoto);
           },
@@ -167,7 +153,10 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
               that._snackBar.open(errormsg, 'Close', {
                 duration: 2000,
               });
+            } else if(newstatus === 'upload_failed') {
+
             }
+            
             //SUBMITTED
             //QUEUED
             //UPLOADING
@@ -224,6 +213,9 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering ngOnDestroy of PhotoUploadComponent');
+    }
   }
 
   onSubmit($event): void {
@@ -408,16 +400,20 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private readImage(fid: number, file, nname, arPhotos: UpdPhoto[]) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering onSubmit of PhotoUploadComponent');
+      console.log('ACGallery [Debug]: Entering readImage of PhotoUploadComponent');
     }
 
-    var reader = new FileReader();
+    let reader = new FileReader();
     let that = this;
 
     reader.addEventListener("load", function () {
-      var image = new Image();
+      let image = new Image();
 
       image.addEventListener("load", function () {
+        if (environment.LoggingLevel >= LogLevel.Debug) {
+          console.log('ACGallery [Debug]: Entering event load of readImage in PhotoUploadComponent');
+        }
+         
         let updPhoto: UpdPhoto = new UpdPhoto();
         updPhoto.ID = +fid;
         updPhoto.OrgName = file.name;

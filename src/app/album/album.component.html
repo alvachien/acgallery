@@ -1,47 +1,46 @@
 <div *ngIf="objAlbum" class="container">
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>{{'Nav.Album' | translate}}: {{currentMode | translate}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <form #albumForm="ngForm">
-                <mat-form-field class="control-full-width">
-                    <input matInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="objAlbum.Title" name="title"
-                        #title="ngModel" [disabled]="!isFieldChangable()">
-                    <mat-hint align="end">{{objAlbum.Title && objAlbum.Title.length}} / 20</mat-hint>
-                </mat-form-field>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{'Nav.Album' | translate}}: {{currentMode | translate}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form #albumForm="ngForm">
+        <mat-form-field class="control-full-width">
+          <input matInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="objAlbum.Title" name="title"
+            #title="ngModel" [disabled]="!isFieldChangable()">
+          <mat-hint align="end">{{objAlbum.Title && objAlbum.Title.length}} / 20</mat-hint>
+        </mat-form-field>
 
-                <mat-form-field class="control-full-width">
-                    <input matInput placeholder="{{'Common.Description' | translate}}" maxlength="50" [(ngModel)]="objAlbum.Desp" name="albumdesp"
-                        #albumdesp="ngModel" [disabled]="!isFieldChangable()">
-                    <mat-hint align="end">{{objAlbum.Desp && objAlbum.Desp.length}} / 50</mat-hint>
-                </mat-form-field>
+        <mat-form-field class="control-full-width">
+          <input matInput placeholder="{{'Common.Description' | translate}}" maxlength="50" [(ngModel)]="objAlbum.Desp" name="albumdesp"
+            #albumdesp="ngModel" [disabled]="!isFieldChangable()">
+          <mat-hint align="end">{{objAlbum.Desp && objAlbum.Desp.length}} / 50</mat-hint>
+        </mat-form-field>
 
-                <mat-checkbox class="control-full-width" [(ngModel)]="objAlbum.IsPublic" name="ispubl"
-                    [disabled]="!isFieldChangable()">{{'Album.IsPublic' | translate}}</mat-checkbox>
+        <mat-checkbox class="control-full-width" [(ngModel)]="objAlbum.IsPublic" name="ispubl" [disabled]="!isFieldChangable()">{{'Album.IsPublic' | translate}}</mat-checkbox>
 
-                <mat-form-field class="control-full-width" *ngIf="needShowAccessCode()">
-                    <input matInput placeholder="{{'Album.AccessCode' | translate}}" maxlength="20" [(ngModel)]="objAlbum.AccessCode" name="accesscode"
-                        #accesscode="ngModel">
-                    <mat-hint align="end">{{objAlbum.AccessCode && objAlbum.AccessCode.length}} / 20</mat-hint>
-                </mat-form-field>
-            </form>
-        </mat-card-content>
-    </mat-card>
-    <hr />
+        <mat-form-field class="control-full-width" *ngIf="needShowAccessCode()">
+          <input matInput placeholder="{{'Album.AccessCode' | translate}}" maxlength="20" [(ngModel)]="objAlbum.AccessCode" name="accesscode"
+            #accesscode="ngModel">
+          <mat-hint align="end">{{objAlbum.AccessCode && objAlbum.AccessCode.length}} / 20</mat-hint>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <hr />
 
-    <div class="card-deck">
-        <div class="card p-3 m-3" *ngFor="let photo of photos; let idx = index">
-            <a (click)="onPhotoClick(idx)" title="{{photo.title}}">
-                <img class="card-img" src="{{photo.thumbnailFileUrl}}" alt="{{photo.updtime}}" />
-            </a>
-            <div class="card-block">
-                <h4 class="card-title">{{photo.title}}</h4>
-                <p class="card-text">{{photo.desp}}</p>
-                <a role="button" (click)="onDisplayPhotoAssign(photo)" class="card-link">{{'Common.Display' | translate}}</a>
-                <a role="button" (click)="onChangePhotoAssign(photo)" class="card-link">{{'Common.Change' | translate}}</a>
-                <a role="button" (click)="onViewPhotoEXIFDialog(photo)" class="card-link">EXIF</a>
-            </div>
-        </div>
+  <div class="card-deck">
+    <div class="card p-3 m-3" *ngFor="let photo of photos; let idx = index">
+      <a (click)="onPhotoClick(idx)" title="{{photo.title}}">
+        <img class="card-img" src="{{photo.thumbnailFileInAPIUrl}}" alt="{{photo.updtime}}" />
+      </a>
+      <div class="card-block">
+        <h4 class="card-title">{{photo.title}}</h4>
+        <p class="card-text">{{photo.desp}}</p>
+        <a role="button" (click)="onDisplayPhotoAssign(photo)" class="card-link">{{'Common.Display' | translate}}</a>
+        <a role="button" (click)="onChangePhotoAssign(photo)" class="card-link">{{'Common.Change' | translate}}</a>
+        <a role="button" (click)="onViewPhotoEXIFDialog(photo)" class="card-link">EXIF</a>
+      </div>
     </div>
+  </div>
 </div>

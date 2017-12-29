@@ -67,7 +67,7 @@ export class PhotolistComponent implements OnInit {
     }
 
     // define options (if needed)
-    var options = {
+    let options: any = {
       history: false,
       focus: false,
 
@@ -120,7 +120,12 @@ export class PhotolistComponent implements OnInit {
         this._zone.run(() => {
           this.photos = [];
           if (data && data.contentList && data.contentList instanceof Array) {
-            this.photos = data.contentList;
+            for(let ce of data.contentList){
+              let pi: Photo = new Photo();
+              pi.init(ce);
+              this.photos.push(pi);
+            }
+            //this.photos = data.contentList;
           }
         });
       }, error => {

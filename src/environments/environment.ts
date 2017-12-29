@@ -15,6 +15,8 @@ export const environment = {
   AlbumPhotoByAlbumAPIUrl: 'http://localhost:25325/api/albumphotobyalbum',
   AlbumPhotoByPhotoAPIUrl: 'http://localhost:25325/api/albumphotobyphoto',
   AlbumPhotoLinkUrl: 'http://localhost:25325/api/albumphotolink',
+  PublicPhotoInAPIBaseUrl: 'http://localhost:25325/updphoto',
+
   IDServerUrl: 'http://localhost:41016/',
   AppLoginCallbackUrl: 'http://localhost:1601/logincallback.html',
   AppLogoutCallbackUrl: 'http://localhost:1601/index.html',
