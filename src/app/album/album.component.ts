@@ -155,6 +155,8 @@ export class AlbumComponent implements OnInit {
   private readAlbum(): void {
     this._albumService.loadAlbum(this.routerID).subscribe(x => {
       this.objAlbum = new Album();
+      this.photos = [];
+
       this._zone.run(() => {
         this.objAlbum.init(x.id,
           x.title,
@@ -173,7 +175,12 @@ export class AlbumComponent implements OnInit {
           if (result) {
             this.objAlbum.AccessCode = result;
             this._photoService.loadAlbumPhoto(this.routerID, this.objAlbum.AccessCode).subscribe(x2 => {
-              this.photos = x2.contentList;
+              for(let ce of x2.contentList){
+                let pi: Photo = new Photo();
+                pi.init(ce);
+                this.photos.push(pi);
+              }
+              //this.photos = x2.contentList;
             }, error => {
               // Show error dialog
               this._snackBar.open("Error occurred: " + error);
@@ -183,7 +190,12 @@ export class AlbumComponent implements OnInit {
         });
       } else if (!this.objAlbum.AccessCode) {
         this._photoService.loadAlbumPhoto(this.routerID, this.objAlbum.AccessCode).subscribe(x2 => {
-          this.photos = x2.contentList;
+          for(let ce of x2.contentList){
+            let pi: Photo = new Photo();
+            pi.init(ce);
+            this.photos.push(pi);
+          }
+          //this.photos = x2.contentList;
         }, error => {
           // Show error dialog
           this._snackBar.open("Error occurred: " + error);

@@ -1,5 +1,5 @@
 import * as Common from './common';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 
 export class Album {
   public Id: number;

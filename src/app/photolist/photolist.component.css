@@ -1,9 +1,9 @@
 .acgallery-container {
-  width: 100%;
+  /* width: 100%; */
   float: left;
 }
 .acgallery-container img {
-  width: 100%;
+  /* width: 100%; */
   height: auto;
 }
 .acgallery-container figure {
@@ -14,4 +14,7 @@
 }
 .acgallery-container figcaption {
   display: none;
+}
+.card-img {
+  width: auto;
 }

@@ -1,3 +1,6 @@
 .control-full-width {
   width: 100%;
 }
+.card-img {
+  width: auto;
+}
