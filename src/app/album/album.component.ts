@@ -97,7 +97,7 @@ export class AlbumComponent implements OnInit {
     let items = [];
     for (let pht of this.photos) {
       items.push({
-        src: pht.fileUrl,
+        src: pht.fileInAPIUrl,
         w: pht.width,
         h: pht.height
       });

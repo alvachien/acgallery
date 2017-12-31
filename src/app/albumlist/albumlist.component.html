@@ -7,7 +7,7 @@
     <div class="card-deck">
       <div class="card p-3 m-3" *ngFor="let album of albumes">
         <a role="button" (click)="onViewAlbumClick(album.Id)" title="{{album.Title}}">
-          <img class="card-img" src="{{album.ThumbnailInAPIUrl}}" />
+          <img class="card-img" src="{{album.ThumbnailInAPIUrl}}" style="display: block; width: auto; height: auto;" />
         </a>
         <div class="card-block">
           <h4 class="card-title">{{album.Title}}</h4>

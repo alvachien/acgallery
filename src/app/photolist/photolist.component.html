@@ -21,7 +21,7 @@
     <div class="card-deck">
       <div class="card p-3 m-3" *ngFor="let photo of photos; let idx = index;">
         <a (click)="onPhotoClick(idx)" title="{{photo.title}}">
-          <img class="card-img" src="{{photo.thumbnailFileInAPIUrl}}" height="{{photo.thumbHeight}}" width="{{photo.thumbWidth}}" alt="{{photo.updtime}}" />
+          <img class="card-img" src="{{photo.thumbnailFileInAPIUrl}}" style="display: block; width: auto; height: auto;" alt="{{photo.updtime}}" />
         </a>
         <div class="card-block">
           <h4 class="card-title">{{photo.title}}</h4>

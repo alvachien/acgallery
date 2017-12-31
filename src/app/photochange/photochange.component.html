@@ -47,7 +47,7 @@
               <mat-checkbox [(ngModel)]="album.IsSelected" name="isuasel" [disabled]="!isFieldChangable()"></mat-checkbox>
             </td>
             <td>
-              <img src="{{album.ThumbnailInAPI}}" style="display: block; width: 200 !important;height: auto !important;" class="img-rounded pull-xs-left"
+              <img src="{{album.ThumbnailInAPIUrl}}" style="display: block; width: 200 !important;height: auto !important;" class="img-rounded pull-xs-left"
                 alt="...">
             </td>
             <td>{{album.Title}}</td>
@@ -86,7 +86,7 @@
               <mat-checkbox [(ngModel)]="album.IsSelected" name="isaasel" [disabled]="!isFieldChangable()"></mat-checkbox>
             </td>
             <td>
-              <img src="{{album.ThumbnailInAPI}}" style="display: block; width: 200 !important;height: auto !important;" class="img-rounded pull-xs-left"
+              <img src="{{album.ThumbnailInAPIUrl}}" style="display: block; width: 200 !important;height: auto !important;" class="img-rounded pull-xs-left"
                 alt="...">
             </td>
             <td>{{album.Title}}</td>
