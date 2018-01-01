@@ -47,7 +47,7 @@ export class Album {
     this.PhotoCount = photocnt;
 
     if (!this.Thumbnail) {
-      this.Thumbnail = '/assets/img/grey.jpg';
+      this.Thumbnail = 'grey.jpg';
     }
   }
 
