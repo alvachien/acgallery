@@ -15,3 +15,6 @@
 .acgallery-container figcaption {
   display: none;
 }
+.card-columns {
+  column-count: 4;
+}

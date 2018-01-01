@@ -62,7 +62,7 @@
     }
   },
   "defaults": {
-    "styleExt": "css",
+    "styleExt": "scss",
     "serve": {
         "port": 1601,
         "host": "localhost"
