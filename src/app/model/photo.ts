@@ -112,7 +112,7 @@ export class UpdPhoto {
   public IsValid: boolean;
   public ValidInfo: string;
   get Dimension(): string {
-    return this.Width.toString() + " X " + this.Height.toString();
+    return this.Width.toString() + ' X ' + this.Height.toString();
   }
 
   constructor() {

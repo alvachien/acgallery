@@ -1,5 +1,5 @@
 
-export interface SelectableObject<T> {    
+export interface SelectableObject<T> {
     isSelected: T;
 }
 
@@ -12,8 +12,8 @@ export enum LogLevel {
 }
 
 export class AppLang {
-    Value: string = "";
-    DisplayString: string = "";
+    Value = '';
+    DisplayString = '';
 }
 
 export enum UIMode {

@@ -24,7 +24,7 @@ export class Album {
   get ThumbnailInAPIUrl(): string {
     return environment.PublicPhotoInAPIBaseUrl + '/' + this.Thumbnail;
   }
-  
+
   init(id: number,
     title: string,
     desp: string,
@@ -52,7 +52,8 @@ export class Album {
   }
 
   initex(data: any) {
-    this.init(data.id, data.title, data.desp, data.thumnail, data.dateCreated, data.createdby, data.isPublic, data.accessCode, data.photocnt);
+    this.init(data.id, data.title, data.desp, data.thumnail, data.dateCreated, data.createdby, 
+      data.isPublic, data.accessCode, data.photocnt);
   }
 
   setPhotoID(photos: string[]) {
@@ -68,8 +69,7 @@ export class Album {
 
 export class SelectableAlbum
   extends Album
-  implements Common.SelectableObject<Boolean>
-{
+  implements Common.SelectableObject<Boolean> {
   public isSelected: boolean;
 }
 

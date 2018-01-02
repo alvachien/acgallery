@@ -81,10 +81,10 @@ export class UserAuthInfo {
   }
   public getUserUploadKBSize(): Array<number> {
     if (this.galleryPhotoUploadSize) {
-      let i = this.galleryPhotoUploadSize.indexOf('-');
-      if (i != -1) {
-        let minSize = +this.galleryPhotoUploadSize.substr(0, i - 1);
-        let maxSize = +this.galleryPhotoUploadSize.substr(i + 1);
+      const i = this.galleryPhotoUploadSize.indexOf('-');
+      if (i !== -1) {
+        const minSize = +this.galleryPhotoUploadSize.substr(0, i - 1);
+        const maxSize = +this.galleryPhotoUploadSize.substr(i + 1);
         return [minSize, maxSize];
       }
     }
@@ -93,11 +93,14 @@ export class UserAuthInfo {
   }
   private getObjectRights(strValue: string, usrName?: string): boolean {
     if (strValue) {
-      if (strValue === this.ForAll)
+      if (strValue === this.ForAll) {
         return true;
+      }
       if (strValue === this.OnlyOwner) {
-        if (usrName === this.userName)
+        if (usrName === this.userName) {
           return true;
+        }
+
         return false;
       }
     }
@@ -116,9 +119,10 @@ export class UserAuthInfo {
   public canUploadPhoto(): boolean {
     let brst = this.getObjectRights(this.galleryPhotoUpload);
     if (brst) {
-      let sizes = this.getUserUploadKBSize();
-      if (sizes[1] <= 0)
+      const sizes = this.getUserUploadKBSize();
+      if (sizes[1] <= 0) {
         brst = false;
+      }
     }
 
     return brst;
