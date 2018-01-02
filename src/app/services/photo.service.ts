@@ -105,4 +105,17 @@ export class PhotoService {
       withCredentials: true })
       .map(response => <any>response);
   }
+
+  public updatePhoto(pto: Photo): Observable<any> {
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+      .append('Accept', 'application/json')
+      .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+
+    const jdata: string = JSON && JSON.stringify(pto);
+    return this._http.put(environment.PhotoAPIUrl, jdata, { 
+      headers: headers,      
+      withCredentials: true })
+      .map(response => <any>response);    
+  }
 }

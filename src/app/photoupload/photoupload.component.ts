@@ -251,6 +251,9 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.doRealUpload();
       }, error => {
+        if (environment.LoggingLevel >= LogLevel.Error) {
+          console.error('ACGallery [Error]: Error occurs in createAlbum in PhotoUploadComponent');
+        }
       }, () => {
       });
     } else if (this.isAssginToExistingAlbum()) {
@@ -459,6 +462,8 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     // Show a dialog
     this._snackBar.open('All photos completed!', 'Close', {
       duration: 3000,
+    }).afterDismissed().subscribe(x => {
+      // Dismissed of snackBar
     });
   }
 }

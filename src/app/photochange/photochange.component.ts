@@ -1,7 +1,7 @@
 import { Component, NgZone, OnInit, ViewContainerRef, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 
 import { UIMode, LogLevel, Photo, Album, SelectableAlbum } from '../model';
 import { AuthService, AlbumService, PhotoService, UIStatusService } from '../services';
@@ -19,14 +19,14 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
   public unassignedAlbum: SelectableAlbum[];
   private uiMode: UIMode;
 
-  constructor(
-    private _router: Router,
+  constructor(private _router: Router,
     private _activateRoute: ActivatedRoute,
     private _zone: NgZone,
     private _authService: AuthService,
     private _photoService: PhotoService,
     private _albumService: AlbumService,
-    private _uistatusService: UIStatusService
+    private _uistatusService: UIStatusService,
+    private _snackBar: MatSnackBar
   ) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Entering constructor in PhotochangeComponent.');
@@ -138,6 +138,27 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
     this.onSwitchArray(this.assignedAlbum, this.unassignedAlbum);
   }
 
+  public onSubmit(): void {
+    if (!this.isFieldChangable()) {
+      return;
+    }
+
+    switch(this.uiMode) {
+      case UIMode.Create: {
+        this.onSaveCreation();
+      }
+      break;
+
+      case UIMode.Change: {
+        this.onSaveChange();
+      }
+      break;
+
+      default:
+      break;
+    }
+  }
+
   private onSwitchArray(ar1: SelectableAlbum[], ar2: SelectableAlbum[]) {
     const arpos: number[] = [];
     for (let i = 0; i < ar1.length; i ++) {
@@ -152,5 +173,23 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
       ar2.push(ar1[i]);
       ar1.splice(i);
     }
+  }
+
+  private onSaveCreation(): void {
+    // Will never happen
+  }
+
+  private onSaveChange(): void {
+    this._photoService.updatePhoto(this.currentPhoto).subscribe(x => {
+      // Just ensure the request has been sent
+      this._snackBar.open('Photo changed!', 'Close', {
+        duration: 3000,
+      }).afterDismissed().subscribe(y => {
+        // Jump to Photos page
+        this._router.navigate(['/photo']);            
+      });
+    }, error => {
+      console.error(error);
+    });
   }
 }

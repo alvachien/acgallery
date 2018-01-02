@@ -89,7 +89,8 @@
     "Female": "女",
     "LastLogin": "最近一次登陆",
     "SeqNo": "序号",
-    "RegisterDate": "注册日期"
+    "RegisterDate": "注册日期",
+    "UserDetail": "用户信息"
   },
   "Nav": {
     "Home": "主页",

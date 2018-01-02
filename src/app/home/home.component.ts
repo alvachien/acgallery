@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
   onLogin(): void {
@@ -43,7 +43,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  onUserDetail(): void {
-    
+  onUserDetail(): void {    
   }
 }

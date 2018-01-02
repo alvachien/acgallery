@@ -89,7 +89,8 @@
     "Female": "Female",
     "LastLogin": "Last Login",
     "SeqNo": "Seq. No",
-    "RegisterDate": "Register Date"
+    "RegisterDate": "Register Date",
+    "UserDetail": "User Detail"
   },
   "Nav": {
     "Home": "Home",
