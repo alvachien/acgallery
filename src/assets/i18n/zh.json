@@ -137,7 +137,7 @@
     "MarketingContent3": "本项目有对应的开源版本，并公布在Github上",
     "FeatureTitle1": "最新UI技术。",
     "FeatureSubTitle1": "一大堆的最新技术。",
-    "FeatureContent1": "以下技术被使用: ASP.NET Core 1.1, Angular 2, Material 2, BootStrap 4, 等等",
+    "FeatureContent1": "以下技术被使用: ASP.NET Core 2, Angular 5, Material 2, BootStrap 4, 等等",
     "FeatureTitle2": "云平台。",
     "FeatureSubTitle2": "为了云平台开发。",
     "FeatureContent2": "这是为了云平台开发的应用，并且成功地在Microsoft Azure和Alibaba Aliyun上部署",
