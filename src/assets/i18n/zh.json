@@ -120,7 +120,7 @@
   "Message": {
     "TitleIsMust": "标题是必填项",
     "WelcomeTitle": "本web app的创建目的是用于图片的搜集及其互联网维度的分享，也可以用作个人的印象资料存储。",
-    "WelcomeTech": "本web app使用了大量的最新（2016-2017）前后台技术: ASP.NET Core 1, Angular 2.0, TypeScript, BootStrap 4.0, Angular Material 2",
+    "WelcomeTech": "本web app使用了大量的最新（2016-2017）前后台技术: ASP.NET Core 2, Angular 5, TypeScript 2, BootStrap 4.0, Angular Material 2",
     "WelcomeTitle1": "登录以体验更佳",
     "WelcomeContent1": "登录后有机会解锁本web app提供的全部功能，包括上传照片，创建相册，分享相册等",
     "WelcomeTitle2": "用相册来组织照片",

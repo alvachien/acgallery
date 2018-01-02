@@ -120,7 +120,7 @@
   "Message": {
     "TitleIsMust": "Title is manadatory",
     "WelcomeTitle": "This is a simple web app for Photo gallery, for the interesting photos, albums and sharing through the websites.",
-    "WelcomeTech": "This web app uses tons of new knowledges: ASP.NET Core 1, Angular 2.0, TypeScript, BootStrap 4.0, Angular Material 2",
+    "WelcomeTech": "This web app uses tons of new knowledges: ASP.NET Core 2, Angular 5, TypeScript 2, BootStrap 4.0, Angular Material 2",
     "WelcomeTitle1": "Login to enpower",
     "WelcomeContent1": "Login to enpower the full power of the app provided, including uploading photos, and re-structure it with your wished way",
     "WelcomeTitle2": "Albums structure photos",

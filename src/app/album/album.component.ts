@@ -84,7 +84,7 @@ export class AlbumComponent implements OnInit {
   public isFieldChangable(): boolean {
     return this.uiMode === UIMode.Create || this.uiMode === UIMode.Change;
   }
-  
+
   public needShowAccessCode(): boolean {
     return this.uiMode === UIMode.Create || this.uiMode === UIMode.Change;
   }
@@ -94,8 +94,8 @@ export class AlbumComponent implements OnInit {
       return;
     }
 
-    let items = [];
-    for (let pht of this.photos) {
+    const items = [];
+    for (const pht of this.photos) {
       items.push({
         src: pht.fileInAPIUrl,
         w: pht.width,
@@ -113,7 +113,7 @@ export class AlbumComponent implements OnInit {
     }
 
     // define options (if needed)
-    let options = {
+    const options = {
       history: false,
       focus: false,
 
@@ -128,14 +128,14 @@ export class AlbumComponent implements OnInit {
   }
 
   private openAccessCodeDialog(): Observable<any> {
-    let dialogRef = this._dialog.open(AlbumAccessCodeDialog);
+    const dialogRef = this._dialog.open(AlbumAccessCodeDialog);
     return dialogRef.afterClosed();
   }
 
   private onViewPhotoEXIFDialog(selphoto: any): void {
     this._uistatus.selPhotoInAblum = selphoto;
 
-    let dialogRef = this._dialog.open(AlbumPhotoEXIFDialog);
+    const dialogRef = this._dialog.open(AlbumPhotoEXIFDialog);
     dialogRef.afterClosed().subscribe(result => {
       // Do nothing.
       this._uistatus.selPhotoInAblum = null;
@@ -169,36 +169,34 @@ export class AlbumComponent implements OnInit {
           x.photocnt);
       });
 
-      if (this.objAlbum.AccessCode && this.objAlbum.AccessCode === "1") {
+      if (this.objAlbum.AccessCode && this.objAlbum.AccessCode === '1') {
         // Show the dialog
         this.openAccessCodeDialog().subscribe(result => {
           if (result) {
             this.objAlbum.AccessCode = result;
             this._photoService.loadAlbumPhoto(this.routerID, this.objAlbum.AccessCode).subscribe(x2 => {
-              for(let ce of x2.contentList){
-                let pi: Photo = new Photo();
+              for (const ce of x2.contentList) {
+                const pi: Photo = new Photo();
                 pi.init(ce);
                 this.photos.push(pi);
               }
-              //this.photos = x2.contentList;
             }, error => {
               // Show error dialog
-              this._snackBar.open("Error occurred: " + error);
+              this._snackBar.open('Error occurred: ' + error);
             }, () => {
             });
           }
         });
       } else if (!this.objAlbum.AccessCode) {
         this._photoService.loadAlbumPhoto(this.routerID, this.objAlbum.AccessCode).subscribe(x2 => {
-          for(let ce of x2.contentList){
-            let pi: Photo = new Photo();
+          for (const ce of x2.contentList){
+            const pi: Photo = new Photo();
             pi.init(ce);
             this.photos.push(pi);
           }
-          //this.photos = x2.contentList;
         }, error => {
           // Show error dialog
-          this._snackBar.open("Error occurred: " + error);
+          this._snackBar.open('Error occurred: ' + error);
         }, () => {
         });
       }

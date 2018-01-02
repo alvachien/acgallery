@@ -35,8 +35,8 @@ export class AlbumlistComponent implements OnInit {
     this._albumService.loadAlbums().subscribe(x => {
       this._zone.run(() => {
         this.albumes = [];
-        for (let alb of x.contentList) {
-          let album = new Album();
+        for (const alb of x.contentList) {
+          const album = new Album();
           album.init(alb.id,
             alb.title,
             alb.desp,

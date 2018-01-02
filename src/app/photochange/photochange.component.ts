@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit, ViewContainerRef, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material';
 
@@ -68,14 +68,14 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
         return;
       }
 
-      let s1 = this._albumService.loadAlbums();
-      let s2 = this._albumService.loadAlbumContainsPhoto(this.currentPhoto.photoId);
-      let allAlbum: any[] = [];
+      const s1 = this._albumService.loadAlbums();
+      const s2 = this._albumService.loadAlbumContainsPhoto(this.currentPhoto.photoId);
+      const allAlbum: any[] = [];
 
-      Observable.forkJoin([s1, s2]).subscribe(x => {
-        if (x[0]) {
-          for (let alb of x[0].contentList) {
-            let album = new SelectableAlbum();
+      Observable.forkJoin([s1, s2]).subscribe(y => {
+        if (y[0]) {
+          for (const alb of y[0].contentList) {
+            const album = new SelectableAlbum();
             album.init(alb.id,
               alb.title,
               alb.desp,
@@ -90,11 +90,11 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
           }
         }
 
-        if (x[1] ) {
-          for (let alb of allAlbum) {
-            let bassign: boolean = false;
-            for (let lk of x[1].contentList) {
-              let alb2: SelectableAlbum = new SelectableAlbum();
+        if (y[1]) {
+          for (const alb of allAlbum) {
+            let bassign = false;
+            for (const lk of y[1].contentList) {
+              const alb2: SelectableAlbum = new SelectableAlbum();
               alb2.initex(lk);
 
               if (+alb.Id === +alb2.Id) {
@@ -107,7 +107,7 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
             }
           }
         } else {
-          for (let alb of allAlbum) {
+          for (const alb of allAlbum) {
             this.unassignedAlbum.push(alb);
           }
         }
@@ -134,13 +134,13 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
     this.onSwitchArray(this.unassignedAlbum, this.assignedAlbum);
   }
 
-  public onRemoveAssignedAlbum() : void {
+  public onRemoveAssignedAlbum(): void {
     this.onSwitchArray(this.assignedAlbum, this.unassignedAlbum);
   }
 
   private onSwitchArray(ar1: SelectableAlbum[], ar2: SelectableAlbum[]) {
-    let arpos: number[] = [];
-    for(let i = 0; i < ar1.length; i ++) {
+    const arpos: number[] = [];
+    for (let i = 0; i < ar1.length; i ++) {
       if (ar1[i].isSelected) {
         arpos.push(i);
       }
@@ -148,9 +148,9 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
 
     arpos.sort((a, b) => { return b - a; });
 
-    for(let i of arpos) {
+    for (const i of arpos) {
       ar2.push(ar1[i]);
       ar1.splice(i);
-    }   
+    }
   }
 }

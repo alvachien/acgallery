@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   public isLoggedIn: boolean;
   public titleLogin: string;
   public arLangs: Array<AppLang>;
-  public curLang: string = "";
+  public curLang = '';
   @ViewChild('pswp') elemPSWP;
 
   constructor(private _translateService: TranslateService,
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     private _zone: NgZone) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
     }
-    
+
     this.initLang();
 
     // Register the Auth service
@@ -43,29 +43,29 @@ export class AppComponent implements OnInit {
     });
   }
 
-  ngOnInit() : void {
+  ngOnInit(): void {
     if (this.elemPSWP) {
       this._uistatusService.elemPSWP = this.elemPSWP.nativeElement;
     }
   }
 
   // Handlers
-  onLogin() : void {
+  onLogin(): void {
     this._authService.doLogin();
   }
-  
-  onLogout() : void {
+
+  onLogout(): void {
     this._authService.doLogout();
-  } 
+  }
 
   onCurLanguageChanged(): void {
     if (this.curLang !== this._translateService.currentLang) {
       this._translateService.setDefaultLang(this.curLang);
     }
-  } 
+  }
 
   // Implemented method
-  initLang() : void {
+  initLang(): void {
     this.arLangs = new Array<AppLang>();
     let lo: AppLang = new AppLang();
     lo.Value = 'en';
@@ -75,7 +75,7 @@ export class AppComponent implements OnInit {
     lo.Value = 'zh';
     lo.DisplayString = 'Language.SimpChinese';
     this.arLangs.push(lo);
-    this.curLang = 'en'; // Default language 
+    this.curLang = 'en'; // Default language
 
     this._translateService.addLangs(['en', 'zh']);
     this._translateService.setDefaultLang(this.curLang);
