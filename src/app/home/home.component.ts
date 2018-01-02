@@ -10,12 +10,14 @@ import { LogLevel } from '../model';
 })
 export class HomeComponent implements OnInit {
   public btnLoginTxt = '';
+  private _isLogin: boolean = false;
 
   constructor(private _authService: AuthService,
     private _zone: NgZone) {
     this._authService.authContent.subscribe(x => {
       this._zone.run(() => {
-        if (x.isAuthorized) {
+        this._isLogin = x.isAuthorized;
+        if (x.isAuthorized) {          
           this.btnLoginTxt = 'Login.UserDetail';
         } else {
           this.btnLoginTxt = 'Login.Login';
@@ -31,5 +33,17 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  onLogin(): void {
+    if (this._isLogin) {
+      this.onUserDetail();
+    } else {
+      this._authService.doLogin();
+    }
+  }
+
+  onUserDetail(): void {
+    
   }
 }

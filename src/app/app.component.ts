@@ -2,8 +2,7 @@ import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LogLevel, AppLang } from './model/common';
 import { environment } from '../environments/environment';
-import { AuthService } from './services/auth.service';
-import { UIStatusService } from './services/uistatus.service';
+import { AuthService, AlbumService, UIStatusService } from './services';
 
 @Component({
   selector: 'acgallery-root',
@@ -20,6 +19,7 @@ export class AppComponent implements OnInit {
   constructor(private _translateService: TranslateService,
     private _authService: AuthService,
     private _uistatusService: UIStatusService,
+    private _albumService: AlbumService,
     private _zone: NgZone) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
     }
@@ -41,12 +41,17 @@ export class AppComponent implements OnInit {
     }, () => {
       // Completed
     });
+
+    // Try to wakeup the WebAPI
+    this._albumService.loadAlbums().subscribe(x => {
+      // Do nothing here!!!
+    });
   }
 
   ngOnInit(): void {
     if (this.elemPSWP) {
       this._uistatusService.elemPSWP = this.elemPSWP.nativeElement;
-    }
+    }    
   }
 
   // Handlers
@@ -62,6 +67,10 @@ export class AppComponent implements OnInit {
     if (this.curLang !== this._translateService.currentLang) {
       this._translateService.setDefaultLang(this.curLang);
     }
+  }
+
+  onUserDetail(): void {
+    
   }
 
   // Implemented method
