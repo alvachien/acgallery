@@ -9,13 +9,14 @@ export const environment = {
   DebugLogging: true,
   LoggingLevel: 4, // Debug
 
-  AlbumAPIUrl: 'http://localhost:25325/api/album',  
+  AlbumAPIUrl: 'http://localhost:25325/api/album',
   PhotoAPIUrl: 'http://localhost:25325/api/photo',
   PhotoFileAPIUrl: 'http://localhost:25325/api/photofile',
   AlbumPhotoByAlbumAPIUrl: 'http://localhost:25325/api/albumphotobyalbum',
   AlbumPhotoByPhotoAPIUrl: 'http://localhost:25325/api/albumphotobyphoto',
   AlbumPhotoLinkUrl: 'http://localhost:25325/api/albumphotolink',
   PublicPhotoInAPIBaseUrl: 'http://localhost:25325/updphoto',
+  WakeupAPIUrl: 'http://localhost:25325/api/wakeup',
 
   IDServerUrl: 'http://localhost:41016/',
   AppLoginCallbackUrl: 'http://localhost:1601/logincallback.html',

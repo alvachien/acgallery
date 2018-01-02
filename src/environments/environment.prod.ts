@@ -9,6 +9,7 @@ export const environment = {
   AlbumPhotoByPhotoAPIUrl: 'http://118.178.58.187:5310/api/albumphotobyphoto',
   AlbumPhotoLinkUrl: 'http://118.178.58.187:5310/api/albumphotolink',
   PublicPhotoInAPIBaseUrl: 'http://118.178.58.187:5310/updphoto',
+  WakeupAPIUrl: 'http://118.178.58.187:5310/api/wakeup',
 
   IDServerUrl: 'http://118.178.58.187:5100/',
   AppLoginCallbackUrl: 'http://118.178.58.187:5210/logincallback.html',
@@ -27,6 +28,7 @@ export const environment = {
 //   AlbumPhotoByPhotoAPIUrl: 'http://acgalleryapi.azurewebsites.net/api/albumphotobyphoto',
 //   AlbumPhotoLinkUrl: 'http://acgalleryapi.azurewebsites.net/api/albumphotolink',
 //   PublicPhotoInAPIBaseUrl: 'http://acgalleryapi.azurewebsites.net/updphoto',
+//   WakeupAPIUrl: 'http://acgalleryapi.azurewebsites.net/api/wakeup',
 
 //   IDServerUrl: 'http://acidserver.azurewebsites.net/',
 //   AppLoginCallbackUrl: 'http://acgallery.azurewebsites.net/logincallback.html',

@@ -1,8 +1,9 @@
 import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { HttpParams, HttpClient, HttpHeaders, HttpResponse, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { LogLevel, AppLang } from './model/common';
 import { environment } from '../environments/environment';
-import { AuthService, AlbumService, UIStatusService } from './services';
+import { AuthService, UIStatusService } from './services';
 
 @Component({
   selector: 'acgallery-root',
@@ -19,12 +20,22 @@ export class AppComponent implements OnInit {
   constructor(private _translateService: TranslateService,
     private _authService: AuthService,
     private _uistatusService: UIStatusService,
-    private _albumService: AlbumService,
+    private _http: HttpClient,
     private _zone: NgZone) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Enter constructor of AppComponent');
     }
 
     this.initLang();
+
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+      .append('Accept', 'application/json');
+
+    this._http.get(environment.WakeupAPIUrl, { headers: headers })
+      .subscribe(x => {
+        // Do nothing, just wakeup the API.
+      });
 
     // Register the Auth service
     this._authService.authContent.subscribe(x => {
@@ -40,11 +51,6 @@ export class AppComponent implements OnInit {
       }
     }, () => {
       // Completed
-    });
-
-    // Try to wakeup the WebAPI
-    this._albumService.loadAlbums().subscribe(x => {
-      // Do nothing here!!!
     });
   }
 
@@ -70,7 +76,7 @@ export class AppComponent implements OnInit {
   }
 
   onUserDetail(): void {
-    
+    // Do nothing
   }
 
   // Implemented method
