@@ -20,7 +20,7 @@ export class PhotoService {
       .append('Accept', 'application/json')
       .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
 
-    var data = JSON && JSON.stringify(photo);
+    const data = JSON && JSON.stringify(photo);
 
     return this._http.put(environment.PhotoAPIUrl, data, { headers: headers, withCredentials: true })
       .map(response => <any>response);
@@ -32,18 +32,18 @@ export class PhotoService {
       .append('Accept', 'application/json')
       .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
 
-    var data = JSON && JSON.stringify(fileRecord);
+    const data = JSON && JSON.stringify(fileRecord);
 
     return this._http.post(environment.PhotoAPIUrl, data, { headers: headers, withCredentials: true })
       .map(response => <any>response);
   }
 
   public uploadFile(params: string[], files: File[]) {
-    let formData: FormData = new FormData(),
+    const formData: FormData = new FormData(),
       xhr: XMLHttpRequest = new XMLHttpRequest();
 
     for (let i = 0; i < files.length; i++) {
-      formData.append("uploads[]", files[i], files[i].name);
+      formData.append('uploads[]', files[i], files[i].name);
     }
 
     xhr.onreadystatechange = () => {
@@ -75,8 +75,10 @@ export class PhotoService {
   public loadPhotos(paramString?: string): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
-      .append('Accept', 'application/json')
-      .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+      .append('Accept', 'application/json');
+    if (this._authService.authSubject.getValue().isAuthorized) {
+      headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+    }
 
     let apistring = environment.PhotoAPIUrl;
     if (paramString) {
@@ -90,8 +92,10 @@ export class PhotoService {
   public loadAlbumPhoto(albumid: string | number, accesscode?: string): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
-      .append('Accept', 'application/json')
-      .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+      .append('Accept', 'application/json');
+    if (this._authService.authSubject.getValue().isAuthorized) {
+      headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+    }
 
     let params: HttpParams = new HttpParams();
     params = params.append('albumid', albumid.toString());
@@ -113,9 +117,9 @@ export class PhotoService {
       .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
 
     const jdata: string = JSON && JSON.stringify(pto);
-    return this._http.put(environment.PhotoAPIUrl, jdata, { 
-      headers: headers,      
+    return this._http.put(environment.PhotoAPIUrl, jdata, {
+      headers: headers,
       withCredentials: true })
-      .map(response => <any>response);    
+      .map(response => <any>response);
   }
 }

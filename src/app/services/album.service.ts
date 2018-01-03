@@ -20,7 +20,7 @@ export class AlbumService {
       .append('Accept', 'application/json')
       .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
 
-    let data = JSON && JSON.stringify(album);
+    const data = JSON && JSON.stringify(album);
 
     return this._http.post(environment.AlbumAPIUrl, data, { headers: headers, withCredentials: true })
       .map(response => <any>response);
@@ -32,7 +32,7 @@ export class AlbumService {
       .append('Accept', 'application/json')
       .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
 
-    let data = JSON && JSON.stringify(link);
+    const data = JSON && JSON.stringify(link);
 
     return this._http.post(environment.AlbumPhotoLinkUrl, data, { headers: headers, withCredentials: true })
       .map(response => <any>response);
@@ -44,7 +44,7 @@ export class AlbumService {
       .append('Accept', 'application/json')
       .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
 
-    let data = JSON && JSON.stringify(apba);
+    const data = JSON && JSON.stringify(apba);
 
     return this._http.post(environment.AlbumPhotoByAlbumAPIUrl, data, { headers: headers, withCredentials: true });
   }
@@ -55,7 +55,7 @@ export class AlbumService {
       .append('Accept', 'application/json')
       .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
 
-    let data = JSON && JSON.stringify(apbp);
+    const data = JSON && JSON.stringify(apbp);
 
     return this._http.post(environment.AlbumPhotoByPhotoAPIUrl, data, { headers: headers, withCredentials: true });
   }
@@ -66,7 +66,7 @@ export class AlbumService {
       .append('Accept', 'application/json')
       .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
 
-    let data = JSON && JSON.stringify(album);
+    const data = JSON && JSON.stringify(album);
 
     return this._http.put(environment.AlbumAPIUrl, data, { headers: headers, withCredentials: true })
       .map(response => <any>response);
@@ -75,8 +75,10 @@ export class AlbumService {
   public loadAlbums() {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
-      .append('Accept', 'application/json')
-      .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+      .append('Accept', 'application/json');
+    if (this._authService.authSubject.getValue().isAuthorized) {
+      headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+    }
 
     return this._http.get(environment.AlbumAPIUrl, { headers: headers, withCredentials: true })
       .map(response => <any>response);
@@ -85,8 +87,10 @@ export class AlbumService {
   public loadAlbum(id: number | string) {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
-      .append('Accept', 'application/json')
-      .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+      .append('Accept', 'application/json');
+    if (this._authService.authSubject.getValue().isAuthorized) {
+      headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+    }
 
     return this._http.get(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers, withCredentials: true })
       .map(response => <any>response);
@@ -101,10 +105,10 @@ export class AlbumService {
     let params: HttpParams = new HttpParams();
     params = params.append('photoid', photoid);
 
-    return this._http.get(environment.AlbumAPIUrl, { 
-      headers: headers, 
+    return this._http.get(environment.AlbumAPIUrl, {
+      headers: headers,
       params: params,
-      withCredentials: true 
+      withCredentials: true
     })
     .map(response => <any>response);
   }
