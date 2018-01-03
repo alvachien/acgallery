@@ -71,41 +71,48 @@ export class PhotoService {
   }
 
   public loadPhotos(paramString?: string): Observable<any> {
-    let headers = new HttpHeaders();
-    headers = headers.append('Content-Type', 'application/json')
-      .append('Accept', 'application/json');
-    if (this._authService.authSubject.getValue().isAuthorized) {
-      headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
-    }
-
     let apistring = environment.PhotoAPIUrl;
     if (paramString) {
       apistring += paramString;
     }
 
-    return this._http.get(apistring, { headers: headers, withCredentials: true })
-      .map(response => <any>response);
-  }
-
-  public loadAlbumPhoto(albumid: string | number, accesscode?: string): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
       .append('Accept', 'application/json');
     if (this._authService.authSubject.getValue().isAuthorized) {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+      return this._http.get(apistring, { headers: headers, withCredentials: true })
+        .map(response => <any>response);
     }
 
+    return this._http.get(apistring, { headers: headers })
+      .map(response => <any>response);
+  }
+
+  public loadAlbumPhoto(albumid: string | number, accesscode?: string): Observable<any> {
     let params: HttpParams = new HttpParams();
     params = params.append('albumid', albumid.toString());
     if (accesscode) {
       params = params.append('accesscode', accesscode);
     }
 
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+      .append('Accept', 'application/json');
+    if (this._authService.authSubject.getValue().isAuthorized) {
+      headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+      return this._http.get(environment.PhotoAPIUrl, {
+        headers: headers,
+        params: params,
+        withCredentials: true })
+        .map(response => <any>response);
+    }
+
     return this._http.get(environment.PhotoAPIUrl, {
       headers: headers,
       params: params,
-      withCredentials: true })
-      .map(response => <any>response);
+      withCredentials: false
+     }).map(response => <any>response);
   }
 
   public updatePhoto(pto: Photo): Observable<any> {

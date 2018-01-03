@@ -183,7 +183,7 @@ export class AlbumComponent implements OnInit {
         });
       } else if (!this.objAlbum.AccessCode) {
         this._photoService.loadAlbumPhoto(this.routerID, this.objAlbum.AccessCode).subscribe(x2 => {
-          for (const ce of x2.contentList){
+          for (const ce of x2.contentList) {
             const pi: Photo = new Photo();
             pi.init(ce);
             this.photos.push(pi);

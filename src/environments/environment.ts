@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  
+
   DebugLogging: true,
   LoggingLevel: 4, // Debug
 

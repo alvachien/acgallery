@@ -76,9 +76,11 @@ export class AlbumService {
       .append('Accept', 'application/json');
     if (this._authService.authSubject.getValue().isAuthorized) {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+      return this._http.get(environment.AlbumAPIUrl, { headers: headers, withCredentials: true })
+        .map(response => <any>response);
     }
 
-    return this._http.get(environment.AlbumAPIUrl, { headers: headers, withCredentials: true })
+    return this._http.get(environment.AlbumAPIUrl, { headers: headers, withCredentials: false })
       .map(response => <any>response);
   }
 
@@ -88,9 +90,11 @@ export class AlbumService {
       .append('Accept', 'application/json');
     if (this._authService.authSubject.getValue().isAuthorized) {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+      return this._http.get(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers, withCredentials: true })
+        .map(response => <any>response);
     }
 
-    return this._http.get(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers, withCredentials: true })
+    return this._http.get(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers, withCredentials: false })
       .map(response => <any>response);
   }
 
