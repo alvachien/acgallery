@@ -1,9 +1,7 @@
 import { environment } from '../../environments/environment';
 import { Injectable, EventEmitter } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import { Album, AlbumPhotoLink } from '../model/album';
-import { Photo } from '../model/photo';
+import { Subject, Observable } from 'rxjs/Rx';
+import { Album, Photo, AlbumPhotoLink } from '../model';
 import { AuthService } from './auth.service';
 import { HttpParams, HttpClient, HttpHeaders, HttpResponse, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 
@@ -103,7 +101,7 @@ export class PhotoService {
       params = params.append('accesscode', accesscode);
     }
 
-    return this._http.get(environment.PhotoAPIUrl, { 
+    return this._http.get(environment.PhotoAPIUrl, {
       headers: headers,
       params: params,
       withCredentials: true })

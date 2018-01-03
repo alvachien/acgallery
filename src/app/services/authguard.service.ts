@@ -34,7 +34,7 @@ export class AuthGuard implements CanActivate {
 
     // For ACGallery: we cannot store the attempted URL because the whole page will be reloaded.
     // Store the attempted URL for redirecting
-    //this.authService.redirectUrl = url;
+    // this.authService.redirectUrl = url;
 
     // Navigate to the login page with extras
     if (environment.LoggingLevel >= LogLevel.Debug) {

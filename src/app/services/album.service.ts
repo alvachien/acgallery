@@ -1,10 +1,8 @@
 import { environment } from '../../environments/environment';
 import { Injectable, EventEmitter } from '@angular/core';
-import { Album, AlbumPhotoLink, AlbumPhotoByAlbum, AlbumPhotoByPhoto } from '../model/album';
-import { Photo } from '../model/photo';
+import { Album, Photo, AlbumPhotoLink, AlbumPhotoByAlbum, AlbumPhotoByPhoto } from '../model';
 import { AuthService } from './auth.service';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject, Observable } from 'rxjs/Rx';
 import { HttpParams, HttpClient, HttpHeaders, HttpResponse, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
@@ -72,7 +70,7 @@ export class AlbumService {
       .map(response => <any>response);
   }
 
-  public loadAlbums() {
+  public loadAlbums(): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
       .append('Accept', 'application/json');
@@ -84,7 +82,7 @@ export class AlbumService {
       .map(response => <any>response);
   }
 
-  public loadAlbum(id: number | string) {
+  public loadAlbum(id: number | string): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
       .append('Accept', 'application/json');

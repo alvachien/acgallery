@@ -6,6 +6,6 @@ export class UIStatusService {
   public elemPSWP: any;
   public selPhotoInAblum: any;
   public selPhotoInPhotoList: any;
-  
+
   constructor() { }
 }

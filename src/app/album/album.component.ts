@@ -2,17 +2,11 @@ import {
   Component, OnInit, OnDestroy, AfterViewInit, NgZone,
   EventEmitter, Input, Output, ViewContainerRef
 } from '@angular/core';
-import { UIMode, LogLevel } from '../model/common';
-import { Album } from '../model/album';
-import { Photo } from '../model/photo';
-import { AuthService } from '../services/auth.service';
+import { UIMode, LogLevel, Album, Photo } from '../model';
+import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { PhotoService } from '../services/photo.service';
-import { AlbumService } from '../services/album.service';
-import { UIStatusService } from '../services/uistatus.service';
+import { Observable, Subject } from 'rxjs/Rx';
 import { MatDialog, MatDialogRef, MatDialogConfig, MatSnackBar } from '@angular/material';
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
