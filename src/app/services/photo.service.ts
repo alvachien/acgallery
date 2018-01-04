@@ -89,11 +89,22 @@ export class PhotoService {
       .map(response => <any>response);
   }
 
-  public loadAlbumPhoto(albumid: string | number, accesscode?: string): Observable<any> {
+  /**
+   * Load photos for specified album
+   * @param albumid ID of album
+   * @param accesscode Access code
+   * @param pageparams Params for pagination
+   */
+  public loadAlbumPhoto(albumid: string | number, accesscode?: string, pageparams?: Map<string, number>): Observable<any> {
     let params: HttpParams = new HttpParams();
     params = params.append('albumid', albumid.toString());
     if (accesscode) {
       params = params.append('accesscode', accesscode);
+    }
+    if (pageparams) {
+      pageparams.forEach((value, key) => {
+        params = params.append(key, value.toString());
+      });
     }
 
     let headers = new HttpHeaders();
@@ -109,12 +120,16 @@ export class PhotoService {
     }
 
     return this._http.get(environment.PhotoAPIUrl, {
-      headers: headers,
-      params: params,
-      withCredentials: false
-     }).map(response => <any>response);
+        headers: headers,
+        params: params,
+        withCredentials: false
+      }).map(response => <any>response);
   }
 
+  /**
+   * Update the photo's info
+   * @param pto Specified photo
+   */
   public updatePhoto(pto: Photo): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')

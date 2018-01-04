@@ -12,6 +12,10 @@ export class AlbumService {
     private _authService: AuthService) {
   }
 
+  /**
+   * Create an album
+   * @param album Album to be created
+   */
   public createAlbum(album: Album): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
@@ -58,6 +62,10 @@ export class AlbumService {
     return this._http.post(environment.AlbumPhotoByPhotoAPIUrl, data, { headers: headers, withCredentials: true });
   }
 
+  /**
+   * Update specified album's metadata
+   * @param album Album to be updated
+   */
   public updateMetadata(album: Album): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
@@ -70,6 +78,9 @@ export class AlbumService {
       .map(response => <any>response);
   }
 
+  /**
+   * Load all albums which current user can see.
+   */
   public loadAlbums(): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
@@ -84,6 +95,10 @@ export class AlbumService {
       .map(response => <any>response);
   }
 
+  /**
+   * Load specified Album ID
+   * @param id ID of the specified album
+   */
   public loadAlbum(id: number | string): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
@@ -98,6 +113,10 @@ export class AlbumService {
       .map(response => <any>response);
   }
 
+  /**
+   * Load albums which contains specified photo
+   * @param photoid ID of Photo
+   */
   public loadAlbumContainsPhoto(photoid: string): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')

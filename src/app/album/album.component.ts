@@ -2,12 +2,13 @@ import {
   Component, OnInit, OnDestroy, AfterViewInit, NgZone,
   EventEmitter, Input, Output, ViewContainerRef
 } from '@angular/core';
-import { UIMode, LogLevel, Album, Photo } from '../model';
+import { UIMode, LogLevel, Album, Photo, UIPagination } from '../model';
 import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { Observable, Subject } from 'rxjs/Rx';
 import { MatDialog, MatDialogRef, MatDialogConfig, MatSnackBar } from '@angular/material';
+import { HttpErrorResponse } from '@angular/common/http/';
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
 
@@ -20,6 +21,7 @@ export class AlbumComponent implements OnInit {
   public objAlbum: Album = null;
   public photos: Photo[] = [];
   public selectedPhoto: Photo;
+  public objUtil: UIPagination;
 
   private uiMode: UIMode = UIMode.Display;
   private currentMode: string;
@@ -38,6 +40,7 @@ export class AlbumComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _dialog: MatDialog) {
     this.objAlbum = new Album();
+    this.objUtil = new UIPagination(20, 5);
   }
 
   ngOnInit() {
@@ -146,6 +149,51 @@ export class AlbumComponent implements OnInit {
     this._router.navigate(['/photo/edit']);
   }
 
+  onPagePreviousClick(): void {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering onPagePreviousClick of AlbumComponent');
+    }
+
+    if (this.objUtil.currentPage > 1) {
+      this.onPageClick(this.objUtil.currentPage - 1);
+    }
+  }
+
+  onPageNextClick(): void {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering onPageNextClick of AlbumComponent');
+    }
+
+    this.onPageClick(this.objUtil.currentPage + 1);
+  }
+
+  onPageClick(pageIdx: number): void {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering onPageClick of AlbumComponent');
+    }
+
+    if (this.objUtil.currentPage !== pageIdx) {
+      this.objUtil.currentPage = pageIdx;
+      this.photos = [];
+
+      const params: Map<string, number> = this.objUtil.nextURLParameters;
+      this._photoService.loadAlbumPhoto(this.routerID, this.objAlbum.AccessCode, params).subscribe(data => {
+        this.objUtil.totalCount = data.totalCount;
+        this._zone.run(() => {
+          for (const ce of data.contentList) {
+            const pi: Photo = new Photo();
+            pi.init(ce);
+            this.photos.push(pi);
+          }
+        });
+      }, error => {
+        // Show error dialog
+        this._snackBar.open('Error occurred: ' + error);
+      }, () => {
+      });
+    }
+  }
+
   private readAlbum(): void {
     this._albumService.loadAlbum(this.routerID).subscribe(x => {
       this.objAlbum = new Album();
@@ -168,33 +216,15 @@ export class AlbumComponent implements OnInit {
         this.openAccessCodeDialog().subscribe(result => {
           if (result) {
             this.objAlbum.AccessCode = result;
-            this._photoService.loadAlbumPhoto(this.routerID, this.objAlbum.AccessCode).subscribe(x2 => {
-              for (const ce of x2.contentList) {
-                const pi: Photo = new Photo();
-                pi.init(ce);
-                this.photos.push(pi);
-              }
-            }, error => {
-              // Show error dialog
-              this._snackBar.open('Error occurred: ' + error);
-            }, () => {
-            });
+            this.onPageClick(1);
           }
         });
       } else if (!this.objAlbum.AccessCode) {
-        this._photoService.loadAlbumPhoto(this.routerID, this.objAlbum.AccessCode).subscribe(x2 => {
-          for (const ce of x2.contentList) {
-            const pi: Photo = new Photo();
-            pi.init(ce);
-            this.photos.push(pi);
-          }
-        }, error => {
-          // Show error dialog
-          this._snackBar.open('Error occurred: ' + error);
-        }, () => {
-        });
+        this.onPageClick(1);
       }
-    }, error => {
+    }, (error: HttpErrorResponse) => {
+      // Show error info
+      this._snackBar.open('Error occurred:' + error.message);
     }, () => {
     });
   }

@@ -1,12 +1,12 @@
 import { Component, NgZone, OnInit, ViewContainerRef } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogRef } from '@angular/material';
-
+import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
+import { HttpErrorResponse } from '@angular/common/http/';
 import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
 import { LogLevel, Album, AlbumPhotoByAlbum, Photo, UpdPhoto, UIPagination } from '../model';
 import { environment } from '../../environments/environment';
-import { MatSnackBar } from '@angular/material';
+import { INTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic/src/platform_providers';
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
 
@@ -18,7 +18,7 @@ declare var PhotoSwipeUI_Default;
 export class PhotolistComponent implements OnInit {
   public photos: Photo[] = [];
   public selectedPhoto: Photo = null;
-  public objUtil: UIPagination = null;
+  public objUtil: UIPagination;
   private gallery: any = null;
 
   constructor(private _zone: NgZone,
@@ -28,6 +28,7 @@ export class PhotolistComponent implements OnInit {
     private _uistatusService: UIStatusService,
     private _photoService: PhotoService,
     private _authService: AuthService,
+    private _snackBar: MatSnackBar,
     private _dialog: MatDialog) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Entering constructor of PhotolistComponent');
@@ -53,8 +54,8 @@ export class PhotolistComponent implements OnInit {
       return;
     }
 
-    let items = [];
-    for (let pht of this.photos) {
+    const items = [];
+    for (const pht of this.photos) {
       items.push({
         src: pht.fileInAPIUrl,
         w: pht.width,
@@ -72,7 +73,7 @@ export class PhotolistComponent implements OnInit {
     }
 
     // define options (if needed)
-    let options: any = {
+    const options: any = {
       history: false,
       focus: false,
 
@@ -93,7 +94,7 @@ export class PhotolistComponent implements OnInit {
 
     this._uistatusService.selPhotoInPhotoList = photo;
 
-    let dialogRef = this._dialog.open(PhotoListPhotoEXIFDialog);
+    const dialogRef = this._dialog.open(PhotoListPhotoEXIFDialog);
     dialogRef.afterClosed().subscribe(result => {
       this._uistatusService.selPhotoInPhotoList = null;
     });
@@ -140,24 +141,24 @@ export class PhotolistComponent implements OnInit {
       console.log('ACGallery [Debug]: Entering onPageClick of PhotolistComponent');
     }
 
-    if (this.objUtil.currentPage != pageIdx) {
+    if (this.objUtil.currentPage !== pageIdx) {
       this.objUtil.currentPage = pageIdx;
 
-      let paraString = this.objUtil.nextAPIString;
+      const paraString = this.objUtil.nextURLString;
       this._photoService.loadPhotos(paraString).subscribe(data => {
         this.objUtil.totalCount = data.totalCount;
         this._zone.run(() => {
           this.photos = [];
           if (data && data.contentList && data.contentList instanceof Array) {
-            for(let ce of data.contentList){
-              let pi: Photo = new Photo();
+            for (const ce of data.contentList){
+              const pi: Photo = new Photo();
               pi.init(ce);
               this.photos.push(pi);
             }
-            //this.photos = data.contentList;
           }
         });
-      }, error => {
+      }, (error: HttpErrorResponse) => {
+        this._snackBar.open('Error occurred: ' + error.message);
       }, () => {
       });
     }
