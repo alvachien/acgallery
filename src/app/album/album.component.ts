@@ -186,9 +186,9 @@ export class AlbumComponent implements OnInit {
             this.photos.push(pi);
           }
         });
-      }, error => {
+      }, (error: HttpErrorResponse) => {
         // Show error dialog
-        this._snackBar.open('Error occurred: ' + error);
+        this._snackBar.open('Error occurred: ' + error.message);
       }, () => {
       });
     }
