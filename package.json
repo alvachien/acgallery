@@ -12,15 +12,19 @@
     "gulp": "gulp"
   },
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alvachien/acgallery.git"
+  },
   "dependencies": {
     "@angular/animations": "^5.1.0",
-    "@angular/cdk": "^5.0.2",
+    "@angular/cdk": "^5.0.3",
     "@angular/common": "^5.1.0",
     "@angular/compiler": "^5.1.0",
     "@angular/core": "^5.1.0",
     "@angular/flex-layout": "^2.0.0-beta.12",
     "@angular/forms": "^5.1.0",
-    "@angular/material": "^5.0.2",
+    "@angular/material": "^5.0.3",
     "@angular/material-moment-adapter": "^5.0.1",
     "@angular/platform-browser": "^5.1.0",
     "@angular/platform-browser-dynamic": "^5.1.0",
@@ -28,7 +32,7 @@
     "@ngx-translate/core": "^8.0.0",
     "@ngx-translate/http-loader": "^2.0.0",
     "babel-polyfill": "^6.23.0",
-    "bootstrap": "^4.0.0-beta.2",
+    "bootstrap": "^4.0.0-beta.3",
     "core-js": "^2.4.1",
     "fine-uploader": "^5.15.4",
     "hammerjs": "^2.0.8",
