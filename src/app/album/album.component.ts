@@ -6,7 +6,7 @@ import { UIMode, LogLevel, Album, Photo, UIPagination } from '../model';
 import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
 import { MatDialog, MatDialogRef, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http/';
 declare var PhotoSwipe;

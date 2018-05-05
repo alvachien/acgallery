@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, NgZone, ViewChild, Renderer, ElementRef } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { FineUploaderBasic } from 'fine-uploader/lib/core'
 import { AuthService, PhotoService, AlbumService} from '../services';
@@ -305,7 +305,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       rxdata.push(this._photoService.createFile(pht));
     }
 
-    Observable.forkJoin(rxdata).subscribe(data => {
+    forkJoin(rxdata).subscribe(data => {
       if (this.assignMode !== 0) {
         let apba = new AlbumPhotoByAlbum();
         if (this.isAssginToNewAlbum()) {
@@ -334,7 +334,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
             rxdata2.push(this._albumService.createAlbumPhotoLink(apl));
           }
 
-          Observable.forkJoin(rxdata2).subscribe(data3=>{
+          forkJoin(rxdata2).subscribe(data3=>{
             this.onAfterUploadComplete();
           }, error3 => {
             this.onAfterUploadComplete();

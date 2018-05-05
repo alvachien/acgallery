@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit, ViewContainerRef } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http/';

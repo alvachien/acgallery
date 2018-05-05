@@ -1,6 +1,7 @@
 import { environment } from '../../environments/environment';
 import { Injectable, EventEmitter } from '@angular/core';
-import { Subject, Observable } from 'rxjs/Rx';
+import { Subject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Album, Photo, AlbumPhotoLink } from '../model';
 import { AuthService } from './auth.service';
 import { HttpParams, HttpClient, HttpHeaders, HttpResponse, HttpRequest, HttpErrorResponse } from '@angular/common/http';
@@ -21,7 +22,7 @@ export class PhotoService {
     const data = JSON && JSON.stringify(photo);
 
     return this._http.put(environment.PhotoAPIUrl, data, { headers: headers, withCredentials: true })
-      .map(response => <any>response);
+      .pipe(map(response => <any>response));
   }
 
   public createFile(fileRecord: any): Observable<any> {
@@ -33,7 +34,7 @@ export class PhotoService {
     const data = JSON && JSON.stringify(fileRecord);
 
     return this._http.post(environment.PhotoAPIUrl, data, { headers: headers, withCredentials: true })
-      .map(response => <any>response);
+      .pipe(map(response => <any>response));
   }
 
   public uploadFile(params: string[], files: File[]) {
@@ -82,11 +83,11 @@ export class PhotoService {
     if (this._authService.authSubject.getValue().isAuthorized) {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
       return this._http.get(apistring, { headers: headers, withCredentials: true })
-        .map(response => <any>response);
+        .pipe(map(response => <any>response));
     }
 
     return this._http.get(apistring, { headers: headers })
-      .map(response => <any>response);
+      .pipe(map(response => <any>response));
   }
 
   /**
@@ -116,14 +117,14 @@ export class PhotoService {
         headers: headers,
         params: params,
         withCredentials: true })
-        .map(response => <any>response);
+        .pipe(map(response => <any>response));
     }
 
     return this._http.get(environment.PhotoAPIUrl, {
         headers: headers,
         params: params,
         withCredentials: false
-      }).map(response => <any>response);
+      }).pipe(map(response => <any>response));
   }
 
   /**
@@ -140,6 +141,6 @@ export class PhotoService {
     return this._http.put(environment.PhotoAPIUrl, jdata, {
       headers: headers,
       withCredentials: true })
-      .map(response => <any>response);
+      .pipe(map(response => <any>response));
   }
 }

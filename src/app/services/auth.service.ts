@@ -1,8 +1,7 @@
 import { environment } from '../../environments/environment';
 import { Injectable, EventEmitter } from '@angular/core';
-import 'rxjs/add/operator/map';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { LogLevel } from '../model/common';
 import { UserAuthInfo } from '../model/userinfo';
 import { UserManager, Log, MetadataService, User } from 'oidc-client';

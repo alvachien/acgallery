@@ -2,7 +2,8 @@ import { environment } from '../../environments/environment';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Album, Photo, AlbumPhotoLink, AlbumPhotoByAlbum, AlbumPhotoByPhoto } from '../model';
 import { AuthService } from './auth.service';
-import { Subject, Observable } from 'rxjs/Rx';
+import { Subject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { HttpParams, HttpClient, HttpHeaders, HttpResponse, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
@@ -25,7 +26,7 @@ export class AlbumService {
     const data = JSON && JSON.stringify(album);
 
     return this._http.post(environment.AlbumAPIUrl, data, { headers: headers, withCredentials: true })
-      .map(response => <any>response);
+      .pipe(map(response => <any>response));
   }
 
   public createAlbumPhotoLink(link: AlbumPhotoLink): Observable<any> {
@@ -37,7 +38,7 @@ export class AlbumService {
     const data = JSON && JSON.stringify(link);
 
     return this._http.post(environment.AlbumPhotoLinkUrl, data, { headers: headers, withCredentials: true })
-      .map(response => <any>response);
+      .pipe(map(response => <any>response));
   }
 
   public updateAlbumPhotoByAlbum(apba: AlbumPhotoByAlbum): Observable<any> {
@@ -75,7 +76,7 @@ export class AlbumService {
     const data = JSON && JSON.stringify(album);
 
     return this._http.put(environment.AlbumAPIUrl, data, { headers: headers, withCredentials: true })
-      .map(response => <any>response);
+      .pipe(map(response => <any>response));
   }
 
   /**
@@ -88,11 +89,11 @@ export class AlbumService {
     if (this._authService.authSubject.getValue().isAuthorized) {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
       return this._http.get(environment.AlbumAPIUrl, { headers: headers, withCredentials: true })
-        .map(response => <any>response);
+        .pipe(map(response => <any>response));
     }
 
     return this._http.get(environment.AlbumAPIUrl, { headers: headers, withCredentials: false })
-      .map(response => <any>response);
+      .pipe(map(response => <any>response));
   }
 
   /**
@@ -106,11 +107,11 @@ export class AlbumService {
     if (this._authService.authSubject.getValue().isAuthorized) {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
       return this._http.get(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers, withCredentials: true })
-        .map(response => <any>response);
+        .pipe(map(response => <any>response));
     }
 
     return this._http.get(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers, withCredentials: false })
-      .map(response => <any>response);
+      .pipe(map(response => <any>response));
   }
 
   /**
@@ -131,6 +132,6 @@ export class AlbumService {
       params: params,
       withCredentials: true
     })
-    .map(response => <any>response);
+    .pipe(map(response => <any>response));
   }
 }

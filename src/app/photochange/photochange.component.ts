@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit, ViewContainerRef, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable, forkJoin } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 
@@ -72,7 +72,7 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
       const s2 = this._albumService.loadAlbumContainsPhoto(this.currentPhoto.photoId);
       const allAlbum: any[] = [];
 
-      Observable.forkJoin([s1, s2]).subscribe(y => {
+      forkJoin([s1, s2]).subscribe(y => {
         if (y[0]) {
           for (const alb of y[0].contentList) {
             const album = new SelectableAlbum();
