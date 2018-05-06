@@ -50,9 +50,8 @@ The web app also provides the authority control over the album and photos. The i
 
 ## Credits
 AC Photo Gallery web app built with following UI technologies:
-- Angular 5;
+- Angular 6;
 - Angular Material 2;
-- Angular-CLI ;
 - Bootstrap V4;
 - TypeScript 2;
 
@@ -70,8 +69,7 @@ A programmer, and a certificated Advanced Photographer.
 Contact me:
 
 1. Via mail: alvachien@163.com. Or,
-2. [Check my flickr](http://www.flickr.com/photos/alvachien). Or,
-3. [Visit my website](http://www.alvachien.com)
+2. [Check my flickr](http://www.flickr.com/photos/alvachien).
 
 ## Licence
 MIT
