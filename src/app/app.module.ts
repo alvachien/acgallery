@@ -66,6 +66,10 @@ import { PhotolistComponent, PhotoListPhotoEXIFDialog } from './photolist/photol
 import { AboutComponent } from './about/about.component';
 import { CreditsComponent } from './credits/credits.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { PageDashboardComponent } from './page-dashboard/page-dashboard.component';
+import { AppNavComponent } from './app-nav/app-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { CreditsTableComponent } from './credits-table/credits-table.component';
 
 export function funcHttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
@@ -86,7 +90,10 @@ export function funcHttpLoaderFactory(http: HttpClient) {
     AboutComponent,
     CreditsComponent,
     UnauthorizedComponent,
-    PhotochangeComponent
+    PhotochangeComponent,
+    PageDashboardComponent,
+    AppNavComponent,
+    CreditsTableComponent
   ],
   entryComponents: [
     AlbumAccessCodeDialog,
@@ -145,7 +152,8 @@ export function funcHttpLoaderFactory(http: HttpClient) {
       }
     }),
     FlexLayoutModule,
-    AppRoutingModule
+    AppRoutingModule,
+    LayoutModule
   ],
   providers: [
     AuthService,
