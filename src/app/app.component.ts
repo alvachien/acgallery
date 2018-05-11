@@ -1,33 +1,39 @@
-import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpParams, HttpClient, HttpHeaders, HttpResponse, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { LogLevel, AppLang } from './model/common';
 import { environment } from '../environments/environment';
 import { AuthService, UIStatusService } from './services';
-import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
+import { Observable } from 'rxjs';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'acgallery-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   public isLoggedIn: boolean;
   public titleLogin: string;
   public arLangs: Array<AppLang>;
   public curLang = '';
   @ViewChild('pswp') elemPSWP;
-  isHandset: Observable<BreakpointState> = this._breakpointObserver.observe(Breakpoints.Handset);
+  mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
 
   constructor(private _translateService: TranslateService,
     private _authService: AuthService,
     private _uistatusService: UIStatusService,
     private _http: HttpClient,
     private _zone: NgZone,
-    private _breakpointObserver: BreakpointObserver) {
+    private _changeDetectorRef: ChangeDetectorRef,
+    private _media: MediaMatcher) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Enter constructor of AppComponent');
     }
+    this.mobileQuery = _media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => _changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
 
     this.initLang();
 
@@ -60,7 +66,11 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     if (this.elemPSWP) {
       this._uistatusService.elemPSWP = this.elemPSWP.nativeElement;
-    }    
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
   // Handlers
