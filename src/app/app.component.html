@@ -1,4 +1,39 @@
-<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport="true"
+    [attr.role]="isHandset ? 'dialog' : 'navigation'"
+    [mode]="(isHandset | async)!.matches ? 'over' : 'side'"
+    [opened]="!(isHandset | async)!.matches">
+    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item href="#">Link 1</a>
+      <a mat-list-item href="#">Link 2</a>
+      <a mat-list-item href="#">Link 3</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="(isHandset | async)!.matches">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>AC Photo Gallery</span>
+    </mat-toolbar>
+
+    <div class="m-t-1" style="padding-top: 70px; min-height: 100%;">
+      <router-outlet></router-outlet>
+    </div>
+        
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" [routerLink]="['/']">
     <img src="/assets/acgallery.ico" width="24" height="24" class="d-inline-block align-top" alt=""> AC Photo Gallery
   </a>
@@ -63,7 +98,7 @@
 
 <div class="m-t-1" style="padding-top: 70px; min-height: 100%;">
   <router-outlet></router-outlet>
-</div>
+</div> -->
 
 <!-- Root element of PhotoSwipe. Must have class pswp. -->
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true" #pswp>

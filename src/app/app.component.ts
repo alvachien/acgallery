@@ -4,6 +4,7 @@ import { HttpParams, HttpClient, HttpHeaders, HttpResponse, HttpRequest, HttpErr
 import { LogLevel, AppLang } from './model/common';
 import { environment } from '../environments/environment';
 import { AuthService, UIStatusService } from './services';
+import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 
 @Component({
   selector: 'acgallery-root',
@@ -16,12 +17,14 @@ export class AppComponent implements OnInit {
   public arLangs: Array<AppLang>;
   public curLang = '';
   @ViewChild('pswp') elemPSWP;
+  isHandset: Observable<BreakpointState> = this._breakpointObserver.observe(Breakpoints.Handset);
 
   constructor(private _translateService: TranslateService,
     private _authService: AuthService,
     private _uistatusService: UIStatusService,
     private _http: HttpClient,
-    private _zone: NgZone) {
+    private _zone: NgZone,
+    private _breakpointObserver: BreakpointObserver) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Enter constructor of AppComponent');
     }
