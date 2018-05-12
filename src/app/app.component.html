@@ -2,7 +2,43 @@
   <mat-toolbar color="primary" class="app-toolbar">
     <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
     <h1 class="app-title-name">AC Photo Gallery</h1>
-  </mat-toolbar>
+    <span class="toolbar-spacer"></span>
+
+    <button mat-icon-button *ngIf="!isLoggedIn" (click)="onLogon()" title="Logon" matTooltip="{{'Login.Login' | translate }}"><mat-icon>account_box</mat-icon></button>
+    <button mat-icon-button *ngIf="isLoggedIn" [matMenuTriggerFor]="matMenuUser">
+      <mat-icon>account_box</mat-icon>
+    </button>
+    <mat-menu #matMenuUser="matMenu" overlapTrigger="false" xPosition="after" yPosition="below">
+      <button mat-menu-item disabled>{{titleLogin}}</button>
+      <button mat-menu-item (click)="onUserDetail()">
+        <mat-icon color="accent">account_circle</mat-icon>
+        <span class="title">{{'Nav.UserDetail' | translate}}</span>
+      </button>
+      <button mat-menu-item (click)="onLogout()">
+        <mat-icon color="accent">exit_to_app</mat-icon>
+        <span>{{'Login.Logout' | translate}}</span>
+      </button>
+    </mat-menu>
+
+    <button mat-icon-button mat-button [matMenuTriggerFor]="matMenuLanguage"><mat-icon>language</mat-icon></button>
+    <mat-menu #matMenuLanguage="matMenu" overlapTrigger="false" xPosition="after" yPosition="below">
+      <button mat-menu-item *ngFor="let lang of arLangs" (click)="onLanguageChanged(lang.Value)">
+        <mat-icon *ngIf="selectedLanguage === lang.Value">check</mat-icon>
+        {{lang.DisplayString | translate}}
+      </button>
+    </mat-menu>
+
+    <a mat-icon-button href="https://github.com/alvachien/acgallery" aria-label="GitHub Repository">
+      <mat-icon>code</mat-icon>
+    </a>
+    
+    <button mat-icon-button mat-button [matMenuTriggerFor]="matMenuApps"><mat-icon>apps</mat-icon></button>
+    <mat-menu #matMenuApps="matMenu" overlapTrigger="false" xPosition="after" yPosition="below">
+      <button mat-menu-item disabled>H.I.H.</button>
+      <button mat-menu-item (click)="onOpenMathExcises()">Math Exercise</button>
+      <button mat-menu-item (click)="onOpenPhotoGallery()">Photo Gallery</button>
+    </mat-menu>
+</mat-toolbar>
 
   <mat-sidenav-container class="app-sidenav-container"
                          [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
@@ -50,26 +86,6 @@
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
-
-<!-- <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" [routerLink]="['/']">
-    <img src="/assets/acgallery.ico" width="24" height="24" class="d-inline-block align-top" alt=""> AC Photo Gallery
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <form class="form-inline my-2 my-lg-0">
-      <select class="form-control my-2 my-sm-0" [(ngModel)]="curLang" (change)="onCurLanguageChanged()" name="applang" #applang="ngModel">
-        <option *ngFor="let lang of arLangs" [value]="lang.Value">{{lang.DisplayString | translate}}</option>
-      </select>
-      <a role="button" class="btn btn-link" *ngIf="!isLoggedIn" (click)="onLogin()">{{'Login.Login' | translate}}</a>
-      <a role="button" class="btn btn-link" *ngIf="isLoggedIn" (click)="onUserDetail()">{{titleLogin}}</a>
-      <a role="button" class="btn btn-link" *ngIf="isLoggedIn" (click)="onLogout()">{{'Login.Logout' | translate}}</a>
-    </form>
-  </div>
-</nav>
 
 <!-- Root element of PhotoSwipe. Must have class pswp. -->
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true" #pswp>

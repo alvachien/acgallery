@@ -31,7 +31,7 @@ h1.app-title-name {
 }
 
 .mat-sidenav {
-    min-width: 200px;
+  min-width: 200px;
 }
 
 .sidenav-headers-align .mat-expansion-panel-header-title, 
@@ -42,4 +42,8 @@ h1.app-title-name {
 .sidenav-headers-align .mat-expansion-panel-header-description {
   justify-content: space-between;
   align-items: center;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
 }

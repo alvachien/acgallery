@@ -16,7 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public isLoggedIn: boolean;
   public titleLogin: string;
   public arLangs: Array<AppLang>;
-  public curLang = '';
+  public selectedLanguage = '';
   @ViewChild('pswp') elemPSWP;
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
@@ -74,7 +74,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   // Handlers
-  onLogin(): void {
+  onLogon(): void {
     this._authService.doLogin();
   }
 
@@ -82,9 +82,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this._authService.doLogout();
   }
 
-  onCurLanguageChanged(): void {
-    if (this.curLang !== this._translateService.currentLang) {
-      this._translateService.setDefaultLang(this.curLang);
+  onLanguageChanged(lang: string): void {
+    if (lang !== this._translateService.currentLang) {
+      this.selectedLanguage = lang;
+      this._translateService.setDefaultLang(this.selectedLanguage);
     }
   }
 
@@ -103,9 +104,9 @@ export class AppComponent implements OnInit, OnDestroy {
     lo.Value = 'zh';
     lo.DisplayString = 'Language.SimpChinese';
     this.arLangs.push(lo);
-    this.curLang = 'en'; // Default language
+    this.selectedLanguage = 'en'; // Default language
 
     this._translateService.addLangs(['en', 'zh']);
-    this._translateService.setDefaultLang(this.curLang);
+    this._translateService.setDefaultLang(this.selectedLanguage);
   }
 }
