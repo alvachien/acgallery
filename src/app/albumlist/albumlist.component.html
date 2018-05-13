@@ -1,24 +1,37 @@
-<div class="panel panel-info">
-  <div class="panel-heading ml-1">
-    <h3 class="panel-title">{{'Nav.Album' | translate}} - {{'Common.ListView' | translate}}</h3>
-  </div>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title> {{'Nav.Album' | translate}} </mat-card-title>
+    <mat-card-subtitle>{{'Common.ListView' | translate}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-grid-list cols="3" rowHeight="350px">
+      <mat-grid-tile *ngFor="let album of albumes" colspan="1" rowspan="1">
+        <mat-card class="dashboard-card">
+          <mat-card-header>
+            <mat-card-title>
+              {{album.Title}}
+              <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu" xPosition="before">
+                <button mat-menu-item>Expand</button>
+                <button mat-menu-item>Remove</button>
+              </mat-menu>
+            </mat-card-title>
+          </mat-card-header>
+          <img mat-card-image src="{{album.ThumbnailInAPIUrl}}" alt="Image">
+          <mat-card-content class="dashboard-card-content">
+            <p>{{album.Title}}</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button (click)="onViewAlbumClick(album.Id)">{{'Album.ViewPhotos' | translate}}</button>
+            <button mat-button (click)="onChangeAlbumMetadata(album.Id)">{{'Album.ChangeMetadata' | translate}}</button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
 
-  <div class="panel-body">
-    <div class="card-columns">
-      <div class="card p-3" *ngFor="let album of albumes">
-        <a role="button" (click)="onViewAlbumClick(album.Id)" title="{{album.Title}}">
-          <img class="card-img" src="{{album.ThumbnailInAPIUrl}}" style="display: block; width: auto; height: auto;" />
-        </a>
-        <div class="card-block">
-          <h4 class="card-title">{{album.Title}}</h4>
-          <p class="card-text">{{album.Desp}}</p>
-          <p class="card-text">
-            <small class="text-muted">{{album.PhotoCount}} {{'Nav.Photos' | translate}}</small>
-          </p>
-          <a role="button" class="card-link" (click)="onViewAlbumClick(album.Id)">{{'Album.ViewPhotos' | translate}}</a>
-          <a role="button" class="card-link" (click)="onChangeAlbumMetadata(album.Id)">{{'Album.ChangeMetadata' | translate}}</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+    <mat-paginator [length]="albumes.length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = $event">
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>

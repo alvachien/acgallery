@@ -1,36 +1,38 @@
-<div class="panel panel-info">
-  <div class="panel-heading ml-1">
-    <h3 class="panel-title">{{'Nav.Photos' | translate}} - {{'Common.ListView' | translate}}</h3>
-  </div>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{'Nav.Photos' | translate}}</mat-card-title>
+    <mat-card-subtitle>{{'Common.ListView' | translate}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-grid-list cols="3" rowHeight="350px">
+      <mat-grid-tile *ngFor="let photo of photos; let idx = index;" colspan="1" rowspan="1">
+        <mat-card class="dashboard-card">
+          <mat-card-header>
+            <mat-card-title>
+              {{photo.title}}
+              <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu" xPosition="before">
+                <button mat-menu-item>Expand</button>
+                <button mat-menu-item>Remove</button>
+              </mat-menu>
+            </mat-card-title>
+          </mat-card-header>
+          <img mat-card-image src="{{photo.thumbnailFileInAPIUrl}}" alt="Image">
+          <mat-card-content class="dashboard-card-content">
+              {{photo.desp}}
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button (click)="onDisplayPhoto(photo)">{{'Common.Display' | translate}}</button>
+            <button mat-button (click)="onChangePhoto(photo)">{{'Common.Change' | translate}}</button>
+            <button mat-button (click)="onViewPhotoEXIFDialog(photo)">EXIF</button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <mat-paginator [length]="photos.length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = $event">
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>
 
-  <div class="panel-body">
-    <nav aria-label="Page navigation">
-      <ul class="pagination justify-content-center">
-        <li class="page-item" [class.disabled]="!objUtil.isPreviousVisible">
-          <a class="page-link" (click)="onPagePreviousClick()" tabindex="-1">{{'Common.Previous' | translate}}</a>
-        </li>
-        <li class="page-item" *ngFor="let pageidx of objUtil.visPags" [class.active]="objUtil.currentPage === pageidx">
-          <a class="page-link" (click)="onPageClick(pageidx)">{{pageidx}}</a>
-        </li>
-        <li class="page-item" [class.disabled]="!objUtil.isNextVisible">
-          <a class="page-link" (click)="onPageNextClick()">{{'Common.Next' | translate}}</a>
-        </li>
-      </ul>
-    </nav>
-
-    <div class="card-columns">
-      <div class="card" *ngFor="let photo of photos; let idx = index;">
-        <a (click)="onPhotoClick(idx)" title="{{photo.title}}">
-          <img class="card-img" src="{{photo.thumbnailFileInAPIUrl}}" style="display: block; width: auto; height: auto;" alt="{{photo.updtime}}" />
-        </a>
-        <div class="card-block">
-          <h4 class="card-title">{{photo.title}}</h4>
-          <p class="card-text">{{photo.desp}}</p>
-          <a (click)="onDisplayPhoto(photo)" role="button" class="card-link">{{'Common.Display' | translate}}</a>
-          <a (click)="onChangePhoto(photo)" role="button" class="card-link">{{'Common.Change' | translate}}</a>
-          <a (click)="onViewPhotoEXIFDialog(photo)" role="button" class="card-link">EXIF</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>

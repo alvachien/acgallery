@@ -1,20 +1,21 @@
-.acgallery-container {
-  /* width: 100%; */
-  float: left;
+.mat-card {
+  margin: 20px;
 }
-.acgallery-container img {
-  /* width: 100%; */
-  height: auto;
+
+.dashboard-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
 }
-.acgallery-container figure {
-  display: block;
-  float: left;
-  margin: 0 5px 5px 0;
-  width: 150px;
+
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
 }
-.acgallery-container figcaption {
-  display: none;
-}
-.card-columns {
-  column-count: 4;
+
+.dashboard-card-content {
+  text-align: center;
 }

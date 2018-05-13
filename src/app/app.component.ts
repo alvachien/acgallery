@@ -90,7 +90,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onUserDetail(): void {
-    // Do nothing
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Enter onUserDetail of AppComponent, prepare navigation...');
+    }
   }
 
   // Implemented method

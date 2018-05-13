@@ -2,6 +2,7 @@ import { Component, NgZone, OnInit, ViewContainerRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
+import { PageEvent } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http/';
 import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
 import { LogLevel, Album, AlbumPhotoByAlbum, Photo, UpdPhoto, UIPagination } from '../model';
@@ -20,6 +21,11 @@ export class PhotolistComponent implements OnInit {
   public selectedPhoto: Photo = null;
   public objUtil: UIPagination;
   private gallery: any = null;
+  pageSize = 10;
+  pageSizeOptions = [5, 10, 25, 100];
+
+  // MatPaginator Output
+  pageEvent: PageEvent;
 
   constructor(private _zone: NgZone,
     private _router: Router,

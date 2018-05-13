@@ -1,7 +1,7 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { PageEvent } from '@angular/material';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { PhotoService } from '../services/photo.service';
@@ -22,6 +22,11 @@ import { UIPagination } from '../model/paginated';
 export class AlbumlistComponent implements OnInit {
 
   public albumes: Album[] = [];
+  pageSize = 10;
+  pageSizeOptions = [5, 10, 25, 100];
+
+  // MatPaginator Output
+  pageEvent: PageEvent;
 
   constructor(private _authService: AuthService,
     private _albumService: AlbumService,
