@@ -2,12 +2,14 @@ import { Component, OnInit, AfterViewInit, OnDestroy, NgZone, ViewChild, Rendere
 import { Observable, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { FineUploaderBasic } from 'fine-uploader/lib/core'
-import { AuthService, PhotoService, AlbumService} from '../services';
+import { AuthService, PhotoService, AlbumService } from '../services';
 import { Album, AlbumPhotoLink, AlbumPhotoByAlbum, SelectableAlbum } from '../model/album';
 import { Photo, UpdPhoto } from '../model/photo';
 import { LogLevel } from '../model/common';
 import { environment } from '../../environments/environment';
 import { MatSnackBar } from '@angular/material';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'acgallery-photoupload',
@@ -21,7 +23,6 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public photoMaxKBSize: number = 0;
   public photoMinKBSize: number = 0;
-  public arUpdPhotos: UpdPhoto[] = [];
   private photoHadUploaded: Photo[] = [];
   public uploader: any = null;
   public canCrtAlbum: boolean;
@@ -30,6 +31,11 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   public allAlbum: SelectableAlbum[] = [];
   public arAssignMode: any[] = [];
   @ViewChild('uploadFileRef') elemUploadFile;
+  displayedColumns = ['id', 'name', 'size', 'dimension', 'ispublic', 'title', 'desp'];
+  dataSource = new MatTableDataSource<UpdPhoto>();
+  displayedAlbumColumns = ['select', 'id', 'title'];
+  dataSourceAlbum = new MatTableDataSource<Album>();
+  selection = new SelectionModel<Album>(true, []);
 
   constructor(private _zone: NgZone,
     private _router: Router,
@@ -52,7 +58,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         this.photoMaxKBSize = 0;
       }
     });
-    
+
     this.canCrtAlbum = this._authService.authSubject.getValue().canCreateAlbum();
     this.albumCreate = new Album();
   }
@@ -153,10 +159,10 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
               that._snackBar.open(errormsg, 'Close', {
                 duration: 2000,
               });
-            } else if(newstatus === 'upload_failed') {
+            } else if (newstatus === 'upload_failed') {
 
             }
-            
+
             //SUBMITTED
             //QUEUED
             //UPLOADING
@@ -182,7 +188,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
             if (that.uploader) {
               let fObj = that.uploader.getFile(id);
-              that.readImage(id, fObj, name, that.arUpdPhotos);
+              that.readImage(id, fObj, name, that.dataSource.data);
             } else {
               let errormsg = 'Failed to process File ' + name;
               that._snackBar.open(errormsg, 'Close', {
@@ -231,7 +237,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     // Photo have been choosed already
-    if (!this.arUpdPhotos || this.arUpdPhotos.length <= 0) {
+    if (!this.dataSource.data || this.dataSource.data.length <= 0) {
       this._snackBar.open('Select photos before uploading!', 'Close', {
         duration: 3000,
       });
@@ -258,10 +264,10 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     } else if (this.isAssginToExistingAlbum()) {
       let nsel: number = 0;
-      for(let alm of this.allAlbum) {
+      for (let alm of this.allAlbum) {
         if (alm.isSelected) {
           this.albumUpdate = alm;
-          nsel ++;
+          nsel++;
         }
       }
 
@@ -280,10 +286,11 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSingleComplete(id: number, insPhoto: Photo): void {
     // Read through the inputted data
-    for(let pht of this.arUpdPhotos) {
+    // for (let pht of this.arUpdPhotos) {
+    for (let pht of this.dataSource.data) {  
       if (pht.ID === id) {
-        insPhoto.title = pht.Title? pht.Title : pht.OrgName;
-        insPhoto.desp = pht.Desp? pht.Desp : pht.OrgName;
+        insPhoto.title = pht.Title ? pht.Title : pht.OrgName;
+        insPhoto.desp = pht.Desp ? pht.Desp : pht.OrgName;
         insPhoto.isPublic = pht.IsPublic;
         if (!insPhoto.width && pht.Width) {
           insPhoto.width = pht.Width;
@@ -325,16 +332,16 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
             this.onAfterUploadComplete();
           }, () => {
           });
-        } else if(this.isAssginToExistingAlbum()) {
+        } else if (this.isAssginToExistingAlbum()) {
           let rxdata2: Observable<any>[] = [];
-          for(let pid of apba.photoIDList) {
+          for (let pid of apba.photoIDList) {
             let apl: AlbumPhotoLink = new AlbumPhotoLink();
             apl.albumID = apba.albumId;
             apl.photoID = pid;
             rxdata2.push(this._albumService.createAlbumPhotoLink(apl));
           }
 
-          forkJoin(rxdata2).subscribe(data3=>{
+          forkJoin(rxdata2).subscribe(data3 => {
             this.onAfterUploadComplete();
           }, error3 => {
             this.onAfterUploadComplete();
@@ -405,6 +412,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Entering readImage of PhotoUploadComponent');
     }
+    arPhotos = [];
 
     let reader = new FileReader();
     let that = this;
@@ -416,7 +424,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         if (environment.LoggingLevel >= LogLevel.Debug) {
           console.log('ACGallery [Debug]: Entering event load of readImage in PhotoUploadComponent');
         }
-         
+
         let updPhoto: UpdPhoto = new UpdPhoto();
         updPhoto.ID = +fid;
         updPhoto.OrgName = file.name;
@@ -455,7 +463,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isUploading = false;
 
       this.assignMode = 0;
-      this.arUpdPhotos = [];
+      // this.arUpdPhotos = [];
       this.albumCreate = new Album();
     });
 
