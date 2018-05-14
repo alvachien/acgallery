@@ -15,7 +15,7 @@ declare var PhotoSwipeUI_Default;
 @Component({
   selector: 'acgallery-album',
   templateUrl: './album.component.html',
-  styleUrls: ['./album.component.css']
+  styleUrls: ['./album.component.css'],
 })
 export class AlbumComponent implements OnInit {
   public objAlbum: Album = null;
@@ -82,10 +82,6 @@ export class AlbumComponent implements OnInit {
     return this.uiMode === UIMode.Create || this.uiMode === UIMode.Change;
   }
 
-  public needShowAccessCode(): boolean {
-    return this.uiMode === UIMode.Create || this.uiMode === UIMode.Change;
-  }
-
   private onPhotoClick(idx: number): void {
     if (this.photos.length <= 0) {
       return;
@@ -149,51 +145,6 @@ export class AlbumComponent implements OnInit {
     this._router.navigate(['/photo/edit']);
   }
 
-  onPagePreviousClick(): void {
-    if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering onPagePreviousClick of AlbumComponent');
-    }
-
-    if (this.objUtil.currentPage > 1) {
-      this.onPageClick(this.objUtil.currentPage - 1);
-    }
-  }
-
-  onPageNextClick(): void {
-    if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering onPageNextClick of AlbumComponent');
-    }
-
-    this.onPageClick(this.objUtil.currentPage + 1);
-  }
-
-  onPageClick(pageIdx: number): void {
-    if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering onPageClick of AlbumComponent');
-    }
-
-    if (this.objUtil.currentPage !== pageIdx) {
-      this.objUtil.currentPage = pageIdx;
-      this.photos = [];
-
-      const params: Map<string, number> = this.objUtil.nextURLParameters;
-      this._photoService.loadAlbumPhoto(this.routerID, this.objAlbum.AccessCode, params).subscribe(data => {
-        this.objUtil.totalCount = data.totalCount;
-        this._zone.run(() => {
-          for (const ce of data.contentList) {
-            const pi: Photo = new Photo();
-            pi.init(ce);
-            this.photos.push(pi);
-          }
-        });
-      }, (error: HttpErrorResponse) => {
-        // Show error dialog
-        this._snackBar.open('Error occurred: ' + error.message);
-      }, () => {
-      });
-    }
-  }
-
   private readAlbum(): void {
     this._albumService.loadAlbum(this.routerID).subscribe(x => {
       this.objAlbum = new Album();
@@ -216,11 +167,11 @@ export class AlbumComponent implements OnInit {
         this.openAccessCodeDialog().subscribe(result => {
           if (result) {
             this.objAlbum.AccessCode = result;
-            this.onPageClick(1);
+            // this.onPageClick(1);
           }
         });
       } else if (!this.objAlbum.AccessCode) {
-        this.onPageClick(1);
+        // this.onPageClick(1);
       }
     }, (error: HttpErrorResponse) => {
       // Show error info
