@@ -6,33 +6,25 @@
   <mat-card-content>
     <mat-grid-list cols="3" rowHeight="350px">
       <mat-grid-tile *ngFor="let photo of photos; let idx = index;" colspan="1" rowspan="1">
-        <mat-card class="dashboard-card">
-          <mat-card-header>
-            <mat-card-title>
-              {{photo.title}}
-              <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              <mat-menu #menu="matMenu" xPosition="before">
-                <button mat-menu-item>EXIF</button>
-                <button mat-menu-item>Remove</button>
-              </mat-menu>
-            </mat-card-title>
-          </mat-card-header>
-          <img mat-card-image src="{{photo.thumbnailFileInAPIUrl}}" alt="Image">
-          <mat-card-content class="dashboard-card-content">
-              {{photo.desp}}
-          </mat-card-content>
-          <mat-card-actions>
-            <button mat-button (click)="onDisplayPhoto(photo)">{{'Common.Display' | translate}}</button>
-            <button mat-button (click)="onChangePhoto(photo)">{{'Common.Change' | translate}}</button>
-            <button mat-button (click)="onViewPhotoEXIFDialog(photo)">EXIF</button>
-          </mat-card-actions>
-        </mat-card>
+        <mat-grid-tile-header>
+          {{photo.title}}
+          <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="onDisplayPhoto(photo)">{{'Common.Display' | translate}}</button>
+            <button mat-menu-item (click)="onChangePhoto(photo)">{{'Common.Change' | translate}}</button>
+            <button mat-menu-item (click)="onViewPhotoEXIFDialog(photo)">EXIF</button>
+          </mat-menu>
+        </mat-grid-tile-header>
+        <img class="dashboard-image" src="{{photo.thumbnailFileInAPIUrl}}" (click)="onPhotoClick(idx)" style="cursor: hand;" alt="Image">
+        <mat-grid-tile-footer>
+          {{photo.desp}}
+        </mat-grid-tile-footer>
       </mat-grid-tile>
     </mat-grid-list>
+
     <mat-paginator [length]="photos.length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = $event">
     </mat-paginator>
   </mat-card-content>
 </mat-card>
-

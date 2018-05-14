@@ -1,7 +1,7 @@
 <mat-vertical-stepper>
   <mat-step label="{{'Photo.ChoosePhoto' | translate}}">
     <mat-toolbar>
-      <button mat-button id="load-file-button-id" #uploadFileRef>{{'Photo.ChoosePhoto' | translate}}</button>
+      <button mat-button #uploadFileRef>{{'Photo.ChoosePhoto' | translate}}</button>
     </mat-toolbar>
     <div class="example-container mat-elevation-z8">
       <table mat-table #table [dataSource]="dataSource">
@@ -56,6 +56,7 @@
       </mat-paginator>
     </div>
   </mat-step>
+
   <mat-step label="Assignment">
     <div [hidden]="isUploading">
       <mat-radio-group class="photoupload-radio-group" [(ngModel)]="assignMode">
@@ -64,7 +65,8 @@
         </mat-radio-button>
       </mat-radio-group>
     </div>
-    <div class="row p-3 m-3" *ngIf="isAssginToExistingAlbum()" [hidden]="isUploading">
+
+    <div *ngIf="isAssginToExistingAlbum()" [hidden]="isUploading">
       <div class="example-container mat-elevation-z8">
         <table mat-table #table [dataSource]="dataSourceAlbum">
 
@@ -98,6 +100,17 @@
         </table>
       </div>
     </div>
+
+    <div *ngIf="isAssginToNewAlbum()" [hidden]="isUploading">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{"Photo.Upload_AssignNewAlbum" | translate}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <acgallery-album-detail [objAlbum]="albumCreate" [uiMode]="1"></acgallery-album-detail>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </mat-step>
 </mat-vertical-stepper>
 
@@ -118,60 +131,6 @@
 
   <br />
 
-  <div class="row p-3 m-3" *ngIf="isAssginToExistingAlbum()" [hidden]="isUploading">
-    <table class="table w-100 p-3">
-      <thead class="thead-default">
-        <tr>
-          <th></th>
-          <th></th>
-          <th>{{'Common.Title' | translate}}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let album of allAlbum">
-          <td>
-            <mat-checkbox [(ngModel)]="album.isSelected" name="isalbumsel"></mat-checkbox>
-          </td>
-          <td>
-            <img src="{{album.ThumbnailInAPIUrl}}" class="img-rounded pull-xs-left" style="display: block; width: 300 !important;height: auto !important;"
-              alt="...">
-          </td>
-          <td>{{album.Title}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="row p-3 m-3" *ngIf="isAssginToNewAlbum()" [hidden]="isUploading">
-    <mat-card class="w-100 p-3">
-      <mat-card-header>
-        <mat-card-title>{{"Photo.Upload_AssignNewAlbum" | translate}}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <form #albumForm="ngForm">
-          <mat-form-field class="w-100 p-3">
-            <input matInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="albumCreate.Title" name="title"
-              #title="ngModel">
-            <mat-hint align="end">{{albumCreate.Title && albumCreate.Title.length}} / 20</mat-hint>
-          </mat-form-field>
-
-          <mat-form-field class="w-100 p-3">
-            <input matInput placeholder="{{'Common.Description' | translate}}" maxlength="20" [(ngModel)]="albumCreate.Desp" name="albumdesp"
-              #albumdesp="ngModel">
-            <mat-hint align="end">{{albumCreate.Desp && albumCreate.Desp.length}} / 20</mat-hint>
-          </mat-form-field>
-
-          <mat-checkbox [(ngModel)]="albumCreate.IsPublic" name="ispubl">{{"Album.IsPublic" | translate}}</mat-checkbox>
-
-          <mat-form-field class="w-100 p-3">
-            <input matInput placeholder="{{'Album.AccessCode' | translate}}" maxlength="20" [(ngModel)]="albumCreate.AccessCode" name="accesscode"
-              #accesscode="ngModel">
-            <mat-hint align="end">{{albumCreate.AccessCode && albumCreate.AccessCode.length}} / 20</mat-hint>
-          </mat-form-field>
-        </form>
-      </mat-card-content>
-    </mat-card>
-  </div>
 
   <div class="row p-3 m-3" [hidden]="!isUploading">
     <div style="padding: 20%;text-align:center;">

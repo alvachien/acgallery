@@ -8,7 +8,7 @@ import { Photo, UpdPhoto } from '../model/photo';
 import { LogLevel } from '../model/common';
 import { environment } from '../../environments/environment';
 import { MatSnackBar } from '@angular/material';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatButton } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
@@ -30,7 +30,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   public albumUpdate: Album;
   public allAlbum: SelectableAlbum[] = [];
   public arAssignMode: any[] = [];
-  @ViewChild('uploadFileRef') elemUploadFile;
+  @ViewChild('uploadFileRef') elemUploadFile: MatButton;
   displayedColumns = ['id', 'name', 'size', 'dimension', 'ispublic', 'title', 'desp'];
   dataSource = new MatTableDataSource<UpdPhoto>();
   displayedAlbumColumns = ['select', 'id', 'title'];
@@ -116,7 +116,8 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     let that = this;
     if (!this.uploader && that.elemUploadFile) {
       this.uploader = new FineUploaderBasic({
-        button: that.elemUploadFile.nativeElement,
+        // button: that.elemUploadFile.nativeElement,
+        button: that.elemUploadFile._elementRef.nativeElement,
         autoUpload: false,
         request: {
           endpoint: environment.PhotoFileAPIUrl,
@@ -130,7 +131,8 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         callbacks: {
           onComplete: function (id: number, name, responseJSON) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log('ACGallery [Debug]: Entering uploader_onComplete of PhotoUploadComponent upon ID: ' + id.toString() + '; name: ' + name);
+              console.log('ACGallery [Debug]: Entering uploader_onComplete of PhotoUploadComponent upon ID: ' 
+                + id.toString() + '; name: ' + name);
             }
 
             if (!responseJSON.success) {
@@ -144,14 +146,16 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
           },
           onAllComplete: function (succids, failids) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log('ACGallery [Debug]: Entering uploader_onAllComplete of uploader_onAllComplete with succids: ' + succids.toString() + '; failids: ' + failids.toString());
+              console.log('ACGallery [Debug]: Entering uploader_onAllComplete of uploader_onAllComplete with succids: '
+                + succids.toString() + '; failids: ' + failids.toString());
             }
 
             that.onAllCompleted();
           },
           onStatusChange: function (id: number, oldstatus, newstatus) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log('ACGallery [Debug]: Entering uploader_onStatusChange of PhotoUploadComponent upon ID: ' + id.toString() + '; From ' + oldstatus + ' to ' + newstatus);
+              console.log('ACGallery [Debug]: Entering uploader_onStatusChange of PhotoUploadComponent upon ID: '
+                + id.toString() + '; From ' + oldstatus + ' to ' + newstatus);
             }
 
             if (newstatus === 'rejected') {
@@ -163,27 +167,29 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
             }
 
-            //SUBMITTED
-            //QUEUED
-            //UPLOADING
-            //UPLOAD_RETRYING
-            //UPLOAD_FAILED
-            //UPLOAD_SUCCESSFUL
-            //CANCELED
-            //REJECTED
-            //DELETED
-            //DELETING
-            //DELETE_FAILED
-            //PAUSED
+            // SUBMITTED
+            // QUEUED
+            // UPLOADING
+            // UPLOAD_RETRYING
+            // UPLOAD_FAILED
+            // UPLOAD_SUCCESSFUL
+            // CANCELED
+            // REJECTED
+            // DELETED
+            // DELETING
+            // DELETE_FAILED
+            // PAUSED
           },
           onSubmit: function (id: number, name: string) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log('ACGallery [Debug]: Entering uploader_onSubmit of PhotoUploadComponent upon ID: ' + id.toString() + '; name: ' + name);
+              console.log('ACGallery [Debug]: Entering uploader_onSubmit of PhotoUploadComponent upon ID: '
+                + id.toString() + '; name: ' + name);
             }
           },
           onSubmitted: function (id: number, name: string) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log('ACGallery [Debug]: Entering uploader_onSubmitted of PhotoUploadComponent upon ID: ' + id.toString() + '; name: ' + name);
+              console.log('ACGallery [Debug]: Entering uploader_onSubmitted of PhotoUploadComponent upon ID: '
+                + id.toString() + '; name: ' + name);
             }
 
             if (that.uploader) {
@@ -198,14 +204,16 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
           },
           onTotalProgress: function (totalUploadedBytes: number, totalBytes: number) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log('ACGallery [Debug]: Entering uploader_onTotalProgress of PhotoUploadComponent with totalUploadedBytes: ' + totalUploadedBytes.toString() + '; totalBytes: ' + totalUploadedBytes.toString());
+              console.log('ACGallery [Debug]: Entering uploader_onTotalProgress of PhotoUploadComponent with totalUploadedBytes: '
+                + totalUploadedBytes.toString() + '; totalBytes: ' + totalUploadedBytes.toString());
             }
 
             that.onUploadProgress(Math.floor(100 * totalUploadedBytes / totalBytes));
           },
           onUpload: function (id: number, name: string) {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log('ACGallery [Debug]: Entering uploader_onUpload of PhotoUploadComponent upon ID: ' + id.toString() + '; name: ' + name);
+              console.log('ACGallery [Debug]: Entering uploader_onUpload of PhotoUploadComponent upon ID: '
+                + id.toString() + '; name: ' + name);
             }
           },
           onValidate: function (data) {
@@ -287,7 +295,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   onSingleComplete(id: number, insPhoto: Photo): void {
     // Read through the inputted data
     // for (let pht of this.arUpdPhotos) {
-    for (let pht of this.dataSource.data) {  
+    for (let pht of this.dataSource.data) {
       if (pht.ID === id) {
         insPhoto.title = pht.Title ? pht.Title : pht.OrgName;
         insPhoto.desp = pht.Desp ? pht.Desp : pht.OrgName;
@@ -369,8 +377,8 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     this.uploader.uploadStoredFiles();
   }
 
-  getcustomHeader() {
-    let obj = {
+  getcustomHeader(): any {
+    const obj: any = {
       Authorization: 'Bearer ' + this._authService.authSubject.getValue().getAccessToken()
     };
     return obj;
@@ -414,44 +422,36 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     arPhotos = [];
 
-    let reader = new FileReader();
-    let that = this;
+    const reader: FileReader = new FileReader();
 
-    reader.addEventListener("load", function () {
-      let image = new Image();
+    reader.addEventListener('load', () => {
+      if (environment.LoggingLevel >= LogLevel.Debug) {
+        console.log('ACGallery [Debug]: Entering event load of readImage in PhotoUploadComponent');
+      }
 
-      image.addEventListener("load", function () {
-        if (environment.LoggingLevel >= LogLevel.Debug) {
-          console.log('ACGallery [Debug]: Entering event load of readImage in PhotoUploadComponent');
-        }
-
-        let updPhoto: UpdPhoto = new UpdPhoto();
-        updPhoto.ID = +fid;
-        updPhoto.OrgName = file.name;
-        updPhoto.Name = nname;
-        updPhoto.Width = +image.width;
-        updPhoto.Height = +image.height;
-        updPhoto.Title = file.name;
-        updPhoto.Desp = file.name;
-        let size = Math.round(file.size / 1024);
-        updPhoto.Size = size.toString() + 'KB';
-
-        if (size >= that.photoMaxKBSize || size <= that.photoMinKBSize) {
-          updPhoto.ValidInfo = "File " + updPhoto.Name + " with size (" + updPhoto.Size + ") which is larger than " + that.photoMaxKBSize + " or less than " + that.photoMinKBSize;
-          updPhoto.IsValid = false;
-        } else {
-          updPhoto.IsValid = true;
-        }
-
-        arPhotos.push(updPhoto);
-      });
-
-      //var useBlob = false && window.URL;
-      //image.src = useBlob ? window.URL.createObjectURL(file) : reader.result;
-      //if (useBlob) {
-      //    window.URL.revokeObjectURL(file); // Free memory
-      //}
+      const image = new Image();
       image.src = reader.result;
+
+      const updPhoto: UpdPhoto = new UpdPhoto();
+      updPhoto.ID = +fid;
+      updPhoto.OrgName = file.name;
+      updPhoto.Name = nname;
+      updPhoto.Width = +image.width;
+      updPhoto.Height = +image.height;
+      updPhoto.Title = file.name;
+      updPhoto.Desp = file.name;
+      const size: number = Math.round(file.size / 1024);
+      updPhoto.Size = size.toString() + 'KB';
+
+      if (size >= this.photoMaxKBSize || size <= this.photoMinKBSize) {
+        updPhoto.ValidInfo = 'File ' + updPhoto.Name + ' with size (' + updPhoto.Size + ') which is larger than '
+          + this.photoMaxKBSize + ' or less than ' + this.photoMinKBSize;
+        updPhoto.IsValid = false;
+      } else {
+        updPhoto.IsValid = true;
+      }
+
+      arPhotos.push(updPhoto);
     });
 
     reader.readAsDataURL(file);
