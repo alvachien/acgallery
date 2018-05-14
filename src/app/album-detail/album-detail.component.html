@@ -1,0 +1,19 @@
+<mat-form-field class="control-full-width">
+  <input matInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="objAlbum.Title" name="title"
+    #title="ngModel" [disabled]="!isFieldChangable()">
+  <mat-hint align="end">{{objAlbum.Title && objAlbum.Title.length}} / 20</mat-hint>
+</mat-form-field>
+
+<mat-form-field class="control-full-width">
+  <input matInput placeholder="{{'Common.Description' | translate}}" maxlength="50" [(ngModel)]="objAlbum.Desp" name="albumdesp"
+    #albumdesp="ngModel" [disabled]="!isFieldChangable()">
+  <mat-hint align="end">{{objAlbum.Desp && objAlbum.Desp.length}} / 50</mat-hint>
+</mat-form-field>
+
+<mat-checkbox class="control-full-width" [(ngModel)]="objAlbum.IsPublic" name="ispubl" [disabled]="!isFieldChangable()">{{'Album.IsPublic' | translate}}</mat-checkbox>
+
+<mat-form-field class="control-full-width" *ngIf="needShowAccessCode()">
+  <input matInput placeholder="{{'Album.AccessCode' | translate}}" maxlength="20" [(ngModel)]="objAlbum.AccessCode" name="accesscode"
+    #accesscode="ngModel">
+  <mat-hint align="end">{{objAlbum.AccessCode && objAlbum.AccessCode.length}} / 20</mat-hint>
+</mat-form-field>
