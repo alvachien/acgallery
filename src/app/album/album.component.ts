@@ -165,21 +165,25 @@ export class AlbumComponent implements OnInit {
           if (result) {
             this.objAlbum.AccessCode = result;
             // this.onPageClick(1);
-            this._photoService.loadAlbumPhoto(this.objAlbum.Id, result).subscribe((x2: any) => {
-              for (const x2dtl of x2.contentList) {
-                const nphoto: Photo = new Photo();
-                nphoto.init(nphoto);
-                this.photos.push(nphoto);
+            this._photoService.loadAlbumPhoto(this.objAlbum.Id, result).subscribe((data: any) => {
+              if (data && data.contentList && data.contentList instanceof Array) {
+                for (const ce of data.contentList) {
+                  const pi: Photo = new Photo();
+                  pi.init(ce);
+                  this.photos.push(pi);
+                }
               }
             });
           }
         });
       } else if (!this.objAlbum.AccessCode) {
-        this._photoService.loadAlbumPhoto(this.objAlbum.Id).subscribe((x2: any) => {
-          for (const x2dtl of x2.contentList) {
-            const nphoto: Photo = new Photo();
-            nphoto.init(nphoto);
-            this.photos.push(nphoto);
+        this._photoService.loadAlbumPhoto(this.objAlbum.Id).subscribe((data: any) => {
+          if (data && data.contentList && data.contentList instanceof Array) {
+            for (const ce of data.contentList) {
+              const pi: Photo = new Photo();
+              pi.init(ce);
+              this.photos.push(pi);
+            }
           }
         });
       }

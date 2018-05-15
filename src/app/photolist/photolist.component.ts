@@ -156,7 +156,7 @@ export class PhotolistComponent implements OnInit {
         this._zone.run(() => {
           this.photos = [];
           if (data && data.contentList && data.contentList instanceof Array) {
-            for (const ce of data.contentList){
+            for (const ce of data.contentList) {
               const pi: Photo = new Photo();
               pi.init(ce);
               this.photos.push(pi);

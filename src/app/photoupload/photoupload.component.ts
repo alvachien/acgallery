@@ -25,7 +25,6 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   public uploader: any = null;
   public canCrtAlbum: boolean;
   public albumCreate: Album;
-  public albumUpdate: Album;
   public arAssignMode: any[] = [];
   @ViewChild('uploadFileRef') elemUploadFile: MatButton;
   @ViewChild(MatPaginator) paginatorPhoto: MatPaginator;
@@ -35,6 +34,20 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   displayedAlbumColumns = ['select', 'id', 'thumbnail', 'title'];
   dataSourceAlbum = new MatTableDataSource<Album>([]);
   selection = new SelectionModel<Album>(true, []);
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSourceAlbum.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.dataSourceAlbum.data.forEach(row => this.selection.select(row));
+  }
 
   constructor(private _zone: NgZone,
     private _router: Router,
@@ -168,7 +181,9 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
                 duration: 2000,
               });
             } else if (newstatus === 'upload_failed') {
-
+              if (environment.LoggingLevel >= LogLevel.Error) {
+                console.error('ACGallery [Debug]: Upload failed at ID: ' + id.toString());
+              }
             }
 
             // SUBMITTED
@@ -281,17 +296,10 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       }, () => {
       });
     } else if (this.isAssginToExistingAlbum()) {
-      let nsel = 0;
-      // TBD!
-      // for (const alm of this.allAlbum) {
-      //   if (alm.isSelected) {
-      //     this.albumUpdate = alm;
-      //     nsel++;
-      //   }
-      // }
+      const nsel = this.selection.selected.length;
 
-      if (nsel !== 1 || !this.albumUpdate) {
-        this._snackBar.open('Select one and only one album to continue!', 'Close', {
+      if (nsel < 1) {
+        this._snackBar.open('Select at least one album to continue!', 'Close', {
           duration: 2000,
         });
         return;
@@ -333,40 +341,47 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
     forkJoin(rxdata).subscribe(data => {
       if (this.assignMode !== 0) {
-        const apba = new AlbumPhotoByAlbum();
+        const albumids: number[] = [];
         if (this.isAssginToNewAlbum()) {
-          apba.albumId = this.albumCreate.Id;
+          albumids.push(this.albumCreate.Id);
         } else {
-          apba.albumId = this.albumUpdate.Id;
-        }
-        apba.photoIDList = new Array<string>();
-        for (const data_detail of data) {
-          apba.photoIDList.push(data_detail.photoId);
+          this.selection.selected.forEach((val: Album) => {
+            albumids.push(val.Id);
+          });
         }
 
-        if (this.isAssginToNewAlbum()) {
-          this._albumService.updateAlbumPhotoByAlbum(apba).subscribe(data2 => {
-            this.onAfterUploadComplete();
-          }, error2 => {
-            this.onAfterUploadComplete();
-          }, () => {
-          });
-        } else if (this.isAssginToExistingAlbum()) {
-          const rxdata2: Observable<any>[] = [];
-          for (const pid of apba.photoIDList) {
-            const apl: AlbumPhotoLink = new AlbumPhotoLink();
-            apl.albumID = apba.albumId;
-            apl.photoID = pid;
-            rxdata2.push(this._albumService.createAlbumPhotoLink(apl));
+        albumids.forEach((albid: number) => {
+          const apba = new AlbumPhotoByAlbum();
+          apba.albumId = albid;
+          apba.photoIDList = new Array<string>();
+          for (const data_detail of data) {
+            apba.photoIDList.push(data_detail.photoId);
           }
 
-          forkJoin(rxdata2).subscribe(data3 => {
-            this.onAfterUploadComplete();
-          }, error3 => {
-            this.onAfterUploadComplete();
-          }, () => {
-          });
-        }
+          // if (this.isAssginToNewAlbum()) {
+          //   this._albumService.updateAlbumPhotoByAlbum(apba).subscribe(data2 => {
+          //     this.onAfterUploadComplete();
+          //   }, error2 => {
+          //     this.onAfterUploadComplete();
+          //   }, () => {
+          //   });
+          // } else if (this.isAssginToExistingAlbum()) {
+          //   const rxdata2: Observable<any>[] = [];
+          //   for (const pid of apba.photoIDList) {
+          //     const apl: AlbumPhotoLink = new AlbumPhotoLink();
+          //     apl.albumID = apba.albumId;
+          //     apl.photoID = pid;
+          //     rxdata2.push(this._albumService.createAlbumPhotoLink(apl));
+          //   }
+
+          //   forkJoin(rxdata2).subscribe(data3 => {
+          //     this.onAfterUploadComplete();
+          //   }, error3 => {
+          //     this.onAfterUploadComplete();
+          //   }, () => {
+          //   });
+          // }
+        });
       } else {
         this.onAfterUploadComplete();
       }

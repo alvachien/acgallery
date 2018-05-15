@@ -84,7 +84,7 @@ export class Photo {
     }
     if (data && data.exifTags && data.exifTags instanceof Array) {
       this.exifTags = [];
-      for(let tag of data.exifTags) {
+      for (const tag of data.exifTags) {
         this.exifTags.push(tag);
       }
     }
