@@ -2,11 +2,11 @@ import {
   Component, OnInit, OnDestroy, AfterViewInit, NgZone,
   EventEmitter, Input, Output, ViewContainerRef
 } from '@angular/core';
-import { UIMode, LogLevel, Album, Photo, UIPagination } from '../model';
+import { UIMode, LogLevel, Album, Photo, } from '../model';
 import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, forkJoin } from 'rxjs';
 import { MatDialog, MatDialogRef, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http/';
 declare var PhotoSwipe;
@@ -21,15 +21,13 @@ export class AlbumComponent implements OnInit {
   public objAlbum: Album = null;
   public photos: Photo[] = [];
   public selectedPhoto: Photo;
-  public objUtil: UIPagination;
 
   private uiMode: UIMode = UIMode.Display;
   private currentMode: string;
   private routerID: number;
   private gallery: any;
 
-  constructor(
-    private _router: Router,
+  constructor(private _router: Router,
     private _activateRoute: ActivatedRoute,
     private _zone: NgZone,
     private _authService: AuthService,
@@ -40,7 +38,6 @@ export class AlbumComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _dialog: MatDialog) {
     this.objAlbum = new Album();
-    this.objUtil = new UIPagination(20, 5);
   }
 
   ngOnInit() {
@@ -78,7 +75,7 @@ export class AlbumComponent implements OnInit {
     });
   }
 
-  public isFieldChangable(): boolean {
+  get isFieldChangable(): boolean {
     return this.uiMode === UIMode.Create || this.uiMode === UIMode.Change;
   }
 
@@ -168,10 +165,23 @@ export class AlbumComponent implements OnInit {
           if (result) {
             this.objAlbum.AccessCode = result;
             // this.onPageClick(1);
+            this._photoService.loadAlbumPhoto(this.objAlbum.Id, result).subscribe((x2: any) => {
+              for (const x2dtl of x2.contentList) {
+                const nphoto: Photo = new Photo();
+                nphoto.init(nphoto);
+                this.photos.push(nphoto);
+              }
+            });
           }
         });
       } else if (!this.objAlbum.AccessCode) {
-        // this.onPageClick(1);
+        this._photoService.loadAlbumPhoto(this.objAlbum.Id).subscribe((x2: any) => {
+          for (const x2dtl of x2.contentList) {
+            const nphoto: Photo = new Photo();
+            nphoto.init(nphoto);
+            this.photos.push(nphoto);
+          }
+        });
       }
     }, (error: HttpErrorResponse) => {
       // Show error info

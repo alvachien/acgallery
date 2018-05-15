@@ -3,12 +3,10 @@ import { Observable, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { FineUploaderBasic } from 'fine-uploader/lib/core'
 import { AuthService, PhotoService, AlbumService } from '../services';
-import { Album, AlbumPhotoLink, AlbumPhotoByAlbum, SelectableAlbum } from '../model/album';
-import { Photo, UpdPhoto } from '../model/photo';
-import { LogLevel } from '../model/common';
+import { Album, AlbumPhotoLink, AlbumPhotoByAlbum, } from '../model/album';
+import { LogLevel, Photo, UpdPhoto } from '../model';
 import { environment } from '../../environments/environment';
-import { MatSnackBar } from '@angular/material';
-import { MatPaginator, MatTableDataSource, MatButton } from '@angular/material';
+import { MatSnackBar, MatPaginator, MatTableDataSource, MatButton } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
@@ -17,24 +15,25 @@ import { SelectionModel } from '@angular/cdk/collections';
   styleUrls: ['./photoupload.component.css']
 })
 export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
-  public progressNum: number = 0;
-  public isUploading: boolean = false;
-  public assignMode: number = 0;
+  public progressNum = 0;
+  public isUploading = false;
+  public assignMode = 0;
 
-  public photoMaxKBSize: number = 0;
-  public photoMinKBSize: number = 0;
+  public photoMaxKBSize = 0;
+  public photoMinKBSize = 0;
   private photoHadUploaded: Photo[] = [];
   public uploader: any = null;
   public canCrtAlbum: boolean;
   public albumCreate: Album;
   public albumUpdate: Album;
-  public allAlbum: SelectableAlbum[] = [];
   public arAssignMode: any[] = [];
   @ViewChild('uploadFileRef') elemUploadFile: MatButton;
-  displayedColumns = ['id', 'name', 'size', 'dimension', 'ispublic', 'title', 'desp'];
-  dataSource = new MatTableDataSource<UpdPhoto>();
-  displayedAlbumColumns = ['select', 'id', 'title'];
-  dataSourceAlbum = new MatTableDataSource<Album>();
+  @ViewChild(MatPaginator) paginatorPhoto: MatPaginator;
+
+  displayedColumns = ['thumbnail', 'id', 'name', 'size', 'dimension', 'ispublic', 'title', 'desp'];
+  dataSource = new MatTableDataSource<UpdPhoto>([]);
+  displayedAlbumColumns = ['select', 'id', 'thumbnail', 'title'];
+  dataSourceAlbum = new MatTableDataSource<Album>([]);
   selection = new SelectionModel<Album>(true, []);
 
   constructor(private _zone: NgZone,
@@ -43,14 +42,14 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     private _albumService: AlbumService,
     private _photoService: PhotoService,
     private _elmRef: ElementRef,
-    public _snackBar: MatSnackBar) {
+    private _snackBar: MatSnackBar) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Entering constructor of PhotoUploadComponent.');
     }
 
     this._authService.authContent.subscribe((x) => {
       if (x.canUploadPhoto()) {
-        let sizes = x.getUserUploadKBSize();
+        const sizes = x.getUserUploadKBSize();
         this.photoMinKBSize = sizes[0];
         this.photoMaxKBSize = sizes[1];
       } else {
@@ -89,9 +88,13 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     }
 
+    this.dataSource.paginator = this.paginatorPhoto;
+    // this.dataSourceAlbum.paginator = this.paginatorAlbum;
+
     this._albumService.loadAlbums().subscribe(x => {
-      for (let alb of x.contentList) {
-        let album = new SelectableAlbum();
+      const allAlbum: Album[] = [];
+      for (const alb of x.contentList) {
+        const album = new Album();
         album.init(alb.id,
           alb.title,
           alb.desp,
@@ -101,10 +104,11 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
           alb.isPublic,
           alb.accessCode,
           alb.photoCount);
-        album.isSelected = false;
 
-        this.allAlbum.push(album);
+        allAlbum.push(album);
       }
+
+      this.dataSourceAlbum.data = allAlbum;
     });
   }
 
@@ -113,7 +117,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log('ACGallery [Debug]: Entering ngAfterViewInit of PhotoUploadComponent');
     }
 
-    let that = this;
+    const that = this;
     if (!this.uploader && that.elemUploadFile) {
       this.uploader = new FineUploaderBasic({
         // button: that.elemUploadFile.nativeElement,
@@ -129,7 +133,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
           sizeLimit: that.photoMaxKBSize * 1024
         },
         callbacks: {
-          onComplete: function (id: number, name, responseJSON) {
+          onComplete: (id: number, name, responseJSON) => {
             if (environment.LoggingLevel >= LogLevel.Debug) {
               console.log('ACGallery [Debug]: Entering uploader_onComplete of PhotoUploadComponent upon ID: ' 
                 + id.toString() + '; name: ' + name);
@@ -139,27 +143,27 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
               return;
             }
 
-            let insPhoto = new Photo();
+            const insPhoto = new Photo();
             insPhoto.init(responseJSON);
 
             that.onSingleComplete(id, insPhoto);
           },
-          onAllComplete: function (succids, failids) {
+          onAllComplete: (succids, failids) => {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log('ACGallery [Debug]: Entering uploader_onAllComplete of uploader_onAllComplete with succids: '
+              console.log('ACGallery [Debug]: Entering uploader_onAllComplete of PhotoUploadComponent with succids: '
                 + succids.toString() + '; failids: ' + failids.toString());
             }
 
             that.onAllCompleted();
           },
-          onStatusChange: function (id: number, oldstatus, newstatus) {
+          onStatusChange: (id: number, oldstatus, newstatus) => {
             if (environment.LoggingLevel >= LogLevel.Debug) {
               console.log('ACGallery [Debug]: Entering uploader_onStatusChange of PhotoUploadComponent upon ID: '
                 + id.toString() + '; From ' + oldstatus + ' to ' + newstatus);
             }
 
             if (newstatus === 'rejected') {
-              let errormsg = 'File size must smaller than ' + that.photoMaxKBSize + ' and larger than ' + that.photoMinKBSize;
+              const errormsg = 'File size must smaller than ' + that.photoMaxKBSize + ' and larger than ' + that.photoMinKBSize;
               that._snackBar.open(errormsg, 'Close', {
                 duration: 2000,
               });
@@ -180,29 +184,29 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
             // DELETE_FAILED
             // PAUSED
           },
-          onSubmit: function (id: number, name: string) {
+          onSubmit: (id: number, name: string) => {
             if (environment.LoggingLevel >= LogLevel.Debug) {
               console.log('ACGallery [Debug]: Entering uploader_onSubmit of PhotoUploadComponent upon ID: '
                 + id.toString() + '; name: ' + name);
             }
           },
-          onSubmitted: function (id: number, name: string) {
+          onSubmitted: (id: number, name: string) => {
             if (environment.LoggingLevel >= LogLevel.Debug) {
               console.log('ACGallery [Debug]: Entering uploader_onSubmitted of PhotoUploadComponent upon ID: '
                 + id.toString() + '; name: ' + name);
             }
 
             if (that.uploader) {
-              let fObj = that.uploader.getFile(id);
-              that.readImage(id, fObj, name, that.dataSource.data);
+              const fObj = that.uploader.getFile(id);
+              that.readImage(id, fObj, name);
             } else {
-              let errormsg = 'Failed to process File ' + name;
+              const errormsg = 'Failed to process File ' + name;
               that._snackBar.open(errormsg, 'Close', {
                 duration: 2000,
               });
             }
           },
-          onTotalProgress: function (totalUploadedBytes: number, totalBytes: number) {
+          onTotalProgress: (totalUploadedBytes: number, totalBytes: number) => {
             if (environment.LoggingLevel >= LogLevel.Debug) {
               console.log('ACGallery [Debug]: Entering uploader_onTotalProgress of PhotoUploadComponent with totalUploadedBytes: '
                 + totalUploadedBytes.toString() + '; totalBytes: ' + totalUploadedBytes.toString());
@@ -210,19 +214,25 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
             that.onUploadProgress(Math.floor(100 * totalUploadedBytes / totalBytes));
           },
-          onUpload: function (id: number, name: string) {
+          onUpload: (id: number, name: string) => {
             if (environment.LoggingLevel >= LogLevel.Debug) {
               console.log('ACGallery [Debug]: Entering uploader_onUpload of PhotoUploadComponent upon ID: '
                 + id.toString() + '; name: ' + name);
             }
           },
-          onValidate: function (data) {
+          onValidate: (data: any) => {
             if (environment.LoggingLevel >= LogLevel.Debug) {
               console.log('ACGallery [Debug]: Entering uploader_onValidate of PhotoUploadComponent with data: ' + data);
             }
           }
         }
       });
+    } else {
+      if (environment.LoggingLevel >= LogLevel.Error) {
+        console.error('ACGallery [Error]: Failed to initialize the uploader control.');
+      }
+
+      // TBD: Error handling.
     }
   }
 
@@ -232,7 +242,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  onSubmit($event): void {
+  onSubmit(): void {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Entering onSubmit of PhotoUploadComponent');
     }
@@ -271,16 +281,17 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       }, () => {
       });
     } else if (this.isAssginToExistingAlbum()) {
-      let nsel: number = 0;
-      for (let alm of this.allAlbum) {
-        if (alm.isSelected) {
-          this.albumUpdate = alm;
-          nsel++;
-        }
-      }
+      let nsel = 0;
+      // TBD!
+      // for (const alm of this.allAlbum) {
+      //   if (alm.isSelected) {
+      //     this.albumUpdate = alm;
+      //     nsel++;
+      //   }
+      // }
 
       if (nsel !== 1 || !this.albumUpdate) {
-        this._snackBar.open("Select one and only one album to continue!", 'Close', {
+        this._snackBar.open('Select one and only one album to continue!', 'Close', {
           duration: 2000,
         });
         return;
@@ -295,7 +306,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   onSingleComplete(id: number, insPhoto: Photo): void {
     // Read through the inputted data
     // for (let pht of this.arUpdPhotos) {
-    for (let pht of this.dataSource.data) {
+    for (const pht of this.dataSource.data) {
       if (pht.ID === id) {
         insPhoto.title = pht.Title ? pht.Title : pht.OrgName;
         insPhoto.desp = pht.Desp ? pht.Desp : pht.OrgName;
@@ -315,21 +326,21 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onAllCompleted(): void {
-    let rxdata: Observable<any>[] = [];
-    for (let pht of this.photoHadUploaded) {
+    const rxdata: Observable<any>[] = [];
+    for (const pht of this.photoHadUploaded) {
       rxdata.push(this._photoService.createFile(pht));
     }
 
     forkJoin(rxdata).subscribe(data => {
       if (this.assignMode !== 0) {
-        let apba = new AlbumPhotoByAlbum();
+        const apba = new AlbumPhotoByAlbum();
         if (this.isAssginToNewAlbum()) {
           apba.albumId = this.albumCreate.Id;
         } else {
           apba.albumId = this.albumUpdate.Id;
         }
         apba.photoIDList = new Array<string>();
-        for (let data_detail of data) {
+        for (const data_detail of data) {
           apba.photoIDList.push(data_detail.photoId);
         }
 
@@ -341,9 +352,9 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
           }, () => {
           });
         } else if (this.isAssginToExistingAlbum()) {
-          let rxdata2: Observable<any>[] = [];
-          for (let pid of apba.photoIDList) {
-            let apl: AlbumPhotoLink = new AlbumPhotoLink();
+          const rxdata2: Observable<any>[] = [];
+          for (const pid of apba.photoIDList) {
+            const apl: AlbumPhotoLink = new AlbumPhotoLink();
             apl.albumID = apba.albumId;
             apl.photoID = pid;
             rxdata2.push(this._albumService.createAlbumPhotoLink(apl));
@@ -416,11 +427,10 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  private readImage(fid: number, file, nname, arPhotos: UpdPhoto[]) {
+  private readImage(fid: number, file: any, nname: string) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Entering readImage of PhotoUploadComponent');
     }
-    arPhotos = [];
 
     const reader: FileReader = new FileReader();
 
@@ -431,27 +441,31 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
       const image = new Image();
       image.src = reader.result;
+      image.addEventListener('load', () => {
+        const updPhoto: UpdPhoto = new UpdPhoto();
+        updPhoto.imgSrc = image.src;
+        updPhoto.ID = +fid;
+        updPhoto.OrgName = file.name;
+        updPhoto.Name = nname;
+        updPhoto.Width = +image.width;
+        updPhoto.Height = +image.height;
+        updPhoto.Title = file.name;
+        updPhoto.Desp = file.name;
+        const size: number = Math.round(file.size / 1024);
+        updPhoto.Size = size.toString() + 'KB';
 
-      const updPhoto: UpdPhoto = new UpdPhoto();
-      updPhoto.ID = +fid;
-      updPhoto.OrgName = file.name;
-      updPhoto.Name = nname;
-      updPhoto.Width = +image.width;
-      updPhoto.Height = +image.height;
-      updPhoto.Title = file.name;
-      updPhoto.Desp = file.name;
-      const size: number = Math.round(file.size / 1024);
-      updPhoto.Size = size.toString() + 'KB';
+        if (size >= this.photoMaxKBSize || size <= this.photoMinKBSize) {
+          updPhoto.ValidInfo = 'File ' + updPhoto.Name + ' with size (' + updPhoto.Size + ') which is larger than '
+            + this.photoMaxKBSize + ' or less than ' + this.photoMinKBSize;
+          updPhoto.IsValid = false;
+        } else {
+          updPhoto.IsValid = true;
+        }
 
-      if (size >= this.photoMaxKBSize || size <= this.photoMinKBSize) {
-        updPhoto.ValidInfo = 'File ' + updPhoto.Name + ' with size (' + updPhoto.Size + ') which is larger than '
-          + this.photoMaxKBSize + ' or less than ' + this.photoMinKBSize;
-        updPhoto.IsValid = false;
-      } else {
-        updPhoto.IsValid = true;
-      }
-
-      arPhotos.push(updPhoto);
+        const ardata: any[] = this.dataSource.data.slice();
+        ardata.push(updPhoto);
+        this.dataSource.data = ardata;
+      });
     });
 
     reader.readAsDataURL(file);

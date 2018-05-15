@@ -98,6 +98,8 @@ export class SelectablePhoto
 }
 
 export class UpdPhoto {
+  public imgSrc: string;
+
   public ID: number;
   public OrgName: string;
   public Name: string;

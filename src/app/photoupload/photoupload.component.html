@@ -1,14 +1,21 @@
-<mat-vertical-stepper>
+<mat-vertical-stepper linear="true">
   <mat-step label="{{'Photo.ChoosePhoto' | translate}}">
     <mat-toolbar>
-      <button mat-button #uploadFileRef>{{'Photo.ChoosePhoto' | translate}}</button>
+      <button mat-button #uploadFileRef>Select Photo(s)</button>
     </mat-toolbar>
     <div class="example-container mat-elevation-z8">
       <table mat-table #table [dataSource]="dataSource">
-
-        <!-- ID Column -->
+        <!-- thumbnail Column -->
+        <ng-container matColumnDef="thumbnail">
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let element"> 
+            <img style="object-fit: contain;" src="{{element.imgSrc}}" />
+          </td>
+        </ng-container>
+  
+        <!-- Sequence Column -->
         <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef> {{'Common.ID' | translate}} </th>
+          <th mat-header-cell *matHeaderCellDef> Seq. </th>
           <td mat-cell *matCellDef="let element"> {{element.ID}} </td>
         </ng-container>
 
@@ -33,27 +40,40 @@
         <!-- Is public Column -->
         <ng-container matColumnDef="ispublic">
           <th mat-header-cell *matHeaderCellDef> {{'Album.IsPublic' | translate}} </th>
-          <td mat-cell *matCellDef="let element"> {{element.IsPublic}} </td>
+          <td mat-cell *matCellDef="let element">
+            <mat-checkbox [(ngModel)]="element.IsPublic"> </mat-checkbox>
+          </td>
         </ng-container>
 
         <!-- Title Column -->
         <ng-container matColumnDef="title">
           <th mat-header-cell *matHeaderCellDef> {{'Common.Title' | translate}} </th>
-          <td mat-cell *matCellDef="let element"> {{element.Title}} </td>
+          <td mat-cell *matCellDef="let element"> 
+            <mat-form-field>
+              <input matInput [(ngModel)]="element.Title">
+            </mat-form-field>  
+          </td>
         </ng-container>
 
         <!-- Desp Column -->
         <ng-container matColumnDef="desp">
           <th mat-header-cell *matHeaderCellDef> {{'Common.Description' | translate}} </th>
-          <td mat-cell *matCellDef="let element"> {{element.Desp}} </td>
+          <td mat-cell *matCellDef="let element"> 
+            <mat-form-field>
+              <input matInput [(ngModel)]="element.Desp">
+            </mat-form-field>            
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
 
-      <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+      <mat-paginator #paginatorPhoto [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
       </mat-paginator>
+    </div>
+    <div style="margin-top: 20px;">
+      <button mat-button matStepperNext>Next</button>
     </div>
   </mat-step>
 
@@ -84,13 +104,21 @@
 
           <!-- ID Column -->
           <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef> No. </th>
-            <td mat-cell *matCellDef="let element"> {{element.ID}} </td>
+            <th mat-header-cell *matHeaderCellDef> # </th>
+            <td mat-cell *matCellDef="let element"> {{element.Id}} </td>
+          </ng-container>
+
+          <!-- Thumbnail column -->
+          <ng-container matColumnDef="thumbnail">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <img style="object-fit: contain;" src="{{element.ThumbnailInAPIUrl}}">
+            </td>
           </ng-container>
 
           <!-- Title Column -->
           <ng-container matColumnDef="title">
-            <th mat-header-cell *matHeaderCellDef> Tile </th>
+            <th mat-header-cell *matHeaderCellDef> {{'Common.Title' | translate}} </th>
             <td mat-cell *matCellDef="let element"> {{element.Title}} </td>
           </ng-container>
 
@@ -102,14 +130,21 @@
     </div>
 
     <div *ngIf="isAssginToNewAlbum()" [hidden]="isUploading">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>{{"Photo.Upload_AssignNewAlbum" | translate}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <acgallery-album-detail [objAlbum]="albumCreate" [uiMode]="1"></acgallery-album-detail>
-        </mat-card-content>
-      </mat-card>
+      <acgallery-album-detail [objAlbum]="albumCreate" [uiMode]="1"></acgallery-album-detail>
+    </div>
+    <div style="margin-top: 20px;">
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+
+  <mat-step label="Submit">
+    <mat-progress-bar class="progress-margin" color="primary">
+    </mat-progress-bar>
+
+    <div style="margin-top: 20px;">
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="onSubmit()">Submit</button>
     </div>
   </mat-step>
 </mat-vertical-stepper>

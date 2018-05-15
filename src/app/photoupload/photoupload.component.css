@@ -25,3 +25,22 @@
   min-width: 300px;
   overflow: auto;
 }
+
+.mat-column-select {
+  overflow: visible;
+}
+
+.mat-column-thumbnail {
+  max-width: 300px;
+}
+
+.mat-column-thumbnail > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mat-column-id,
+.mat-column-ispublic {
+  max-width: 50px;
+}
