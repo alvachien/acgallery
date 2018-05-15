@@ -52,7 +52,7 @@ import { AppRoutingModule } from './app-routing.module';
 import 'oidc-client';
 
 import { AuthService, PhotoService, AlbumService, UIStatusService, AuthGuard, CanDeactivateGuardService } from './services';
-
+import { SplitAreaDirective, SplitHandleDirective, SplitDirective } from './directives';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AppComponent } from './app.component';
@@ -95,7 +95,10 @@ export function funcHttpLoaderFactory(http: HttpClient) {
     PageDashboardComponent,
     AppNavComponent,
     CreditsTableComponent,
-    AlbumDetailComponent
+    AlbumDetailComponent,
+    SplitAreaDirective,
+    SplitHandleDirective,
+    SplitDirective,
   ],
   entryComponents: [
     AlbumAccessCodeDialog,

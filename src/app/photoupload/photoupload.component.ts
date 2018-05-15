@@ -350,37 +350,22 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
           });
         }
 
+        const rxdata2: Observable<any>[] = [];
         albumids.forEach((albid: number) => {
-          const apba = new AlbumPhotoByAlbum();
-          apba.albumId = albid;
-          apba.photoIDList = new Array<string>();
           for (const data_detail of data) {
-            apba.photoIDList.push(data_detail.photoId);
+            const apl: AlbumPhotoLink = new AlbumPhotoLink();
+            apl.albumID = albid;
+            apl.photoID = data_detail.photoId;
+            rxdata2.push(this._albumService.createAlbumPhotoLink(apl));
           }
+        });
 
-          // if (this.isAssginToNewAlbum()) {
-          //   this._albumService.updateAlbumPhotoByAlbum(apba).subscribe(data2 => {
-          //     this.onAfterUploadComplete();
-          //   }, error2 => {
-          //     this.onAfterUploadComplete();
-          //   }, () => {
-          //   });
-          // } else if (this.isAssginToExistingAlbum()) {
-          //   const rxdata2: Observable<any>[] = [];
-          //   for (const pid of apba.photoIDList) {
-          //     const apl: AlbumPhotoLink = new AlbumPhotoLink();
-          //     apl.albumID = apba.albumId;
-          //     apl.photoID = pid;
-          //     rxdata2.push(this._albumService.createAlbumPhotoLink(apl));
-          //   }
-
-          //   forkJoin(rxdata2).subscribe(data3 => {
-          //     this.onAfterUploadComplete();
-          //   }, error3 => {
-          //     this.onAfterUploadComplete();
-          //   }, () => {
-          //   });
-          // }
+        forkJoin(rxdata2).subscribe(data3 => {
+          // Do nothing
+        }, error3 => {
+          // TBD.
+        }, () => {
+          this.onAfterUploadComplete();
         });
       } else {
         this.onAfterUploadComplete();
