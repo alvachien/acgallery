@@ -111,4 +111,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this._translateService.addLangs(['en', 'zh']);
     this._translateService.setDefaultLang(this.selectedLanguage);
   }
+
+  public onOpenMathExcises() {
+    // TBD.
+  }
+  public onOpenHIH() {
+    // TBD.
+  }
 }

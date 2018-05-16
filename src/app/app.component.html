@@ -34,9 +34,9 @@
     
     <button mat-icon-button mat-button [matMenuTriggerFor]="matMenuApps"><mat-icon>apps</mat-icon></button>
     <mat-menu #matMenuApps="matMenu" overlapTrigger="false" xPosition="after" yPosition="below">
-      <button mat-menu-item disabled>H.I.H.</button>
+      <button mat-menu-item (click)="onOpenHIH()">H.I.H.</button>
       <button mat-menu-item (click)="onOpenMathExcises()">Math Exercise</button>
-      <button mat-menu-item (click)="onOpenPhotoGallery()">Photo Gallery</button>
+      <button mat-menu-item disabled>Photo Gallery</button>
     </mat-menu>
 </mat-toolbar>
 

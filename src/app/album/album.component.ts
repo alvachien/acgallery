@@ -7,7 +7,7 @@ import { AuthService, PhotoService, AlbumService, UIStatusService } from '../ser
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { Observable, Subject, forkJoin } from 'rxjs';
-import { MatDialog, MatDialogRef, MatDialogConfig, MatSnackBar } from '@angular/material';
+import { MatDialog, MatDialogRef, MatDialogConfig, MatSnackBar, PageEvent } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http/';
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
@@ -22,10 +22,15 @@ export class AlbumComponent implements OnInit {
   public photos: Photo[] = [];
   public selectedPhoto: Photo;
 
-  private uiMode: UIMode = UIMode.Display;
-  private currentMode: string;
+  public uiMode: UIMode = UIMode.Display;
+  public currentMode: string;
   private routerID: number;
   private gallery: any;
+  pageSize = 10;
+  pageSizeOptions = [5, 10, 25, 100];
+
+  // MatPaginator Output
+  pageEvent: PageEvent;
 
   constructor(private _router: Router,
     private _activateRoute: ActivatedRoute,
@@ -140,6 +145,13 @@ export class AlbumComponent implements OnInit {
   public onChangePhotoAssign(selphoto: any): void {
     this._uistatus.selPhotoInAblum = selphoto;
     this._router.navigate(['/photo/edit']);
+  }
+
+  public onSubmit() {
+    // TBD.
+  }
+  public onReset() {
+    // TBD
   }
 
   private readAlbum(): void {
