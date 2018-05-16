@@ -23,7 +23,7 @@
       </mat-grid-tile>
     </mat-grid-list>
 
-    <mat-paginator [length]="albumes.length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = $event">
+    <mat-paginator [length]="albumes.length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="onPageEvent($event)">
     </mat-paginator>
   </mat-card-content>
 </mat-card>

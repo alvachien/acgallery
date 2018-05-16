@@ -1,18 +1,13 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { PageEvent } from '@angular/material';
+import { PageEvent, MatSnackBar } from '@angular/material';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { PhotoService } from '../services/photo.service';
 import { AlbumService } from '../services/album.service';
 import { UIStatusService } from '../services/uistatus.service';
-
-import { Album, AlbumPhotoByAlbum } from '../model/album';
-import { Photo, UpdPhoto } from '../model/photo';
-import { LogLevel } from '../model/common';
-import { MatSnackBar } from '@angular/material';
-import { UIPagination } from '../model/paginated';
+import { Album, AlbumPhotoByAlbum, Photo, UpdPhoto, LogLevel } from '../model';
 
 @Component({
   selector: 'acgallery-albumlist',
@@ -66,5 +61,9 @@ export class AlbumlistComponent implements OnInit {
 
   public onChangeAlbumMetadata(id: number | string): void {
     this._router.navigate(['/album/edit/' + id.toString()]);
+  }
+
+  public onPageEvent($event: any) {
+    this.pageEvent = $event;
   }
 }
