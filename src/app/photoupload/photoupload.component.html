@@ -78,7 +78,7 @@
   </mat-step>
 
   <mat-step label="Assignment">
-    <div [hidden]="isUploading">
+    <div style="margin: 20px;">
       <mat-radio-group class="photoupload-radio-group" [(ngModel)]="assignMode">
         <mat-radio-button class="photoupload-radio-button" *ngFor="let am of arAssignMode" [value]="am.Value">
           {{am.Name | translate}}
@@ -86,7 +86,7 @@
       </mat-radio-group>
     </div>
 
-    <div *ngIf="isAssginToExistingAlbum()" [hidden]="isUploading">
+    <div *ngIf="isAssginToExistingAlbum()" style="margin: 20px;">
       <div class="example-container mat-elevation-z8">
         <table mat-table #table [dataSource]="dataSourceAlbum">
 
@@ -129,7 +129,7 @@
       </div>
     </div>
 
-    <div *ngIf="isAssginToNewAlbum()" [hidden]="isUploading">
+    <div *ngIf="isAssginToNewAlbum()" style="margin: 20px;">
       <acgallery-album-detail [objAlbum]="albumCreate" [uiMode]="1"></acgallery-album-detail>
     </div>
     <div style="margin-top: 20px;">
@@ -139,8 +139,10 @@
   </mat-step>
 
   <mat-step label="Submit">
-    <mat-progress-bar class="progress-margin" color="primary">
-    </mat-progress-bar>
+    <div style="margin: 20px;">
+      <mat-progress-bar mode="buffer" color="primary" [bufferValue]="progressNum">
+      </mat-progress-bar>
+    </div>
 
     <div style="margin-top: 20px;">
       <button mat-button matStepperPrevious>Back</button>

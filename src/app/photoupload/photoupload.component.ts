@@ -148,7 +148,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         callbacks: {
           onComplete: (id: number, name, responseJSON) => {
             if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log('ACGallery [Debug]: Entering uploader_onComplete of PhotoUploadComponent upon ID: ' 
+              console.log('ACGallery [Debug]: Entering uploader_onComplete of PhotoUploadComponent upon ID: '
                 + id.toString() + '; name: ' + name);
             }
 

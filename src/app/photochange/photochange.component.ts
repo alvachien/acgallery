@@ -163,11 +163,48 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
   }
 
   public onAddAssignedAlbum(): void {
-    // this.onSwitchArray(this.unassignedAlbum, this.assignedAlbum);
+    const agnalbum: Album[] = this.dataSourceAssignedAlbum.data;
+    const avlalbum: Album[] = this.dataSourceAvailableAlbum.data;
+
+    if (this.selectionAvailableAlbum.selected.length > 0) {
+      this.selectionAvailableAlbum.selected.forEach((val: Album) => {
+        const idx = avlalbum.findIndex((val2: Album, index: number) => {
+          return val2.Id === val.Id;
+        });
+        if (idx !== -1) {
+          avlalbum.splice(idx, 1);
+        }
+
+        agnalbum.push(val);
+      });
+
+      this.selectionAvailableAlbum.clear();
+      this.dataSourceAssignedAlbum.data = agnalbum;
+      this.dataSourceAvailableAlbum.data = avlalbum;
+    }
   }
 
   public onRemoveAssignedAlbum(): void {
-    // this.onSwitchArray(this.assignedAlbum, this.unassignedAlbum);
+    const agnalbum: Album[] = this.dataSourceAssignedAlbum.data;
+    const avlalbum: Album[] = this.dataSourceAvailableAlbum.data;
+
+    if (this.selectionAssignedAlbum.selected.length > 0) {
+      this.selectionAssignedAlbum.selected.forEach((val: Album) => {
+        const idx = agnalbum.findIndex((val2: Album, index: number) => {
+          return val2.Id === val.Id;
+        });
+        if (idx !== -1) {
+          agnalbum.splice(idx, 1);
+        }
+
+        avlalbum.push(val);
+      });
+
+      this.selectionAssignedAlbum.clear();
+
+      this.dataSourceAssignedAlbum.data = agnalbum;
+      this.dataSourceAvailableAlbum.data = avlalbum;
+    }
   }
 
   public onSubmit(): void {
@@ -190,22 +227,6 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
       break;
     }
   }
-
-  // private onSwitchArray(ar1: SelectableAlbum[], ar2: SelectableAlbum[]) {
-  //   const arpos: number[] = [];
-  //   for (let i = 0; i < ar1.length; i ++) {
-  //     if (ar1[i].isSelected) {
-  //       arpos.push(i);
-  //     }
-  //   }
-
-  //   arpos.sort((a, b) => { return b - a; });
-
-  //   for (const i of arpos) {
-  //     ar2.push(ar1[i]);
-  //     ar1.splice(i);
-  //   }
-  // }
 
   private onSaveCreation(): void {
     // Will never happen

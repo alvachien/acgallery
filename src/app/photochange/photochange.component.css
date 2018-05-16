@@ -27,6 +27,10 @@
   overflow: auto;
 }
 
+.mat-form-field {
+  width: 100%;
+}
+
 .mat-column-select {
   overflow: visible;
 }

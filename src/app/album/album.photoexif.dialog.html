@@ -1,18 +1,18 @@
 <h1 matDialogTitle>EXIF Metadata</h1>
 <div mat-dialog-content>
-  <table class="table table-sm">
+  <table class="mat-table">
     <thead>
-      <tr>
-        <th>Group</th>
-        <th>Name</th>
-        <th>Value</th>
+      <tr class="mat-header-row">
+        <th class="mat-header-cell">Group</th>
+        <th class="mat-header-cell">Name</th>
+        <th class="mat-header-cell">Value</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let exif of currentPhoto.exifTags">
-        <td>{{exif.group}}</td>
-        <td>{{exif.name}}</td>
-        <td>{{exif.value}}</td>
+      <tr class="mat-row" *ngFor="let exif of currentPhoto.exifTags">
+        <td class="mat-cell">{{exif.group}}</td>
+        <td class="mat-cell">{{exif.name}}</td>
+        <td class="mat-cell">{{exif.value}}</td>
       </tr>
     </tbody>
   </table>
