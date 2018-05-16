@@ -1,21 +1,41 @@
 .handle {
-    outline: none;
-    -webkit-user-select: none;
-    user-select: none;
-    z-index: 100;
-    height: 5px;
-    display: block;
-    padding: 0;
-    margin: 0;
-    position: relative;
-    line-height: 0;
-  }
-    
-  .handle-row {
-    width: 15px;
-    top: 50%;
-    left: -2px;
-    transform: translateX(-50%) rotate(270deg);
-    cursor: col-resize;
-  }
+  outline: none;
+  -webkit-user-select: none;
+  user-select: none;
+  z-index: 100;
+  height: 5px;
+  display: block;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  line-height: 0;
+}
   
+.handle-row {
+  width: 15px;
+  top: 50%;
+  left: -2px;
+  transform: translateX(-50%) rotate(270deg);
+  cursor: col-resize;
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  min-width: 300px;
+  overflow: auto;
+}
+
+.mat-column-select {
+  overflow: visible;
+}
+
+.mat-column-thumbnail {
+  width: 300px;
+}
+
+.thumbnail-image {
+  width: 300px;
+  object-fit: cover;
+}

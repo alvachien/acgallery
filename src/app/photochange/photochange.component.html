@@ -29,82 +29,102 @@
 <div style="margin-top: 20px;">
   <div fxLayout="row" fxLayout.xs="column" style="height:800px" ngxSplit="row">
     <div fxFlex.xs="100%" fxFlex.gt-md="45%" ngxSplitArea style="margin: 5px;">
-      <div>
-        {{'Photo.AssignedAlbum' | translate}}
+      <div class="example-container mat-elevation-z8">
+        <mat-toolbar>
+          <button mat-button [disabled]="!isFieldChangable()" (click)="onRemoveAssignedAlbum()">></button>
+        </mat-toolbar>
+        <table mat-table #table [dataSource]="dataSourceAssignedAlbum">
+
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? masterAssignedAlbumToggle() : null" [checked]="selectionAssignedAlbum.hasValue() && isAllAssignedAlbumSelected()" 
+                [indeterminate]="selectionAssignedAlbum.hasValue() && !isAllAssignedAlbumSelected()">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selectionAssignedAlbum.toggle(row) : null" 
+                [checked]="selectionAssignedAlbum.isSelected(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> # </th>
+            <td mat-cell *matCellDef="let element"> {{element.Id}} </td>
+          </ng-container>
+
+          <!-- Thumbnail column -->
+          <ng-container matColumnDef="thumbnail">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <img class="thumbnail-image" src="{{element.ThumbnailInAPIUrl}}">
+            </td>
+          </ng-container>
+
+          <!-- Title Column -->
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef> {{'Common.Title' | translate}} </th>
+            <td mat-cell *matCellDef="let element"> {{element.Title}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedAssignedAlbumColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedAssignedAlbumColumns;" (click)="selectionAssignedAlbum.toggle(row)">
+          </tr>
+        </table>
       </div>
-      <table class="table">
-        <thead class="thead-inverse">
-          <tr>
-            <th></th>
-            <th></th>
-            <th>{{'Common.Title' | translate}}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let album of assignedAlbum">
-            <td>
-              <mat-checkbox [(ngModel)]="album.IsSelected" name="isuasel" [disabled]="!isFieldChangable()"></mat-checkbox>
-            </td>
-            <td>
-              <img src="{{album.ThumbnailInAPIUrl}}" style="display: block; width: 200 !important;height: auto !important;" class="img-rounded pull-xs-left"
-                alt="...">
-            </td>
-            <td>{{album.Title}}</td>
-          </tr>
-        </tbody>
-      </table>
     </div>
     <div class="handle handle-row" ngxSplitHandle>
       <i class="material-icons">&#xE25D;</i>
     </div>
     <div fxFlex.xs="100%" fxFlex.gt-md="45%" ngxSplitArea style="margin: 5px;">
-      <div>
-        {{'Photo.AvailableAlbum' | translate}}
+      <div class="example-container mat-elevation-z8">
+        <mat-toolbar>
+          <button mat-button [disabled]="!isFieldChangable()" (click)="onAddAssignedAlbum()"> < </button>
+        </mat-toolbar>
+        <table mat-table #table [dataSource]="dataSourceAvailableAlbum">
+
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? masterAvailableAlbumToggle() : null" [checked]="selectionAvailableAlbum.hasValue() && isAllAvailableAlbumSelected()" 
+              [indeterminate]="selectionAvailableAlbum.hasValue() && !isAllAvailableAlbumSelected()">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selectionAvailableAlbum.toggle(row) : null" 
+                [checked]="selectionAvailableAlbum.isSelected(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> # </th>
+            <td mat-cell *matCellDef="let element"> {{element.Id}} </td>
+          </ng-container>
+
+          <!-- Thumbnail column -->
+          <ng-container matColumnDef="thumbnail">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <img class="thumbnail-image" src="{{element.ThumbnailInAPIUrl}}">
+            </td>
+          </ng-container>
+
+          <!-- Title Column -->
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef> {{'Common.Title' | translate}} </th>
+            <td mat-cell *matCellDef="let element"> {{element.Title}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedAvailableAlbumColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedAvailableAlbumColumns;" (click)="selectionAvailableAlbum.toggle(row)">
+          </tr>
+        </table>
       </div>
-      <table class="table">
-        <thead class="thead-default">
-          <tr>
-            <th></th>
-            <th></th>
-            <th>{{'Common.Title' | translate}}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let album of unassignedAlbum">
-            <td>
-              <mat-checkbox [(ngModel)]="album.IsSelected" name="isaasel" [disabled]="!isFieldChangable()"></mat-checkbox>
-            </td>
-            <td>
-              <img src="{{album.ThumbnailInAPIUrl}}" style="display: block; width: 200 !important;height: auto !important;" class="img-rounded pull-xs-left"
-                alt="...">
-            </td>
-            <td>{{album.Title}}</td>
-          </tr>
-        </tbody>
-      </table>
+
     </div>
   </div>
 </div>
-<!-- <div *ngIf="currentPhoto" class="container">
-  <hr />
-
-  <div class="row">
-    <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5">
-    </div>
-    <div class="col-lg-1 col-md-1 col-xs-1 col-sm-1">
-      <br />
-      <br />
-      <br />
-      <br />
-      <div class="row">
-        <button mat-button [disabled]="!isFieldChangable()" (click)="onRemoveAssignedAlbum()">></button>
-      </div>
-      <div class="row">
-        <button mat-button [disabled]="!isFieldChangable()" (click)="onAddAssignedAlbum()">
-        </button>
-      </div>
-    </div>
-    <div class="col-lg-5 col-md-5 col-xs-5 col-sm-5">
-    </div>
-  </div>
-</div> -->

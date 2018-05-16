@@ -1,9 +1,10 @@
 import { Component, NgZone, OnInit, ViewContainerRef, OnDestroy } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
+import { MatDialog, MatDialogRef, MatSnackBar, MatTableDataSource } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
 
-import { UIMode, LogLevel, Photo, Album, SelectableAlbum } from '../model';
+import { UIMode, LogLevel, Photo, Album, } from '../model';
 import { AuthService, AlbumService, PhotoService, UIStatusService } from '../services';
 import { environment } from '../../environments/environment';
 
@@ -15,9 +16,38 @@ import { environment } from '../../environments/environment';
 export class PhotochangeComponent implements OnInit, OnDestroy {
   public currentPhoto: Photo;
   public currentMode: string;
-  public assignedAlbum: SelectableAlbum[];
-  public unassignedAlbum: SelectableAlbum[];
   private uiMode: UIMode;
+
+  displayedAssignedAlbumColumns = ['select', 'id', 'thumbnail', 'title'];
+  dataSourceAssignedAlbum = new MatTableDataSource<Album>([]);
+  displayedAvailableAlbumColumns = ['select', 'id', 'thumbnail', 'title'];
+  dataSourceAvailableAlbum = new MatTableDataSource<Album>([]);
+  selectionAssignedAlbum = new SelectionModel<Album>(true, []);
+  selectionAvailableAlbum = new SelectionModel<Album>(true, []);
+
+  isAllAssignedAlbumSelected() {
+    const numSelected = this.selectionAssignedAlbum.selected.length;
+    const numRows = this.dataSourceAssignedAlbum.data.length;
+    return numSelected === numRows;
+  }
+
+  masterAssignedAlbumToggle() {
+    this.isAllAssignedAlbumSelected() ?
+        this.selectionAssignedAlbum.clear() :
+        this.dataSourceAssignedAlbum.data.forEach(row => this.selectionAssignedAlbum.select(row));
+  }
+
+  isAllAvailableAlbumSelected() {
+    const numSelected = this.selectionAvailableAlbum.selected.length;
+    const numRows = this.dataSourceAvailableAlbum.data.length;
+    return numSelected === numRows;
+  }
+
+  masterAvailableAlbumToggle() {
+    this.isAllAvailableAlbumSelected() ?
+        this.selectionAvailableAlbum.clear() :
+        this.dataSourceAvailableAlbum.data.forEach(row => this.selectionAvailableAlbum.select(row));
+  }
 
   constructor(private _router: Router,
     private _activateRoute: ActivatedRoute,
@@ -31,9 +61,6 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Entering constructor in PhotochangeComponent.');
     }
-
-    this.assignedAlbum = [];
-    this.unassignedAlbum = [];
   }
 
   ngOnInit() {
@@ -70,12 +97,14 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
 
       const s1 = this._albumService.loadAlbums();
       const s2 = this._albumService.loadAlbumContainsPhoto(this.currentPhoto.photoId);
-      const allAlbum: any[] = [];
+      const allAlbum: Album[] = [];
+      const assignedAlbum: Album[] = [];
+      const unassignedAlbum: Album[] = [];
 
       forkJoin([s1, s2]).subscribe(y => {
         if (y[0]) {
           for (const alb of y[0].contentList) {
-            const album = new SelectableAlbum();
+            const album = new Album();
             album.init(alb.id,
               alb.title,
               alb.desp,
@@ -94,23 +123,26 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
           for (const alb of allAlbum) {
             let bassign = false;
             for (const lk of y[1].contentList) {
-              const alb2: SelectableAlbum = new SelectableAlbum();
+              const alb2: Album = new Album();
               alb2.initex(lk);
 
               if (+alb.Id === +alb2.Id) {
                 bassign = true;
-                this.assignedAlbum.push(alb);
+                assignedAlbum.push(alb);
               }
             }
             if (!bassign) {
-              this.unassignedAlbum.push(alb);
+              unassignedAlbum.push(alb);
             }
           }
         } else {
           for (const alb of allAlbum) {
-            this.unassignedAlbum.push(alb);
+            unassignedAlbum.push(alb);
           }
         }
+
+        this.dataSourceAssignedAlbum.data = assignedAlbum;
+        this.dataSourceAvailableAlbum.data = unassignedAlbum;
       });
     }, error => {
     }, () => {
@@ -131,11 +163,11 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
   }
 
   public onAddAssignedAlbum(): void {
-    this.onSwitchArray(this.unassignedAlbum, this.assignedAlbum);
+    // this.onSwitchArray(this.unassignedAlbum, this.assignedAlbum);
   }
 
   public onRemoveAssignedAlbum(): void {
-    this.onSwitchArray(this.assignedAlbum, this.unassignedAlbum);
+    // this.onSwitchArray(this.assignedAlbum, this.unassignedAlbum);
   }
 
   public onSubmit(): void {
@@ -143,7 +175,7 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
       return;
     }
 
-    switch(this.uiMode) {
+    switch (this.uiMode) {
       case UIMode.Create: {
         this.onSaveCreation();
       }
@@ -159,21 +191,21 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
     }
   }
 
-  private onSwitchArray(ar1: SelectableAlbum[], ar2: SelectableAlbum[]) {
-    const arpos: number[] = [];
-    for (let i = 0; i < ar1.length; i ++) {
-      if (ar1[i].isSelected) {
-        arpos.push(i);
-      }
-    }
+  // private onSwitchArray(ar1: SelectableAlbum[], ar2: SelectableAlbum[]) {
+  //   const arpos: number[] = [];
+  //   for (let i = 0; i < ar1.length; i ++) {
+  //     if (ar1[i].isSelected) {
+  //       arpos.push(i);
+  //     }
+  //   }
 
-    arpos.sort((a, b) => { return b - a; });
+  //   arpos.sort((a, b) => { return b - a; });
 
-    for (const i of arpos) {
-      ar2.push(ar1[i]);
-      ar1.splice(i);
-    }
-  }
+  //   for (const i of arpos) {
+  //     ar2.push(ar1[i]);
+  //     ar1.splice(i);
+  //   }
+  // }
 
   private onSaveCreation(): void {
     // Will never happen
@@ -186,7 +218,7 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
         duration: 3000,
       }).afterDismissed().subscribe(y => {
         // Jump to Photos page
-        this._router.navigate(['/photo']);            
+        this._router.navigate(['/photo']);
       });
     }, error => {
       console.error(error);
