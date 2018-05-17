@@ -6,7 +6,7 @@ import { AuthService, PhotoService, AlbumService } from '../services';
 import { Album, AlbumPhotoLink, AlbumPhotoByAlbum, } from '../model/album';
 import { LogLevel, Photo, UpdPhoto } from '../model';
 import { environment } from '../../environments/environment';
-import { MatSnackBar, MatPaginator, MatTableDataSource, MatButton } from '@angular/material';
+import { MatSnackBar, MatPaginator, MatTableDataSource, MatButton, MatVerticalStepper } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
@@ -28,6 +28,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   public arAssignMode: any[] = [];
   @ViewChild('uploadFileRef') elemUploadFile: MatButton;
   @ViewChild(MatPaginator) paginatorPhoto: MatPaginator;
+  @ViewChild(MatVerticalStepper) stepper: MatVerticalStepper;
 
   displayedColumns = ['thumbnail', 'id', 'name', 'size', 'dimension', 'ispublic', 'title', 'desp'];
   dataSource = new MatTableDataSource<UpdPhoto>([]);
@@ -380,17 +381,8 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       this.onAfterUploadComplete();
     }, () => {
-      this.onUploadProgress(95);
+      // Do nothing
     });
-  }
-
-  private doRealUpload(): void {
-    // Now the do the real upload
-    this.photoHadUploaded = [];
-    this._zone.run(() => {
-      this.isUploading = true;
-    });
-    this.uploader.uploadStoredFiles();
   }
 
   getcustomHeader(): any {
@@ -430,6 +422,28 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     this._zone.run(() => {
       this.progressNum = +data;
     });
+  }
+
+  get isStepAddPhotoComplete(): boolean {
+    return this.dataSource.data.length > 0;
+  }
+  get isStepAssignAlbumComplete(): boolean {
+    let rst = false;
+    switch (this.assignMode) {
+      case 1:
+      rst = this.selection.selected.length > 0;
+      break;
+
+      case 2:
+      rst = this.albumCreate.isValid;
+      break;
+
+      case 0:
+      default:
+      rst = true;
+      break;
+    }
+    return rst;
   }
 
   private readImage(fid: number, file: any, nname: string) {
@@ -476,14 +490,28 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     reader.readAsDataURL(file);
   }
 
+  private doRealUpload(): void {
+    // Now the do the real upload
+    this.photoHadUploaded = [];
+    this._zone.run(() => {
+      this.isUploading = true;
+    });
+    this.uploader.uploadStoredFiles();
+  }
+
   private onAfterUploadComplete(): void {
+    this.onUploadProgress(100);
+
     this.photoHadUploaded = [];
     this._zone.run(() => {
       this.isUploading = false;
+      this.stepper.reset();
 
       this.assignMode = 0;
-      // this.arUpdPhotos = [];
+      this.dataSource.data = [];
+      this.selection.clear();
       this.albumCreate = new Album();
+      this.progressNum = 0;
     });
 
     // Show a dialog

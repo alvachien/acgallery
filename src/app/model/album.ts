@@ -25,6 +25,14 @@ export class Album {
     return environment.PublicPhotoInAPIBaseUrl + '/' + this.Thumbnail;
   }
 
+  get isValid(): boolean {
+    if (this.Title === undefined
+      || this.Title.length <= 0) {
+      return false;
+    }
+    return true;
+  }
+
   init(id: number,
     title: string,
     desp: string,

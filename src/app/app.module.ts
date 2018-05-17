@@ -66,8 +66,6 @@ import { PhotolistComponent, PhotoListPhotoEXIFDialog } from './photolist/photol
 import { AboutComponent } from './about/about.component';
 import { CreditsComponent } from './credits/credits.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
-import { PageDashboardComponent } from './page-dashboard/page-dashboard.component';
-import { AppNavComponent } from './app-nav/app-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AlbumDetailComponent } from './album-detail';
 
@@ -91,8 +89,6 @@ export function funcHttpLoaderFactory(http: HttpClient) {
     CreditsComponent,
     UnauthorizedComponent,
     PhotochangeComponent,
-    PageDashboardComponent,
-    AppNavComponent,
     AlbumDetailComponent,
     SplitAreaDirective,
     SplitHandleDirective,
