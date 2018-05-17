@@ -113,9 +113,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public onOpenMathExcises() {
-    // TBD.
+    window.open(environment.AppMathExercise, '_blank');
   }
   public onOpenHIH() {
-    // TBD.
+    window.open(environment.AppHIH, '_blank');
   }
 }

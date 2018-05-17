@@ -11,8 +11,10 @@ export const environment = {
   PublicPhotoInAPIBaseUrl: 'http://118.178.58.187:5310/updphoto',
   WakeupAPIUrl: 'http://118.178.58.187:5310/api/wakeup',
 
-  IDServerUrl: 'http://118.178.58.187:5100/',
+  IDServerUrl: 'http://118.178.58.187:5100',
   AppLoginCallbackUrl: 'http://118.178.58.187:5210/logincallback.html',
-  AppLogoutCallbackUrl: 'http://118.178.58.187:5210/index.html',
-  AppHost: 'http://118.178.58.187:5210'
+  AppLogoutCallbackUrl: 'http://118.178.58.187:5210',
+  AppHost: 'http://118.178.58.187:5210',
+  AppHIH: 'http://118.178.58.187:5200',
+  AppMathExercise: '118.178.58.187:5230'
 };

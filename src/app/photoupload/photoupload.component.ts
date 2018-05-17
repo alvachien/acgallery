@@ -227,18 +227,20 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
                 + totalUploadedBytes.toString() + '; totalBytes: ' + totalUploadedBytes.toString());
             }
 
-            that.onUploadProgress(Math.floor(100 * totalUploadedBytes / totalBytes));
+            that.onUploadProgress(Math.floor(90 * totalUploadedBytes / totalBytes));
           },
           onUpload: (id: number, name: string) => {
-            if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log('ACGallery [Debug]: Entering uploader_onUpload of PhotoUploadComponent upon ID: '
-                + id.toString() + '; name: ' + name);
-            }
+            // Comment it out to reduce the log amount...
+            // if (environment.LoggingLevel >= LogLevel.Debug) {
+            //   console.log('ACGallery [Debug]: Entering uploader_onUpload of PhotoUploadComponent upon ID: '
+            //     + id.toString() + '; name: ' + name);
+            // }
           },
           onValidate: (data: any) => {
-            if (environment.LoggingLevel >= LogLevel.Debug) {
-              console.log('ACGallery [Debug]: Entering uploader_onValidate of PhotoUploadComponent with data: ' + data);
-            }
+            // Comment it out to reduce the log amount...
+            // if (environment.LoggingLevel >= LogLevel.Debug) {
+            //   console.log('ACGallery [Debug]: Entering uploader_onValidate of PhotoUploadComponent with data: ' + data);
+            // }
           }
         }
       });
@@ -334,6 +336,8 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onAllCompleted(): void {
+    this.onUploadProgress(95);
+
     const rxdata: Observable<any>[] = [];
     for (const pht of this.photoHadUploaded) {
       rxdata.push(this._photoService.createFile(pht));
@@ -376,6 +380,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       this.onAfterUploadComplete();
     }, () => {
+      this.onUploadProgress(95);
     });
   }
 

@@ -13,3 +13,11 @@
   height: 100%;
   object-fit: contain;
 }
+
+.mat-grid-list {
+  margin: 20px;
+}
+
+.mat-grid-tile {
+  margin: 10px;
+}

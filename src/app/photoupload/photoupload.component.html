@@ -1,5 +1,5 @@
 <mat-vertical-stepper linear="true">
-  <mat-step label="{{'Photo.ChoosePhoto' | translate}}">
+  <mat-step label="{{'Photo.ChoosePhoto' | translate}}" [completed]="dataSource.data.length > 0">
     <mat-toolbar>
       <button mat-button #uploadFileRef>Select Photo(s)</button>
     </mat-toolbar>

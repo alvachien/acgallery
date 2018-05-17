@@ -11,7 +11,7 @@
         <h1>{{'Message.WelcomeTitle1' | translate}}</h1>
         <p>{{'Message.WelcomeContent1' | translate}}</p>
         <p>
-          <a class="btn btn-lg btn-primary" role="button" (click)="onLogin()">{{btnLoginTxt | translate}}</a>
+          <a mat-raised-button color="primary" (click)="onLogin()">{{btnLoginTxt | translate}}</a>
         </p>
       </div>
     </div>
@@ -21,7 +21,7 @@
         <h1>{{'Message.WelcomeTitle2' | translate}}</h1>
         <p>{{'Message.WelcomeContent2' | translate}}</p>
         <p>
-          <a class="btn btn-lg btn-primary" [routerLink]="['/album']" routerLinkActive="active" role="button">{{'Message.WelcomeAlbumButton' | translate}}</a>
+          <a mat-raised-button color="primary" [routerLink]="['/album']" routerLinkActive="active">{{'Message.WelcomeAlbumButton' | translate}}</a>
         </p>
       </div>
     </div>
@@ -31,7 +31,7 @@
         <h1>{{'Message.WelcomeTitle3' | translate}}</h1>
         <p>{{'Message.WelcomeContent3' | translate}}</p>
         <p>
-          <a class="btn btn-lg btn-primary" [routerLink]="['/album']" routerLinkActive="active" role="button">{{'Message.WelcomePhotoButton' | translate}}</a>
+          <a mat-raised-button color="primary" [routerLink]="['/album']" routerLinkActive="active">{{'Message.WelcomePhotoButton' | translate}}</a>
         </p>
       </div>
     </div>

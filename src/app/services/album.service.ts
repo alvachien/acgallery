@@ -82,17 +82,26 @@ export class AlbumService {
   /**
    * Load all albums which current user can see.
    */
-  public loadAlbums(): Observable<any> {
+  public loadAlbums(top?: number, skip?: number): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
       .append('Accept', 'application/json');
+
+    let params: HttpParams = new HttpParams();
+    if (top) {
+      params = params.append('top', top.toString());
+    }
+    if (skip) {
+      params = params.append('skip', skip.toString());
+    }
+
     if (this._authService.authSubject.getValue().isAuthorized) {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
-      return this._http.get(environment.AlbumAPIUrl, { headers: headers, withCredentials: true })
+      return this._http.get(environment.AlbumAPIUrl, { headers: headers, params: params, withCredentials: true })
         .pipe(map(response => <any>response));
     }
 
-    return this._http.get(environment.AlbumAPIUrl, { headers: headers, withCredentials: false })
+    return this._http.get(environment.AlbumAPIUrl, { headers: headers, params: params, withCredentials: false })
       .pipe(map(response => <any>response));
   }
 
@@ -104,6 +113,7 @@ export class AlbumService {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
       .append('Accept', 'application/json');
+
     if (this._authService.authSubject.getValue().isAuthorized) {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
       return this._http.get(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers, withCredentials: true })

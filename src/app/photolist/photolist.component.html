@@ -4,7 +4,7 @@
     <mat-card-subtitle>{{'Common.ListView' | translate}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <mat-grid-list cols="3" rowHeight="350px">
+    <mat-grid-list cols="3" rowHeight="200px">
       <mat-grid-tile *ngFor="let photo of photos; let idx = index;" colspan="1" rowspan="1">
         <mat-grid-tile-header>
           {{photo.title}}
@@ -24,7 +24,7 @@
       </mat-grid-tile>
     </mat-grid-list>
 
-    <mat-paginator [length]="photos.length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = $event">
+    <mat-paginator [length]="photoAmount" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="onPageEvent($event)">
     </mat-paginator>
   </mat-card-content>
 </mat-card>

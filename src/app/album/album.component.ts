@@ -20,6 +20,7 @@ declare var PhotoSwipeUI_Default;
 export class AlbumComponent implements OnInit {
   public objAlbum: Album = null;
   public photos: Photo[] = [];
+  public photoAmount: number;
   public selectedPhoto: Photo;
 
   public uiMode: UIMode = UIMode.Display;
@@ -43,6 +44,7 @@ export class AlbumComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _dialog: MatDialog) {
     this.objAlbum = new Album();
+    this.photoAmount = 0;
   }
 
   ngOnInit() {
@@ -71,8 +73,8 @@ export class AlbumComponent implements OnInit {
       }
 
       if (this.uiMode === UIMode.Display || this.uiMode === UIMode.Change) {
-        // Load the album
-        this.readAlbum();
+        // Read the album
+        this._readAlbum();
       }
     }, error => {
     }, () => {
@@ -150,11 +152,22 @@ export class AlbumComponent implements OnInit {
   public onSubmit() {
     // TBD.
   }
-  public onReset() {
+  public onCancel() {
     // TBD
   }
 
-  private readAlbum(): void {
+  public onPageEvent($event: any) {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('AC Gallery [Debug]: Entering onPageEvent of AlbumComponent');
+    }
+
+    this.pageEvent = $event;
+
+    const skipamt = this.pageEvent.pageIndex * this.pageSize;
+    this._loadPhotoIntoPage(skipamt);
+  }
+
+  private _readAlbum(): void {
     this._albumService.loadAlbum(this.routerID).subscribe(x => {
       this.objAlbum = new Album();
       this.photos = [];
@@ -176,33 +189,31 @@ export class AlbumComponent implements OnInit {
         this.openAccessCodeDialog().subscribe(result => {
           if (result) {
             this.objAlbum.AccessCode = result;
-            // this.onPageClick(1);
-            this._photoService.loadAlbumPhoto(this.objAlbum.Id, result).subscribe((data: any) => {
-              if (data && data.contentList && data.contentList instanceof Array) {
-                for (const ce of data.contentList) {
-                  const pi: Photo = new Photo();
-                  pi.init(ce);
-                  this.photos.push(pi);
-                }
-              }
-            });
+            this._loadPhotoIntoPage(0);
           }
         });
       } else if (!this.objAlbum.AccessCode) {
-        this._photoService.loadAlbumPhoto(this.objAlbum.Id).subscribe((data: any) => {
-          if (data && data.contentList && data.contentList instanceof Array) {
-            for (const ce of data.contentList) {
-              const pi: Photo = new Photo();
-              pi.init(ce);
-              this.photos.push(pi);
-            }
-          }
-        });
+        this.objAlbum.AccessCode = undefined;
+        this._loadPhotoIntoPage(0);
       }
     }, (error: HttpErrorResponse) => {
       // Show error info
       this._snackBar.open('Error occurred:' + error.message);
     }, () => {
+    });
+  }
+
+  private _loadPhotoIntoPage(skipamt: number) {
+    this._photoService.loadAlbumPhoto(this.objAlbum.Id, this.objAlbum.AccessCode, this.pageSize, skipamt).subscribe((data: any) => {
+      this.photoAmount = data.totalCount;
+      this.photos = [];
+      if (data && data.contentList && data.contentList instanceof Array) {
+        for (const ce of data.contentList) {
+          const pi: Photo = new Photo();
+          pi.init(ce);
+          this.photos.push(pi);
+        }
+      }
     });
   }
 }

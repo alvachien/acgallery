@@ -1,13 +1,11 @@
 import { Component, NgZone, OnInit, ViewContainerRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
-import { PageEvent } from '@angular/material';
+import { MatDialog, MatDialogRef, MatSnackBar, PageEvent } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http/';
 import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
-import { LogLevel, Album, AlbumPhotoByAlbum, Photo, UpdPhoto, UIPagination } from '../model';
+import { LogLevel, Album, AlbumPhotoByAlbum, Photo, UpdPhoto, } from '../model';
 import { environment } from '../../environments/environment';
-import { INTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic/src/platform_providers';
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
 
@@ -18,8 +16,8 @@ declare var PhotoSwipeUI_Default;
 })
 export class PhotolistComponent implements OnInit {
   public photos: Photo[] = [];
+  public photoAmount: number;
   public selectedPhoto: Photo = null;
-  public objUtil: UIPagination;
   private gallery: any = null;
   pageSize = 10;
   pageSizeOptions = [5, 10, 25, 100];
@@ -40,7 +38,7 @@ export class PhotolistComponent implements OnInit {
       console.log('ACGallery [Debug]: Entering constructor of PhotolistComponent');
     }
 
-    this.objUtil = new UIPagination(20, 5);
+    this.photoAmount = 0;
   }
 
   ngOnInit() {
@@ -48,7 +46,7 @@ export class PhotolistComponent implements OnInit {
       console.log('ACGallery [Debug]: Entering ngOnInit of PhotolistComponent');
     }
 
-    this.onPageClick(1);
+    this._loadPhotoIntoPage(0);
   }
 
   onPhotoClick(idx: number): void {
@@ -124,50 +122,34 @@ export class PhotolistComponent implements OnInit {
     this._router.navigate(['/photo/edit']);
   }
 
-  onPagePreviousClick(): void {
+  public onPageEvent($event: any) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering onPagePreviousClick of PhotolistComponent');
+      console.log('AC Gallery [Debug]: Entering onPageEvent of PhotolistComponent');
     }
 
-    if (this.objUtil.currentPage > 1) {
-      this.onPageClick(this.objUtil.currentPage - 1);
-    }
+    this.pageEvent = $event;
+
+    const skipamt = this.pageEvent.pageIndex * this.pageSize;
+    this._loadPhotoIntoPage(skipamt);
   }
 
-  onPageNextClick(): void {
-    if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering onPageNextClick of PhotolistComponent');
-    }
-
-    this.onPageClick(this.objUtil.currentPage + 1);
-  }
-
-  onPageClick(pageIdx: number): void {
-    if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering onPageClick of PhotolistComponent');
-    }
-
-    if (this.objUtil.currentPage !== pageIdx) {
-      this.objUtil.currentPage = pageIdx;
-
-      const paraString = this.objUtil.nextURLString;
-      this._photoService.loadPhotos(paraString).subscribe(data => {
-        this.objUtil.totalCount = data.totalCount;
-        this._zone.run(() => {
-          this.photos = [];
-          if (data && data.contentList && data.contentList instanceof Array) {
-            for (const ce of data.contentList) {
-              const pi: Photo = new Photo();
-              pi.init(ce);
-              this.photos.push(pi);
-            }
+  private _loadPhotoIntoPage(skipamt: number) {
+    this._photoService.loadPhotos(this.pageSize, skipamt).subscribe(data => {
+      this._zone.run(() => {
+        this.photos = [];
+        this.photoAmount = data.totalCount;
+        if (data && data.contentList && data.contentList instanceof Array) {
+          for (const ce of data.contentList) {
+            const pi: Photo = new Photo();
+            pi.init(ce);
+            this.photos.push(pi);
           }
-        });
-      }, (error: HttpErrorResponse) => {
-        this._snackBar.open('Error occurred: ' + error.message);
-      }, () => {
+        }
       });
-    }
+    }, (error: HttpErrorResponse) => {
+      this._snackBar.open('Error occurred: ' + error.message);
+    }, () => {
+    });
   }
 }
 

@@ -18,8 +18,10 @@ export const environment = {
   PublicPhotoInAPIBaseUrl: 'http://localhost:25325/updphoto',
   WakeupAPIUrl: 'http://localhost:25325/api/wakeup',
 
-  IDServerUrl: 'http://localhost:41016/',
+  IDServerUrl: 'http://localhost:41016',
   AppLoginCallbackUrl: 'http://localhost:1601/logincallback.html',
-  AppLogoutCallbackUrl: 'http://localhost:1601/index.html',
-  AppHost: 'http://localhost:1601'
+  AppLogoutCallbackUrl: 'http://localhost:1601',
+  AppHost: 'http://localhost:1601',
+  AppHIH: 'http://localhost:29521',
+  AppMathExercise: 'http://localhost:20000'
 };

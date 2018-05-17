@@ -11,8 +11,10 @@ export const environment = {
   PublicPhotoInAPIBaseUrl: 'http://acgalleryapi.azurewebsites.net/updphoto',
   WakeupAPIUrl: 'http://acgalleryapi.azurewebsites.net/api/wakeup',
 
-  IDServerUrl: 'http://acidserver.azurewebsites.net/',
+  IDServerUrl: 'http://acidserver.azurewebsites.net',
   AppLoginCallbackUrl: 'http://acgallery.azurewebsites.net/logincallback.html',
-  AppLogoutCallbackUrl: 'http://acgallery.azurewebsites.net/index.html',
-  AppHost: 'http://acgallery.azurewebsites.net'
+  AppLogoutCallbackUrl: 'http://acgallery.azurewebsites.net',
+  AppHost: 'http://acgallery.azurewebsites.net',
+  AppHIH: 'http://achihui.azurewebsites.net',
+  AppMathExercise: 'https://alvachien.github.io/mathexercise/'
 };

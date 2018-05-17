@@ -71,10 +71,19 @@ export class PhotoService {
     xhr.send(formData);
   }
 
-  public loadPhotos(paramString?: string): Observable<any> {
-    let apistring = environment.PhotoAPIUrl;
-    if (paramString) {
-      apistring += paramString;
+  /**
+   * Load the photos
+   * @param top Maximum number of photo to fetch
+   * @param skip Skip the number of photo
+   */
+  public loadPhotos(top?: number, skip?: number): Observable<any> {
+    const apistring = environment.PhotoAPIUrl;
+    let params: HttpParams = new HttpParams();
+    if (top) {
+      params = params.append('top', top.toString());
+    }
+    if (skip) {
+      params = params.append('skip', skip.toString());
     }
 
     let headers = new HttpHeaders();
@@ -82,11 +91,11 @@ export class PhotoService {
       .append('Accept', 'application/json');
     if (this._authService.authSubject.getValue().isAuthorized) {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
-      return this._http.get(apistring, { headers: headers, withCredentials: true })
+      return this._http.get(apistring, { headers: headers, params: params, withCredentials: true })
         .pipe(map(response => <any>response));
     }
 
-    return this._http.get(apistring, { headers: headers })
+    return this._http.get(apistring, { headers: headers, params: params })
       .pipe(map(response => <any>response));
   }
 
@@ -94,18 +103,20 @@ export class PhotoService {
    * Load photos for specified album
    * @param albumid ID of album
    * @param accesscode Access code
-   * @param pageparams Params for pagination
+   * @param top Maximum amount of the photo to fetch
+   * @param skip The amount to skip in the result
    */
-  public loadAlbumPhoto(albumid: string | number, accesscode?: string, pageparams?: Map<string, number>): Observable<any> {
+  public loadAlbumPhoto(albumid: string | number, accesscode?: string, top?: number, skip?: number): Observable<any> {
     let params: HttpParams = new HttpParams();
     params = params.append('albumid', albumid.toString());
     if (accesscode) {
       params = params.append('accesscode', accesscode);
     }
-    if (pageparams) {
-      pageparams.forEach((value, key) => {
-        params = params.append(key, value.toString());
-      });
+    if (top) {
+      params = params.append('top', top.toString());
+    }
+    if (skip) {
+      params = params.append('skip', skip.toString());
     }
 
     let headers = new HttpHeaders();

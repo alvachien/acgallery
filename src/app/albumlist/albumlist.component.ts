@@ -17,6 +17,7 @@ import { Album, AlbumPhotoByAlbum, Photo, UpdPhoto, LogLevel } from '../model';
 export class AlbumlistComponent implements OnInit {
 
   public albumes: Album[] = [];
+  public albumAmount: number;
   pageSize = 10;
   pageSizeOptions = [5, 10, 25, 100];
 
@@ -29,12 +30,41 @@ export class AlbumlistComponent implements OnInit {
     private _router: Router,
     private _zone: NgZone,
     private _snackbar: MatSnackBar) {
+    this.albumAmount = 0;
   }
 
   ngOnInit() {
-    this._albumService.loadAlbums().subscribe(x => {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('AC Gallery [Debug]: Entering ngOnInit of AlbumListComponent');
+    }
+
+    this._loadPhotoIntoPage(0);
+  }
+
+  public onViewAlbumClick(id: number | string): void {
+    this._router.navigate(['/album/display/' + id.toString()]);
+  }
+
+  public onChangeAlbumMetadata(id: number | string): void {
+    this._router.navigate(['/album/edit/' + id.toString()]);
+  }
+
+  public onPageEvent($event: any) {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('AC Gallery [Debug]: Entering onPageEvent of AlbumListComponent');
+    }
+
+    this.pageEvent = $event;
+
+    const skipamt = this.pageEvent.pageIndex * this.pageSize;
+    this._loadPhotoIntoPage(skipamt);
+  }
+
+  private _loadPhotoIntoPage(skipamt: number) {
+    this._albumService.loadAlbums(this.pageSize, skipamt).subscribe(x => {
       this._zone.run(() => {
         this.albumes = [];
+        this.albumAmount = x.totalCount;
         for (const alb of x.contentList) {
           const album = new Album();
           album.init(alb.id,
@@ -53,17 +83,5 @@ export class AlbumlistComponent implements OnInit {
     }, error => {
     }, () => {
     });
-  }
-
-  public onViewAlbumClick(id: number | string): void {
-    this._router.navigate(['/album/display/' + id.toString()]);
-  }
-
-  public onChangeAlbumMetadata(id: number | string): void {
-    this._router.navigate(['/album/edit/' + id.toString()]);
-  }
-
-  public onPageEvent($event: any) {
-    this.pageEvent = $event;
   }
 }

@@ -7,13 +7,13 @@
       <acgallery-album-detail [objAlbum]="objAlbum" [uiMode]="uiMode"></acgallery-album-detail>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button [disabled]="isFieldChangable" (click)="onSubmit()">{{'Common.Submit' | translate}}</button>
-      <button mat-button (click)="onReset()">{{'Common.Cancel' | translate}}</button>
+      <button mat-button [disabled]="!isFieldChangable" (click)="onSubmit()">{{'Common.Submit' | translate}}</button>
+      <button mat-button (click)="onCancel()">{{'Common.Cancel' | translate}}</button>
     </mat-card-actions>
   </mat-card>
   <mat-divider></mat-divider>
 
-  <mat-grid-list cols="3" rowHeight="350px">
+  <mat-grid-list cols="3" rowHeight="200px">
     <mat-grid-tile *ngFor="let photo of photos; let idx = index;" colspan="1" rowspan="1">
       <mat-grid-tile-header>
         {{photo.title}}
@@ -32,6 +32,6 @@
       </mat-grid-tile-footer>
     </mat-grid-tile>
   </mat-grid-list>
-  <mat-paginator [length]="photos.length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = $event">
+  <mat-paginator [length]="photoAmount" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="onPageEvent($event)">
   </mat-paginator>
 </div>
