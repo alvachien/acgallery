@@ -1,5 +1,5 @@
 <mat-vertical-stepper linear="true">
-  <mat-step label="{{'Photo.ChoosePhoto' | translate}}" [completed]="isStepAddPhotoComplete">
+  <mat-step label="{{'Photo.ChoosePhoto' | translate}}" [completed]="isStepAddPhotoComplete" [editable]="!isUploading">
     <mat-toolbar>
       <button mat-button #uploadFileRef>Select Photo(s)</button>
     </mat-toolbar>
@@ -77,7 +77,7 @@
     </div>
   </mat-step>
 
-  <mat-step label="Assignment" [completed]="isStepAssignAlbumComplete">
+  <mat-step label="Assignment" [completed]="isStepAssignAlbumComplete" [editable]="!isUploading">
     <div style="margin: 20px;">
       <mat-radio-group class="photoupload-radio-group" [(ngModel)]="assignMode">
         <mat-radio-button class="photoupload-radio-button" *ngFor="let am of arAssignMode" [value]="am.Value">
