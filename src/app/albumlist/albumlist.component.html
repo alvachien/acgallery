@@ -4,7 +4,7 @@
     <mat-card-subtitle>{{'Common.ListView' | translate}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <mat-grid-list cols="3" rowHeight="200px">
+    <mat-grid-list cols="3" rowHeight="1:2">
       <mat-grid-tile *ngFor="let album of albumes" colspan="1" rowspan="1">
         <mat-grid-tile-header>
           {{album.Title}}
@@ -16,7 +16,8 @@
             <button mat-menu-item (click)="onChangeAlbumMetadata(album.Id)">{{'Album.ChangeMetadata' | translate}}</button>
           </mat-menu>
         </mat-grid-tile-header>
-        <img class="dashboard-image" src="{{album.ThumbnailInAPIUrl}}" (click)="onViewAlbumClick(album.Id)" style="cursor: hand;" alt="Image">
+        <img class="dashboard-image" src="{{album.ThumbnailInAPIUrl}}" (click)="onViewAlbumClick(album.Id)" style="cursor: hand;"
+          alt="Image">
         <mat-grid-tile-footer>
           {{album.Desp}}
         </mat-grid-tile-footer>
