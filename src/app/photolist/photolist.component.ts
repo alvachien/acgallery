@@ -20,8 +20,8 @@ export class PhotolistComponent implements OnInit, OnDestroy {
   public photoAmount: number;
   public selectedPhoto: Photo = null;
   private gallery: any = null;
-  pageSize = 10;
-  pageSizeOptions = [5, 10, 25, 100];
+  pageSize = 20;
+  pageSizeOptions = [20, 40, 60, 100];
 
   // MatPaginator Output
   pageEvent: PageEvent;
@@ -162,7 +162,7 @@ export class PhotolistComponent implements OnInit, OnDestroy {
     }
 
     this.pageEvent = $event;
-
+    this.pageSize = this.pageEvent.pageSize;
     const skipamt = this.pageEvent.pageIndex * this.pageEvent.pageSize;
     this._loadPhotoIntoPage(skipamt);
   }

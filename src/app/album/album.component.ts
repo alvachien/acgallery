@@ -27,8 +27,8 @@ export class AlbumComponent implements OnInit, OnDestroy {
   public currentMode: string;
   private routerID: number;
   private gallery: any;
-  pageSize = 10;
-  pageSizeOptions = [10, 20, 50, 100];
+  pageSize = 20;
+  pageSizeOptions = [20, 40, 60, 100];
 
   // MatPaginator Output
   pageEvent: PageEvent;
@@ -195,7 +195,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
     }
 
     this.pageEvent = $event;
-
+    this.pageSize = this.pageEvent.pageSize;
     const skipamt = this.pageEvent.pageIndex * this.pageEvent.pageSize;
     this._loadPhotoIntoPage(skipamt);
   }
