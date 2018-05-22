@@ -1,4 +1,4 @@
-<div class="app-container" [class.app-is-mobile]="mobileQuery.matches">
+<div class="app-container" [class.app-is-mobile]="isXSScreen">
   <mat-toolbar color="primary" class="app-toolbar">
     <button mat-icon-button (click)="snav.toggle()">
       <mat-icon>menu</mat-icon>
@@ -48,8 +48,8 @@
     </mat-menu>
   </mat-toolbar>
 
-  <mat-sidenav-container class="app-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+  <mat-sidenav-container class="app-sidenav-container" [style.marginTop.px]="isXSScreen ? 56 : 0">
+    <mat-sidenav #snav [mode]="sidenavMode" [fixedInViewport]="isXSScreen" fixedTopGap="56">
 
       <mat-accordion class="sidenav-headers-align">
         <mat-expansion-panel hideToggle="false">

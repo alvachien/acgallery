@@ -4,8 +4,8 @@ import { HttpParams, HttpClient, HttpHeaders, HttpResponse, HttpRequest, HttpErr
 import { LogLevel, AppLang } from './model/common';
 import { environment } from '../environments/environment';
 import { AuthService, UIStatusService } from './services';
-import { Observable } from 'rxjs';
-import { MediaMatcher } from '@angular/cdk/layout';
+import { Observable, Subscription } from 'rxjs';
+import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 
 @Component({
   selector: 'acgallery-root',
@@ -18,33 +18,39 @@ export class AppComponent implements OnInit, OnDestroy {
   public arLangs: Array<AppLang>;
   public selectedLanguage = '';
   @ViewChild('pswp') elemPSWP;
-  mobileQuery: MediaQueryList;
-  private _mobileQueryListener: () => void;
+  private _watcherMedia: Subscription;
+  public isXSScreen = false;
+  public sidenavMode: string;
 
   constructor(private _translateService: TranslateService,
     private _authService: AuthService,
     private _uistatusService: UIStatusService,
     private _http: HttpClient,
     private _zone: NgZone,
-    private _changeDetectorRef: ChangeDetectorRef,
-    private _media: MediaMatcher) {
+    private _media: ObservableMedia) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Enter constructor of AppComponent');
     }
-    this.mobileQuery = _media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => _changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
+
+    this._watcherMedia = this._media.subscribe((change: MediaChange) => {
+      if (environment.LoggingLevel >= LogLevel.Debug) {
+        console.log(`ACGallery [Debug]: Entering constructor of AppComponent: ${change.mqAlias} = (${change.mediaQuery})`);
+      }
+      // xs	'screen and (max-width: 599px)'
+      // sm	'screen and (min-width: 600px) and (max-width: 959px)'
+      // md	'screen and (min-width: 960px) and (max-width: 1279px)'
+      // lg	'screen and (min-width: 1280px) and (max-width: 1919px)'
+      // xl	'screen and (min-width: 1920px) and (max-width: 5000px)'
+      if ( change.mqAlias === 'xs') {
+        this.isXSScreen = true;
+        this.sidenavMode = 'over';
+      } else {
+        this.isXSScreen = false;
+        this.sidenavMode = 'side';
+      }
+    });
 
     this.initLang();
-
-    let headers = new HttpHeaders();
-    headers = headers.append('Content-Type', 'application/json')
-      .append('Accept', 'application/json');
-
-    this._http.get(environment.WakeupAPIUrl, { headers: headers })
-      .subscribe(x => {
-        // Do nothing, just wakeup the API.
-      });
 
     // Register the Auth service
     this._authService.authContent.subscribe(x => {
@@ -70,7 +76,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
+    this._watcherMedia.unsubscribe();
   }
 
   // Handlers

@@ -196,7 +196,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
 
     this.pageEvent = $event;
 
-    const skipamt = this.pageEvent.pageIndex * this.pageSize;
+    const skipamt = this.pageEvent.pageIndex * this.pageEvent.pageSize;
     this._loadPhotoIntoPage(skipamt);
   }
 
