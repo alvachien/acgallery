@@ -1,11 +1,12 @@
-import { Component, NgZone, OnInit, ViewContainerRef } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, NgZone, OnInit, ViewContainerRef, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef, MatSnackBar, PageEvent } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http/';
 import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
 import { LogLevel, Album, AlbumPhotoByAlbum, Photo, UpdPhoto, } from '../model';
 import { environment } from '../../environments/environment';
+import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
 
@@ -14,7 +15,7 @@ declare var PhotoSwipeUI_Default;
   templateUrl: './photolist.component.html',
   styleUrls: ['./photolist.component.css']
 })
-export class PhotolistComponent implements OnInit {
+export class PhotolistComponent implements OnInit, OnDestroy {
   public photos: Photo[] = [];
   public photoAmount: number;
   public selectedPhoto: Photo = null;
@@ -24,12 +25,17 @@ export class PhotolistComponent implements OnInit {
 
   // MatPaginator Output
   pageEvent: PageEvent;
+  // Layout
+  clnGridCount: number;
+  private _watcherMedia: Subscription;
+  activeMediaQuery = '';
 
   constructor(private _zone: NgZone,
     private _router: Router,
     private _route: ActivatedRoute,
     private _viewContainerRef: ViewContainerRef,
     private _uistatusService: UIStatusService,
+    private _media: ObservableMedia,
     private _photoService: PhotoService,
     private _authService: AuthService,
     private _snackBar: MatSnackBar,
@@ -39,6 +45,30 @@ export class PhotolistComponent implements OnInit {
     }
 
     this.photoAmount = 0;
+    this.clnGridCount = 3; // Default
+
+    this._watcherMedia = this._media.subscribe((change: MediaChange) => {
+      this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
+      if (environment.LoggingLevel >= LogLevel.Debug) {
+        console.log(`ACGallery [Debug]: Entering constructor of PhotolistComponent: ${this.activeMediaQuery}`);
+      }
+      // xs	'screen and (max-width: 599px)'
+      // sm	'screen and (min-width: 600px) and (max-width: 959px)'
+      // md	'screen and (min-width: 960px) and (max-width: 1279px)'
+      // lg	'screen and (min-width: 1280px) and (max-width: 1919px)'
+      // xl	'screen and (min-width: 1920px) and (max-width: 5000px)'
+      if ( change.mqAlias === 'xs') {
+        this.clnGridCount = 1;
+      } else if (change.mqAlias === 'sm') {
+        this.clnGridCount = 2;
+      } else if (change.mqAlias === 'md') {
+        this.clnGridCount = 3;
+      } else if (change.mqAlias === 'lg') {
+        this.clnGridCount = 4;
+      } else {
+        this.clnGridCount = 6;
+      }
+    });
   }
 
   ngOnInit() {
@@ -47,6 +77,10 @@ export class PhotolistComponent implements OnInit {
     }
 
     this._loadPhotoIntoPage(0);
+  }
+
+  ngOnDestroy() {
+    this._watcherMedia.unsubscribe();
   }
 
   onPhotoClick(idx: number): void {

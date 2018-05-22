@@ -16,7 +16,7 @@
 
   <mat-divider></mat-divider>
 
-  <mat-grid-list cols="3" rowHeight="200px">
+  <mat-grid-list [cols]="clnGridCount" rowHeight="3:2">
     <mat-grid-tile *ngFor="let photo of photos; let idx = index;" colspan="1" rowspan="1">
       <mat-grid-tile-header>
         {{photo.title}}

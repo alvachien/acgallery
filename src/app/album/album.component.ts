@@ -1,14 +1,14 @@
-import {
-  Component, OnInit, OnDestroy, AfterViewInit, NgZone,
+import { Component, OnInit, OnDestroy, AfterViewInit, NgZone,
   EventEmitter, Input, Output, ViewContainerRef
 } from '@angular/core';
 import { UIMode, LogLevel, Album, Photo, } from '../model';
 import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { Observable, Subject, forkJoin } from 'rxjs';
+import { Observable, Subject, forkJoin, Subscription } from 'rxjs';
 import { MatDialog, MatDialogRef, MatDialogConfig, MatSnackBar, PageEvent } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http/';
+import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
 
@@ -17,7 +17,7 @@ declare var PhotoSwipeUI_Default;
   templateUrl: './album.component.html',
   styleUrls: ['./album.component.css'],
 })
-export class AlbumComponent implements OnInit {
+export class AlbumComponent implements OnInit, OnDestroy {
   public objAlbum: Album = null;
   public photos: Photo[] = [];
   public photoAmount: number;
@@ -28,10 +28,14 @@ export class AlbumComponent implements OnInit {
   private routerID: number;
   private gallery: any;
   pageSize = 10;
-  pageSizeOptions = [5, 10, 25, 100];
+  pageSizeOptions = [10, 20, 50, 100];
 
   // MatPaginator Output
   pageEvent: PageEvent;
+  // Layout
+  clnGridCount: number;
+  private _watcherMedia: Subscription;
+  activeMediaQuery = '';
 
   constructor(private _router: Router,
     private _activateRoute: ActivatedRoute,
@@ -40,11 +44,36 @@ export class AlbumComponent implements OnInit {
     private _albumService: AlbumService,
     private _photoService: PhotoService,
     private _uistatus: UIStatusService,
+    private _media: ObservableMedia,
     private _viewContainerRef: ViewContainerRef,
     private _snackBar: MatSnackBar,
     private _dialog: MatDialog) {
     this.objAlbum = new Album();
     this.photoAmount = 0;
+    this.clnGridCount = 3; // Default
+
+    this._watcherMedia = this._media.subscribe((change: MediaChange) => {
+      this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
+      if (environment.LoggingLevel >= LogLevel.Debug) {
+        console.log(`ACGallery [Debug]: Entering constructor of AlbumComponent: ${this.activeMediaQuery}`);
+      }
+      // xs	'screen and (max-width: 599px)'
+      // sm	'screen and (min-width: 600px) and (max-width: 959px)'
+      // md	'screen and (min-width: 960px) and (max-width: 1279px)'
+      // lg	'screen and (min-width: 1280px) and (max-width: 1919px)'
+      // xl	'screen and (min-width: 1920px) and (max-width: 5000px)'
+      if ( change.mqAlias === 'xs') {
+        this.clnGridCount = 1;
+      } else if (change.mqAlias === 'sm') {
+        this.clnGridCount = 2;
+      } else if (change.mqAlias === 'md') {
+        this.clnGridCount = 3;
+      } else if (change.mqAlias === 'lg') {
+        this.clnGridCount = 4;
+      } else {
+        this.clnGridCount = 6;
+      }
+    });
   }
 
   ngOnInit() {
@@ -80,6 +109,10 @@ export class AlbumComponent implements OnInit {
     }, () => {
       // Completed
     });
+  }
+
+  ngOnDestroy() {
+    this._watcherMedia.unsubscribe();
   }
 
   get isFieldChangable(): boolean {
