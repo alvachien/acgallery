@@ -21,7 +21,7 @@ export class PhotoService {
 
     const data = JSON && JSON.stringify(photo);
 
-    return this._http.put(environment.PhotoAPIUrl, data, { headers: headers, withCredentials: true })
+    return this._http.put(environment.PhotoAPIUrl, data, { headers: headers })
       .pipe(map(response => <any>response));
   }
 
@@ -33,7 +33,7 @@ export class PhotoService {
 
     const data = JSON && JSON.stringify(fileRecord);
 
-    return this._http.post(environment.PhotoAPIUrl, data, { headers: headers, withCredentials: true })
+    return this._http.post(environment.PhotoAPIUrl, data, { headers: headers })
       .pipe(map(response => <any>response));
   }
 
@@ -91,7 +91,7 @@ export class PhotoService {
       .append('Accept', 'application/json');
     if (this._authService.authSubject.getValue().isAuthorized) {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
-      return this._http.get(apistring, { headers: headers, params: params, withCredentials: true })
+      return this._http.get(apistring, { headers: headers, params: params })
         .pipe(map(response => <any>response));
     }
 
@@ -126,15 +126,13 @@ export class PhotoService {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
       return this._http.get(environment.PhotoAPIUrl, {
         headers: headers,
-        params: params,
-        withCredentials: true })
+        params: params })
         .pipe(map(response => <any>response));
     }
 
     return this._http.get(environment.PhotoAPIUrl, {
         headers: headers,
-        params: params,
-        withCredentials: false
+        params: params
       }).pipe(map(response => <any>response));
   }
 
@@ -150,8 +148,7 @@ export class PhotoService {
 
     const jdata: string = JSON && JSON.stringify(pto);
     return this._http.put(environment.PhotoAPIUrl, jdata, {
-      headers: headers,
-      withCredentials: true })
+      headers: headers })
       .pipe(map(response => <any>response));
   }
 }

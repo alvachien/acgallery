@@ -25,7 +25,7 @@ export class AlbumService {
 
     const data = JSON && JSON.stringify(album);
 
-    return this._http.post(environment.AlbumAPIUrl, data, { headers: headers, withCredentials: true })
+    return this._http.post(environment.AlbumAPIUrl, data, { headers: headers })
       .pipe(map(response => <any>response));
   }
 
@@ -37,7 +37,7 @@ export class AlbumService {
 
     const data = JSON && JSON.stringify(link);
 
-    return this._http.post(environment.AlbumPhotoLinkUrl, data, { headers: headers, withCredentials: true })
+    return this._http.post(environment.AlbumPhotoLinkUrl, data, { headers: headers })
       .pipe(map(response => <any>response));
   }
 
@@ -49,7 +49,7 @@ export class AlbumService {
 
     const data = JSON && JSON.stringify(apba);
 
-    return this._http.post(environment.AlbumPhotoByAlbumAPIUrl, data, { headers: headers, withCredentials: true });
+    return this._http.post(environment.AlbumPhotoByAlbumAPIUrl, data, { headers: headers });
   }
 
   public updateAlbumPhotoByPhoto(apbp: AlbumPhotoByPhoto): Observable<any> {
@@ -60,7 +60,7 @@ export class AlbumService {
 
     const data = JSON && JSON.stringify(apbp);
 
-    return this._http.post(environment.AlbumPhotoByPhotoAPIUrl, data, { headers: headers, withCredentials: true });
+    return this._http.post(environment.AlbumPhotoByPhotoAPIUrl, data, { headers: headers });
   }
 
   /**
@@ -75,7 +75,7 @@ export class AlbumService {
 
     const data = JSON && JSON.stringify(album);
 
-    return this._http.put(environment.AlbumAPIUrl, data, { headers: headers, withCredentials: true })
+    return this._http.put(environment.AlbumAPIUrl, data, { headers: headers })
       .pipe(map(response => <any>response));
   }
 
@@ -97,11 +97,11 @@ export class AlbumService {
 
     if (this._authService.authSubject.getValue().isAuthorized) {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
-      return this._http.get(environment.AlbumAPIUrl, { headers: headers, params: params, withCredentials: true })
+      return this._http.get(environment.AlbumAPIUrl, { headers: headers, params: params })
         .pipe(map(response => <any>response));
     }
 
-    return this._http.get(environment.AlbumAPIUrl, { headers: headers, params: params, withCredentials: false })
+    return this._http.get(environment.AlbumAPIUrl, { headers: headers, params: params })
       .pipe(map(response => <any>response));
   }
 
@@ -116,11 +116,11 @@ export class AlbumService {
 
     if (this._authService.authSubject.getValue().isAuthorized) {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
-      return this._http.get(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers, withCredentials: true })
+      return this._http.get(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers })
         .pipe(map(response => <any>response));
     }
 
-    return this._http.get(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers, withCredentials: false })
+    return this._http.get(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers })
       .pipe(map(response => <any>response));
   }
 
@@ -139,8 +139,7 @@ export class AlbumService {
 
     return this._http.get(environment.AlbumAPIUrl, {
       headers: headers,
-      params: params,
-      withCredentials: true
+      params: params
     })
     .pipe(map(response => <any>response));
   }
