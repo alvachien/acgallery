@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone, ViewChild, ChangeDetectorRef, OnDestroy } fr
 import { TranslateService } from '@ngx-translate/core';
 import { HttpParams, HttpClient, HttpHeaders, HttpResponse, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { LogLevel, AppLang } from './model/common';
+import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import { AuthService, UIStatusService } from './services';
 import { Observable, Subscription } from 'rxjs';
@@ -10,12 +11,12 @@ import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 @Component({
   selector: 'acgallery-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
   public isLoggedIn: boolean;
   public titleLogin: string;
-  public arLangs: Array<AppLang>;
+  public arLangs: AppLang[];
   public selectedLanguage = '';
   @ViewChild('pswp') elemPSWP;
   private _watcherMedia: Subscription;
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private _uistatusService: UIStatusService,
     private _http: HttpClient,
     private _zone: NgZone,
+    private _router: Router,
     private _media: ObservableMedia) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Enter constructor of AppComponent');
@@ -53,14 +55,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.initLang();
 
     // Register the Auth service
-    this._authService.authContent.subscribe(x => {
+    this._authService.authContent.subscribe((x: any) => {
       this._zone.run(() => {
         this.isLoggedIn = x.isAuthorized;
         if (this.isLoggedIn) {
           this.titleLogin = x.getUserName();
         }
       });
-    }, error => {
+    }, (error: any) => {
       if (environment.LoggingLevel >= LogLevel.Error) {
         console.error('ACGallery [Error]: Failed in subscribe to User', error);
       }
@@ -99,6 +101,8 @@ export class AppComponent implements OnInit, OnDestroy {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Enter onUserDetail of AppComponent, prepare navigation...');
     }
+
+    this._router.navigate(['/userdetail']);
   }
 
   // Implemented method

@@ -1,9 +1,9 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, NgZone, ViewChild, Renderer, ElementRef } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
-import { FineUploaderBasic } from 'fine-uploader/lib/core'
+import { FineUploaderBasic } from 'fine-uploader/lib/core';
 import { AuthService, PhotoService, AlbumService } from '../services';
-import { Album, AlbumPhotoLink, AlbumPhotoByAlbum, } from '../model/album';
+import { Album, AlbumPhotoLink, AlbumPhotoByAlbum } from '../model/album';
 import { LogLevel, Photo, UpdPhoto } from '../model';
 import { environment } from '../../environments/environment';
 import { MatSnackBar, MatPaginator, MatTableDataSource, MatButton, MatVerticalStepper } from '@angular/material';
@@ -12,7 +12,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 @Component({
   selector: 'acgallery-photoupload',
   templateUrl: './photoupload.component.html',
-  styleUrls: ['./photoupload.component.css']
+  styleUrls: ['./photoupload.component.css'],
 })
 export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   public progressNum = 0;
@@ -47,7 +47,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   masterToggle() {
     this.isAllSelected() ?
         this.selection.clear() :
-        this.dataSourceAlbum.data.forEach(row => this.selection.select(row));
+        this.dataSourceAlbum.data.forEach((row: any) => this.selection.select(row));
   }
 
   constructor(private _zone: NgZone,
@@ -89,23 +89,23 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     // Assign modes
     this.arAssignMode.push({
       Value: 0,
-      Name: 'Photo.Upload_NoAlbum'
+      Name: 'Photo.Upload_NoAlbum',
     });
     this.arAssignMode.push({
       Value: 1,
-      Name: 'Photo.Upload_AssignExistAlbum'
+      Name: 'Photo.Upload_AssignExistAlbum',
     });
     if (this.canCrtAlbum) {
       this.arAssignMode.push({
         Value: 2,
-        Name: 'Photo.Upload_AssignNewAlbum'
+        Name: 'Photo.Upload_AssignNewAlbum',
       });
     }
 
     this.dataSource.paginator = this.paginatorPhoto;
     // this.dataSourceAlbum.paginator = this.paginatorAlbum;
 
-    this._albumService.loadAlbums().subscribe(x => {
+    this._albumService.loadAlbums().subscribe((x: any) => {
       const allAlbum: Album[] = [];
       for (const alb of x.contentList) {
         const album = new Album();
@@ -139,12 +139,12 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         autoUpload: false,
         request: {
           endpoint: environment.PhotoFileAPIUrl,
-          customHeaders: that.getcustomHeader()
+          customHeaders: that.getcustomHeader(),
         },
         validation: {
           allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
           minSizeLimit: that.photoMinKBSize * 1024,
-          sizeLimit: that.photoMaxKBSize * 1024
+          sizeLimit: that.photoMaxKBSize * 1024,
         },
         callbacks: {
           onComplete: (id: number, name, responseJSON) => {
@@ -242,8 +242,8 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
             // if (environment.LoggingLevel >= LogLevel.Debug) {
             //   console.log('ACGallery [Debug]: Entering uploader_onValidate of PhotoUploadComponent with data: ' + data);
             // }
-          }
-        }
+          },
+        },
       });
     } else {
       if (environment.LoggingLevel >= LogLevel.Error) {
@@ -288,11 +288,11 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.albumCreate.CreatedAt = new Date();
 
-      this._albumService.createAlbum(this.albumCreate).subscribe(x => {
+      this._albumService.createAlbum(this.albumCreate).subscribe((x: any) => {
         this.albumCreate.Id = +x.id;
 
         this.doRealUpload();
-      }, error => {
+      }, (error: any) => {
         if (environment.LoggingLevel >= LogLevel.Error) {
           console.error('ACGallery [Error]: Error occurs in createAlbum in PhotoUploadComponent');
         }
@@ -339,12 +339,12 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   onAllCompleted(): void {
     this.onUploadProgress(95);
 
-    const rxdata: Observable<any>[] = [];
+    const rxdata: Array<Observable<any>> = [];
     for (const pht of this.photoHadUploaded) {
       rxdata.push(this._photoService.createFile(pht));
     }
 
-    forkJoin(rxdata).subscribe(data => {
+    forkJoin(rxdata).subscribe((data: any) => {
       if (this.assignMode !== 0) {
         const albumids: number[] = [];
         if (this.isAssginToNewAlbum()) {
@@ -355,7 +355,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
           });
         }
 
-        const rxdata2: Observable<any>[] = [];
+        const rxdata2: Array<Observable<any>> = [];
         albumids.forEach((albid: number) => {
           for (const data_detail of data) {
             const apl: AlbumPhotoLink = new AlbumPhotoLink();
@@ -365,9 +365,9 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         });
 
-        forkJoin(rxdata2).subscribe(data3 => {
+        forkJoin(rxdata2).subscribe((data3: any) => {
           // Do nothing
-        }, error3 => {
+        }, (error3: any) => {
           // TBD.
         }, () => {
           this.onAfterUploadComplete();
@@ -375,7 +375,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         this.onAfterUploadComplete();
       }
-    }, error => {
+    }, (error: any) => {
       this._snackBar.open('Failed: reason: ' + error, 'Close', {
         duration: 3000,
       });
@@ -387,7 +387,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getcustomHeader(): any {
     const obj: any = {
-      Authorization: 'Bearer ' + this._authService.authSubject.getValue().getAccessToken()
+      Authorization: 'Bearer ' + this._authService.authSubject.getValue().getAccessToken(),
     };
     return obj;
   }
@@ -517,7 +517,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     // Show a dialog
     this._snackBar.open('All photos completed!', 'Close', {
       duration: 3000,
-    }).afterDismissed().subscribe(x => {
+    }).afterDismissed().subscribe((x: any) => {
       // Dismissed of snackBar
     });
   }

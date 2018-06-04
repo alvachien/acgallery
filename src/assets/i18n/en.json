@@ -103,7 +103,6 @@
 
     "Users": "Users",
     "UserList": "User List",
-    "UserDetail": "User Detail",
     "TakeALookAtUserDetail": "Take a look at User Detail",
     "LearningTrace": "Learning Trace",
     "FinanceTrace": "Finance Trace",
@@ -155,13 +154,16 @@
     "IsPublic": "Is Public",
     "AccessCode": "Access Code",
     "ViewPhotos": "View Photos",
-    "ChangeMetadata": "Change Metadata"
+    "ChangeMetadata": "Change Metadata",
+    "DeleteAlbum": "Delete an Album"
   },
   "Photo": {
     "FileSize": "File Size",
     "Dimension": "Dimension",
     "UploadQueue": "Queue of photo to upload",
     "ChoosePhoto": "Choose photo",
+    "ChangePhoto": "Change a photo",
+    "DeletePhoto": "Delete a photo",
     "AssignedAlbum": "Assigned album",
     "AvailableAlbum": "Available album",
     "Upload_NoAlbum": "Without assign to album",

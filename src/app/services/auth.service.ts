@@ -8,19 +8,19 @@ import { UserManager, Log, MetadataService, User } from 'oidc-client';
 
 const AuthSettings: any = {
   authority: environment.IDServerUrl,
-  client_id: "acgallery.app",
+  client_id: 'acgallery.app',
   redirect_uri: environment.AppLoginCallbackUrl,
   post_logout_redirect_uri: environment.AppLogoutCallbackUrl,
-  response_type: "id_token token",
-  scope: "openid profile api.galleryapi",
+  response_type: 'id_token token',
+  scope: 'openid profile api.galleryapi',
 
   silent_redirect_uri: environment.AppLoginCallbackUrl,
   automaticSilentRenew: true,
   accessTokenExpiringNotificationTime: 4,
-  //silentRequestTimeout:10000,
+  // silentRequestTimeout:10000,
 
   filterProtocolClaims: true,
-  loadUserInfo: true
+  loadUserInfo: true,
 };
 
 @Injectable()
@@ -176,7 +176,7 @@ export class AuthService {
       }
     });
   }
-  
+
   endSigninMainWindow() {
     this.mgr.signinRedirectCallback().then(function (user) {
       if (environment.LoggingLevel >= LogLevel.Debug) {
@@ -196,13 +196,13 @@ export class AuthService {
       }
       setTimeout(5000, () => {
         console.log('ACGallery [Debug]: testing to see if fired...');
-      })
+      });
     }).catch(function (err) {
       if (environment.LoggingLevel >= LogLevel.Error) {
         console.error(err);
       }
     });
-  };
+  }
 
   endSignoutMainWindow() {
     this.mgr.signoutRedirectCallback().then(function (resp) {
@@ -214,5 +214,5 @@ export class AuthService {
         console.error(err);
       }
     });
-  };
+  }
 }

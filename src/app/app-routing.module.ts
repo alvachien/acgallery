@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { AlbumlistComponent } from './albumlist/albumlist.component';
 import { AlbumComponent } from './album/album.component';
+import { AlbumlistComponent } from './albumlist/albumlist.component';
 import { PhotolistComponent } from './photolist/photolist.component';
 import { PhotouploadComponent } from './photoupload/photoupload.component';
 import { PhotochangeComponent } from './photochange/photochange.component';
@@ -10,7 +10,7 @@ import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { AboutComponent } from './about/about.component';
 import { CreditsComponent } from './credits/credits.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
-
+import { UserDetailComponent } from './user-detail';
 import { AuthGuard } from './services/authguard.service';
 
 const appRoutes: Routes = [
@@ -18,54 +18,55 @@ const appRoutes: Routes = [
   {
     path: '',
     redirectTo: '/home',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'album',
     children: [
       {
         path: '',
-        component: AlbumlistComponent
+        component: AlbumlistComponent,
       },
       {
         path: 'create',
         component: AlbumComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
       },
       {
         path: 'display/:id',
-        component: AlbumComponent
+        component: AlbumComponent,
       },
       {
         path: 'edit/:id',
         component: AlbumComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
       },
-    ]
+    ],
   },
   {
     path: 'photo',
     children: [
       {
         path: '',
-        component: PhotolistComponent
+        component: PhotolistComponent,
       },
       {
         path: 'upload',
         component: PhotouploadComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
       },
       {
         path: 'display',
-        component: PhotochangeComponent
+        component: PhotochangeComponent,
       },
       {
         path: 'edit',
         component: PhotochangeComponent,
-        canActivate: [AuthGuard]
-      }
-    ]
+        canActivate: [AuthGuard],
+      },
+    ],
   },
+  { path: 'userdetail', component: UserDetailComponent },
   { path: 'about', component: AboutComponent },
   { path: 'credits', component: CreditsComponent },
   { path: 'unauthorized', component: UnauthorizedComponent },
@@ -75,13 +76,13 @@ const appRoutes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(
-      appRoutes
-    )
+      appRoutes,
+    ),
   ],
   exports: [
-    RouterModule
+    RouterModule,
   ],
   providers: [
-  ]
+  ],
 })
 export class AppRoutingModule { }

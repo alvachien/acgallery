@@ -79,7 +79,7 @@ export class UserAuthInfo {
   public getAccessToken(): string {
     return this.accessToken;
   }
-  public getUserUploadKBSize(): Array<number> {
+  public getUserUploadKBSize(): number[] {
     if (this.galleryPhotoUploadSize) {
       const i = this.galleryPhotoUploadSize.indexOf('-');
       if (i !== -1) {

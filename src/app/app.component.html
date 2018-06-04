@@ -16,7 +16,7 @@
       <button mat-menu-item disabled>{{titleLogin}}</button>
       <button mat-menu-item (click)="onUserDetail()">
         <mat-icon color="accent">account_circle</mat-icon>
-        <span class="title">{{'Nav.UserDetail' | translate}}</span>
+        <span class="title">{{'Login.UserDetail' | translate}}</span>
       </button>
       <button mat-menu-item (click)="onLogout()">
         <mat-icon color="accent">exit_to_app</mat-icon>
@@ -50,7 +50,6 @@
 
   <mat-sidenav-container class="app-sidenav-container" [style.marginTop.px]="isXSScreen ? 56 : 0">
     <mat-sidenav #snav [mode]="sidenavMode" [fixedInViewport]="isXSScreen" fixedTopGap="56">
-
       <mat-accordion class="sidenav-headers-align">
         <mat-expansion-panel hideToggle="false">
           <mat-expansion-panel-header>

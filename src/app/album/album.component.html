@@ -35,6 +35,6 @@
       </mat-grid-tile-footer>
     </mat-grid-tile>
   </mat-grid-list>
-  <mat-paginator [length]="photoAmount" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="onPageEvent($event)">
+  <mat-paginator *ngIf="!isCreateMode" [length]="photoAmount" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="onPageEvent($event)">
   </mat-paginator>
 </div>

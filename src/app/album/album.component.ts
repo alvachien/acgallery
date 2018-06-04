@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, NgZone,
-  EventEmitter, Input, Output, ViewContainerRef
+  EventEmitter, Input, Output, ViewContainerRef,
 } from '@angular/core';
-import { UIMode, LogLevel, Album, Photo, } from '../model';
+import { UIMode, LogLevel, Album, Photo } from '../model';
 import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
@@ -82,7 +82,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
     }
 
     // Distinguish current mode
-    this._activateRoute.url.subscribe(x => {
+    this._activateRoute.url.subscribe((x: any) => {
       if (x instanceof Array && x.length > 0) {
         if (x[0].path === 'create') {
           this.currentMode = 'Common.Create';
@@ -105,7 +105,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
         // Read the album
         this._readAlbum();
       }
-    }, error => {
+    }, (error: any) => {
     }, () => {
       // Completed
     });
@@ -118,6 +118,9 @@ export class AlbumComponent implements OnInit, OnDestroy {
   get isFieldChangable(): boolean {
     return this.uiMode === UIMode.Create || this.uiMode === UIMode.Change;
   }
+  get isCreateMode(): boolean {
+    return this.uiMode === UIMode.Create;
+  }
 
   private onPhotoClick(idx: number): void {
     if (this.photos.length <= 0) {
@@ -129,7 +132,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
       items.push({
         src: pht.fileInAPIUrl,
         w: pht.width,
-        h: pht.height
+        h: pht.height,
       });
     }
 
@@ -149,7 +152,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
 
       showAnimationDuration: 0,
       hideAnimationDuration: 0,
-      index: idx2 // start at first slide
+      index: idx2, // start at first slide
     };
 
     // Initializes and opens PhotoSwipe
@@ -166,7 +169,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
     this._uistatus.selPhotoInAblum = selphoto;
 
     const dialogRef = this._dialog.open(AlbumPhotoEXIFDialog);
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: any) => {
       // Do nothing.
       this._uistatus.selPhotoInAblum = null;
     });
@@ -201,7 +204,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
   }
 
   private _readAlbum(): void {
-    this._albumService.loadAlbum(this.routerID).subscribe(x => {
+    this._albumService.loadAlbum(this.routerID).subscribe((x: any) => {
       this.objAlbum = new Album();
       this.photos = [];
 
@@ -219,7 +222,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
 
       if (this.objAlbum.AccessCode && this.objAlbum.AccessCode === '1') {
         // Show the dialog
-        this.openAccessCodeDialog().subscribe(result => {
+        this.openAccessCodeDialog().subscribe((result: any) => {
           if (result) {
             this.objAlbum.AccessCode = result;
             this._loadPhotoIntoPage(0);

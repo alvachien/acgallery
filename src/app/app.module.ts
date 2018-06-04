@@ -68,6 +68,7 @@ import { CreditsComponent } from './credits/credits.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AlbumDetailComponent } from './album-detail';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 
 export function funcHttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
@@ -93,11 +94,12 @@ export function funcHttpLoaderFactory(http: HttpClient) {
     SplitAreaDirective,
     SplitHandleDirective,
     SplitDirective,
+    UserDetailComponent,
   ],
   entryComponents: [
     AlbumAccessCodeDialog,
     AlbumPhotoEXIFDialog,
-    PhotoListPhotoEXIFDialog
+    PhotoListPhotoEXIFDialog,
   ],
   imports: [
     BrowserModule,
@@ -147,12 +149,12 @@ export function funcHttpLoaderFactory(http: HttpClient) {
       loader: {
         provide: TranslateLoader,
         useFactory: funcHttpLoaderFactory,
-        deps: [HttpClient]
-      }
+        deps: [HttpClient],
+      },
     }),
     FlexLayoutModule,
     AppRoutingModule,
-    LayoutModule
+    LayoutModule,
   ],
   providers: [
     AuthService,
@@ -162,8 +164,8 @@ export function funcHttpLoaderFactory(http: HttpClient) {
     UIStatusService,
     AuthGuard,
     CanDeactivateGuardService,
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

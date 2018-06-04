@@ -1,5 +1,7 @@
 export const environment = {
   production: true,
+  CurrentVersion: '0.3',
+  CurrentReleaseDate: '2018.6.1',
   LoggingLevel: 1, // Crash
 
   AlbumAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/album',
@@ -16,5 +18,5 @@ export const environment = {
   AppLogoutCallbackUrl: 'https://acgallery.azurewebsites.net',
   AppHost: 'https://acgallery.azurewebsites.net',
   AppHIH: 'https://achihui.azurewebsites.net',
-  AppMathExercise: 'https://alvachien.github.io/mathexercise/'
+  AppMathExercise: 'https://alvachien.github.io/mathexercise/',
 };

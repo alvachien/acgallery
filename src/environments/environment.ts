@@ -5,8 +5,8 @@
 
 export const environment = {
   production: false,
-
-  DebugLogging: true,
+  CurrentVersion: '0.3',
+  CurrentReleaseDate: '2018.6.1',
   LoggingLevel: 4, // Debug
 
   AlbumAPIUrl: 'http://localhost:25325/api/album',
@@ -19,9 +19,9 @@ export const environment = {
   WakeupAPIUrl: 'http://localhost:25325/api/wakeup',
 
   IDServerUrl: 'http://localhost:41016',
-  AppLoginCallbackUrl: 'http://localhost:1601/logincallback.html',
-  AppLogoutCallbackUrl: 'http://localhost:1601',
-  AppHost: 'http://localhost:1601',
+  AppLoginCallbackUrl: 'http://localhost:16001/logincallback.html',
+  AppLogoutCallbackUrl: 'http://localhost:16001',
+  AppHost: 'http://localhost:16001',
   AppHIH: 'http://localhost:29521',
-  AppMathExercise: 'http://localhost:20000'
+  AppMathExercise: 'http://localhost:20000',
 };

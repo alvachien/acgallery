@@ -6,7 +6,7 @@ import { LogLevel } from '../model';
 @Component({
   selector: 'acgallery-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
   public btnLoginTxt = '';
@@ -14,16 +14,16 @@ export class HomeComponent implements OnInit {
 
   constructor(private _authService: AuthService,
     private _zone: NgZone) {
-    this._authService.authContent.subscribe(x => {
+    this._authService.authContent.subscribe((x: any) => {
       this._zone.run(() => {
         this._isLogin = x.isAuthorized;
-        if (x.isAuthorized) {          
+        if (x.isAuthorized) {
           this.btnLoginTxt = 'Login.UserDetail';
         } else {
           this.btnLoginTxt = 'Login.Login';
         }
       });
-    }, error => {
+    }, (error: any) => {
       if (environment.LoggingLevel >= LogLevel.Error) {
         console.error('ACGallery [Error]: Failed in subscribe to User', error);
       }
@@ -43,6 +43,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  onUserDetail(): void {    
+  onUserDetail(): void {
   }
 }

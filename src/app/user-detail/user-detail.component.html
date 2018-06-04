@@ -1,0 +1,32 @@
+<mat-card style="width: 100%; margin:3px;">
+  <mat-card-header>
+    <mat-card-title>{{"Login.UserDetail" | translate}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field class="control-full-width">
+      <input matInput placeholder="{{'Common.Name' | translate}}" [(ngModel)]="userName" name="name" #name="ngModel" disabled>
+    </mat-form-field>
+    <mat-checkbox class="control-full-width" [(ngModel)]="canAlbumCreate" disabled>
+      {{'Nav.AlbumCreate' | translate}}
+    </mat-checkbox>
+    <mat-checkbox class="control-full-width" [(ngModel)]="canAlbumChange" disabled>
+      {{'Album.ChangeMetadata' | translate}}
+    </mat-checkbox>
+    <mat-checkbox class="control-full-width" [(ngModel)]="canAlbumDelete" disabled>
+      {{'Album.DeleteAlbum' | translate}}
+    </mat-checkbox>
+    <mat-checkbox class="control-full-width" [(ngModel)]="canPhotoChange" disabled>
+      {{'Photo.ChangePhoto' | translate}}
+    </mat-checkbox>
+    <mat-checkbox class="control-full-width" [(ngModel)]="canPhotoDelete" disabled>
+      {{'Photo.DeletePhoto' | translate}}
+    </mat-checkbox>
+    <mat-checkbox class="control-full-width" [(ngModel)]="canPhotoUpload" disabled>
+      {{'Nav.PhotoUpload' | translate}}
+    </mat-checkbox>
+    <mat-form-field class="control-full-width">
+      <input matInput placeholder="{{'Photo.FileSize' | translate}} (MB)" [(ngModel)]="photoFileSize" name="dimension" #name="ngModel"
+        disabled>
+    </mat-form-field>
+  </mat-card-content>
+</mat-card>

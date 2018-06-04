@@ -103,7 +103,6 @@
     
     "Users": "用户",
     "UserList": "用户列表",
-    "UserDetail": "用户详细信息",
     "TakeALookAtUserDetail": "查看当前用户详细信息",
     "LearningTrace": "学习记录系统",
     "EventTrace": "事务记录系统",
@@ -155,13 +154,16 @@
     "IsPublic": "公开访问",
     "AccessCode": "访问码",
     "ViewPhotos": "查看照片",
-    "ChangeMetadata": "更新相册定义"
+    "ChangeMetadata": "更新相册定义",
+    "DeleteAlbum": "删除相册"
   },
   "Photo": {
     "FileSize": "文件大小",
     "Dimension": "尺寸",
     "UploadQueue": "上传照片序列",
     "ChoosePhoto": "选择图片",
+    "ChangePhoto": "修改图片",
+    "DeletePhoto": "删除图片",
     "AssignedAlbum": "已加入的相册",
     "AvailableAlbum": "可加入的相册",
     "Upload_NoAlbum": "不加入相册",
