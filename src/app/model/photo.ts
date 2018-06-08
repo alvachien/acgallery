@@ -25,16 +25,16 @@ export class Photo {
   public uploadedTime: Date;
   public orgFileName: string;
   public isPublic: boolean;
-  public exifTags: Array<PhotoExif>;
+  public exifTags: PhotoExif[];
 
   constructor() {
   }
 
   get fileInAPIUrl(): string {
-    return environment.PublicPhotoInAPIBaseUrl + '/' + this.fileUrl;
+    return environment.PhotoFileAPIUrl + '/' + this.fileUrl;
   }
   get thumbnailFileInAPIUrl(): string {
-    return environment.PublicPhotoInAPIBaseUrl + '/' + this.thumbnailFileUrl;
+    return environment.PhotoFileAPIUrl + '/' + this.thumbnailFileUrl;
   }
 
   init(data: any) {

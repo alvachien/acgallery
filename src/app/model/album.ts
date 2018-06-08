@@ -22,7 +22,7 @@ export class Album {
   }
 
   get ThumbnailInAPIUrl(): string {
-    return environment.PublicPhotoInAPIBaseUrl + '/' + this.Thumbnail;
+    return environment.PhotoFileAPIUrl + '/' + this.Thumbnail;
   }
 
   get isValid(): boolean {
