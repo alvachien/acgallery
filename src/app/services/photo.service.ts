@@ -21,8 +21,7 @@ export class PhotoService {
 
     const data = JSON && JSON.stringify(photo);
 
-    return this._http.put(environment.PhotoAPIUrl, data, { headers: headers })
-      .pipe(map(response => <any>response));
+    return this._http.put(environment.PhotoAPIUrl, data, { headers: headers });
   }
 
   public createFile(fileRecord: any): Observable<any> {
@@ -33,8 +32,7 @@ export class PhotoService {
 
     const data = JSON && JSON.stringify(fileRecord);
 
-    return this._http.post(environment.PhotoAPIUrl, data, { headers: headers })
-      .pipe(map(response => <any>response));
+    return this._http.post(environment.PhotoAPIUrl, data, { headers: headers });
   }
 
   public uploadFile(params: string[], files: File[]) {
@@ -91,12 +89,10 @@ export class PhotoService {
       .append('Accept', 'application/json');
     if (this._authService.authSubject.getValue().isAuthorized) {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
-      return this._http.get(apistring, { headers: headers, params: params })
-        .pipe(map(response => <any>response));
+      return this._http.get(apistring, { headers: headers, params: params });
     }
 
-    return this._http.get(apistring, { headers: headers, params: params })
-      .pipe(map(response => <any>response));
+    return this._http.get(apistring, { headers: headers, params: params });
   }
 
   /**
@@ -126,14 +122,13 @@ export class PhotoService {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
       return this._http.get(environment.PhotoAPIUrl, {
         headers: headers,
-        params: params })
-        .pipe(map(response => <any>response));
+        params: params });
     }
 
     return this._http.get(environment.PhotoAPIUrl, {
         headers: headers,
-        params: params
-      }).pipe(map(response => <any>response));
+        params: params,
+      });
   }
 
   /**
@@ -148,7 +143,6 @@ export class PhotoService {
 
     const jdata: string = JSON && JSON.stringify(pto);
     return this._http.put(environment.PhotoAPIUrl, jdata, {
-      headers: headers })
-      .pipe(map(response => <any>response));
+      headers: headers });
   }
 }

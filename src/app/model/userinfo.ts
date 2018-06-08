@@ -1,5 +1,8 @@
 import { User } from 'oidc-client';
 
+/**
+ * User detail
+ */
 export class UserDetail {
   public UserId: string;
   public DisplayAs: string;
@@ -14,23 +17,26 @@ export class UserDetail {
   }
 }
 
-export class UserHistory {
-  public UserId: string;
-  public SeqNo: number;
-  public HistType: number;
-  public TimePoint: Date;
-  public Others: string;
+// export class UserHistory {
+//   public UserId: string;
+//   public SeqNo: number;
+//   public HistType: number;
+//   public TimePoint: Date;
+//   public Others: string;
 
-  public onSetData(data: any) {
+//   public onSetData(data: any) {
 
-    this.UserId = data.userId;
-    this.SeqNo = data.seqNo;
-    this.HistType = data.histType;
-    this.TimePoint = data.timePoint;
-    this.Others = data.others;
-  }
-}
+//     this.UserId = data.userId;
+//     this.SeqNo = data.seqNo;
+//     this.HistType = data.histType;
+//     this.TimePoint = data.timePoint;
+//     this.Others = data.others;
+//   }
+// }
 
+/**
+ * User Auth. info
+ */
 export class UserAuthInfo {
   public isAuthorized: boolean;
   private currentUser: User;
