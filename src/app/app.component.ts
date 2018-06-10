@@ -4,7 +4,7 @@ import { HttpParams, HttpClient, HttpHeaders, HttpResponse, HttpRequest, HttpErr
 import { LogLevel, AppLang } from './model/common';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
-import { AuthService, UIStatusService } from './services';
+import { AuthService, UIStatusService, UserDetailService } from './services';
 import { Observable, Subscription } from 'rxjs';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 
@@ -26,6 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private _translateService: TranslateService,
     private _authService: AuthService,
     private _uistatusService: UIStatusService,
+    private _usrdetailService: UserDetailService,
     private _http: HttpClient,
     private _zone: NgZone,
     private _router: Router,
@@ -33,6 +34,14 @@ export class AppComponent implements OnInit, OnDestroy {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Enter constructor of AppComponent');
     }
+
+    // Just wake up
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+      .append('Accept', 'application/json');
+    this._http.get(environment.WakeupAPIUrl, { headers: headers }).subscribe(() => {
+      // Do nothing
+    });
 
     this._watcherMedia = this._media.subscribe((change: MediaChange) => {
       if (environment.LoggingLevel >= LogLevel.Debug) {
@@ -60,6 +69,19 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isLoggedIn = x.isAuthorized;
         if (this.isLoggedIn) {
           this.titleLogin = x.getUserName();
+
+          this._usrdetailService.readDetailInfo().subscribe((detail: any) => {
+            // Do nothing
+          }, (error: any) => {
+            // Do nothing
+          }, () => {
+            if (this._usrdetailService.InfoLoaded) {
+              // Detail info. exists
+            } else {
+              // Navigate to the user detail
+              this.onUserDetail();
+            }
+          });
         }
       });
     }, (error: any) => {

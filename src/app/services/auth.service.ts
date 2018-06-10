@@ -28,7 +28,6 @@ export class AuthService {
   public authSubject: BehaviorSubject<UserAuthInfo> = new BehaviorSubject(new UserAuthInfo());
   public authContent: Observable<UserAuthInfo> = this.authSubject.asObservable();
   private mgr: UserManager;
-  private authHeaders: Headers;
   public userLoadededEvent: EventEmitter<User> = new EventEmitter<User>();
 
   constructor() {

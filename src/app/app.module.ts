@@ -49,9 +49,8 @@ import { PlatformModule } from '@angular/cdk/platform';
 import { ObserversModule } from '@angular/cdk/observers';
 import { PortalModule } from '@angular/cdk/portal';
 import { AppRoutingModule } from './app-routing.module';
-import 'oidc-client';
 
-import { AuthService, PhotoService, AlbumService, UIStatusService, AuthGuard, CanDeactivateGuardService } from './services';
+import { AuthService, PhotoService, AlbumService, UIStatusService, AuthGuard, CanDeactivateGuardService, UserDetailService } from './services';
 import { SplitAreaDirective, SplitHandleDirective, SplitDirective } from './directives';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -164,6 +163,7 @@ export function funcHttpLoaderFactory(http: HttpClient) {
     UIStatusService,
     AuthGuard,
     CanDeactivateGuardService,
+    UserDetailService,
     { provide: LocationStrategy, useClass: HashLocationStrategy },
   ],
   bootstrap: [AppComponent],

@@ -62,17 +62,17 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this._authService.authContent.subscribe((x) => {
-      if (x.canUploadPhoto()) {
-        const sizes = x.getUserUploadKBSize();
-        this.photoMinKBSize = sizes[0];
-        this.photoMaxKBSize = sizes[1];
-      } else {
-        this.photoMinKBSize = 0;
-        this.photoMaxKBSize = 0;
-      }
+      // if (x.canUploadPhoto()) {
+      //   const sizes = x.getUserUploadKBSize();
+      //   this.photoMinKBSize = sizes[0];
+      //   this.photoMaxKBSize = sizes[1];
+      // } else {
+      //   this.photoMinKBSize = 0;
+      //   this.photoMaxKBSize = 0;
+      // }
     });
 
-    this.canCrtAlbum = this._authService.authSubject.getValue().canCreateAlbum();
+    // this.canCrtAlbum = this._authService.authSubject.getValue().canCreateAlbum();
     this.albumCreate = new Album();
   }
 

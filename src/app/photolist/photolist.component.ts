@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef, MatSnackBar, PageEvent } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http/';
 import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
-import { LogLevel, Album, AlbumPhotoByAlbum, Photo, UpdPhoto, } from '../model';
+import { LogLevel, Album, AlbumPhotoByAlbum, Photo, UpdPhoto } from '../model';
 import { environment } from '../../environments/environment';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 declare var PhotoSwipe;
@@ -13,7 +13,7 @@ declare var PhotoSwipeUI_Default;
 @Component({
   selector: 'acgallery-photolist',
   templateUrl: './photolist.component.html',
-  styleUrls: ['./photolist.component.css']
+  styleUrls: ['./photolist.component.css'],
 })
 export class PhotolistComponent implements OnInit, OnDestroy {
   public photos: Photo[] = [];
@@ -97,7 +97,7 @@ export class PhotolistComponent implements OnInit, OnDestroy {
       items.push({
         src: pht.fileInAPIUrl,
         w: pht.width,
-        h: pht.height
+        h: pht.height,
       });
     }
 
@@ -117,7 +117,7 @@ export class PhotolistComponent implements OnInit, OnDestroy {
 
       showAnimationDuration: 0,
       hideAnimationDuration: 0,
-      index: idx2 // start at first slide
+      index: idx2, // start at first slide
     };
 
     // Initializes and opens PhotoSwipe
@@ -133,7 +133,7 @@ export class PhotolistComponent implements OnInit, OnDestroy {
     this._uistatusService.selPhotoInPhotoList = photo;
 
     const dialogRef = this._dialog.open(PhotoListPhotoEXIFDialog);
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: any) => {
       this._uistatusService.selPhotoInPhotoList = null;
     });
   }
@@ -168,7 +168,7 @@ export class PhotolistComponent implements OnInit, OnDestroy {
   }
 
   private _loadPhotoIntoPage(skipamt: number) {
-    this._photoService.loadPhotos(this.pageSize, skipamt).subscribe(data => {
+    this._photoService.loadPhotos(this.pageSize, skipamt).subscribe((data: any) => {
       this._zone.run(() => {
         this.photos = [];
         this.photoAmount = data.totalCount;

@@ -11,6 +11,7 @@ export const environment = {
   AlbumPhotoByPhotoAPIUrl: 'http://118.178.58.187:5310/api/albumphotobyphoto',
   AlbumPhotoLinkUrl: 'http://118.178.58.187:5310/api/albumphotolink',
   WakeupAPIUrl: 'http://118.178.58.187:5310/api/wakeup',
+  UserDetailAPIUrl: 'http://118.178.58.187:5310/api/userdetail',
 
   IDServerUrl: 'http://118.178.58.187:5100',
   AppLoginCallbackUrl: 'http://118.178.58.187:5210/logincallback.html',

@@ -16,6 +16,7 @@ export const environment = {
   AlbumPhotoByPhotoAPIUrl: 'http://localhost:25325/api/albumphotobyphoto',
   AlbumPhotoLinkUrl: 'http://localhost:25325/api/albumphotolink',
   WakeupAPIUrl: 'http://localhost:25325/api/wakeup',
+  UserDetailAPIUrl: 'http://localhost:25325/api/userdetail',
 
   IDServerUrl: 'http://localhost:41016',
   AppLoginCallbackUrl: 'http://localhost:16001/logincallback.html',

@@ -4,29 +4,17 @@
   </mat-card-header>
   <mat-card-content>
     <mat-form-field class="control-full-width">
-      <input matInput placeholder="{{'Common.Name' | translate}}" [(ngModel)]="userName" name="name" #name="ngModel" disabled>
+      <input matInput placeholder="{{'Common.ID' | translate}}" [(ngModel)]="userDetailInfo.userId" name="userid" #userid="ngModel" disabled>
     </mat-form-field>
-    <mat-checkbox class="control-full-width" [(ngModel)]="canAlbumCreate" disabled>
-      {{'Nav.AlbumCreate' | translate}}
-    </mat-checkbox>
-    <mat-checkbox class="control-full-width" [(ngModel)]="canAlbumChange" disabled>
-      {{'Album.ChangeMetadata' | translate}}
-    </mat-checkbox>
-    <mat-checkbox class="control-full-width" [(ngModel)]="canAlbumDelete" disabled>
-      {{'Album.DeleteAlbum' | translate}}
-    </mat-checkbox>
-    <mat-checkbox class="control-full-width" [(ngModel)]="canPhotoChange" disabled>
-      {{'Photo.ChangePhoto' | translate}}
-    </mat-checkbox>
-    <mat-checkbox class="control-full-width" [(ngModel)]="canPhotoDelete" disabled>
-      {{'Photo.DeletePhoto' | translate}}
-    </mat-checkbox>
-    <mat-checkbox class="control-full-width" [(ngModel)]="canPhotoUpload" disabled>
-      {{'Nav.PhotoUpload' | translate}}
-    </mat-checkbox>
     <mat-form-field class="control-full-width">
-      <input matInput placeholder="{{'Photo.FileSize' | translate}} (MB)" [(ngModel)]="photoFileSize" name="dimension" #name="ngModel"
-        disabled>
+      <input matInput placeholder="{{'Common.Name' | translate}}" [(ngModel)]="userName" name="username" #username="ngModel" disabled>
+    </mat-form-field>
+    <mat-form-field class="control-full-width">
+      <input matInput placeholder="{{'Login.DisplayAs' | translate}}" [(ngModel)]="userDetailInfo.displayAs" name="displayAs" #displayas="ngModel">
     </mat-form-field>
   </mat-card-content>
+  <mat-card-action>
+    <button mat-button [disabled]="!isFieldChangable()" (click)="onSubmit()">{{'Common.Submit' | translate}}</button>
+    <button mat-button>{{'Common.Cancel' | translate}}</button>
+  </mat-card-action>
 </mat-card>

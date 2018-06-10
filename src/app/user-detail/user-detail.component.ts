@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, PhotoService, AlbumService } from '../services';
-import { LogLevel, Photo, UpdPhoto, UserAuthInfo } from '../model';
+import { AuthService, UserDetailService } from '../services';
+import { LogLevel, UserDetail, UIMode } from '../model';
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -9,41 +9,38 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./user-detail.component.css'],
 })
 export class UserDetailComponent implements OnInit {
-
+  userDetailInfo: UserDetail;
   userName: string;
-  canPhotoUpload: boolean;
-  photoFileSize: string;
-  canAlbumCreate: boolean;
-  canAlbumChange: boolean;
-  canAlbumDelete: boolean;
-  canPhotoChange: boolean;
-  canPhotoDelete: boolean;
+  private _uiMode: UIMode;
+
+  get isFieldChangable(): boolean {
+    return this._uiMode !== UIMode.Display;
+  }
 
   constructor(private _authService: AuthService,
+    private _userdetailService: UserDetailService,
   ) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Entering constructor of PhotoUploadComponent.');
     }
 
-    this._authService.authContent.subscribe((x: UserAuthInfo) => {
-      this.canAlbumCreate = x.canCreateAlbum();
-      this.canAlbumChange = x.canChangeAlbum();
-      this.canAlbumDelete = x.canDeleteAlbum();
-      this.canPhotoChange = x.canChangePhoto();
-      this.canPhotoDelete = x.canDeletePhoto();
-
-      this.userName = x.getUserName();
-      if (x.canUploadPhoto()) {
-        this.canPhotoUpload = true;
-        const sizes = x.getUserUploadKBSize();
-        this.photoFileSize = sizes.join(' ~ ');
-      } else {
-        this.canPhotoUpload = false;
-        this.photoFileSize = '';
-      }
-    });
+    if (this._userdetailService.InfoLoaded) {
+      this.userDetailInfo = this._userdetailService.UserDetailInfo;
+      this._uiMode = UIMode.Display;
+    } else {
+      this.userDetailInfo = new UserDetail();
+      this._uiMode = UIMode.Create;
+      this.userDetailInfo.userId = this._authService.authSubject.getValue().getUserID();
+    }
+    this.userName = this._authService.authSubject.getValue().getUserName();
    }
 
   ngOnInit() {
+  }
+
+  public onSubmit() {
+    if (this._uiMode === UIMode.Create) {
+
+    }
   }
 }
