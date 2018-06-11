@@ -105,15 +105,7 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
         if (y[0]) {
           for (const alb of y[0].contentList) {
             const album = new Album();
-            album.init(alb.id,
-              alb.title,
-              alb.desp,
-              alb.firstPhotoThumnailUrl,
-              alb.createdAt,
-              alb.createdBy,
-              alb.isPublic,
-              alb.accessCode,
-              alb.photoCount);
+            album.initex(alb);
 
             allAlbum.push(album);
           }

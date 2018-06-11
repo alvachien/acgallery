@@ -10,6 +10,8 @@ export class Album {
   public CreatedBy: string;
   public IsPublic: boolean;
   public AccessCode: string;
+  public accessCodeHint: string;
+  public accessCodeRequired: boolean;
 
   // Runtime info
   public PhotoIDs: string[];
@@ -33,35 +35,46 @@ export class Album {
     return true;
   }
 
-  init(id: number,
-    title: string,
-    desp: string,
-    thumnail: string,
-    dateCreated: Date,
-    createdby: string,
-    isPublic: boolean,
-    accessCode: string,
-    photocnt: number) {
-    this.Id = id;
-    this.Title = title;
-    this.Desp = desp;
-    this.Thumbnail = thumnail;
-    this.CreatedAt = dateCreated;
-    this.CreatedBy = createdby;
-
-    this.IsPublic = isPublic;
-    this.AccessCode = accessCode;
-
-    this.PhotoCount = photocnt;
+  initex(data: any) {
+    if (data && data.id) {
+      this.Id = data.id;
+    }
+    if (data && data.title) {
+      this.Title = data.title;
+    }
+    if (data && data.desp) {
+      this.Desp = data.desp;
+    }
+    if (data && data.firstPhotoThumnailUrl) {
+      this.Thumbnail = data.firstPhotoThumnailUrl;
+    }
+    if (data && data.createdAt) {
+      this.CreatedAt = data.createdAt;
+    }
+    if (data && data.createdBy) {
+      this.CreatedBy = data.createdBy;
+    }
+    if (data && data.isPublic) {
+      this.IsPublic = data.isPublic;
+    } else {
+      this.IsPublic = false;
+    }
+    if (data && data.accessCodeHint) {
+      this.accessCodeHint = data.accessCodeHint;
+    }
+    if (data && data.accessCode) {
+      this.AccessCode = data.accessCode;
+    }
+    if (data && data.accessCodeRequired) {
+      this.accessCodeRequired = data.accessCodeRequired;
+    }
+    if (data && data.photoCount) {
+      this.PhotoCount = data.photoCount;
+    }
 
     if (!this.Thumbnail) {
       this.Thumbnail = 'grey.jpg';
     }
-  }
-
-  initex(data: any) {
-    this.init(data.id, data.title, data.desp, data.thumnail, data.dateCreated, data.createdby,
-      data.isPublic, data.accessCode, data.photocnt);
   }
 
   setPhotoID(photos: string[]) {

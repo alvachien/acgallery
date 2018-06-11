@@ -25,8 +25,7 @@ export class AlbumService {
 
     const data = JSON && JSON.stringify(album);
 
-    return this._http.post(environment.AlbumAPIUrl, data, { headers: headers })
-      .pipe(map(response => <any>response));
+    return this._http.post(environment.AlbumAPIUrl, data, { headers: headers });
   }
 
   public createAlbumPhotoLink(link: AlbumPhotoLink): Observable<any> {
@@ -37,8 +36,7 @@ export class AlbumService {
 
     const data = JSON && JSON.stringify(link);
 
-    return this._http.post(environment.AlbumPhotoLinkUrl, data, { headers: headers })
-      .pipe(map(response => <any>response));
+    return this._http.post(environment.AlbumPhotoLinkUrl, data, { headers: headers });
   }
 
   public updateAlbumPhotoByAlbum(apba: AlbumPhotoByAlbum): Observable<any> {
@@ -75,8 +73,7 @@ export class AlbumService {
 
     const data = JSON && JSON.stringify(album);
 
-    return this._http.put(environment.AlbumAPIUrl, data, { headers: headers })
-      .pipe(map(response => <any>response));
+    return this._http.put(environment.AlbumAPIUrl, data, { headers: headers });
   }
 
   /**
@@ -97,12 +94,10 @@ export class AlbumService {
 
     if (this._authService.authSubject.getValue().isAuthorized) {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
-      return this._http.get(environment.AlbumAPIUrl, { headers: headers, params: params })
-        .pipe(map(response => <any>response));
+      return this._http.get(environment.AlbumAPIUrl, { headers: headers, params: params });
     }
 
-    return this._http.get(environment.AlbumAPIUrl, { headers: headers, params: params })
-      .pipe(map(response => <any>response));
+    return this._http.get(environment.AlbumAPIUrl, { headers: headers, params: params });
   }
 
   /**
@@ -116,12 +111,10 @@ export class AlbumService {
 
     if (this._authService.authSubject.getValue().isAuthorized) {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
-      return this._http.get(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers })
-        .pipe(map(response => <any>response));
+      return this._http.get(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers });
     }
 
-    return this._http.get(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers })
-      .pipe(map(response => <any>response));
+    return this._http.get(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers });
   }
 
   /**
@@ -139,8 +132,7 @@ export class AlbumService {
 
     return this._http.get(environment.AlbumAPIUrl, {
       headers: headers,
-      params: params
-    })
-    .pipe(map(response => <any>response));
+      params: params,
+    });
   }
 }

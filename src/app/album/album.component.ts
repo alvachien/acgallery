@@ -209,18 +209,10 @@ export class AlbumComponent implements OnInit, OnDestroy {
       this.photos = [];
 
       this._zone.run(() => {
-        this.objAlbum.init(x.id,
-          x.title,
-          x.desp,
-          x.thumnail,
-          x.dateCreated,
-          x.createdby,
-          x.isPublic,
-          x.accessCode,
-          x.photocnt);
+        this.objAlbum.initex(x);
       });
 
-      if (this.objAlbum.AccessCode && this.objAlbum.AccessCode === '1') {
+      if (this.objAlbum.accessCodeRequired) {
         // Show the dialog
         this.openAccessCodeDialog().subscribe((result: any) => {
           if (result) {

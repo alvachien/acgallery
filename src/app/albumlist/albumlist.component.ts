@@ -104,20 +104,13 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
         this.albumAmount = x.totalCount;
         for (const alb of x.contentList) {
           const album = new Album();
-          album.init(alb.id,
-            alb.title,
-            alb.desp,
-            alb.firstPhotoThumnailUrl,
-            alb.createdAt,
-            alb.createdBy,
-            alb.isPublic,
-            alb.accessCode,
-            alb.photoCount);
+          album.initex(alb);
 
           this.albumes.push(album);
         }
       });
-    }, error => {
+    }, (error: any) => {
+      // Do nothing
     }, () => {
     });
   }

@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, OnDestroy, NgZone, ViewChild, Rendere
 import { Observable, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { FineUploaderBasic } from 'fine-uploader/lib/core';
-import { AuthService, PhotoService, AlbumService } from '../services';
+import { AuthService, PhotoService, AlbumService, UserDetailService } from '../services';
 import { Album, AlbumPhotoLink, AlbumPhotoByAlbum } from '../model/album';
 import { LogLevel, Photo, UpdPhoto } from '../model';
 import { environment } from '../../environments/environment';
@@ -19,11 +19,11 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   public isUploading = false;
   public assignMode = 0;
 
-  public photoMaxKBSize = 0;
-  public photoMinKBSize = 0;
+  private _photoMinKBSize: number;
+  private _photoMaxKBSize: number;
+  private _canCrtAlbum: boolean;
   private photoHadUploaded: Photo[] = [];
   public uploader: any = null;
-  public canCrtAlbum: boolean;
   public albumCreate: Album;
   public arAssignMode: any[] = [];
   @ViewChild('uploadFileRef') elemUploadFile: MatButton;
@@ -55,24 +55,17 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     private _authService: AuthService,
     private _albumService: AlbumService,
     private _photoService: PhotoService,
+    private _userdetailService: UserDetailService,
     private _elmRef: ElementRef,
     private _snackBar: MatSnackBar) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Entering constructor of PhotoUploadComponent.');
     }
 
-    this._authService.authContent.subscribe((x) => {
-      // if (x.canUploadPhoto()) {
-      //   const sizes = x.getUserUploadKBSize();
-      //   this.photoMinKBSize = sizes[0];
-      //   this.photoMaxKBSize = sizes[1];
-      // } else {
-      //   this.photoMinKBSize = 0;
-      //   this.photoMaxKBSize = 0;
-      // }
-    });
+    this._canCrtAlbum = this._userdetailService.UserDetailInfo.albumCreate;
+    this._photoMinKBSize = this._userdetailService.UserDetailInfo.uploadFileMinSize;
+    this._photoMaxKBSize = this._userdetailService.UserDetailInfo.uploadFileMaxSize;
 
-    // this.canCrtAlbum = this._authService.authSubject.getValue().canCreateAlbum();
     this.albumCreate = new Album();
   }
 
@@ -95,7 +88,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       Value: 1,
       Name: 'Photo.Upload_AssignExistAlbum',
     });
-    if (this.canCrtAlbum) {
+    if (this._canCrtAlbum) {
       this.arAssignMode.push({
         Value: 2,
         Name: 'Photo.Upload_AssignNewAlbum',
@@ -109,15 +102,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       const allAlbum: Album[] = [];
       for (const alb of x.contentList) {
         const album = new Album();
-        album.init(alb.id,
-          alb.title,
-          alb.desp,
-          alb.firstPhotoThumnailUrl,
-          alb.createdAt,
-          alb.createdBy,
-          alb.isPublic,
-          alb.accessCode,
-          alb.photoCount);
+        album.initex(alb);
 
         allAlbum.push(album);
       }
@@ -143,8 +128,8 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         },
         validation: {
           allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'],
-          minSizeLimit: that.photoMinKBSize * 1024,
-          sizeLimit: that.photoMaxKBSize * 1024,
+          minSizeLimit: that._photoMinKBSize * 1024,
+          sizeLimit: that._photoMaxKBSize * 1024,
         },
         callbacks: {
           onComplete: (id: number, name, responseJSON) => {
@@ -177,7 +162,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
             }
 
             if (newstatus === 'rejected') {
-              const errormsg = 'File size must smaller than ' + that.photoMaxKBSize + ' and larger than ' + that.photoMinKBSize;
+              const errormsg = 'File size must smaller than ' + that._photoMaxKBSize + ' and larger than ' + that._photoMinKBSize;
               that._snackBar.open(errormsg, 'Close', {
                 duration: 2000,
               });
@@ -294,7 +279,8 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         this.doRealUpload();
       }, (error: any) => {
         if (environment.LoggingLevel >= LogLevel.Error) {
-          console.error('ACGallery [Error]: Error occurs in createAlbum in PhotoUploadComponent');
+          console.error('ACGallery [Error]: Error occurs in createAlbum in PhotoUploadComponent:');
+          console.error(error);
         }
       }, () => {
       });
@@ -407,11 +393,11 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   canUploadPhoto(): boolean {
-    return this.photoMaxKBSize > 0;
+    return this._photoMaxKBSize > 0;
   }
 
   canCreateAlbum(): boolean {
-    return this.canCrtAlbum;
+    return this._canCrtAlbum;
   }
 
   onUploadProgress(data: number) {
@@ -473,9 +459,9 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         const size: number = Math.round(file.size / 1024);
         updPhoto.Size = size.toString() + 'KB';
 
-        if (size >= this.photoMaxKBSize || size <= this.photoMinKBSize) {
+        if (size >= this._photoMaxKBSize || size <= this._photoMinKBSize) {
           updPhoto.ValidInfo = 'File ' + updPhoto.Name + ' with size (' + updPhoto.Size + ') which is larger than '
-            + this.photoMaxKBSize + ' or less than ' + this.photoMinKBSize;
+            + this._photoMaxKBSize + ' or less than ' + this._photoMinKBSize;
           updPhoto.IsValid = false;
         } else {
           updPhoto.IsValid = true;
