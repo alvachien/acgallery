@@ -19,7 +19,11 @@ export class UserDetailService {
 
   constructor(private _http: HttpClient,
     private _authService: AuthService) {
-    this._authService.authContent.subscribe((x: UserAuthInfo) => {
+      if (environment.LoggingLevel >= LogLevel.Debug) {
+        console.log('ACGallery [Debug]: Entering UserDetailService constructor...');
+      }
+
+      this._authService.authContent.subscribe((x: UserAuthInfo) => {
       if (!x.isAuthorized) {
         this._usrdetail = undefined;
         this._infoLoaded = false;
@@ -31,6 +35,10 @@ export class UserDetailService {
    * Read detail ifno.
    */
   public readDetailInfo(): Observable<any> {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering method readDetailInfo of UserDetailService...');
+    }
+
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
       .append('Accept', 'application/json')
@@ -59,20 +67,30 @@ export class UserDetailService {
    * Save detail info
    */
   public saveDetailInfo(usrInfo: UserDetail): Observable<any> {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering method saveDetailInfo of UserDetailService...');
+    }
+
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
       .append('Accept', 'application/json')
       .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
 
     const jdata: any = JSON && JSON.stringify(usrInfo);
-    const apiurl = environment.UserDetailAPIUrl + '/' + this._authService.authSubject.getValue().getUserID();
 
     if (this._infoLoaded) {
       // Change
-      return this._http.put(apiurl, jdata, { headers: headers });
+      const apichgurl = environment.UserDetailAPIUrl + '/' + this._authService.authSubject.getValue().getUserID();
+      return this._http.put(apichgurl, jdata, { headers: headers }).pipe(map((value: any) => {
+        this._infoLoaded = true;
+        this._usrdetail = usrInfo;
+      }));
     } else {
       // Create
-      return this._http.post(apiurl, jdata, { headers: headers });
+      return this._http.post(environment.UserDetailAPIUrl, jdata, { headers: headers }).pipe(map((value: any) => {
+        this._infoLoaded = true;
+        this._usrdetail = usrInfo;
+      }));
     }
   }
 }

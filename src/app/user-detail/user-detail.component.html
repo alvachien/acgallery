@@ -13,8 +13,8 @@
       <input matInput placeholder="{{'Login.DisplayAs' | translate}}" [(ngModel)]="userDetailInfo.displayAs" name="displayAs" #displayas="ngModel">
     </mat-form-field>
   </mat-card-content>
-  <mat-card-action>
-    <button mat-button [disabled]="!isFieldChangable()" (click)="onSubmit()">{{'Common.Submit' | translate}}</button>
+  <mat-card-actions>
+    <button mat-button [disabled]="!isFieldChangable" (click)="onSubmit()">{{'Common.Submit' | translate}}</button>
     <button mat-button>{{'Common.Cancel' | translate}}</button>
-  </mat-card-action>
+  </mat-card-actions>
 </mat-card>
