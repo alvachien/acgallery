@@ -122,7 +122,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
     return this.uiMode === UIMode.Create;
   }
 
-  private onPhotoClick(idx: number): void {
+  public onPhotoClick(idx: number): void {
     if (this.photos.length <= 0) {
       return;
     }
@@ -165,7 +165,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
     return dialogRef.afterClosed();
   }
 
-  private onViewPhotoEXIFDialog(selphoto: any): void {
+  public onViewPhotoEXIFDialog(selphoto: any): void {
     this._uistatus.selPhotoInAblum = selphoto;
 
     const dialogRef = this._dialog.open(AlbumPhotoEXIFDialog);

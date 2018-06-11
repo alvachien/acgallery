@@ -153,6 +153,7 @@
   "Album":{
     "IsPublic": "公开访问",
     "AccessCode": "访问码",
+    "AccessCodeHint": "访问码提示",
     "ViewPhotos": "查看照片",
     "ChangeMetadata": "更新相册定义",
     "DeleteAlbum": "删除相册"

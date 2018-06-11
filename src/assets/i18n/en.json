@@ -153,6 +153,7 @@
   "Album":{
     "IsPublic": "Is Public",
     "AccessCode": "Access Code",
+    "AccessCodeHint": "Hint for Access Code",
     "ViewPhotos": "View Photos",
     "ChangeMetadata": "Change Metadata",
     "DeleteAlbum": "Delete an Album"
