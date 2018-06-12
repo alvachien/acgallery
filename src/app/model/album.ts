@@ -24,7 +24,11 @@ export class Album {
   }
 
   get ThumbnailInAPIUrl(): string {
-    return environment.PhotoFileAPIUrl + '/' + this.Thumbnail;
+    if (this.Thumbnail) {
+      return environment.PhotoFileAPIUrl + '/' + this.Thumbnail;
+    } else {
+      return '/assets/img/grey.jpg';
+    }
   }
 
   get isValid(): boolean {
@@ -70,10 +74,6 @@ export class Album {
     }
     if (data && data.photoCount) {
       this.PhotoCount = data.photoCount;
-    }
-
-    if (!this.Thumbnail) {
-      this.Thumbnail = 'grey.jpg';
     }
   }
 
