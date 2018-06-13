@@ -166,9 +166,9 @@ export class PhotoService {
       .append('Accept', 'application/json');
     if (this._authService.authSubject.getValue().isAuthorized) {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
-      return this._http.post(apistring, { headers: headers, params: params });
+      return this._http.post(apistring, jdata, { headers: headers, params: params });
     }
 
-    return this._http.post(apistring, { headers: headers, params: params });
+    return this._http.post(apistring, jdata, { headers: headers, params: params });
   }
 }

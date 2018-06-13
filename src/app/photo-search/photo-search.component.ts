@@ -17,7 +17,7 @@ declare var PhotoSwipeUI_Default;
 @Component({
   selector: 'acgallery-photo-search',
   templateUrl: './photo-search.component.html',
-  styleUrls: ['./photo-search.component.scss']
+  styleUrls: ['./photo-search.component.scss'],
 })
 export class PhotoSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   filters: GeneralFilterItem[] = [];
@@ -54,7 +54,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.allOperators = UIDisplayStringUtil.getGeneralFilterOperatorDisplayStrings();
     this.allFields = [{
       displayas: 'Common.Tag',
-      value: 'Tag',
+      value: 'Tags',
       valueType: 2,
     },
     ];
@@ -284,16 +284,5 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this._uistatusService.selPhotoInPhotoList = photo;
     this._router.navigate(['/photo/edit']);
-  }
-
-  public onPageEvent($event: any) {
-    if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('AC Gallery [Debug]: Entering onPageEvent of PhotoSearchComponent');
-    }
-
-    this.pageEvent = $event;
-    this.pageSize = this.pageEvent.pageSize;
-    const skipamt = this.pageEvent.pageIndex * this.pageEvent.pageSize;
-    // this._loadPhotoIntoPage(skipamt);
   }
 }
