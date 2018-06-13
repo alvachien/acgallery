@@ -182,7 +182,7 @@ export class PhotolistComponent implements OnInit, OnDestroy {
       });
     }, (error: HttpErrorResponse) => {
       this._snackBar.open('Error occurred: ' + error.message, undefined, {
-        duration: 3000
+        duration: 3000,
       });
     }, () => {
     });

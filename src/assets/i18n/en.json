@@ -11,6 +11,8 @@
     "Precent": "Precentage",
     "Close": "Close",
     "Save": "Save",
+    "Field": "Field",
+    "Operator": "Operator",
 
     "ListView": "List View",
     "HierarchyView": "Hierarchy View",
@@ -69,6 +71,18 @@
     "DeleteConfirmation": "Delete Confirmation",
     "ConfirmToDeleteSelectedItem": "The selected item(s) will be deleted. Do you confirm to continue?",
     "SearchViaName": "Select an item via the name..."
+  },
+  "Sys":{
+    "Operator": {
+      "Between": "Between",
+      "Equal": "Equal",
+      "LargerEqual": "Larger or Equal",
+      "LargerThan": "Larger than",
+      "LessEqual": "Less or Equal",
+      "LessThan": "Less than",
+      "NotEqual": "Not Equal",
+      "Like": "Like"
+    }
   },
   "Login": {
     "User": "User",
@@ -159,6 +173,7 @@
     "DeleteAlbum": "Delete an Album"
   },
   "Photo": {
+    "SelectPhotos": "Select Photo(s)",
     "FileSize": "File Size",
     "Dimension": "Dimension",
     "UploadQueue": "Queue of photo to upload",
@@ -169,6 +184,7 @@
     "AvailableAlbum": "Available album",
     "Upload_NoAlbum": "Without assign to album",
     "Upload_AssignExistAlbum": "Assign to an existed album",
-    "Upload_AssignNewAlbum": "Create an album and assign"
+    "Upload_AssignNewAlbum": "Create an album and assign",
+    "UploadSucceed": "Photo(s) uploaded successfully"
   }
 }

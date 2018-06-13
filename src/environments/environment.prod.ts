@@ -6,6 +6,7 @@ export const environment = {
 
   AlbumAPIUrl: 'http://118.178.58.187:5310/api/album',
   PhotoAPIUrl: 'http://118.178.58.187:5310/api/photo',
+  PhotoSearchAPIUrl: 'http://118.178.58.187:5310/api/photosearch',
   PhotoFileAPIUrl: 'http://118.178.58.187:5310/api/photofile',
   AlbumPhotoByAlbumAPIUrl: 'http://118.178.58.187:5310/api/albumphotobyalbum',
   AlbumPhotoByPhotoAPIUrl: 'http://118.178.58.187:5310/api/albumphotobyphoto',

@@ -6,6 +6,7 @@ export const environment = {
 
   AlbumAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/album',
   PhotoAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/photo',
+  PhotoSearchAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/photosearch',
   PhotoFileAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/photofile',
   AlbumPhotoByAlbumAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/albumphotobyalbum',
   AlbumPhotoByPhotoAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/albumphotobyphoto',

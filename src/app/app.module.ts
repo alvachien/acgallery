@@ -67,7 +67,9 @@ import { CreditsComponent } from './credits/credits.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AlbumDetailComponent } from './album-detail';
-import { UserDetailComponent } from './user-detail/user-detail.component';
+import { UserDetailComponent } from './user-detail';
+import { PhotoSearchComponent } from './photo-search';
+import { OperatorFilterPipe } from './pipes';
 
 export function funcHttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
@@ -94,6 +96,8 @@ export function funcHttpLoaderFactory(http: HttpClient) {
     SplitHandleDirective,
     SplitDirective,
     UserDetailComponent,
+    PhotoSearchComponent,
+    OperatorFilterPipe,
   ],
   entryComponents: [
     AlbumAccessCodeDialog,

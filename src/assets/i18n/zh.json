@@ -11,6 +11,8 @@
     "Precent": "百分比",
     "Close": "关闭",
     "Save": "保存",
+    "Field": "字段",
+    "Operator": "运算符",
 
     "ListView": "列表视图",
     "HierarchyView": "树形视图",
@@ -69,6 +71,18 @@
     "DeleteConfirmation": "确认删除操作",
     "ConfirmToDeleteSelectedItem": "选择项将被删除，请确认继续？",
     "SearchViaName": "根据名字来搜索项..."
+  },
+  "Sys":{
+    "Operator": {
+      "Between": "介于",
+      "Equal": "等于",
+      "LargerEqual": "大于或等于",
+      "LargerThan": "大于",
+      "LessEqual": "小于或等于",
+      "LessThan": "小于",
+      "NotEqual": "不等于",
+      "Like": "LIKE (SQL)"
+    }
   },
   "Login": {
     "User": "用户",
@@ -137,7 +151,7 @@
     "MarketingContent3": "本项目有对应的开源版本，并公布在Github上",
     "FeatureTitle1": "最新UI技术。",
     "FeatureSubTitle1": "一大堆的最新技术。",
-    "FeatureContent1": "以下技术被使用: ASP.NET Core 2, Angular 5, Material 2, BootStrap 4, 等等",
+    "FeatureContent1": "以下技术被使用: ASP.NET Core 2, Angular 6, Material 2 等等",
     "FeatureTitle2": "云平台。",
     "FeatureSubTitle2": "为了云平台开发。",
     "FeatureContent2": "这是为了云平台开发的应用，并且成功地在Microsoft Azure和Alibaba Aliyun上部署",
@@ -147,7 +161,7 @@
     "Unauthorized": "无授权",
     "UnauthorizedContent": "当前页面表明你因为缺乏相应操作的权限。",
     "PageNotFound": "页面未找到",
-    "PageNotFoundContent": "The page you requested could not be found, either contact your webmaster or try again. Use back button to navigate to the page you have prevously come from",
+    "PageNotFoundContent": "您要访问的页面没有找到，请联系系统管理员或者稍候再试。使用后退按钮返回前一页面。",
     "UploadingInfo": "上传中, 请稍候..."
   },
   "Album":{
@@ -159,6 +173,7 @@
     "DeleteAlbum": "删除相册"
   },
   "Photo": {
+    "SelectPhotos": "选择图片",
     "FileSize": "文件大小",
     "Dimension": "尺寸",
     "UploadQueue": "上传照片序列",
@@ -169,6 +184,7 @@
     "AvailableAlbum": "可加入的相册",
     "Upload_NoAlbum": "不加入相册",
     "Upload_AssignExistAlbum": "加入已有的相册",
-    "Upload_AssignNewAlbum": "创建一个新相册并加入"
+    "Upload_AssignNewAlbum": "创建一个新相册并加入",
+    "UploadSucceed": "照片上传成功"
   }
 }

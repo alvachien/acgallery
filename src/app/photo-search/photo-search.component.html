@@ -1,0 +1,90 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{'Nav.Photos' | translate}}</mat-card-title>
+    <mat-card-subtitle>{{'Common.Search' | translate}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      <div *ngFor="let filter of filters; let idxfilter = index" class="demo-full-width">
+        <mat-form-field>
+          <mat-select placeholder="{{'Common.Field' | translate}}" [(ngModel)]="filter.fieldName" (selectionChange)="onFieldSelectionChanged(filter)">
+            <mat-option *ngFor="let field of allFields" [value]="field.value">
+              {{ field.displayas | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="{{'Common.Operator' | translate}}" [(ngModel)]="filter.operator">
+            <mat-option *ngFor="let opr of allOperators | operatorFilter: filter.valueType" [value]="opr.value">
+              {{ opr.i18nterm | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="filter.valueType === 1">
+          <input matInput type="number" placeholder="{{'Common.Value' | translate}}" name="lvalue_1" [(ngModel)]="filter.lowValue">
+        </mat-form-field>
+        <mat-form-field *ngIf="filter.valueType === 1">
+          <input matInput type="number" placeholder="{{'Common.Value' | translate}}" name="hvalue_1" [(ngModel)]="filter.highValue">
+        </mat-form-field>
+        <mat-form-field *ngIf="filter.valueType === 2">
+          <input matInput type="text" placeholder="{{'Common.Value' | translate}}" name="lvalue_2" [(ngModel)]="filter.lowValue">
+        </mat-form-field>
+        <mat-form-field *ngIf="filter.valueType === 2">
+          <input matInput type="text" placeholder="{{'Common.Value' | translate}}" name="hvalue_2" [(ngModel)]="filter.highValue">
+        </mat-form-field>
+        <mat-form-field *ngIf="filter.valueType === 3">
+          <input matInput [(ngModel)]="filter.lowValue" [matDatepicker]="lvpicker" placeholder="{{'Common.Value' | translate}}">
+          <mat-datepicker-toggle matSuffix [for]="lvpicker"></mat-datepicker-toggle>
+          <mat-datepicker #lvpicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field *ngIf="filter.valueType === 3">
+          <input matInput [(ngModel)]="filter.highValue" [matDatepicker]="hvpicker" placeholder="{{'Common.Value' | translate}}">
+          <mat-datepicker-toggle matSuffix [for]="hvpicker"></mat-datepicker-toggle>
+          <mat-datepicker #hvpicker></mat-datepicker>
+        </mat-form-field>
+        <div class="typechkbox" *ngIf="filter.valueType === 4">
+          <mat-checkbox [(ngModel)]="filter.lowValue">
+          </mat-checkbox>
+        </div>
+        <button mat-button mat-icon-button aria-label="Add" (click)="onAddFilter()">
+          <mat-icon>add</mat-icon>
+        </button>
+        <button mat-button mat-icon-button aria-label="Clear" (click)="onRemoveFilter(idxfilter)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div class="demo-full-width">
+        <button mat-button mat-icon-button aria-label="Search" (click)="onSearch()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="example-container mat-elevation-z8">
+      <mat-grid-list [cols]="clnGridCount" rowHeight="3:2">
+        <mat-grid-tile *ngFor="let photo of photos; let idx = index;" colspan="1" rowspan="1">
+          <mat-grid-tile-header>
+            {{photo.title}}
+            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item (click)="onDisplayPhoto(photo)">{{'Common.Display' | translate}}</button>
+              <button mat-menu-item (click)="onChangePhoto(photo)">{{'Common.Change' | translate}}</button>
+              <button mat-menu-item (click)="onViewPhotoEXIFDialog(photo)">EXIF</button>
+            </mat-menu>
+          </mat-grid-tile-header>
+          <img class="dashboard-image" src="{{photo.thumbnailFileInAPIUrl}}" (click)="onPhotoClick(idx)" style="cursor: hand;" alt="Image">
+          <mat-grid-tile-footer>
+            {{photo.desp}}
+          </mat-grid-tile-footer>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+      <mat-paginator [length]="photoAmount" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="onPageEvent($event)">
+      </mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

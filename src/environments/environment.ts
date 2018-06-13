@@ -11,6 +11,7 @@ export const environment = {
 
   AlbumAPIUrl: 'http://localhost:25325/api/album',
   PhotoAPIUrl: 'http://localhost:25325/api/photo',
+  PhotoSearchAPIUrl: 'http://localhost:25325/api/photosearch',
   PhotoFileAPIUrl: 'http://localhost:25325/api/photofile',
   AlbumPhotoByAlbumAPIUrl: 'http://localhost:25325/api/albumphotobyalbum',
   AlbumPhotoByPhotoAPIUrl: 'http://localhost:25325/api/albumphotobyphoto',

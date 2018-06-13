@@ -30,7 +30,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginatorPhoto: MatPaginator;
   @ViewChild(MatVerticalStepper) stepper: MatVerticalStepper;
 
-  displayedColumns = ['thumbnail', 'id', 'name', 'size', 'dimension', 'ispublic', 'title', 'desp'];
+  displayedColumns = ['thumbnail', 'id', 'name', 'size', 'dimension', 'ispublic', 'title', 'desp', 'tag'];
   dataSource = new MatTableDataSource<UpdPhoto>([]);
   displayedAlbumColumns = ['select', 'id', 'thumbnail', 'title'];
   dataSourceAlbum = new MatTableDataSource<Album>([]);
@@ -268,7 +268,9 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isAssginToNewAlbum()) {
       // Check the validity of New Album
       if (!this.albumCreate.Title) {
-        this._snackBar.open('Title is a must for creating an album!');
+        this._snackBar.open('Title is a must for creating an album!', 'Close', {
+          duration: 3000,
+        });
         return;
       }
       this.albumCreate.CreatedAt = new Date();
@@ -489,22 +491,33 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     this.onUploadProgress(100);
 
     this.photoHadUploaded = [];
-    this._zone.run(() => {
-      this.isUploading = false;
-      this.stepper.reset();
 
-      this.assignMode = 0;
-      this.dataSource.data = [];
-      this.selection.clear();
-      this.albumCreate = new Album();
-      this.progressNum = 0;
-    });
+    // this._zone.run(() => {
+    //   this.isUploading = false;
+    //   this.stepper.reset();
+
+    //   this.assignMode = 0;
+    //   this.dataSource.data = [];
+    //   this.selection.clear();
+    //   this.albumCreate = new Album();
+    //   this.progressNum = 0;
+    // });
 
     // Show a dialog
     this._snackBar.open('All photos completed!', 'Close', {
       duration: 3000,
     }).afterDismissed().subscribe((x: any) => {
       // Dismissed of snackBar
+      if (this.assignMode === 0) {
+        // Jump to the photos list page
+        this._router.navigate(['/photo']);
+      } else if (this.isAssginToExistingAlbum()) {
+        // Jump to the existing album page
+        this._router.navigate(['/album/' + this.selection.selected[0].Id.toString()]);
+      } else if (this.isAssginToNewAlbum()) {
+        // Jump to the new album page
+        this._router.navigate(['/album/' + this.albumCreate.Id.toString()]);
+      }
     });
   }
 }

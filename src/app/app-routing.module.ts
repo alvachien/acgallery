@@ -12,6 +12,7 @@ import { CreditsComponent } from './credits/credits.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { UserDetailComponent } from './user-detail';
 import { AuthGuard } from './services/authguard.service';
+import { PhotoSearchComponent } from './photo-search';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -49,6 +50,10 @@ const appRoutes: Routes = [
       {
         path: '',
         component: PhotolistComponent,
+      },
+      {
+        path: 'search',
+        component: PhotoSearchComponent,
       },
       {
         path: 'upload',

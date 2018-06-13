@@ -145,4 +145,30 @@ export class PhotoService {
     return this._http.put(environment.PhotoAPIUrl, jdata, {
       headers: headers });
   }
+
+  /**
+   * Search photo
+   */
+  public searchPhoto(filters: any[], top?: number, skip?: number): Observable<any> {
+    const apistring = environment.PhotoSearchAPIUrl;
+    let params: HttpParams = new HttpParams();
+    if (top) {
+      params = params.append('top', top.toString());
+    }
+    if (skip) {
+      params = params.append('skip', skip.toString());
+    }
+    const apidata: any = { fieldList: filters };
+    const jdata: string = JSON && JSON.stringify(apidata);
+
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+      .append('Accept', 'application/json');
+    if (this._authService.authSubject.getValue().isAuthorized) {
+      headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+      return this._http.post(apistring, { headers: headers, params: params });
+    }
+
+    return this._http.post(apistring, { headers: headers, params: params });
+  }
 }
