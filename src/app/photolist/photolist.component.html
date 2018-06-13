@@ -19,7 +19,9 @@
         </mat-grid-tile-header>
         <img class="dashboard-image" src="{{photo.thumbnailFileInAPIUrl}}" (click)="onPhotoClick(idx)" style="cursor: hand;" alt="Image">
         <mat-grid-tile-footer>
-          {{photo.desp}}
+          <mat-chip-list>
+            <mat-chip *ngFor="let term of photo.Tags">{{term}}</mat-chip>
+          </mat-chip-list>
         </mat-grid-tile-footer>
       </mat-grid-tile>
     </mat-grid-list>

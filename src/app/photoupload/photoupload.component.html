@@ -67,22 +67,22 @@
 
         <!-- Tag column -->
         <ng-container matColumnDef="tag">
-          <mat-header-cell *matHeaderCellDef> {{'Common.Tag' | translate}} </mat-header-cell>
-          <mat-cell *matCellDef="let row">
+          <th mat-header-cell *matHeaderCellDef> {{'Common.Tag' | translate}} </th>
+          <td mat-cell *matCellDef="let row">
             <mat-form-field>
               <mat-chip-list #tagList>
                 <mat-chip *ngFor="let term of row.Tags" selectable="true"
                   (remove)="removeItemTag(row, term)">
                   {{term}}
-                  <mat-icon matChipRemove *ngIf="isFieldChangable">cancel</mat-icon>
+                  <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip>
-                <input [matChipInputFor]="tagList" [readonly]="!isFieldChangable"
+                <input [matChipInputFor]="tagList"
                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                       matChipInputAddOnBlur="true"
                       (matChipInputTokenEnd)="addItemTag(row, $event)" />
               </mat-chip-list>
             </mat-form-field>                
-          </mat-cell>
+          </td>
         </ng-container>
   
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -93,7 +93,7 @@
       </mat-paginator>
     </div>
     <div style="margin-top: 20px;">
-      <button mat-button matStepperNext>{{'Common.Next' | translate }</button>
+      <button mat-button matStepperNext>{{'Common.Next' | translate }}</button>
     </div>
   </mat-step>
 
@@ -165,8 +165,8 @@
     </div>
 
     <div style="margin-top: 20px;">
-      <button mat-button [disabled]="isUploading" matStepperPrevious>{{'Common.Previous' | translate }</button>
-      <button mat-button [disabled]="isUploading" (click)="onSubmit()">{{'Common.Submit' | translate }</button>
+      <button mat-button [disabled]="isUploading" matStepperPrevious>{{'Common.Previous' | translate }}</button>
+      <button mat-button [disabled]="isUploading" (click)="onSubmit()">{{'Common.Submit' | translate }}</button>
     </div>
   </mat-step>
 </mat-vertical-stepper>

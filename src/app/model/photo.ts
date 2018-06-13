@@ -26,6 +26,8 @@ export class Photo {
   public orgFileName: string;
   public isPublic: boolean;
   public exifTags: PhotoExif[];
+  public AverageRating: number;
+  public Tags: string[] = [];
 
   constructor() {
   }
@@ -116,6 +118,7 @@ export class UpdPhoto {
   get Dimension(): string {
     return this.Width.toString() + ' X ' + this.Height.toString();
   }
+  public Tags: string[] = [];
 
   constructor() {
     this.IsPublic = true;

@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 import { FineUploaderBasic } from 'fine-uploader/lib/core';
 import { AuthService, PhotoService, AlbumService, UserDetailService } from '../services';
 import { Album, AlbumPhotoLink, AlbumPhotoByAlbum } from '../model/album';
-import { LogLevel, Photo, UpdPhoto } from '../model';
+import { LogLevel, Photo, UpdPhoto, COMMA } from '../model';
 import { environment } from '../../environments/environment';
-import { MatSnackBar, MatPaginator, MatTableDataSource, MatButton, MatVerticalStepper } from '@angular/material';
+import { MatSnackBar, MatPaginator, MatTableDataSource, MatButton, MatVerticalStepper, MatChipInputEvent } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ENTER } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'acgallery-photoupload',
@@ -18,6 +19,8 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   public progressNum = 0;
   public isUploading = false;
   public assignMode = 0;
+  // Enter, comma
+  separatorKeysCodes: any[] = [ENTER, COMMA];
 
   private _photoMinKBSize: number;
   private _photoMaxKBSize: number;
@@ -316,6 +319,8 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!insPhoto.height && pht.Height) {
           insPhoto.height = pht.Height;
         }
+        if (pht.Tags && pht.Tags.length > 0)
+          insPhoto.Tags = pht.Tags;
 
         break;
       }
@@ -434,6 +439,29 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     return rst;
   }
 
+  public addItemTag(row: UpdPhoto, $event: MatChipInputEvent): void {
+    let input: any = $event.input;
+    let value: any = $event.value;
+
+    // Add new Tag
+    if ((value || '').trim()) {
+      row.Tags.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  public removeItemTag(row: UpdPhoto, tag: any): void {
+    let index: number = row.Tags.indexOf(tag);
+
+    if (index >= 0) {
+      row.Tags.splice(index, 1);
+    }
+  }
+
   private readImage(fid: number, file: any, nname: string) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Entering readImage of PhotoUploadComponent');
@@ -513,10 +541,10 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         this._router.navigate(['/photo']);
       } else if (this.isAssginToExistingAlbum()) {
         // Jump to the existing album page
-        this._router.navigate(['/album/' + this.selection.selected[0].Id.toString()]);
+        this._router.navigate(['/album/display/' + this.selection.selected[0].Id.toString()]);
       } else if (this.isAssginToNewAlbum()) {
         // Jump to the new album page
-        this._router.navigate(['/album/' + this.albumCreate.Id.toString()]);
+        this._router.navigate(['/album/display/' + this.albumCreate.Id.toString()]);
       }
     });
   }

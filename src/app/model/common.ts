@@ -1,4 +1,7 @@
 
+// Constants
+export const COMMA = 188;
+
 /**
  * Interface: SelectableObject<T>
  */
