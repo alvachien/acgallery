@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import { MatTableDataSource, MatPaginator, PageEvent, MatDialog, MatDialogRef } from '@angular/material';
-import { HttpClient } from '@angular/common/http';
+import { MatTableDataSource, MatPaginator, PageEvent, MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, merge, of as observableOf, Subscription } from 'rxjs';
 import { startWith, switchMap, map, catchError } from 'rxjs/operators';
@@ -49,6 +49,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit, OnDestroy {
     private _photoService: PhotoService,
     private _uistatusService: UIStatusService,
     private _dialog: MatDialog,
+    private _snackBar: MatSnackBar,
     private _media: ObservableMedia) {
     this.resultsLength = 0;
     this.allOperators = UIDisplayStringUtil.getGeneralFilterOperatorDisplayStrings();
@@ -115,15 +116,31 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit, OnDestroy {
         map((data: any) => {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
-          this.resultsLength = data.totalCount;
+          if (data && data.totalCount) {
+            this.resultsLength = data.totalCount;
+            this.photoAmount = data.totalCount;
+          }
 
-          return data.items;
+          return data && data.contentList;
         }),
         catchError(() => {
           this.isLoadingResults = false;
-          return observableOf([]);
+          return observableOf(undefined);
         }),
-    ).subscribe(() => {
+    ).subscribe((photolist: any) => {
+      this.photos = [];
+      if (photolist && photolist instanceof Array) {
+        for (const ce of photolist) {
+          const pi: Photo = new Photo();
+          pi.init(ce);
+          this.photos.push(pi);
+        }
+      }
+    }, (error: HttpErrorResponse) => {
+      this._snackBar.open('Error occurred: ' + error.message, undefined, {
+        duration: 3000,
+      });
+    }, () => {
       // Do nothing
     });
   }

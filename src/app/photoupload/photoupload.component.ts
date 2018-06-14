@@ -319,8 +319,12 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!insPhoto.height && pht.Height) {
           insPhoto.height = pht.Height;
         }
-        if (pht.Tags && pht.Tags.length > 0)
-          insPhoto.Tags = pht.Tags;
+        if (pht.Tags && pht.Tags.length > 0) {
+          insPhoto.tags = [];
+          for (const tag of pht.Tags) {
+            insPhoto.tags.push(tag);
+          }
+        }
 
         break;
       }

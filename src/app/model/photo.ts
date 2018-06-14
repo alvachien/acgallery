@@ -1,12 +1,18 @@
 import * as Common from './common';
 import { environment } from '../../environments/environment';
 
+/**
+ * Exif item
+ */
 export class PhotoExif {
   public group: number;
   public name: string;
   public value: string;
 }
 
+/**
+ * Photo
+ */
 export class Photo {
 
   public photoId: string;
@@ -26,8 +32,8 @@ export class Photo {
   public orgFileName: string;
   public isPublic: boolean;
   public exifTags: PhotoExif[];
-  public AverageRating: number;
-  public Tags: string[] = [];
+  public rating: number;
+  public tags: string[] = [];
 
   constructor() {
   }
@@ -90,6 +96,15 @@ export class Photo {
         this.exifTags.push(tag);
       }
     }
+    if (data && data.rating) {
+      this.rating = data.rating;
+    }
+    if (data && data.tags && data.tags instanceof Array) {
+      this.tags = [];
+      for (const tg of data.tags) {
+        this.tags.push(tg);
+      }
+    }
   }
 }
 
@@ -99,6 +114,9 @@ export class SelectablePhoto
   public isSelected: boolean;
 }
 
+/**
+ * Photo for upload
+ */
 export class UpdPhoto {
   public imgSrc: string;
 
@@ -119,6 +137,7 @@ export class UpdPhoto {
     return this.Width.toString() + ' X ' + this.Height.toString();
   }
   public Tags: string[] = [];
+  public Rating: number;
 
   constructor() {
     this.IsPublic = true;
