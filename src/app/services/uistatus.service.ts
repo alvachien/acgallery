@@ -14,7 +14,7 @@ export class UIStatusService {
   isPortrait: Observable<BreakpointState>;
   isLandscape: Observable<BreakpointState>;
 
-  constructor(private breakpointObserver: BreakpointObserver
+  constructor(private breakpointObserver: BreakpointObserver,
     ) {
     this.isHandset = this.breakpointObserver.observe([Breakpoints.HandsetLandscape,
       Breakpoints.HandsetPortrait]);

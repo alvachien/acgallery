@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  CurrentVersion: '0.3',
-  CurrentReleaseDate: '2018.6.1',
+  CurrentVersion: '0.3.2',
+  CurrentReleaseDate: '2018.7.1',
   LoggingLevel: 1, // Crash
 
   AlbumAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/album',

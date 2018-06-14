@@ -93,7 +93,7 @@
       </mat-paginator>
     </div>
     <div style="margin-top: 20px;">
-      <button mat-button matStepperNext>{{'Common.Next' | translate }}</button>
+      <button mat-button matStepperNext>{{'Common.NextStep' | translate }}</button>
     </div>
   </mat-step>
 
@@ -153,8 +153,8 @@
       <acgallery-album-detail [objAlbum]="albumCreate" [uiMode]="1"></acgallery-album-detail>
     </div>
     <div style="margin-top: 20px;">
-      <button mat-button matStepperPrevious>{{'Common.Previous' | translate }}</button>
-      <button mat-button matStepperNext>{{'Common.Next' | translate}}</button>
+      <button mat-button matStepperPrevious>{{'Common.PreviousStep' | translate }}</button>
+      <button mat-button matStepperNext>{{'Common.NextStep' | translate}}</button>
     </div>
   </mat-step>
 
@@ -165,7 +165,7 @@
     </div>
 
     <div style="margin-top: 20px;">
-      <button mat-button [disabled]="isUploading" matStepperPrevious>{{'Common.Previous' | translate }}</button>
+      <button mat-button [disabled]="isUploading" matStepperPrevious>{{'Common.PreviousStep' | translate }}</button>
       <button mat-button [disabled]="isUploading" (click)="onSubmit()">{{'Common.Submit' | translate }}</button>
     </div>
   </mat-step>

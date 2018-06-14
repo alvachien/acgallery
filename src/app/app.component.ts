@@ -72,8 +72,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
           this._usrdetailService.readDetailInfo().subscribe((detail: any) => {
             // Do nothing
+            if (detail && detail.displayAs) {
+              this.titleLogin = detail.displayAs;
+            }
           }, (error: any) => {
-            // Do nothing
+            if (environment.LoggingLevel >= LogLevel.Error) {
+              console.error('ACGallery [Error]: Failed in read user detail', error);
+            }
           }, () => {
             if (this._usrdetailService.InfoLoaded) {
               // Detail info. exists

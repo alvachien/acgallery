@@ -57,6 +57,30 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit, OnDestroy {
       displayas: 'Common.Tag',
       value: 'Tags',
       valueType: 2,
+    }, {
+      displayas: 'Common.CameraMaker',
+      value: 'CameraMaker',
+      valueType: 2,
+    }, {
+      displayas: 'Common.CameraModel',
+      value: 'CameraModel',
+      valueType: 2,
+    }, {
+      displayas: 'Common.LensModel',
+      value: 'LensModel',
+      valueType: 2,
+    }, {
+      displayas: 'Common.ShutterSpeed',
+      value: 'ShutterSpeed',
+      valueType: 2,
+    }, {
+      displayas: 'Common.Aperture',
+      value: 'AVNumber',
+      valueType: 2,
+    }, {
+      displayas: 'Common.ISO',
+      value: 'ISONumber',
+      valueType: 1,
     },
     ];
 

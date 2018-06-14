@@ -18,6 +18,21 @@
       </mat-form-field>
 
       <mat-checkbox [(ngModel)]="currentPhoto.isPublic" name="ispubl" [disabled]="!isFieldChangable()">{{"Album.IsPublic" | translate}}</mat-checkbox>
+
+      <mat-form-field>
+        <mat-chip-list #tagList>
+          <mat-chip *ngFor="let term of currentPhoto.tags" selectable="true"
+            (remove)="removeItemTag(term)">
+            {{term}}
+            <mat-icon matChipRemove *ngIf="isFieldChangable()">cancel</mat-icon>
+          </mat-chip>
+          <input [matChipInputFor]="tagList"
+                [disabled]="!isFieldChangable()"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                matChipInputAddOnBlur="true"
+                (matChipInputTokenEnd)="addItemTag($event)" />
+        </mat-chip-list>
+      </mat-form-field>
     </form>
     <mat-divider></mat-divider>
     <div style="margin-top: 20px;">

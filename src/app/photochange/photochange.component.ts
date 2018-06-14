@@ -1,17 +1,18 @@
 import { Component, NgZone, OnInit, ViewContainerRef, OnDestroy } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogRef, MatSnackBar, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MatSnackBar, MatTableDataSource, MatChipInputEvent } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 
-import { UIMode, LogLevel, Photo, Album, } from '../model';
+import { UIMode, LogLevel, Photo, Album, COMMA } from '../model';
 import { AuthService, AlbumService, PhotoService, UIStatusService } from '../services';
 import { environment } from '../../environments/environment';
+import { ENTER } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-photochange',
   templateUrl: './photochange.component.html',
-  styleUrls: ['./photochange.component.css']
+  styleUrls: ['./photochange.component.css'],
 })
 export class PhotochangeComponent implements OnInit, OnDestroy {
   public currentPhoto: Photo;
@@ -24,6 +25,8 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
   dataSourceAvailableAlbum = new MatTableDataSource<Album>([]);
   selectionAssignedAlbum = new SelectionModel<Album>(true, []);
   selectionAvailableAlbum = new SelectionModel<Album>(true, []);
+  // Enter, comma
+  separatorKeysCodes: any[] = [ENTER, COMMA];
 
   isAllAssignedAlbumSelected() {
     const numSelected = this.selectionAssignedAlbum.selected.length;
@@ -34,7 +37,7 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
   masterAssignedAlbumToggle() {
     this.isAllAssignedAlbumSelected() ?
         this.selectionAssignedAlbum.clear() :
-        this.dataSourceAssignedAlbum.data.forEach(row => this.selectionAssignedAlbum.select(row));
+        this.dataSourceAssignedAlbum.data.forEach((row: any) => this.selectionAssignedAlbum.select(row));
   }
 
   isAllAvailableAlbumSelected() {
@@ -46,7 +49,7 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
   masterAvailableAlbumToggle() {
     this.isAllAvailableAlbumSelected() ?
         this.selectionAvailableAlbum.clear() :
-        this.dataSourceAvailableAlbum.data.forEach(row => this.selectionAvailableAlbum.select(row));
+        this.dataSourceAvailableAlbum.data.forEach((row: any) => this.selectionAvailableAlbum.select(row));
   }
 
   constructor(private _router: Router,
@@ -56,7 +59,7 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
     private _photoService: PhotoService,
     private _albumService: AlbumService,
     private _uistatusService: UIStatusService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
   ) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Entering constructor in PhotochangeComponent.');
@@ -69,7 +72,7 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
     }
 
     // Distinguish current mode
-    this._activateRoute.url.subscribe(x => {
+    this._activateRoute.url.subscribe((x: any) => {
       if (environment.LoggingLevel >= LogLevel.Debug) {
         console.log('ACGallery [Debug]: Entering activateRoute subscribe of ngOnInit in PhotochangeComponent.');
       }
@@ -101,7 +104,7 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
       const assignedAlbum: Album[] = [];
       const unassignedAlbum: Album[] = [];
 
-      forkJoin([s1, s2]).subscribe(y => {
+      forkJoin([s1, s2]).subscribe((y: any) => {
         if (y[0]) {
           for (const alb of y[0].contentList) {
             const album = new Album();
@@ -136,7 +139,10 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
         this.dataSourceAssignedAlbum.data = assignedAlbum;
         this.dataSourceAvailableAlbum.data = unassignedAlbum;
       });
-    }, error => {
+    }, (error: any) => {
+      if (environment.LoggingLevel >= LogLevel.Error) {
+        console.error('ACGallery [Error]: Failed ot parse activateRoute of ngOnInit in PhotochangeComponent.');
+      }
     }, () => {
       // Completed
     });
@@ -152,6 +158,29 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
 
   public isFieldChangable(): boolean {
     return this.uiMode === UIMode.Create || this.uiMode === UIMode.Change;
+  }
+
+  public addItemTag($event: MatChipInputEvent): void {
+    let input: any = $event.input;
+    let value: any = $event.value;
+
+    // Add new Tag
+    if ((value || '').trim()) {
+      this.currentPhoto.tags.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  public removeItemTag(tag: any): void {
+    let index: number = this.currentPhoto.tags.indexOf(tag);
+
+    if (index >= 0) {
+      this.currentPhoto.tags.splice(index, 1);
+    }
   }
 
   public onAddAssignedAlbum(): void {
@@ -225,15 +254,15 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
   }
 
   private onSaveChange(): void {
-    this._photoService.updatePhoto(this.currentPhoto).subscribe(x => {
+    this._photoService.updatePhoto(this.currentPhoto).subscribe((x: any) => {
       // Just ensure the request has been sent
       this._snackBar.open('Photo changed!', 'Close', {
         duration: 3000,
-      }).afterDismissed().subscribe(y => {
+      }).afterDismissed().subscribe((y: any) => {
         // Jump to Photos page
         this._router.navigate(['/photo']);
       });
-    }, error => {
+    }, (error: any) => {
       console.error(error);
     });
   }

@@ -1,12 +1,11 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, NgZone,
-  EventEmitter, Input, Output, ViewContainerRef,
-} from '@angular/core';
+  EventEmitter, Input, Output, ViewContainerRef, Inject } from '@angular/core';
 import { UIMode, LogLevel, Album, Photo } from '../model';
 import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { Observable, Subject, forkJoin, Subscription } from 'rxjs';
-import { MatDialog, MatDialogRef, MatDialogConfig, MatSnackBar, PageEvent } from '@angular/material';
+import { MatDialog, MatDialogRef, MatDialogConfig, MatSnackBar, PageEvent, MAT_DIALOG_DATA } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http/';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 declare var PhotoSwipe;
@@ -57,6 +56,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
       if (environment.LoggingLevel >= LogLevel.Debug) {
         console.log(`ACGallery [Debug]: Entering constructor of AlbumComponent: ${this.activeMediaQuery}`);
       }
+
       // xs	'screen and (max-width: 599px)'
       // sm	'screen and (min-width: 600px) and (max-width: 959px)'
       // md	'screen and (min-width: 960px) and (max-width: 1279px)'
@@ -106,6 +106,9 @@ export class AlbumComponent implements OnInit, OnDestroy {
         this._readAlbum();
       }
     }, (error: any) => {
+      if (environment.LoggingLevel >= LogLevel.Error) {
+        console.error('AC Gallery [Error]: Failed to parse URL in ngOnInit of AlbumComponent');
+      }
     }, () => {
       // Completed
     });
@@ -160,11 +163,6 @@ export class AlbumComponent implements OnInit, OnDestroy {
     this.gallery.init();
   }
 
-  private openAccessCodeDialog(): Observable<any> {
-    const dialogRef = this._dialog.open(AlbumAccessCodeDialog);
-    return dialogRef.afterClosed();
-  }
-
   public onViewPhotoEXIFDialog(selphoto: any): void {
     this._uistatus.selPhotoInAblum = selphoto;
 
@@ -203,6 +201,14 @@ export class AlbumComponent implements OnInit, OnDestroy {
     this._loadPhotoIntoPage(skipamt);
   }
 
+  // Open the dialog asking for Access Code
+  private _openAccessCodeDialog(album: Album): Observable<any> {
+    const dialogRef = this._dialog.open(AlbumAccessCodeDialog, {
+      data: { hint: album.accessCodeHint },
+    });
+    return dialogRef.afterClosed();
+  }
+
   private _readAlbum(): void {
     this._albumService.loadAlbum(this.routerID).subscribe((x: any) => {
       this.objAlbum = new Album();
@@ -214,7 +220,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
 
       if (this.objAlbum.accessCodeRequired) {
         // Show the dialog
-        this.openAccessCodeDialog().subscribe((result: any) => {
+        this._openAccessCodeDialog(this.objAlbum).subscribe((result: any) => {
           if (result) {
             this.objAlbum.AccessCode = result;
             this._loadPhotoIntoPage(0);
@@ -251,7 +257,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
   templateUrl: './album.accesscode.dialog.html',
 })
 export class AlbumAccessCodeDialog {
-  constructor(public dialogRef: MatDialogRef<AlbumAccessCodeDialog>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
   }
 }
 
