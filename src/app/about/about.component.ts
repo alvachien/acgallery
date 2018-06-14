@@ -4,7 +4,7 @@ import { environment } from '../../environments/environment';
 @Component({
   selector: 'acgallery-about',
   templateUrl: './about.component.html',
-  styleUrls: ['./about.component.css']
+  styleUrls: ['./about.component.css'],
 })
 export class AboutComponent implements OnInit {
   public currentVersion: string;
