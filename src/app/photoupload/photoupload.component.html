@@ -97,7 +97,7 @@
     </div>
   </mat-step>
 
-  <mat-step label="Assignment" [completed]="isStepAssignAlbumComplete" [editable]="!isUploading">
+  <mat-step label="{{'Photo.Assignment' | translate}}" [completed]="isStepAssignAlbumComplete" [editable]="!isUploading">
     <div style="margin: 20px;">
       <mat-radio-group class="photoupload-radio-group" [(ngModel)]="assignMode">
         <mat-radio-button class="photoupload-radio-button" *ngFor="let am of arAssignMode" [value]="am.Value">
@@ -158,7 +158,7 @@
     </div>
   </mat-step>
 
-  <mat-step label="Submit">
+  <mat-step label="{{'Nav.PhotoUpload' | translate}}">
     <div style="margin: 20px;">
       <mat-progress-bar mode="buffer" color="primary" [bufferValue]="progressNum">
       </mat-progress-bar>
