@@ -14,6 +14,7 @@
           <mat-menu #menu="matMenu" xPosition="before">
             <button mat-menu-item (click)="onDisplayPhoto(photo)">{{'Common.Display' | translate}}</button>
             <button mat-menu-item (click)="onChangePhoto(photo)">{{'Common.Change' | translate}}</button>
+            <button mat-menu-item (click)="onDeletePhoto(photo)">{{'Common.Delete' | translate}}</button>
             <button mat-menu-item (click)="onViewPhotoEXIFDialog(photo)">EXIF</button>
           </mat-menu>
         </mat-grid-tile-header>

@@ -16,3 +16,27 @@
   flex-direction: column;
   min-width: 300px;
 }
+
+.mat-card {
+  margin: 20px;
+}
+
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
+.dashboard-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.mat-grid-list {
+  margin: 20px;
+}
+
+.mat-grid-tile {
+  margin: 10px;
+}

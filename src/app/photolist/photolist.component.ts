@@ -156,6 +156,16 @@ export class PhotolistComponent implements OnInit, OnDestroy {
     this._router.navigate(['/photo/edit']);
   }
 
+  public onDeletePhoto(photo: any): void {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering onDeletePhoto of PhotolistComponent');
+    }
+
+    this._photoService.deletePhoto(photo).subscribe((x: any) => {
+      // Do nothing
+    });
+  }
+
   public onPageEvent($event: any) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('AC Gallery [Debug]: Entering onPageEvent of PhotolistComponent');

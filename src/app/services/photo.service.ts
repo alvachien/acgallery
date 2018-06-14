@@ -147,6 +147,19 @@ export class PhotoService {
   }
 
   /**
+   * Delete the photo
+   */
+  public deletePhoto(pto: Photo): Observable<any> {
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+      .append('Accept', 'application/json')
+      .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+
+    return this._http.delete(environment.PhotoAPIUrl + '/' + pto.photoId.toString(), {
+      headers: headers });
+  }
+
+  /**
    * Search photo
    */
   public searchPhoto(filters: any[], top?: number, skip?: number): Observable<any> {

@@ -326,4 +326,19 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit, OnDestroy {
     this._uistatusService.selPhotoInPhotoList = photo;
     this._router.navigate(['/photo/edit']);
   }
+  public onDeletePhoto(photo: any): void {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering onDeletePhoto of PhotoSearchComponent');
+    }
+
+    this._photoService.deletePhoto(photo).subscribe((x: any) => {
+      // Do nothing
+      let idx = this.photos.findIndex((val: Photo) => {
+        return val.photoId === photo.photoId;
+      });
+      if (idx !== -1) {
+        this.photos.splice(idx, 1);
+      }
+    });
+  }
 }
