@@ -14,6 +14,7 @@
           <mat-menu #menu="matMenu" xPosition="before">
             <button mat-menu-item (click)="onViewAlbumClick(album.Id)">{{'Album.ViewPhotos' | translate}}</button>
             <button mat-menu-item (click)="onChangeAlbumMetadata(album.Id)">{{'Album.ChangeMetadata' | translate}}</button>
+            <button mat-menu-item (click)="onDeleteAlbum(album.Id)">{{'Common.Delete' | translate}}</button>
           </mat-menu>
         </mat-grid-tile-header>
         <img class="dashboard-image" src="{{album.ThumbnailInAPIUrl}}" (click)="onViewAlbumClick(album.Id)" style="cursor: hand;"

@@ -18,6 +18,36 @@
       </mat-form-field>
 
       <mat-checkbox [(ngModel)]="currentPhoto.isPublic" name="ispubl" [disabled]="!isFieldChangable()">{{"Album.IsPublic" | translate}}</mat-checkbox>
+      
+      <mat-form-field>
+        <input matInput placeholder="{{'Common.CameraMaker' | translate}}" [(ngModel)]="currentPhoto.cameraMaker" name="photocmmaker"
+          #photocmmaker="ngModel" [disabled]="!isFieldChangable()">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{'Common.CameraModel' | translate}}" [(ngModel)]="currentPhoto.cameraModel" name="photocmmdl"
+          #photocmmdl="ngModel" [disabled]="!isFieldChangable()">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{'Common.LensModel' | translate}}" [(ngModel)]="currentPhoto.lensModel" name="photolensmdl"
+          #photolensmdl="ngModel" [disabled]="!isFieldChangable()">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{'Common.Aperture' | translate}}" [(ngModel)]="currentPhoto.avNumber" name="photoavnum"
+          #photoavnum="ngModel" [disabled]="!isFieldChangable()">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{'Common.ShutterSpeed' | translate}}" [(ngModel)]="currentPhoto.shutterSpeed" name="photoss"
+          #photoss="ngModel" [disabled]="!isFieldChangable()">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{'Common.ISO' | translate}}" [(ngModel)]="currentPhoto.isoNumber" name="photoiso"
+          #photoiso="ngModel" [disabled]="!isFieldChangable()">
+      </mat-form-field>
 
       <mat-form-field>
         <mat-chip-list #tagList>

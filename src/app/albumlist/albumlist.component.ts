@@ -85,6 +85,10 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
     this._router.navigate(['/album/edit/' + id.toString()]);
   }
 
+  public onDeleteAlbum(id: number | string): void {
+    
+  }
+
   public onPageEvent($event: any) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('AC Gallery [Debug]: Entering onPageEvent of AlbumListComponent');

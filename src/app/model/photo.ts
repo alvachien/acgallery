@@ -31,6 +31,14 @@ export class Photo {
   public uploadedTime: Date;
   public orgFileName: string;
   public isPublic: boolean;
+
+  public cameraMaker: string;
+  public cameraModel: string;
+  public lensModel: string;
+  public avNumber: string;
+  public shutterSpeed: string;
+  public isoNumber: number;
+
   public exifTags: PhotoExif[];
   public rating: number;
   public tags: string[] = [];
@@ -89,6 +97,24 @@ export class Photo {
       this.isPublic = data.isPublic;
     } else {
       this.isPublic = false;
+    }
+    if (data && data.cameraMaker) {
+      this.cameraMaker = data.cameraMaker;
+    }
+    if (data && data.cameraModel) {
+      this.cameraModel = data.cameraModel;
+    }
+    if (data && data.lensModel) {
+      this.lensModel = data.lensModel;
+    }
+    if (data && data.avNumber) {
+      this.avNumber = data.avNumber;
+    }
+    if (data && data.shutterSpeed) {
+      this.shutterSpeed = data.shutterSpeed;
+    }
+    if (data && data.isoNumber) {
+      this.isoNumber = data.isoNumber;
     }
     if (data && data.exifTags && data.exifTags instanceof Array) {
       this.exifTags = [];
