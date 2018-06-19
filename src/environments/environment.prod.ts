@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  CurrentVersion: '0.3.2',
+  CurrentVersion: '0.3.3',
   CurrentReleaseDate: '2018.7.1',
   LoggingLevel: 1, // Crash
 

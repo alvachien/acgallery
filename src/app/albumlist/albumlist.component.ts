@@ -86,7 +86,6 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
   }
 
   public onDeleteAlbum(id: number | string): void {
-    
   }
 
   public onPageEvent($event: any) {
@@ -102,7 +101,7 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
   }
 
   private _loadPhotoIntoPage(skipamt: number) {
-    this._albumService.loadAlbums(this.pageSize, skipamt).subscribe(x => {
+    this._albumService.loadAlbums(this.pageSize, skipamt).subscribe((x: any) => {
       this._zone.run(() => {
         this.albumes = [];
         this.albumAmount = x.totalCount;
@@ -114,8 +113,11 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
         }
       });
     }, (error: any) => {
-      // Do nothing
+      if (environment.LoggingLevel >= LogLevel.Error) {
+        console.error(`AC Gallery [Error]: Failed in _loadPhotoIntoPage of AlbumListComponent ${error}`);
+      }
     }, () => {
+      // Do nothing
     });
   }
 }

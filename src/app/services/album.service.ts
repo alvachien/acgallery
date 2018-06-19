@@ -135,4 +135,17 @@ export class AlbumService {
       params: params,
     });
   }
+
+  /**
+   * Delete Album by its ID
+   * @param id ID of the specified album
+   */
+  public deleteAlbum(id: number | string): Observable<any> {
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+      .append('Accept', 'application/json')
+      .append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+
+    return this._http.delete(environment.AlbumAPIUrl + '/' + id.toString(), { headers: headers });
+  }
 }

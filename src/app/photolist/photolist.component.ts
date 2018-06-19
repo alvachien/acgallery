@@ -163,6 +163,12 @@ export class PhotolistComponent implements OnInit, OnDestroy {
 
     this._photoService.deletePhoto(photo).subscribe((x: any) => {
       // Do nothing
+    }, (error: any) => {
+      if (environment.LoggingLevel >= LogLevel.Error) {
+        console.error(`ACGallery [Error]: Failed in onDeletePhoto of PhotolistComponent: ${error}`);
+      }
+    }, () => {
+      // Do nothing
     });
   }
 

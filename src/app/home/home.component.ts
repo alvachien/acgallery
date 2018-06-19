@@ -1,4 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../services';
 import { LogLevel } from '../model';
@@ -13,6 +14,7 @@ export class HomeComponent implements OnInit {
   private _isLogin: boolean = false;
 
   constructor(private _authService: AuthService,
+    private _router: Router,
     private _zone: NgZone) {
     this._authService.authContent.subscribe((x: any) => {
       this._zone.run(() => {
@@ -44,5 +46,6 @@ export class HomeComponent implements OnInit {
   }
 
   onUserDetail(): void {
+    this._router.navigate(['/userdetail']);
   }
 }
