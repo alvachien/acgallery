@@ -90,6 +90,10 @@
       "LessThan": "小于",
       "NotEqual": "不等于",
       "Like": "LIKE (SQL)"
+    }, 
+    "UserAuth": {
+      "All": "全部项",
+      "OwnerOnly": "仅当本人是所有者"
     }
   },
   "Login": {
@@ -116,12 +120,12 @@
   },
   "Nav": {
     "Home": "主页",
-    "Photo": "照片",
-    "Photos": "照片",
+    "Photo": "图片",
+    "Photos": "图片",
     "Album": "相册",
     "Albums": "相册",
     "AlbumCreate": "新建相册",
-    "PhotoUpload": "上传照片",
+    "PhotoUpload": "上传图片",
     
     "Users": "用户",
     "UserList": "用户列表",
@@ -144,11 +148,11 @@
     "WelcomeTitle": "本web app的创建目的是用于图片的搜集及其互联网维度的分享，也可以用作个人的印象资料存储。",
     "WelcomeTech": "本web app使用了大量的最新（2016-2017）前后台技术: ASP.NET Core 2, Angular 6, TypeScript 2, Angular Material 6",
     "WelcomeTitle1": "登录以体验更佳",
-    "WelcomeContent1": "登录后有机会解锁本web app提供的全部功能，包括上传照片，创建相册，分享相册等",
-    "WelcomeTitle2": "用相册来组织照片",
-    "WelcomeContent2": "相册用来是照片更好地组织，而且相册可以被保护，譬如，设置为私密相册或设置为有访问码的公开相册",
-    "WelcomeTitle3": "单一照片存储",
-    "WelcomeContent3": "上传的照片不仅仅作为单一存储，并且将其属性也都保存了下来以期将来",
+    "WelcomeContent1": "登录后有机会解锁本web app提供的全部功能，包括上传图片，创建相册，分享相册等",
+    "WelcomeTitle2": "用相册来组织图片",
+    "WelcomeContent2": "相册用来是图片更好地组织，而且相册可以被保护，譬如，设置为私密相册或设置为有访问码的公开相册",
+    "WelcomeTitle3": "单一图片存储",
+    "WelcomeContent3": "上传的图片不仅仅作为单一存储，并且将其属性也都保存了下来以期将来",
     "WelcomeAlbumButton": "看看相册功能",
     "WelcomePhotoButton": "看看图片功能",
     "MarketingHeader1": "访问码",
@@ -176,15 +180,17 @@
     "IsPublic": "公开访问",
     "AccessCode": "访问码",
     "AccessCodeHint": "访问码提示",
-    "ViewPhotos": "查看照片",
+    "ViewPhotos": "查看图片",
     "ChangeMetadata": "更新相册定义",
-    "DeleteAlbum": "删除相册"
+    "ChangeAlbum": "修改相册",
+    "DeleteAlbum": "删除相册",
+    "ReadNonPublicAlbums": "查看非公开相册"
   },
   "Photo": {
     "SelectPhotos": "选择图片",
     "FileSize": "文件大小",
     "Dimension": "尺寸",
-    "UploadQueue": "上传照片序列",
+    "UploadQueue": "上传图片序列",
     "ChoosePhoto": "选择图片",
     "ChangePhoto": "修改图片",
     "DeletePhoto": "删除图片",
@@ -194,6 +200,8 @@
     "Upload_NoAlbum": "不加入相册",
     "Upload_AssignExistAlbum": "加入已有的相册",
     "Upload_AssignNewAlbum": "创建一个新相册并加入",
-    "UploadSucceed": "照片上传成功"
+    "UploadSucceed": "图片上传成功",
+    "UploadMinSize": "上传图片最小值",
+    "UploadMaxSize": "上传图片最大值"
   }
 }

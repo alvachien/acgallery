@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService, UserDetailService } from '../services';
-import { LogLevel, UserDetail, UIMode } from '../model';
+import { LogLevel, UserDetail, UIMode, UIDisplayStringUtil } from '../model';
 import { environment } from '../../environments/environment';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -12,6 +12,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class UserDetailComponent implements OnInit {
   userDetailInfo: UserDetail;
   userName: string;
+  authValues: any[];
   private _uiMode: UIMode;
 
   get isFieldChangable(): boolean {
@@ -39,6 +40,8 @@ export class UserDetailComponent implements OnInit {
       this.userDetailInfo.userId = this._authService.authSubject.getValue().getUserID();
     }
     this.userName = this._authService.authSubject.getValue().getUserName();
+
+    this.authValues = UIDisplayStringUtil.getUserOperationAuthDisplayStrings();
    }
 
   ngOnInit() {

@@ -58,9 +58,17 @@ export enum GeneralFilterOperatorEnum {
 }
 
 /**
+ * User operation authority
+ */
+export enum UserOperationAuthEnum {
+  All = 1,
+  OwnerOnly = 2,
+}
+
+/**
  * UI Display string Enum
  */
-export type UIDisplayStringEnum = UICommonLabelEnum | GeneralFilterOperatorEnum;
+export type UIDisplayStringEnum = UICommonLabelEnum | GeneralFilterOperatorEnum | UserOperationAuthEnum;
 
 /**
  * Value type for filter
@@ -132,6 +140,24 @@ export class UIDisplayStringUtil {
     return arrst;
   }
 
+  public static getUserOperationAuthDisplayStrings(): UIDisplayString[] {
+    let arrst: UIDisplayString[] = [];
+
+    for (let rfe in UserOperationAuthEnum) {
+      if (Number.isNaN(+rfe)) {
+        // Do nothing
+      } else {
+        arrst.push({
+          value: +rfe,
+          i18nterm: UIDisplayStringUtil.getUserOperationAuthDisplayString(<UserOperationAuthEnum>+rfe),
+          displaystring: '',
+        });
+      }
+    }
+
+    return arrst;
+  }
+
   public static getUICommonLabelDisplayString(le: UICommonLabelEnum): string {
     switch (le) {
       case UICommonLabelEnum.UploadedSuccess:
@@ -154,6 +180,13 @@ export class UIDisplayStringUtil {
       case GeneralFilterOperatorEnum.LessThan: return 'Sys.Operator.LessThan';
       case GeneralFilterOperatorEnum.NotEqual: return 'Sys.Operator.NotEqual';
       case GeneralFilterOperatorEnum.Like: return 'Sys.Operator.Like';
+      default: return '';
+    }
+  }
+  public static getUserOperationAuthDisplayString(opte: UserOperationAuthEnum): string {
+    switch (opte) {
+      case UserOperationAuthEnum.All: return 'Sys.UserAuth.All';
+      case UserOperationAuthEnum.OwnerOnly: return 'Sys.UserAuth.OnlyOwner';
       default: return '';
     }
   }

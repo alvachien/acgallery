@@ -7,8 +7,8 @@ import { map, switchMap, takeUntil } from 'rxjs/operators';
   selector: '[ngxSplitHandle]',
   host: {
     class: 'ngx-split-handle',
-    title: 'Drag to resize'
-  }
+    title: 'Drag to resize',
+  },
 })
 export class SplitHandleDirective {
   @Output() drag: Observable<{ x: number, y: number }>;
@@ -16,7 +16,7 @@ export class SplitHandleDirective {
   constructor(
     ref: ElementRef,
     @Inject(DOCUMENT) _document: any,
-    @Inject(PLATFORM_ID) private _platformId: Object
+    @Inject(PLATFORM_ID) private _platformId: Object,
   ) {
     const getMouseEventPosition = (event: MouseEvent) => ({ x: event.movementX, y: event.movementY });
 

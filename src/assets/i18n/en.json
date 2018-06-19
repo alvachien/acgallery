@@ -90,6 +90,10 @@
       "LessThan": "Less than",
       "NotEqual": "Not Equal",
       "Like": "Like"
+    }, 
+    "UserAuth": {
+      "All": "All",
+      "OwnerOnly": "Only for Owner"
     }
   },
   "Login": {
@@ -178,7 +182,9 @@
     "AccessCodeHint": "Hint for Access Code",
     "ViewPhotos": "View Photos",
     "ChangeMetadata": "Change Metadata",
-    "DeleteAlbum": "Delete an Album"
+    "ChangeAlbum": "Change an Album",
+    "DeleteAlbum": "Delete an Album",
+    "ReadNonPublicAlbums": "Read non-public Album"
   },
   "Photo": {
     "SelectPhotos": "Select Photo(s)",
@@ -194,6 +200,8 @@
     "Upload_NoAlbum": "Without assign to album",
     "Upload_AssignExistAlbum": "Assign to an existed album",
     "Upload_AssignNewAlbum": "Create an album and assign",
-    "UploadSucceed": "Photo(s) uploaded successfully"
+    "UploadSucceed": "Photo(s) uploaded successfully",
+    "UploadMinSize": "Min. size of photo",
+    "UploadMaxSize": "Max. szie of photo"
   }
 }

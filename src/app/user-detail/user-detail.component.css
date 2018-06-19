@@ -1,3 +1,7 @@
 .control-full-width {
   width: 100%;
 }
+
+.mat-checkbox {
+  width: 100%;
+}

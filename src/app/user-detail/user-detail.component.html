@@ -12,6 +12,49 @@
     <mat-form-field class="control-full-width">
       <input matInput placeholder="{{'Login.DisplayAs' | translate}}" [(ngModel)]="userDetailInfo.displayAs" name="displayAs" #displayas="ngModel">
     </mat-form-field>
+    <mat-form-field class="control-full-width">
+      <input matInput type="number" placeholder="{{'Photo.UploadMinSize' | translate}} (KB)" [(ngModel)]="userDetailInfo.uploadFileMinSize" name="minsize" #minsize="ngModel">
+    </mat-form-field>
+    <mat-form-field class="control-full-width">
+      <input matInput type="number" placeholder="{{'Login.UploadMaxSize' | translate}} (KB)" [(ngModel)]="userDetailInfo.uploadFileMaxSize" name="maxsize" #maxsize="ngModel">
+    </mat-form-field>
+    <mat-checkbox [(ngModel)]="userDetailInfo.albumCreate">{{'Nav.AlbumCreate' | translate}}</mat-checkbox>
+    <mat-form-field class="control-full-width">
+      <mat-select placeholder="{{'Album.ChangeAlbum' | translate}}" [(ngModel)]="userDetailInfo.albumChange">
+        <mat-option *ngFor="let opr of authValues" [value]="opr.value">
+          {{ opr.i18nterm | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="control-full-width">
+      <mat-select placeholder="{{'Album.DeleteAlbum' | translate}}" [(ngModel)]="userDetailInfo.albumDelete">
+        <mat-option *ngFor="let opr of authValues" [value]="opr.value">
+          {{ opr.i18nterm | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="control-full-width">
+      <mat-select placeholder="{{'Album.ReadNonPublicAlbums' | translate}}" [(ngModel)]="userDetailInfo.albumRead">
+        <mat-option *ngFor="let opr of authValues" [value]="opr.value">
+          {{ opr.i18nterm | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-checkbox [(ngModel)]="userDetailInfo.photoUpload">{{'Nav.PhotoUpload' | translate}}</mat-checkbox>
+    <mat-form-field class="control-full-width">
+      <mat-select placeholder="{{'Photo.ChangePhoto' | translate}}" [(ngModel)]="userDetailInfo.photoChange">
+        <mat-option *ngFor="let opr of authValues" [value]="opr.value">
+          {{ opr.i18nterm | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="control-full-width">
+      <mat-select placeholder="{{'Photo.DeletePhoto' | translate}}" [(ngModel)]="userDetailInfo.photoDelete">
+        <mat-option *ngFor="let opr of authValues" [value]="opr.value">
+          {{ opr.i18nterm | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </mat-card-content>
   <mat-card-actions>
     <button mat-button [disabled]="!isFieldChangable" (click)="onSubmit()">{{'Common.Submit' | translate}}</button>
