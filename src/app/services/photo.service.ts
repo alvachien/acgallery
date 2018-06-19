@@ -184,4 +184,19 @@ export class PhotoService {
 
     return this._http.post(apistring, jdata, { headers: headers, params: params });
   }
+
+  /**
+   * Get Tag count
+   */
+  public getTagCount(): Observable<any> {
+    const apistring = environment.PhotoTagCountAPIUrl;
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+      .append('Accept', 'application/json');
+    if (this._authService.authSubject.getValue().isAuthorized) {
+      headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
+    }
+
+    return this._http.get(apistring, { headers: headers});
+  }
 }

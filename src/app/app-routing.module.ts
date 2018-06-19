@@ -13,6 +13,7 @@ import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { UserDetailComponent } from './user-detail';
 import { AuthGuard } from './services/authguard.service';
 import { PhotoSearchComponent } from './photo-search';
+import { TagCloudComponent } from './tag-cloud';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -72,6 +73,7 @@ const appRoutes: Routes = [
     ],
   },
   { path: 'userdetail', component: UserDetailComponent },
+  { path: 'tagcloud', component: TagCloudComponent },
   { path: 'about', component: AboutComponent },
   { path: 'credits', component: CreditsComponent },
   { path: 'unauthorized', component: UnauthorizedComponent },

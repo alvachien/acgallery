@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "gallerywebsrc": {
+    "acgallery": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -33,7 +33,9 @@
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/hammerjs/hammer.min.js",
               "node_modules/photoswipe/dist/photoswipe.min.js",
-              "node_modules/photoswipe/dist/photoswipe-ui-default.min.js"
+              "node_modules/photoswipe/dist/photoswipe-ui-default.min.js",
+              "node_modules/echarts/dist/echarts.min.js",
+              "node_modules/echarts-wordcloud/dist/echarts-wordcloud.min.js"
             ]
           },
           "configurations": {
@@ -76,23 +78,23 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "gallerywebsrc:build",
+            "browserTarget": "acgallery:build",
             "port": 16001,
             "host": "localhost"
           },
           "configurations": {
             "production": {
-              "browserTarget": "gallerywebsrc:build:production"
+              "browserTarget": "acgallery:build:production"
             },
             "azure": {
-              "browserTarget": "gallerywebsrc:build:azure"
+              "browserTarget": "acgallery:build:azure"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "gallerywebsrc:build"
+            "browserTarget": "acgallery:build"
           }
         },
         "test": {
@@ -109,7 +111,9 @@
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/hammerjs/hammer.min.js",
               "node_modules/photoswipe/dist/photoswipe.min.js",
-              "node_modules/photoswipe/dist/photoswipe-ui-default.min.js"
+              "node_modules/photoswipe/dist/photoswipe-ui-default.min.js",
+              "node_modules/echarts/dist/echarts.min.js",
+              "node_modules/echarts-wordcloud/dist/echarts-wordcloud.min.js"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -135,7 +139,7 @@
         }
       }
     },
-    "gallerywebsrc-e2e": {
+    "acgallery-e2e": {
       "root": "",
       "sourceRoot": "",
       "projectType": "application",
@@ -144,7 +148,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "gallerywebsrc:serve"
+            "devServerTarget": "acgallery:serve"
           }
         },
         "lint": {
@@ -159,7 +163,7 @@
       }
     }
   },
-  "defaultProject": "gallerywebsrc",
+  "defaultProject": "acgallery",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "acgallery",

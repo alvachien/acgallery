@@ -10,6 +10,11 @@ export class PhotoExif {
   public value: string;
 }
 
+export class TagCount {
+  public tagString: string;
+  public count: number;
+}
+
 /**
  * Photo
  */

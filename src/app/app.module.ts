@@ -70,6 +70,7 @@ import { AlbumDetailComponent } from './album-detail';
 import { UserDetailComponent } from './user-detail';
 import { PhotoSearchComponent } from './photo-search';
 import { OperatorFilterPipe } from './pipes';
+import { TagCloudComponent } from './tag-cloud';
 
 export function funcHttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
@@ -98,6 +99,7 @@ export function funcHttpLoaderFactory(http: HttpClient) {
     UserDetailComponent,
     PhotoSearchComponent,
     OperatorFilterPipe,
+    TagCloudComponent,
   ],
   entryComponents: [
     AlbumAccessCodeDialog,

@@ -18,6 +18,7 @@ export const environment = {
   AlbumPhotoLinkUrl: 'http://localhost:25325/api/albumphotolink',
   WakeupAPIUrl: 'http://localhost:25325/api/wakeup',
   UserDetailAPIUrl: 'http://localhost:25325/api/userdetail',
+  PhotoTagCountAPIUrl: 'http://localhost:25325/api/PhotoTagCount',
 
   IDServerUrl: 'http://localhost:41016',
   AppLoginCallbackUrl: 'http://localhost:16001/logincallback.html',
