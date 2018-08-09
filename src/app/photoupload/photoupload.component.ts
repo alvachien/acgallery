@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { FineUploaderBasic } from 'fine-uploader/lib/core';
 import { AuthService, PhotoService, AlbumService, UserDetailService } from '../services';
 import { Album, AlbumPhotoLink, AlbumPhotoByAlbum } from '../model/album';
-import { LogLevel, Photo, UpdPhoto, COMMA } from '../model';
+import { LogLevel, Photo, UpdPhoto } from '../model';
 import { environment } from '../../environments/environment';
 import { MatSnackBar, MatPaginator, MatTableDataSource, MatButton, MatVerticalStepper, MatChipInputEvent } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ENTER } from '@angular/cdk/keycodes';
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'acgallery-photoupload',

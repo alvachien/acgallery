@@ -5,8 +5,8 @@
 
 export const environment = {
   production: false,
-  CurrentVersion: '0.3.3',
-  CurrentReleaseDate: '2018.7.1',
+  CurrentVersion: '0.3.5',
+  CurrentReleaseDate: '2018.8.1',
   LoggingLevel: 4, // Debug
 
   AlbumAPIUrl: 'http://localhost:25325/api/album',

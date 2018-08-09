@@ -4,10 +4,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef, MatSnackBar, MatTableDataSource, MatChipInputEvent } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 
-import { UIMode, LogLevel, Photo, Album, COMMA } from '../model';
+import { UIMode, LogLevel, Photo, Album } from '../model';
 import { AuthService, AlbumService, PhotoService, UIStatusService } from '../services';
 import { environment } from '../../environments/environment';
-import { ENTER } from '@angular/cdk/keycodes';
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-photochange',
