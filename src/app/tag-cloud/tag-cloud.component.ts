@@ -6,7 +6,7 @@ declare var echarts: any;
 @Component({
   selector: 'acgallery-tag-cloud',
   templateUrl: './tag-cloud.component.html',
-  styleUrls: ['./tag-cloud.component.scss']
+  styleUrls: ['./tag-cloud.component.scss'],
 })
 export class TagCloudComponent implements OnInit, AfterViewInit {
   tagTerm: string;
