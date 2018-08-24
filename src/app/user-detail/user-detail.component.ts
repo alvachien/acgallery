@@ -44,11 +44,11 @@ export class UserDetailComponent implements OnInit {
     this.authValues = UIDisplayStringUtil.getUserOperationAuthDisplayStrings();
    }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
   public onSubmit() {
-    if (this._uiMode === UIMode.Create) {
+    if (this._uiMode === UIMode.Create || this._uiMode === UIMode.Change) {
       this._userdetailService.saveDetailInfo(this.userDetailInfo).subscribe(() => {
         // Navigate to initial screen
         this._router.navigate(['/']);
