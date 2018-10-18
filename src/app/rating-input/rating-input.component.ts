@@ -45,7 +45,7 @@ export class RatingInputComponent implements ControlValueAccessor {
   // Update the model and changes needed for the view here.
   writeValue(rating: number): void {
     this.stars = this.stars.map((_, i) => rating > i);
-    this.onChange(this.value)
+    this.onChange(this.value);
   }
 
   // Allows Angular to register a function to call when the model (rating) changes.
