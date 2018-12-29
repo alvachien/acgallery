@@ -443,6 +443,14 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     return rst;
   }
 
+  public onRenamingAll(): void {
+
+  }
+
+  public onAddTagsToAll(): void {
+    
+  }
+
   public addItemTag(row: UpdPhoto, $event: MatChipInputEvent): void {
     let input: any = $event.input;
     let value: any = $event.value;
@@ -479,7 +487,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       const image = new Image();
-      image.src = reader.result;
+      image.src = <string>reader.result;
       image.addEventListener('load', () => {
         const updPhoto: UpdPhoto = new UpdPhoto();
         updPhoto.imgSrc = image.src;

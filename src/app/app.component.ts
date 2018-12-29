@@ -22,6 +22,9 @@ export class AppComponent implements OnInit, OnDestroy {
   private _watcherMedia: Subscription;
   public isXSScreen = false;
   public sidenavMode: string;
+  get currentVersion(): string {
+    return environment.CurrentVersion;
+  }
 
   constructor(private _translateService: TranslateService,
     private _authService: AuthService,

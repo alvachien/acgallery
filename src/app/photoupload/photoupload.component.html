@@ -1,7 +1,9 @@
 <mat-vertical-stepper linear="true">
   <mat-step label="{{'Photo.ChoosePhoto' | translate}}" [completed]="isStepAddPhotoComplete" [editable]="!isUploading">
-    <mat-toolbar>
+    <mat-toolbar color="accent">
       <button mat-button #uploadFileRef>{{'Photo.SelectPhotos' | translate}}</button>
+      <button mat-button (click)="onRenamingAll()">{{'Common.RenamingAll' | translate}}</button>
+      <button mat-button (click)="onAddTagsToAll()">{{'Common.AddTagsToAll' | translate}}</button>
     </mat-toolbar>
     <div class="example-container mat-elevation-z8">
       <table mat-table #table [dataSource]="dataSource">

@@ -193,9 +193,9 @@ export class AuthService {
       if (environment.LoggingLevel >= LogLevel.Debug) {
         console.log('ACGallery [Debug]: signed out', resp);
       }
-      setTimeout(5000, () => {
+      setTimeout(() => {
         console.log('ACGallery [Debug]: testing to see if fired...');
-      });
+      }, 5000);
     }).catch(function (err) {
       if (environment.LoggingLevel >= LogLevel.Error) {
         console.error(err);

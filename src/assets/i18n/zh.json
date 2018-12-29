@@ -34,6 +34,9 @@
     "Warning": "警告",
     "Activities": "活动",
     "Module": "模块",
+    "Renaming": "重命名",
+    "RenamingAll": "重命名全部",
+    "AddTagsToAll": "增加标签到全部",
 
     "ID": "ID",
     "Category": "类别",
