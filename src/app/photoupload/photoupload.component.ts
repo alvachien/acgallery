@@ -1,4 +1,5 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, NgZone, ViewChild, Renderer, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, NgZone, ViewChild, Renderer, ElementRef,
+  Inject, } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { FineUploaderBasic } from 'fine-uploader/lib/core';
@@ -6,9 +7,15 @@ import { AuthService, PhotoService, AlbumService, UserDetailService } from '../s
 import { Album, AlbumPhotoLink, AlbumPhotoByAlbum } from '../model/album';
 import { LogLevel, Photo, UpdPhoto } from '../model';
 import { environment } from '../../environments/environment';
-import { MatSnackBar, MatPaginator, MatTableDataSource, MatButton, MatVerticalStepper, MatChipInputEvent } from '@angular/material';
+import { MatSnackBar, MatPaginator, MatTableDataSource, MatButton, MatVerticalStepper, MatChipInputEvent,
+  MatDialogRef, MAT_DIALOG_DATA, MatDialog, } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
+
+export interface RenamingDialogData {
+  prefixName: string;
+  seqNumber: number;
+}
 
 @Component({
   selector: 'acgallery-photoupload',
@@ -21,6 +28,11 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   public assignMode = 0;
   // Enter, comma
   separatorKeysCodes: any[] = [ENTER, COMMA];
+  // Renaming
+  public renamingInfo: RenamingDialogData = {
+    prefixName: 'Photo',
+    seqNumber: 1
+  };
 
   private _photoMinKBSize: number;
   private _photoMaxKBSize: number;
@@ -59,6 +71,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     private _albumService: AlbumService,
     private _photoService: PhotoService,
     private _userdetailService: UserDetailService,
+    private _dialog: MatDialog,
     private _elmRef: ElementRef,
     private _snackBar: MatSnackBar) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
@@ -444,7 +457,27 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public onRenamingAll(): void {
+    const dialogRef = this._dialog.open(PhotoRenamingDialog, {
+      width: '250px',
+      data: this.renamingInfo,
+    });
 
+    dialogRef.afterClosed().subscribe((result: RenamingDialogData) => {
+      if (result) {
+        this.renamingInfo = result;
+
+        // Then rename all items
+        if (!this.dataSource.data || this.dataSource.data.length <= 0) {
+          // Do nothing
+        } else {
+          let ardata: UpdPhoto[] = this.dataSource.data.slice();
+          ardata.forEach((val: any, index: number) => {
+            val.Title = this.renamingInfo.prefixName + index.toString();
+          });
+          this.dataSource.data = ardata;
+        }
+      }
+    });
   }
 
   public onAddTagsToAll(): void {
@@ -559,5 +592,20 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         this._router.navigate(['/album/display/' + this.albumCreate.Id.toString()]);
       }
     });
+  }
+}
+
+@Component({
+  selector: 'acgallery-photoupload-renaming-dialog',
+  templateUrl: 'photo-renaming-dialog.html',
+})
+export class PhotoRenamingDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<PhotoRenamingDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: RenamingDialogData) {}
+
+  onCancel(): void {
+    this.dialogRef.close();
   }
 }

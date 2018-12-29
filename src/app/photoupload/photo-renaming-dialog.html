@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>{{'Common.Renaming' | translate}}</h1>
+<div mat-dialog-content>
+  <!-- <mat-form-field>
+    <mat-select placeholder="Template" [(ngModel)]="selectedTemplate" name="seltmp">
+      <mat-option *ngFor="let tmp of foods" [value]="food.value">
+        {{food.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field> -->
+
+  <mat-form-field>
+    <input matInput [(ngModel)]="data.prefixName">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="number" [(ngModel)]="data.seqNumber">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>
