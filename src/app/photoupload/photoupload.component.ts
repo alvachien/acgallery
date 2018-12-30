@@ -17,6 +17,10 @@ export interface RenamingDialogData {
   seqNumber: number;
 }
 
+export interface AddTagsDialogData {
+  tags: string[];
+}
+
 @Component({
   selector: 'acgallery-photoupload',
   templateUrl: './photoupload.component.html',
@@ -458,7 +462,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public onRenamingAll(): void {
     const dialogRef = this._dialog.open(PhotoRenamingDialog, {
-      width: '250px',
+      width: '350px',
       data: this.renamingInfo,
     });
 
@@ -472,7 +476,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           let ardata: UpdPhoto[] = this.dataSource.data.slice();
           ardata.forEach((val: any, index: number) => {
-            val.Title = this.renamingInfo.prefixName + index.toString();
+            val.Title = this.renamingInfo.prefixName + (index + this.renamingInfo.seqNumber).toString();
           });
           this.dataSource.data = ardata;
         }
@@ -481,7 +485,28 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public onAddTagsToAll(): void {
-    
+    let dataTag: AddTagsDialogData = {
+      tags: [],
+    };
+    const dialogRef = this._dialog.open(PhotoAddTagsDialog, {
+      width: '300px',
+      data: dataTag,
+    });
+
+    dialogRef.afterClosed().subscribe((result: AddTagsDialogData) => {
+      if (result) {
+        // Apply the tags to all items
+        if (!this.dataSource.data || this.dataSource.data.length <= 0) {
+          // Do nothing
+        } else {
+          let ardata: UpdPhoto[] = this.dataSource.data.slice();
+          ardata.forEach((val: any) => {
+            val.Tags = result.tags.slice();
+          });
+          this.dataSource.data = ardata;
+        }
+      }
+    });
   }
 
   public addItemTag(row: UpdPhoto, $event: MatChipInputEvent): void {
@@ -607,5 +632,44 @@ export class PhotoRenamingDialog {
 
   onCancel(): void {
     this.dialogRef.close();
+  }
+}
+
+@Component({
+  selector: 'acgallery-photoupload-addtags-dialog',
+  templateUrl: 'photo-add-tags-dialog.html',
+})
+export class PhotoAddTagsDialog {
+  separatorKeysCodes: any[] = [ENTER, COMMA];
+
+  constructor(
+    public dialogRef: MatDialogRef<PhotoAddTagsDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: AddTagsDialogData) {}
+
+  onCancel(): void {
+    this.dialogRef.close();
+  }
+
+  public addTag($event: MatChipInputEvent): void {
+    let input: any = $event.input;
+    let value: any = $event.value;
+
+    // Add new Tag
+    if ((value || '').trim()) {
+      this.data.tags.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  public removeTag(tag: any): void {
+    let index: number = this.data.tags.indexOf(tag);
+
+    if (index >= 0) {
+      this.data.tags.splice(index, 1);
+    }
   }
 }

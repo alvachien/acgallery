@@ -57,7 +57,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppComponent } from './app.component';
 import { AlbumComponent, AlbumAccessCodeDialog, AlbumPhotoEXIFDialog } from './album/album.component';
 import { AlbumlistComponent } from './albumlist/albumlist.component';
-import { PhotouploadComponent, PhotoRenamingDialog } from './photoupload/photoupload.component';
+import { PhotouploadComponent, PhotoRenamingDialog, PhotoAddTagsDialog } from './photoupload/photoupload.component';
 import { PhotochangeComponent } from './photochange/photochange.component';
 import { HomeComponent } from './home/home.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
@@ -86,6 +86,7 @@ export function funcHttpLoaderFactory(http: HttpClient) {
     AlbumlistComponent,
     PhotouploadComponent,
     PhotoRenamingDialog,
+    PhotoAddTagsDialog,
     HomeComponent,
     PagenotfoundComponent,
     PhotolistComponent,
@@ -109,6 +110,7 @@ export function funcHttpLoaderFactory(http: HttpClient) {
     AlbumPhotoEXIFDialog,
     PhotoListPhotoEXIFDialog,
     PhotoRenamingDialog,
+    PhotoAddTagsDialog,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>{{'Common.Tag' | translate}}</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-chip-list #tagListInDialog>
+      <mat-chip *ngFor="let term of data.tags" selectable="true" (remove)="removeTag(term)">
+        {{term}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input [matChipInputFor]="tagListInDialog" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" matChipInputAddOnBlur="true"
+        (matChipInputTokenEnd)="addTag($event)" />
+    </mat-chip-list>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>OK</button>
+</div>

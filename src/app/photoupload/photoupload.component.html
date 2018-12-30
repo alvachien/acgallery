@@ -2,7 +2,7 @@
   <mat-step label="{{'Photo.ChoosePhoto' | translate}}" [completed]="isStepAddPhotoComplete" [editable]="!isUploading">
     <mat-toolbar color="accent">
       <button mat-button #uploadFileRef>{{'Photo.SelectPhotos' | translate}}</button>
-      <button mat-button (click)="onRenamingAll()">{{'Common.RenamingAll' | translate}}</button>
+      <button mat-button (click)="onRenamingAll()">{{'Common.RenamingTitles' | translate}}</button>
       <button mat-button (click)="onAddTagsToAll()">{{'Common.AddTagsToAll' | translate}}</button>
     </mat-toolbar>
     <div class="example-container mat-elevation-z8">
@@ -83,7 +83,7 @@
                       matChipInputAddOnBlur="true"
                       (matChipInputTokenEnd)="addItemTag(row, $event)" />
               </mat-chip-list>
-            </mat-form-field>                
+            </mat-form-field>
           </td>
         </ng-container>
   

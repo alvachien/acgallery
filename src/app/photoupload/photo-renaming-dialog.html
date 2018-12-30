@@ -9,7 +9,7 @@
   </mat-form-field> -->
 
   <mat-form-field>
-    <input matInput [(ngModel)]="data.prefixName">
+    <input matInput placeholder="Prefix" [(ngModel)]="data.prefixName">
   </mat-form-field>
   <mat-form-field>
     <input matInput type="number" [(ngModel)]="data.seqNumber">
@@ -17,5 +17,5 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>OK</button>
 </div>
