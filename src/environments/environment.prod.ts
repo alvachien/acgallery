@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  CurrentVersion: '0.3.9',
-  CurrentReleaseDate: '2019.1.1',
+  CurrentVersion: '0.4.0',
+  CurrentReleaseDate: '2019.6.1',
   LoggingLevel: 1, // Crash
 
   AlbumAPIUrl: 'http://118.178.58.187:5310/api/album',
