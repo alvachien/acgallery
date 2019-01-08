@@ -72,6 +72,7 @@ import { PhotoSearchComponent } from './photo-search';
 import { OperatorFilterPipe } from './pipes';
 import { TagCloudComponent } from './tag-cloud';
 import { RatingInputComponent } from './rating-input';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 export function funcHttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
@@ -166,6 +167,7 @@ export function funcHttpLoaderFactory(http: HttpClient) {
     FlexLayoutModule,
     AppRoutingModule,
     LayoutModule,
+    NgxEchartsModule,
   ],
   providers: [
     AuthService,

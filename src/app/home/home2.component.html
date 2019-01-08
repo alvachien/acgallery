@@ -1,5 +1,4 @@
 <div class="grid-container">
-  <h1 class="mat-h1">{{'Common.Dashboard' | translate}}</h1>
   <mat-grid-list cols="2" rowHeight="400px">
 
     <!-- Dashboard 1: Key figure -->
@@ -95,7 +94,7 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
-          <!-- <div echarts [options]="learnChartOption | async" [theme]="chartTheme" class="learn-chart"></div> -->
+          <div echarts [options]="albumChartOption | async" [theme]="chartTheme"></div>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
@@ -117,7 +116,7 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
-          <!-- <div echarts [options]="eventChartOption | async" [theme]="chartTheme" class="event-chart"></div> -->
+          <!-- <div echarts [options]="photoChartOption | async" [theme]="chartTheme"></div> -->
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
