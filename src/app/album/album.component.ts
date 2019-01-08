@@ -1,13 +1,15 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, NgZone,
-  EventEmitter, Input, Output, ViewContainerRef, Inject } from '@angular/core';
-import { UIMode, LogLevel, Album, Photo } from '../model';
-import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
+  ViewContainerRef, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { environment } from '../../environments/environment';
-import { Observable, Subject, forkJoin, Subscription } from 'rxjs';
+import { Observable, Subject, forkJoin, Subscription, ReplaySubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogRef, MatDialogConfig, MatSnackBar, PageEvent, MAT_DIALOG_DATA } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http/';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
+
+import { environment } from '../../environments/environment';
+import { UIMode, LogLevel, Album, Photo } from '../model';
+import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
 
@@ -17,6 +19,9 @@ declare var PhotoSwipeUI_Default;
   styleUrls: ['./album.component.css'],
 })
 export class AlbumComponent implements OnInit, OnDestroy {
+  private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  private _watcherMedia: Subscription;
+
   public objAlbum: Album = null;
   public photos: Photo[] = [];
   public photoAmount: number;
@@ -33,7 +38,6 @@ export class AlbumComponent implements OnInit, OnDestroy {
   pageEvent: PageEvent;
   // Layout
   clnGridCount: number;
-  private _watcherMedia: Subscription;
   activeMediaQuery = '';
 
   constructor(private _router: Router,
@@ -51,10 +55,10 @@ export class AlbumComponent implements OnInit, OnDestroy {
     this.photoAmount = 0;
     this.clnGridCount = 3; // Default
 
-    this._watcherMedia = this._media.subscribe((change: MediaChange) => {
+    this._watcherMedia = this._media.asObservable().pipe(takeUntil(this._destroyed$)).subscribe((change: MediaChange) => {
       this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
       if (environment.LoggingLevel >= LogLevel.Debug) {
-        console.log(`ACGallery [Debug]: Entering constructor of AlbumComponent: ${this.activeMediaQuery}`);
+        console.log(`ACGallery [Debug]: Entering AlbumComponent constructor, MeidaChange: ${this.activeMediaQuery}`);
       }
 
       // xs	'screen and (max-width: 599px)'
@@ -78,7 +82,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('AC Gallery [Debug]: Entering ngOnInit of AlbumComponent');
+      console.log('AC Gallery [Debug]: Entering AlbumComponent ngOnInit');
     }
 
     // Distinguish current mode
@@ -115,7 +119,15 @@ export class AlbumComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._watcherMedia.unsubscribe();
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('AC Gallery [Debug]: Entering AlbumComponent ngOnDestroy');
+    }
+    if (this._watcherMedia) {
+      this._watcherMedia.unsubscribe();
+    }
+
+    this._destroyed$.next(true);
+    this._destroyed$.complete();
   }
 
   get isFieldChangable(): boolean {
@@ -192,7 +204,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
 
   public onPageEvent($event: any) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('AC Gallery [Debug]: Entering onPageEvent of AlbumComponent');
+      console.log('AC Gallery [Debug]: Entering AlbumComponent onPageEvent');
     }
 
     this.pageEvent = $event;
@@ -210,7 +222,9 @@ export class AlbumComponent implements OnInit, OnDestroy {
   }
 
   private _readAlbum(): void {
-    this._albumService.loadAlbum(this.routerID).subscribe((x: any) => {
+    this._albumService.loadAlbum(this.routerID)
+      .pipe(takeUntil(this._destroyed$))
+      .subscribe((x: any) => {
       this.objAlbum = new Album();
       this.photos = [];
 
@@ -238,7 +252,9 @@ export class AlbumComponent implements OnInit, OnDestroy {
   }
 
   private _loadPhotoIntoPage(skipamt: number) {
-    this._photoService.loadAlbumPhoto(this.objAlbum.Id, this.objAlbum.AccessCode, this.pageSize, skipamt).subscribe((data: any) => {
+    this._photoService.loadAlbumPhoto(this.objAlbum.Id, this.objAlbum.AccessCode, this.pageSize, skipamt)
+      .pipe(takeUntil(this._destroyed$))
+      .subscribe((data: any) => {
       this.photoAmount = data.totalCount;
       this.photos = [];
       if (data && data.contentList && data.contentList instanceof Array) {

@@ -83,7 +83,9 @@
 
     "DeleteConfirmation": "Delete Confirmation",
     "ConfirmToDeleteSelectedItem": "The selected item(s) will be deleted. Do you confirm to continue?",
-    "SearchViaName": "Select an item via the name..."
+    "SearchViaName": "Select an item via the name...",
+    "Dashboard": "Dashboard",
+    "KeyFigure": "Key Figures"
   },
   "Sys":{
     "Operator": {
@@ -135,9 +137,6 @@
     "Users": "Users",
     "UserList": "User List",
     "TakeALookAtUserDetail": "Take a look at User Detail",
-    "LearningTrace": "Learning Trace",
-    "FinanceTrace": "Finance Trace",
-    "EventTrace": "Event Trace",
     "About": "About",
     "Acknowledgements": "Acknowledgements",
     "Credits": "Credits",

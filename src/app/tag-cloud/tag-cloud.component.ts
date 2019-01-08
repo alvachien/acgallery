@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { PhotoService } from '../services';
 import { TagCount } from '../model';
+import { ReplaySubject } from 'rxjs';
 declare var echarts: any;
 
 @Component({
@@ -9,6 +10,7 @@ declare var echarts: any;
   styleUrls: ['./tag-cloud.component.scss'],
 })
 export class TagCloudComponent implements OnInit, AfterViewInit {
+  private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   tagTerm: string;
   @ViewChild('tagcloud') tagcloud: ElementRef;
 

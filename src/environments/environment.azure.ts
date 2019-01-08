@@ -4,6 +4,7 @@ export const environment = {
   CurrentReleaseDate: '2019.6.1',
   LoggingLevel: 1, // Crash
 
+  StatisticsAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/statistics',
   AlbumAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/album',
   PhotoAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/photo',
   PhotoSearchAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/photosearch',

@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit, ViewContainerRef, OnDestroy } from '@angular/core';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, ReplaySubject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef, MatSnackBar, MatTableDataSource, MatChipInputEvent } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -15,6 +15,7 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
   styleUrls: ['./photochange.component.css'],
 })
 export class PhotochangeComponent implements OnInit, OnDestroy {
+  private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   public currentPhoto: Photo;
   public currentMode: string;
   private uiMode: UIMode;

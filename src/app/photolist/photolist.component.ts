@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit, ViewContainerRef, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, ReplaySubject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef, MatSnackBar, PageEvent } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http/';
@@ -16,10 +16,11 @@ declare var PhotoSwipeUI_Default;
   styleUrls: ['./photolist.component.css'],
 })
 export class PhotolistComponent implements OnInit, OnDestroy {
+  private gallery: any = null;
+  private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   public photos: Photo[] = [];
   public photoAmount: number;
   public selectedPhoto: Photo = null;
-  private gallery: any = null;
   pageSize = 20;
   pageSizeOptions = [20, 40, 60, 100];
 

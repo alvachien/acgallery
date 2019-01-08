@@ -4,6 +4,7 @@ export const environment = {
   CurrentReleaseDate: '2019.6.1',
   LoggingLevel: 1, // Crash
 
+  StatisticsAPIUrl: 'http://118.178.58.187:5310/api/statistics',
   AlbumAPIUrl: 'http://118.178.58.187:5310/api/album',
   PhotoAPIUrl: 'http://118.178.58.187:5310/api/photo',
   PhotoSearchAPIUrl: 'http://118.178.58.187:5310/api/photosearch',

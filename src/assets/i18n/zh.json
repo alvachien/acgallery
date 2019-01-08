@@ -83,7 +83,9 @@
 
     "DeleteConfirmation": "确认删除操作",
     "ConfirmToDeleteSelectedItem": "选择项将被删除，请确认继续？",
-    "SearchViaName": "根据名字来搜索项..."
+    "SearchViaName": "根据名字来搜索项...",
+    "Dashboard": "仪表盘",
+    "KeyFigure": "核心数据"
   },
   "Sys":{
     "Operator": {
@@ -135,9 +137,6 @@
     "Users": "用户",
     "UserList": "用户列表",
     "TakeALookAtUserDetail": "查看当前用户详细信息",
-    "LearningTrace": "学习记录系统",
-    "EventTrace": "事务记录系统",
-    "FinanceTrace": "财务记录系统",
     "About": "关于",
     "Acknowledgements": "致谢",
     "Credits": "致谢",

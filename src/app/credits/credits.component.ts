@@ -1,14 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'acgallery-credits',
   templateUrl: './credits.component.html',
   styleUrls: ['./credits.component.css']
 })
-export class CreditsComponent implements OnInit {
+export class CreditsComponent {
 
   constructor() { }
-
-  ngOnInit() {
-  }
 }

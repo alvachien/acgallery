@@ -1,21 +1,22 @@
 import { Component, NgZone, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, ReplaySubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PageEvent, MatSnackBar } from '@angular/material';
-import { environment } from '../../environments/environment';
-import { AuthService } from '../services/auth.service';
-import { PhotoService } from '../services/photo.service';
-import { AlbumService } from '../services/album.service';
-import { UIStatusService } from '../services/uistatus.service';
-import { Album, AlbumPhotoByAlbum, Photo, UpdPhoto, LogLevel } from '../model';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
+
+import { environment } from '../../environments/environment';
+import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
+import { Album, AlbumPhotoByAlbum, Photo, UpdPhoto, LogLevel } from '../model';
 
 @Component({
   selector: 'acgallery-albumlist',
   templateUrl: './albumlist.component.html',
-  styleUrls: ['./albumlist.component.css']
+  styleUrls: ['./albumlist.component.css'],
 })
 export class AlbumlistComponent implements OnInit, OnDestroy {
+  private _watcherMedia: Subscription;
+  private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   public albumes: Album[] = [];
   public albumAmount: number;
@@ -27,7 +28,6 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
 
   // Layout
   clnGridCount: number;
-  private _watcherMedia: Subscription;
   activeMediaQuery = '';
 
   constructor(private _authService: AuthService,
@@ -44,7 +44,7 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
     this._watcherMedia = this._media.subscribe((change: MediaChange) => {
       this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
       if (environment.LoggingLevel >= LogLevel.Debug) {
-        console.log(`ACGallery [Debug]: Entering constructor of AlbumlistComponent: ${this.activeMediaQuery}`);
+        console.log(`ACGallery [Debug]: Entering AlbumlistComponent constructor: ${this.activeMediaQuery}`);
       }
       // xs	'screen and (max-width: 599px)'
       // sm	'screen and (min-width: 600px) and (max-width: 959px)'
@@ -67,14 +67,22 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('AC Gallery [Debug]: Entering ngOnInit of AlbumListComponent');
+      console.log('AC Gallery [Debug]: Entering AlbumListComponent ngOnInit');
     }
 
     this._loadPhotoIntoPage(0);
   }
 
   ngOnDestroy() {
-    this._watcherMedia.unsubscribe();
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('AC Gallery [Debug]: Entering AlbumListComponent ngOnDestroy');
+    }
+    if (this._watcherMedia) {
+      this._watcherMedia.unsubscribe();
+    }
+
+    this._destroyed$.next(true);
+    this._destroyed$.complete();
   }
 
   public onViewAlbumClick(id: number | string): void {
@@ -101,7 +109,9 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
   }
 
   private _loadPhotoIntoPage(skipamt: number) {
-    this._albumService.loadAlbums(this.pageSize, skipamt).subscribe((x: any) => {
+    this._albumService.loadAlbums(this.pageSize, skipamt)
+      .pipe(takeUntil(this._destroyed$))
+      .subscribe((x: any) => {
       this._zone.run(() => {
         this.albumes = [];
         this.albumAmount = x.totalCount;

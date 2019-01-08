@@ -14,6 +14,16 @@ export class AlbumService {
   }
 
   /**
+   * Load key figures
+   */
+  public loadKeyFigures(): Observable<any> {
+    let headers = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+      .append('Accept', 'application/json');
+    return this._http.get(environment.StatisticsAPIUrl, {headers: headers});
+  }
+
+  /**
    * Create an album
    * @param album Album to be created
    */

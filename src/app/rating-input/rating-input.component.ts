@@ -1,5 +1,6 @@
 import { Component, forwardRef, HostBinding, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'acgallery-rating-input',
@@ -14,6 +15,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 export class RatingInputComponent implements ControlValueAccessor {
+  private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   stars: boolean[] = Array(5).fill(false);
 
   // Allow the input to be disabled, and when it is make it somewhat transparent.

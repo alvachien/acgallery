@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular
 import { MatTableDataSource, MatPaginator, PageEvent, MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, merge, of as observableOf, Subscription } from 'rxjs';
+import { BehaviorSubject, merge, of as observableOf, Subscription, ReplaySubject } from 'rxjs';
 import { startWith, switchMap, map, catchError } from 'rxjs/operators';
 import { GeneralFilterValueType, GeneralFilterItem, UIDisplayString, UIDisplayStringUtil,
   GeneralFilterOperatorEnum, Photo, LogLevel } from '../model';
@@ -20,6 +20,8 @@ declare var PhotoSwipeUI_Default;
   styleUrls: ['./photo-search.component.scss'],
 })
 export class PhotoSearchComponent implements OnInit, AfterViewInit, OnDestroy {
+  private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+
   filters: GeneralFilterItem[] = [];
   allOperators: UIDisplayString[] = [];
   allFields: any[] = [];

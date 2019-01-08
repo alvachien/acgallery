@@ -1,0 +1,125 @@
+<div class="grid-container">
+  <h1 class="mat-h1">{{'Common.Dashboard' | translate}}</h1>
+  <mat-grid-list cols="2" rowHeight="400px">
+
+    <!-- Dashboard 1: Key figure -->
+    <mat-grid-tile colspan="1" rowspan="1">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            {{'Common.KeyFigure' | translate}}
+            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item>More</button>
+            </mat-menu>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <p class="mat-head-1" style="font-size:48px;">Amount of Albums:
+            <span class="flex-spacer"></span>
+            <span style="color:red; font-size:72px; text-align: right;">{{amtAlbum}}</span>
+          </p>
+          <p class="mat-head-1" style="font-size:48px;">Amount of Photos:
+            <span class="flex-spacer"></span>
+            <span style="color:red; font-size:72px; text-align: right;">{{amtPhoto}}</span>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+    <!-- Dashboard 2: Features -->
+    <mat-grid-tile colspan="1" rowspan="3">
+      <div class="grid-container" style="width: 100%;">
+        <mat-grid-list cols="1" rowHeight="380px">
+          <mat-grid-tile rowspan="1" colspan="1">
+            <div class="row featurette">
+              <div class="col-md-7">
+                <h2 class="featurette-heading">{{'Message.FeatureTitle1' | translate }}
+                  <span class="text-muted">{{'Message.FeatureSubTitle1' | translate }}</span>
+                </h2>
+                <p class="lead">{{'Message.FeatureContent1' | translate }}</p>
+              </div>
+              <div class="col-md-5">
+                <img class="featurette-image img-fluid mx-auto" src="assets/img/New-Technology.jpg" alt="Generic placeholder image">
+              </div>
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile rowspan="1" colspan="1">
+            <div class="row featurette">
+              <div class="col-md-5">
+                <img class="featurette-image img-fluid mx-auto" src="assets/img/cloud-ready.jpg" alt="Generic placeholder image">
+              </div>
+              <div class="col-md-7">
+                <h2 class="featurette-heading">{{'Message.FeatureTitle2' | translate }}
+                  <span class="text-muted">{{'Message.FeatureSubTitle2' | translate }}</span>
+                </h2>
+                <p class="lead">{{'Message.FeatureContent2' | translate }}</p>
+              </div>
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile rowspan="1" colspan="1">
+            <div class="row featurette">
+              <div class="col-md-7">
+                <h2 class="featurette-heading">{{'Message.FeatureTitle3' | translate }}
+                  <span class="text-muted">{{'Message.FeatureSubTitle3' | translate }}</span>
+                </h2>
+                <p class="lead">{{'Message.FeatureContent3' | translate }}</p>
+              </div>
+              <div class="col-md-5">
+                <img class="featurette-image img-fluid mx-auto" src="assets/img/feature3.jpg" alt="Generic placeholder image">
+              </div>
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+    </mat-grid-tile>
+
+    <!-- Dashboard 3: Album -->
+    <mat-grid-tile colspan="1" rowspan="1">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-toolbar color="accent">
+              <a mat-stroked-button routerLink="/album" routerLinkActive="active">{{'Nav.Album' | translate}}</a>
+              <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu" xPosition="before">
+                <button mat-menu-item>More</button>
+              </mat-menu>
+            </mat-toolbar>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <!-- <div echarts [options]="learnChartOption | async" [theme]="chartTheme" class="learn-chart"></div> -->
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+    <!-- Dashboard 4: Photo -->
+    <mat-grid-tile colspan="1" rowspan="1">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-toolbar color="accent">
+              <a mat-stroked-button routerLink="/photo" routerLinkActive="active">{{'Nav.Photos' | translate}}</a>
+              <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu" xPosition="before">
+                <button mat-menu-item>More</button>
+              </mat-menu>
+            </mat-toolbar>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <!-- <div echarts [options]="eventChartOption | async" [theme]="chartTheme" class="event-chart"></div> -->
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

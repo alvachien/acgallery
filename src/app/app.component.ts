@@ -5,7 +5,8 @@ import { LogLevel, AppLang } from './model/common';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import { AuthService, UIStatusService, UserDetailService } from './services';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, ReplaySubject, pipe } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 
 @Component({
@@ -14,12 +15,14 @@ import { MediaChange, ObservableMedia } from '@angular/flex-layout';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
+  private _watcherMedia: Subscription;
+  private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+
   public isLoggedIn: boolean;
   public titleLogin: string;
   public arLangs: AppLang[];
   public selectedLanguage = '';
   @ViewChild('pswp') elemPSWP;
-  private _watcherMedia: Subscription;
   public isXSScreen = false;
   public sidenavMode: string;
   get currentVersion(): string {
@@ -35,18 +38,12 @@ export class AppComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _media: ObservableMedia) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Enter constructor of AppComponent');
+      console.log('ACGallery [Debug]: Entering AppComponent constructor');
     }
 
-    // Just wake up
-    let headers = new HttpHeaders();
-    headers = headers.append('Content-Type', 'application/json')
-      .append('Accept', 'application/json');
-    this._http.get(environment.WakeupAPIUrl, { headers: headers }).subscribe(() => {
-      // Do nothing
-    });
-
-    this._watcherMedia = this._media.subscribe((change: MediaChange) => {
+    this._watcherMedia = this._media.asObservable()
+      .pipe(takeUntil(this._destroyed$))
+      .subscribe((change: MediaChange) => {
       if (environment.LoggingLevel >= LogLevel.Debug) {
         console.log(`ACGallery [Debug]: Entering constructor of AppComponent: ${change.mqAlias} = (${change.mediaQuery})`);
       }
@@ -67,13 +64,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this.initLang();
 
     // Register the Auth service
-    this._authService.authContent.subscribe((x: any) => {
+    this._authService.authContent.pipe(takeUntil(this._destroyed$)).subscribe((x: any) => {
       this._zone.run(() => {
         this.isLoggedIn = x.isAuthorized;
         if (this.isLoggedIn) {
           this.titleLogin = x.getUserName();
 
-          this._usrdetailService.readDetailInfo().subscribe((detail: any) => {
+          this._usrdetailService.readDetailInfo().pipe(takeUntil(this._destroyed$)).subscribe((detail: any) => {
             // Do nothing
             if (detail && detail.displayAs) {
               this.titleLogin = detail.displayAs;
@@ -108,7 +105,15 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._watcherMedia.unsubscribe();
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering AppComponent ngOnDestroy...');
+    }
+    if (this._watcherMedia) {
+      this._watcherMedia.unsubscribe();
+    }
+
+    this._destroyed$.next(true);
+    this._destroyed$.complete();
   }
 
   // Handlers

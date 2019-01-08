@@ -9,6 +9,7 @@ export const environment = {
   CurrentReleaseDate: '2019.6.1',
   LoggingLevel: 4, // Debug
 
+  StatisticsAPIUrl: 'http://localhost:25325/api/statistics',
   AlbumAPIUrl: 'http://localhost:25325/api/album',
   PhotoAPIUrl: 'http://localhost:25325/api/photo',
   PhotoSearchAPIUrl: 'http://localhost:25325/api/photosearch',
