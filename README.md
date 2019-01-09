@@ -50,8 +50,8 @@ The web app also provides the authority control over the album and photos. The i
 
 ## Credits
 AC Photo Gallery web app built with following UI technologies:
-- Angular 6;
-- Angular Material 2;
+- Angular 7;
+- Angular Material 7;
 - Bootstrap V4;
 - TypeScript 2;
 

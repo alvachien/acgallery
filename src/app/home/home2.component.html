@@ -1,5 +1,5 @@
 <div class="grid-container">
-  <mat-grid-list cols="2" rowHeight="400px">
+  <mat-grid-list cols="3" rowHeight="400px">
 
     <!-- Dashboard 1: Key figure -->
     <mat-grid-tile colspan="1" rowspan="1">
@@ -16,20 +16,20 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
-          <p class="mat-head-1" style="font-size:48px;">Amount of Albums:
-            <span class="flex-spacer"></span>
-            <span style="color:red; font-size:72px; text-align: right;">{{amtAlbum}}</span>
-          </p>
-          <p class="mat-head-1" style="font-size:48px;">Amount of Photos:
-            <span class="flex-spacer"></span>
-            <span style="color:red; font-size:72px; text-align: right;">{{amtPhoto}}</span>
-          </p>
+          <div style="font-size:72px; width: 100%; height: 90px;">
+            <span style="font-size:48px;">{{'Nav.Album' | translate}}</span>
+            <span style="color:red; ">{{amtAlbum}}</span>            
+          </div>
+          <div class="mat-head-1" style="font-size:72px; width: 100%; height: 90px; text-align: right">            
+            <span style="color:green;">{{amtPhoto}}</span>
+            <span style="font-size:48px;">{{'Nav.Photo' | translate}}</span>
+          </div>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
 
     <!-- Dashboard 2: Features -->
-    <mat-grid-tile colspan="1" rowspan="3">
+    <mat-grid-tile colspan="2" rowspan="3">
       <div class="grid-container" style="width: 100%;">
         <mat-grid-list cols="1" rowHeight="380px">
           <mat-grid-tile rowspan="1" colspan="1">
@@ -94,7 +94,7 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
-          <div echarts [options]="albumChartOption | async" [theme]="chartTheme"></div>
+          <div class="album-chart" echarts [options]="albumChartOption | async"></div>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
@@ -116,7 +116,7 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
-          <!-- <div echarts [options]="photoChartOption | async" [theme]="chartTheme"></div> -->
+          <div class="photo-chart" echarts [options]="photoChartOption | async"></div>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>

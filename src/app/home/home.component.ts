@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _http: HttpClient,
     private _zone: NgZone) {
-    this.chartTheme = 'dark';
+    this.chartTheme = 'light';
 
     this._authService.authContent.pipe(takeUntil(this._destroyed$)).subscribe((x: any) => {
       this._zone.run(() => {
@@ -65,13 +65,12 @@ export class HomeComponent implements OnInit, OnDestroy {
           });
         }
       }
-      if (x.photoAmountInTop5Tag instanceof Array) {
-        const plen: number = x.photoAmountInTop5Tag.length;
-        for (let j = 0; j < plen; j++) {
-          const nitem = x.photoAmountInTop5Tag[j];
-          console.log(nitem);
-          this._tagsTop5.push(nitem);
-        }
+      for (let attr in x.photoAmountInTop5Tag) {
+        // console.log(attr);
+        this._tagsTop5.push({
+          name: attr,
+          value: +x.photoAmountInTop5Tag[attr],
+        });
       }
 
       // Build the chart options
@@ -104,7 +103,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.albumChartOption = of([]).pipe(
       (map(() => {
         let option: EChartOption = {
-          backgroundColor: '#2c343c',
+          backgroundColor: '#fcf4fc',
 
           title: {
             text: 'Top 5 Albums',
@@ -117,7 +116,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
           tooltip: {
             trigger: 'item',
-            formatter: '{a}<br/>{b} : {c} ({d}%)',
+            formatter: '{b} : {c}',
           },
 
           visualMap: [{
@@ -139,8 +138,8 @@ export class HomeComponent implements OnInit, OnDestroy {
                 normal: {
                   textStyle: {
                     color: 'rgba(255, 255, 255, 0.3)',
-                  }
-                }
+                  },
+                },
               },
               labelLine: {
                 normal: {
@@ -150,13 +149,83 @@ export class HomeComponent implements OnInit, OnDestroy {
                   smooth: 0.2,
                   length: 10,
                   length2: 20,
-                }
+                },
               },
               itemStyle: {
                 normal: {
-                  color: '#c23531',
+                  color: '#fcf4fc',
                   shadowBlur: 200,
-                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                  shadowColor: 'rgba(200, 0, 0, 0.5)',
+                },
+              },
+
+              animationType: 'scale',
+              animationEasing: 'elasticOut',
+              animationDelay: function (idx) {
+                return Math.random() * 200;
+              },
+            },
+          ],
+        };
+        return option;
+      })));
+    // Album
+    this.photoChartOption = of([]).pipe(
+      (map(() => {
+        let option: EChartOption = {
+          backgroundColor: '#fcf4fc',
+
+          title: {
+            text: 'Top 5 Tags in Photo',
+            left: 'center',
+            top: `20`,
+            textStyle: {
+              color: '#ccc',
+            },
+          },
+
+          tooltip: {
+            trigger: 'item',
+            formatter: '{b} : {c}',
+          },
+
+          visualMap: [{
+            show: false,
+            min: 80,
+            max: 600,
+            inRange: {
+              colorLightness: [0, 1],
+            },
+          }],
+          series: [
+            {
+              type: 'pie',
+              radius: '55%',
+              center: ['50%', '50%'],
+              data: this._tagsTop5,
+              roseType: 'radius',
+              label: {
+                normal: {
+                  textStyle: {
+                    color: 'rgba(255, 255, 255, 0.3)',
+                  },
+                },
+              },
+              labelLine: {
+                normal: {
+                  lineStyle: {
+                    color: 'rgba(255, 255, 255, 0.3)',
+                  },
+                  smooth: 0.2,
+                  length: 10,
+                  length2: 20,
+                },
+              },
+              itemStyle: {
+                normal: {
+                  color: '#fcf4fc',
+                  shadowBlur: 200,
+                  shadowColor: 'rgba(0, 200, 0, 0.5)',
                 },
               },
 

@@ -51,7 +51,9 @@ import { PortalModule } from '@angular/cdk/portal';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AuthService, PhotoService, AlbumService, UIStatusService, AuthGuard, CanDeactivateGuardService, UserDetailService } from './services';
-import { SplitAreaDirective, SplitHandleDirective, SplitDirective } from './directives';
+import { SplitAreaDirective, SplitHandleDirective, SplitDirective, IsOddWithEvenAllowedDirective,
+  DateIsEndOfMonthDirective, } from './directives';
+import {  } from './model';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AppComponent } from './app.component';
@@ -105,6 +107,8 @@ export function funcHttpLoaderFactory(http: HttpClient) {
     OperatorFilterPipe,
     TagCloudComponent,
     RatingInputComponent,
+    DateIsEndOfMonthDirective,
+    IsOddWithEvenAllowedDirective,
   ],
   entryComponents: [
     AlbumAccessCodeDialog,
