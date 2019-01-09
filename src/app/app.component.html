@@ -6,7 +6,6 @@
     <h1 class="app-title-name">AC Photo Gallery</h1>
     <span class="toolbar-spacer"></span>
 
-    <span>{{'Nav.Version' | translate}}: {{currentVersion}}</span>
     <button mat-icon-button *ngIf="!isLoggedIn" (click)="onLogon()" title="Logon" matTooltip="{{'Login.Login' | translate }}">
       <mat-icon>account_box</mat-icon>
     </button>
@@ -97,6 +96,8 @@
             <a mat-list-item href="https://www.facebook.com/alva.chien" target="_blank">Facebook</a>
           </mat-nav-list>
         </mat-expansion-panel>
+        <mat-divider></mat-divider>
+        <div style="text-align: center;">{{'Nav.Version' | translate}}: {{currentVersion}}</div>
       </mat-accordion>
     </mat-sidenav>
 
