@@ -85,7 +85,9 @@
     "ConfirmToDeleteSelectedItem": "选择项将被删除，请确认继续？",
     "SearchViaName": "根据名字来搜索项...",
     "Dashboard": "仪表盘",
-    "KeyFigure": "核心数据"
+    "KeyFigure": "核心数据",
+    "TotalPhoto": "总共图片",
+    "TotalAlbum": "总共相册"
   },
   "Sys":{
     "Operator": {
@@ -167,7 +169,7 @@
     "MarketingContent3": "本项目有对应的开源版本，并公布在Github上",
     "FeatureTitle1": "最新UI技术。",
     "FeatureSubTitle1": "一大堆的最新技术。",
-    "FeatureContent1": "以下技术被使用: ASP.NET Core 2, Angular 6, Material 2 等等",
+    "FeatureContent1": "以下技术被使用: ASP.NET Core 2, Angular 7, Material 7, Bootstrap 4 等等",
     "FeatureTitle2": "云平台。",
     "FeatureSubTitle2": "为了云平台开发。",
     "FeatureContent2": "这是为了云平台开发的应用，并且成功地在Microsoft Azure和Alibaba Aliyun上部署",

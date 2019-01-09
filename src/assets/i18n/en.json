@@ -85,7 +85,9 @@
     "ConfirmToDeleteSelectedItem": "The selected item(s) will be deleted. Do you confirm to continue?",
     "SearchViaName": "Select an item via the name...",
     "Dashboard": "Dashboard",
-    "KeyFigure": "Key Figures"
+    "KeyFigure": "Key Figures",
+    "TotalPhoto": "Photos in total",
+    "TotalAlbum": "Albums in total"
   },
   "Sys":{
     "Operator": {
@@ -167,7 +169,7 @@
     "MarketingContent3": "The app has its open-source project which hosted in Github",
     "FeatureTitle1": "Latest technology. ",
     "FeatureSubTitle1": "Tons of latest technologies are used.",
-    "FeatureContent1": "Angular 6, ASP.NET Core 2, Material 6, BootStrap 4, and so on",
+    "FeatureContent1": "Angular 7, ASP.NET Core 2, Material 7, BootStrap 4, and so on",
     "FeatureTitle2": "Cloud Ready. ",
     "FeatureSubTitle2": "Target for Cloud.",
     "FeatureContent2": "Cloud is ready for this web app, and it now hosted in Microsoft Azure and Alibaba Aliyun",

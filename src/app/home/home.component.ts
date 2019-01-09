@@ -114,6 +114,11 @@ export class HomeComponent implements OnInit, OnDestroy {
             },
           },
 
+          legend: {
+            orient: 'vertical',
+            x: 'left',
+          },
+
           tooltip: {
             trigger: 'item',
             formatter: '{b} : {c}',
@@ -153,7 +158,15 @@ export class HomeComponent implements OnInit, OnDestroy {
               },
               itemStyle: {
                 normal: {
-                  color: '#fcf4fc',
+                  color: {
+                    type: 'linear',
+                    colorStops: [{
+                        offset: 0, color: '#fcf4fc',
+                    }, {
+                        offset: 1, color: '#2cf4ec',
+                    }],
+                    globalCoord: false,
+                  },
                   shadowBlur: 200,
                   shadowColor: 'rgba(200, 0, 0, 0.5)',
                 },
@@ -187,6 +200,11 @@ export class HomeComponent implements OnInit, OnDestroy {
           tooltip: {
             trigger: 'item',
             formatter: '{b} : {c}',
+          },
+
+          legend: {
+            orient: 'vertical',
+            x: 'left',
           },
 
           visualMap: [{
@@ -223,7 +241,15 @@ export class HomeComponent implements OnInit, OnDestroy {
               },
               itemStyle: {
                 normal: {
-                  color: '#fcf4fc',
+                  color: {
+                    type: 'linear',
+                    colorStops: [{
+                      offset: 0, color: '#fcf4fc',
+                    }, {
+                      offset: 1, color: '#d1ff11',
+                    }],
+                    globalCoord: false,
+                  },
                   shadowBlur: 200,
                   shadowColor: 'rgba(0, 200, 0, 0.5)',
                 },
