@@ -1,5 +1,5 @@
 <div class="grid-container">
-  <mat-grid-list cols="3" rowHeight="400px">
+  <mat-grid-list [cols]="numberOfColumns" rowHeight="400px">
 
     <!-- Dashboard 1: Key figure -->
     <mat-grid-tile colspan="1" rowspan="1">
@@ -10,15 +10,16 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
-          <div style="font-size:80px; width: 100%; height: 90px; margin: 2px;">
+          <div style="font-size:80px; width: 100%; height: 90px; margin: 2px; padding: 10px;">
             <span style="font-size:36px;">{{'Common.TotalAlbum' | translate}}: </span>
             <span style="color:red; ">{{amtAlbum}}</span>            
           </div>
           <mat-divider></mat-divider>
-          <div class="mat-head-1" style="font-size:80px; width: 100%; height: 90px; text-align: right; margin: 2px;">
+          <div class="mat-head-1" style="font-size:80px; width: 100%; height: 90px; text-align: right; margin: 2px; padding: 10px;">
             <span style="color:green;">{{amtPhoto}}</span>
             <span style="font-size:36px;">{{'Common.TotalPhoto' | translate}}</span>
           </div>
+          <mat-divider></mat-divider>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
