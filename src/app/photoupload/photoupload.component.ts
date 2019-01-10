@@ -79,7 +79,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     private _elmRef: ElementRef,
     private _snackBar: MatSnackBar) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering constructor of PhotoUploadComponent.');
+      console.log('ACGallery [Debug]: Entering PhotoUploadComponent constructor.');
     }
 
     this._canCrtAlbum = this._userdetailService.UserDetailInfo.albumCreate;
@@ -91,7 +91,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering ngOnInit of PhotoUploadComponent');
+      console.log('ACGallery [Debug]: Entering PhotoUploadComponent ngOnInit...');
     }
 
     if (!this.canUploadPhoto()) {
@@ -133,7 +133,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering ngAfterViewInit of PhotoUploadComponent');
+      console.log('ACGallery [Debug]: Entering PhotoUploadComponent ngAfterViewInit...');
     }
 
     const that = this;
@@ -261,13 +261,13 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering ngOnDestroy of PhotoUploadComponent');
+      console.log('ACGallery [Debug]: Entering PhotoUploadComponent ngOnDestroy...');
     }
   }
 
   onSubmit(): void {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering onSubmit of PhotoUploadComponent');
+      console.log('ACGallery [Debug]: Entering PhotoUploadComponent onSubmit...');
     }
 
     if (!this.uploader) {

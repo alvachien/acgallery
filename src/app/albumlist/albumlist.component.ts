@@ -8,6 +8,7 @@ import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 import { environment } from '../../environments/environment';
 import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
 import { Album, AlbumPhotoByAlbum, Photo, UpdPhoto, LogLevel } from '../model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'acgallery-albumlist',
@@ -16,7 +17,7 @@ import { Album, AlbumPhotoByAlbum, Photo, UpdPhoto, LogLevel } from '../model';
 })
 export class AlbumlistComponent implements OnInit, OnDestroy {
   private _watcherMedia: Subscription;
-  private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  private _destroyed$: ReplaySubject<boolean>;
 
   public albumes: Album[] = [];
   public albumAmount: number;
@@ -40,11 +41,19 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
     private _snackbar: MatSnackBar) {
     this.albumAmount = 0;
     this.clnGridCount = 3; // Default
+  }
+
+  ngOnInit() {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering AlbumListComponent ngOnInit');
+    }
+
+    this._destroyed$ = new ReplaySubject(1);
 
     this._watcherMedia = this._media.subscribe((change: MediaChange) => {
       this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
       if (environment.LoggingLevel >= LogLevel.Debug) {
-        console.log(`ACGallery [Debug]: Entering AlbumlistComponent constructor: ${this.activeMediaQuery}`);
+        console.log(`ACGallery [Debug]: Entering AlbumlistComponent ngOnInit: ${this.activeMediaQuery}`);
       }
       // xs	'screen and (max-width: 599px)'
       // sm	'screen and (min-width: 600px) and (max-width: 959px)'
@@ -63,19 +72,14 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
         this.clnGridCount = 6;
       }
     });
-  }
 
-  ngOnInit() {
-    if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('AC Gallery [Debug]: Entering AlbumListComponent ngOnInit');
-    }
-
+    // Load photos
     this._loadPhotoIntoPage(0);
   }
 
   ngOnDestroy() {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('AC Gallery [Debug]: Entering AlbumListComponent ngOnDestroy');
+      console.log('ACGallery [Debug]: Entering AlbumListComponent ngOnDestroy');
     }
     if (this._watcherMedia) {
       this._watcherMedia.unsubscribe();
@@ -122,10 +126,12 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
           this.albumes.push(album);
         }
       });
-    }, (error: any) => {
+    }, (error: HttpErrorResponse) => {
       if (environment.LoggingLevel >= LogLevel.Error) {
         console.error(`AC Gallery [Error]: Failed in _loadPhotoIntoPage of AlbumListComponent ${error}`);
       }
+
+      this._snackbar.open(error.message);
     }, () => {
       // Do nothing
     });

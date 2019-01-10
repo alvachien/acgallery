@@ -19,7 +19,7 @@ declare var PhotoSwipeUI_Default;
   styleUrls: ['./album.component.css'],
 })
 export class AlbumComponent implements OnInit, OnDestroy {
-  private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  private _destroyed$: ReplaySubject<boolean>;
   private _watcherMedia: Subscription;
 
   public objAlbum: Album = null;
@@ -51,14 +51,26 @@ export class AlbumComponent implements OnInit, OnDestroy {
     private _viewContainerRef: ViewContainerRef,
     private _snackBar: MatSnackBar,
     private _dialog: MatDialog) {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering AlbumComponent constructor');
+    }
     this.objAlbum = new Album();
     this.photoAmount = 0;
     this.clnGridCount = 3; // Default
+  }
 
+  ngOnInit() {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering AlbumComponent ngOnInit');
+    }
+
+    this._destroyed$ = new ReplaySubject(1);
+
+    // Media observer
     this._watcherMedia = this._media.asObservable().pipe(takeUntil(this._destroyed$)).subscribe((change: MediaChange) => {
       this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
       if (environment.LoggingLevel >= LogLevel.Debug) {
-        console.log(`ACGallery [Debug]: Entering AlbumComponent constructor, MeidaChange: ${this.activeMediaQuery}`);
+        console.log(`ACGallery [Debug]: Entering AlbumComponent ngOnInit, MeidaChange: ${this.activeMediaQuery}`);
       }
 
       // xs	'screen and (max-width: 599px)'
@@ -78,12 +90,6 @@ export class AlbumComponent implements OnInit, OnDestroy {
         this.clnGridCount = 6;
       }
     });
-  }
-
-  ngOnInit() {
-    if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('AC Gallery [Debug]: Entering AlbumComponent ngOnInit');
-    }
 
     // Distinguish current mode
     this._activateRoute.url.subscribe((x: any) => {
@@ -111,7 +117,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
       }
     }, (error: any) => {
       if (environment.LoggingLevel >= LogLevel.Error) {
-        console.error('AC Gallery [Error]: Failed to parse URL in ngOnInit of AlbumComponent');
+        console.error(`ACGallery [Error]: Entering AlbumComponent, ngOnInit, failed parsing URL: ${error}`);
       }
     }, () => {
       // Completed
@@ -120,7 +126,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('AC Gallery [Debug]: Entering AlbumComponent ngOnDestroy');
+      console.log('ACGallery [Debug]: Entering AlbumComponent ngOnDestroy');
     }
     if (this._watcherMedia) {
       this._watcherMedia.unsubscribe();
@@ -264,6 +270,9 @@ export class AlbumComponent implements OnInit, OnDestroy {
           this.photos.push(pi);
         }
       }
+    }, (error: HttpErrorResponse) => {
+      // Show error via snackbar
+      this._snackBar.open('Error occurred ' + error.message);
     });
   }
 }

@@ -7,6 +7,7 @@ import { AuthService, PhotoService, AlbumService, UIStatusService } from '../ser
 import { LogLevel, Album, AlbumPhotoByAlbum, Photo, UpdPhoto } from '../model';
 import { environment } from '../../environments/environment';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
+import { takeUntil } from 'rxjs/operators';
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
 
@@ -17,7 +18,7 @@ declare var PhotoSwipeUI_Default;
 })
 export class PhotolistComponent implements OnInit, OnDestroy {
   private gallery: any = null;
-  private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  private _destroyed$: ReplaySubject<boolean>;
   public photos: Photo[] = [];
   public photoAmount: number;
   public selectedPhoto: Photo = null;
@@ -47,12 +48,21 @@ export class PhotolistComponent implements OnInit, OnDestroy {
 
     this.photoAmount = 0;
     this.clnGridCount = 3; // Default
+  }
 
-    this._watcherMedia = this._media.subscribe((change: MediaChange) => {
+  ngOnInit() {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.log('ACGallery [Debug]: Entering PhotolistComponent ngOnInit...');
+    }
+
+    this._destroyed$ = new ReplaySubject(1);
+    this._watcherMedia = this._media.asObservable()
+      .pipe(takeUntil(this._destroyed$)).subscribe((change: MediaChange) => {
       this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
       if (environment.LoggingLevel >= LogLevel.Debug) {
-        console.log(`ACGallery [Debug]: Entering constructor of PhotolistComponent: ${this.activeMediaQuery}`);
+        console.log(`ACGallery [Debug]: Entering PhotolistComponent, ngOnInit, MediaServer: ${this.activeMediaQuery}`);
       }
+
       // xs	'screen and (max-width: 599px)'
       // sm	'screen and (min-width: 600px) and (max-width: 959px)'
       // md	'screen and (min-width: 960px) and (max-width: 1279px)'
@@ -70,23 +80,20 @@ export class PhotolistComponent implements OnInit, OnDestroy {
         this.clnGridCount = 6;
       }
     });
-  }
-
-  ngOnInit() {
-    if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering ngOnInit of PhotolistComponent');
-    }
 
     this._loadPhotoIntoPage(0);
   }
 
   ngOnDestroy() {
     this._watcherMedia.unsubscribe();
+
+    this._destroyed$.next(true);
+    this._destroyed$.complete();
   }
 
   onPhotoClick(idx: number): void {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering onPhotoClick of PhotolistComponent');
+      console.log('ACGallery [Debug]: Entering PhotolistComponent onPhotoClick...');
     }
 
     if (this.photos.length <= 0) {
@@ -128,7 +135,7 @@ export class PhotolistComponent implements OnInit, OnDestroy {
 
   onViewPhotoEXIFDialog(photo: any): void {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering onViewPhotoEXIFDialog of PhotolistComponent');
+      console.log('ACGallery [Debug]: Entering PhotolistComponent onViewPhotoEXIFDialog...');
     }
 
     this._uistatusService.selPhotoInPhotoList = photo;
@@ -141,7 +148,7 @@ export class PhotolistComponent implements OnInit, OnDestroy {
 
   public onDisplayPhoto(photo: any): void {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering onDisplayPhoto of PhotolistComponent');
+      console.log('ACGallery [Debug]: Entering PhotolistComponent onDisplayPhoto...');
     }
 
     this._uistatusService.selPhotoInPhotoList = photo;
@@ -150,7 +157,7 @@ export class PhotolistComponent implements OnInit, OnDestroy {
 
   public onChangePhoto(photo: any): void {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering onChangePhoto of PhotolistComponent');
+      console.log('ACGallery [Debug]: Entering PhotolistComponent onChangePhoto...');
     }
 
     this._uistatusService.selPhotoInPhotoList = photo;
@@ -159,14 +166,14 @@ export class PhotolistComponent implements OnInit, OnDestroy {
 
   public onDeletePhoto(photo: any): void {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering onDeletePhoto of PhotolistComponent');
+      console.log('ACGallery [Debug]: Entering PhotolistComponent onDeletePhoto...');
     }
 
     this._photoService.deletePhoto(photo).subscribe((x: any) => {
       // Do nothing
     }, (error: any) => {
       if (environment.LoggingLevel >= LogLevel.Error) {
-        console.error(`ACGallery [Error]: Failed in onDeletePhoto of PhotolistComponent: ${error}`);
+        console.error(`ACGallery [Error]: Entering PhotolistComponent, onDeletePhoto, failed with : ${error}`);
       }
     }, () => {
       // Do nothing
@@ -175,7 +182,7 @@ export class PhotolistComponent implements OnInit, OnDestroy {
 
   public onPageEvent($event: any) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.log('AC Gallery [Debug]: Entering onPageEvent of PhotolistComponent');
+      console.log('AC Gallery [Debug]: Entering PhotolistComponent onPageEvent...');
     }
 
     this.pageEvent = $event;

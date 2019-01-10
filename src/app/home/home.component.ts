@@ -1,10 +1,11 @@
 import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { ReplaySubject, of, Observable } from 'rxjs';
-import { takeUntil, map } from 'rxjs/operators';
+import { takeUntil, map, catchError } from 'rxjs/operators';
 import { EChartOption } from 'echarts';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
+import { MatSnackBar } from '@angular/material'; 
 
 import { environment } from '../../environments/environment';
 import { AuthService } from '../services';
@@ -16,12 +17,13 @@ import { LogLevel } from '../model';
   styleUrls: ['./home2.component.css'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  private _destroyed$: ReplaySubject<boolean>;
   private _isLogin: boolean = false;
   private _albumsTop5: any[] = [];
   private _tagsTop5: any[] = [];  
 
   public numberOfColumns: number = 3;
+  public featureColumnSpan: number = 2;
   public btnLoginTxt = '';
   public amtAlbum: number;
   public amtPhoto: number;
@@ -33,12 +35,21 @@ export class HomeComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _http: HttpClient,
     private _media: ObservableMedia,
+    private _snackBar: MatSnackBar,
     private _zone: NgZone) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.info('ACGallery [Debug]: Entering HomeComponent constructor...');
     }
     this.chartTheme = 'light';
+  }
 
+  ngOnInit(): void {
+    if (environment.LoggingLevel >= LogLevel.Debug) {
+      console.info('ACGallery [Debug]: Entering HomeComponent ngOnInit...');
+    }
+
+    this._destroyed$ = new ReplaySubject(1);
+    
     // Login info.
     this._authService.authContent.pipe(takeUntil(this._destroyed$)).subscribe((x: any) => {
       this._zone.run(() => {
@@ -51,7 +62,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
     }, (error: any) => {
       if (environment.LoggingLevel >= LogLevel.Error) {
-        console.error('ACGallery [Error]: Failed in subscribe to User', error);
+        console.error(`ACGallery [Error]: Entering HomeComponent, ngOnInit, subscribe to User: ${error}`);
       }
     }, () => {
       // Completed
@@ -61,7 +72,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
       .append('Accept', 'application/json');
-    this._http.get(environment.StatisticsAPIUrl, { headers: headers }).subscribe((x: any) => {
+    this._http.get(environment.StatisticsAPIUrl, { headers: headers })
+      .pipe(takeUntil(this._destroyed$))
+      .subscribe((x: any) => {
       this.amtAlbum = x.albumAmount;
       this.amtPhoto = x.photoAmount;
       if (x.photoAmountInTop5Album instanceof Array) {
@@ -83,6 +96,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       // Build the chart options
       this._buildChartOptions();
+    }, (error: HttpErrorResponse) => {
+      if (environment.LoggingLevel >= LogLevel.Error) {
+        console.info(`ACGallery [Error]: Entering HomeComponent, failed to fetch statistics data: ${error}`);
+      }
+
+      // Show that info via snackbar
+      this._snackBar.open(error.message, undefined, {
+        duration: 1500,
+      });
     });
 
     // Register the media change
@@ -91,23 +113,21 @@ export class HomeComponent implements OnInit, OnDestroy {
       if (environment.LoggingLevel >= LogLevel.Debug) {
         console.info(`ACGallery [Debug]: Entering HomeComponent mediaChange: ${change.mqAlias}...`);
       }
-      if ( change.mqAlias == 'xs') {
+      if ( change.mqAlias === 'xs') {
         this.numberOfColumns = 1;
-      } else if(change.mqAlias == 'sm') {
+        this.featureColumnSpan = 1;
+      } else if(change.mqAlias === 'sm') {
         this.numberOfColumns = 2;
-      } else if(change.mqAlias == 'md') {
+        this.featureColumnSpan = 1;
+      } else if(change.mqAlias === 'md') {
         this.numberOfColumns = 3;
+        this.featureColumnSpan = 2;
       } else {
         // Large
         this.numberOfColumns = 3;
+        this.featureColumnSpan = 2;
       }
     });
-  }
-
-  ngOnInit(): void {
-    if (environment.LoggingLevel >= LogLevel.Debug) {
-      console.info('ACGallery [Debug]: Entering HomeComponent ngOnInit...');
-    }
   }
 
   ngOnDestroy(): void {

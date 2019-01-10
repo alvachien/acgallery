@@ -3,6 +3,7 @@ import { Observable, forkJoin, ReplaySubject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef, MatSnackBar, MatTableDataSource, MatChipInputEvent } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import { takeUntil } from 'rxjs/operators';
 
 import { UIMode, LogLevel, Photo, Album } from '../model';
 import { AuthService, AlbumService, PhotoService, UIStatusService } from '../services';
@@ -15,7 +16,7 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
   styleUrls: ['./photochange.component.css'],
 })
 export class PhotochangeComponent implements OnInit, OnDestroy {
-  private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  private _destroyed$: ReplaySubject<boolean>;
   public currentPhoto: Photo;
   public currentMode: string;
   private uiMode: UIMode;
@@ -72,6 +73,8 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
       console.log('ACGallery [Debug]: Entering ngOnInit in PhotochangeComponent.');
     }
 
+    this._destroyed$ = new ReplaySubject(1);
+
     // Distinguish current mode
     this._activateRoute.url.subscribe((x: any) => {
       if (environment.LoggingLevel >= LogLevel.Debug) {
@@ -105,7 +108,9 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
       const assignedAlbum: Album[] = [];
       const unassignedAlbum: Album[] = [];
 
-      forkJoin([s1, s2]).subscribe((y: any) => {
+      forkJoin([s1, s2])
+        .pipe(takeUntil(this._destroyed$))
+        .subscribe((y: any) => {
         if (y[0]) {
           for (const alb of y[0].contentList) {
             const album = new Album();
@@ -142,7 +147,7 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
       });
     }, (error: any) => {
       if (environment.LoggingLevel >= LogLevel.Error) {
-        console.error('ACGallery [Error]: Failed ot parse activateRoute of ngOnInit in PhotochangeComponent.');
+        console.error(`ACGallery [Error]: Entering PhotoChangeComponent, ngOnInit, failed with URL: ${error}`);
       }
     }, () => {
       // Completed
@@ -155,6 +160,9 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
     } else if (this._uistatusService.selPhotoInPhotoList) {
       this._uistatusService.selPhotoInPhotoList = null;
     }
+
+    this._destroyed$.next(true);
+    this._destroyed$.complete();
   }
 
   public isFieldChangable(): boolean {

@@ -3,7 +3,7 @@ import { MatTableDataSource, MatPaginator, PageEvent, MatDialog, MatDialogRef, M
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, merge, of as observableOf, Subscription, ReplaySubject } from 'rxjs';
-import { startWith, switchMap, map, catchError } from 'rxjs/operators';
+import { startWith, switchMap, map, catchError, takeUntil } from 'rxjs/operators';
 import { GeneralFilterValueType, GeneralFilterItem, UIDisplayString, UIDisplayStringUtil,
   GeneralFilterOperatorEnum, Photo, LogLevel } from '../model';
 import { PhotoService, UIStatusService } from '../services';
@@ -20,7 +20,7 @@ declare var PhotoSwipeUI_Default;
   styleUrls: ['./photo-search.component.scss'],
 })
 export class PhotoSearchComponent implements OnInit, AfterViewInit, OnDestroy {
-  private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  private _destroyed$: ReplaySubject<boolean>;
 
   filters: GeneralFilterItem[] = [];
   allOperators: UIDisplayString[] = [];
@@ -88,8 +88,14 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.photoAmount = 0;
     this.clnGridCount = 3; // Default
+  }
 
-    this._watcherMedia = this._media.subscribe((change: MediaChange) => {
+  ngOnInit(): void {
+    this._destroyed$ = new ReplaySubject(1);
+
+    this._watcherMedia = this._media.asObservable()
+      .pipe(takeUntil(this._destroyed$))
+      .subscribe((change: MediaChange) => {
       this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
       if (environment.LoggingLevel >= LogLevel.Debug) {
         console.log(`ACGallery [Debug]: Entering constructor of PhotoSearchComponent: ${this.activeMediaQuery}`);
@@ -111,9 +117,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit, OnDestroy {
         this.clnGridCount = 6;
       }
     });
-  }
 
-  ngOnInit(): void {
     this.onAddFilter();
   }
 
@@ -127,6 +131,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
     merge(this.subjFilters, this.paginator.page)
       .pipe(
+        takeUntil(this._destroyed$),
         startWith({}),
         switchMap(() => {
           if (this.subjFilters.value.length <= 0) {
@@ -254,6 +259,8 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this._watcherMedia.unsubscribe();
+    this._destroyed$.next(true);
+    this._destroyed$.complete();
   }
 
   onPhotoClick(idx: number): void {
