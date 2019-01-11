@@ -100,6 +100,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       if (environment.LoggingLevel >= LogLevel.Error) {
         console.info(`ACGallery [Error]: Entering HomeComponent, failed to fetch statistics data: ${error}`);
       }
+      this.amtAlbum = 0;
+      this.amtPhoto = 0;
 
       // Show that info via snackbar
       this._snackBar.open(error.message, undefined, {

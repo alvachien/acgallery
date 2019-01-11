@@ -10,16 +10,20 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
-          <div style="font-size:80px; width: 100%; height: 90px; margin: 2px; padding: 10px;">
-            <span style="font-size:36px;">{{'Common.TotalAlbum' | translate}}: </span>
-            <span style="color:red; ">{{amtAlbum}}</span>            
+          <div fxLayout="column" fxLayoutAlign="space-around center" >
+            <div class="album-statistic">
+              <span style="font-size:36px;">{{'Common.TotalAlbum' | translate}}: </span>
+              <span style="color:red; ">{{amtAlbum}}</span>            
+            </div>
+            <div class="photo-statistic">
+              <span style="color:green;">{{amtPhoto}}</span>
+              <span style="font-size:36px;">{{'Common.TotalPhoto' | translate}}</span>
+            </div>
+            <div class="contributor-statistic">
+              <span style="font-size:36px;">Contributors:</span>  
+              <span style="color:blue;">{{amtAlbum}}</span>
+            </div>
           </div>
-          <mat-divider></mat-divider>
-          <div class="mat-head-1" style="font-size:80px; width: 100%; height: 90px; text-align: right; margin: 2px; padding: 10px;">
-            <span style="color:green;">{{amtPhoto}}</span>
-            <span style="font-size:36px;">{{'Common.TotalPhoto' | translate}}</span>
-          </div>
-          <mat-divider></mat-divider>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
@@ -29,25 +33,25 @@
       <div class="grid-container" style="width: 100%;">
         <mat-grid-list cols="1" rowHeight="380px">
           <mat-grid-tile rowspan="1" colspan="1">
-            <div class="row featurette">
-              <div class="col-md-7">
+            <div fxLayout.gt-sm="row" fxLayout.lt-sm="column">
+              <div fxFlex.gt-sm="60%" fxFlex="100%" fxFlexOrder.gt-sm="1" fxFlexOrder="2">
                 <h2 class="featurette-heading">{{'Message.FeatureTitle1' | translate }}
                   <span class="text-muted">{{'Message.FeatureSubTitle1' | translate }}</span>
                 </h2>
                 <p class="lead">{{'Message.FeatureContent1' | translate }}</p>
               </div>
-              <div class="col-md-5">
-                <img class="featurette-image img-fluid mx-auto" src="assets/img/New-Technology.jpg" alt="Generic placeholder image">
+              <div fxFlex.gt-sm="40%" fxFlex="100%" fxFlexOrder.gt-sm="2" fxFlexOrder="1">
+                <img class="img-fluid mx-auto" src="assets/img/New-Technology.jpg" alt="New technology">
               </div>
             </div>
           </mat-grid-tile>
 
           <mat-grid-tile rowspan="1" colspan="1">
-            <div class="row featurette">
-              <div class="col-md-5">
-                <img class="featurette-image img-fluid mx-auto" src="assets/img/cloud-ready.jpg" alt="Generic placeholder image">
+            <div fxLayout.gt-sm="row" fxLayout.lt-sm="column">
+              <div fxFlex.gt-sm="40%" fxFlex="100%" fxFlexOrder.gt-sm="2" fxFlexOrder="2">
+                <img class="img-fluid mx-auto" src="assets/img/cloud-ready.jpg" alt="Generic placeholder image">
               </div>
-              <div class="col-md-7">
+              <div fxFlex.gt-sm="60%" fxFlex="100%" fxFlexOrder.gt-sm="1" fxFlexOrder="1">
                 <h2 class="featurette-heading">{{'Message.FeatureTitle2' | translate }}
                   <span class="text-muted">{{'Message.FeatureSubTitle2' | translate }}</span>
                 </h2>
@@ -57,15 +61,15 @@
           </mat-grid-tile>
 
           <mat-grid-tile rowspan="1" colspan="1">
-            <div class="row featurette">
-              <div class="col-md-7">
+            <div fxLayout.gt-sm="row" fxLayout.lt-sm="column">
+              <div fxFlex.gt-sm="60%" fxFlex="100%" fxFlexOrder.gt-sm="1" fxFlexOrder="2">
                 <h2 class="featurette-heading">{{'Message.FeatureTitle3' | translate }}
                   <span class="text-muted">{{'Message.FeatureSubTitle3' | translate }}</span>
                 </h2>
                 <p class="lead">{{'Message.FeatureContent3' | translate }}</p>
               </div>
-              <div class="col-md-5">
-                <img class="featurette-image img-fluid mx-auto" src="assets/img/feature3.jpg" alt="Generic placeholder image">
+              <div fxFlex.gt-sm="40%" fxFlex="100%" fxFlexOrder.gt-sm="2" fxFlexOrder="1">
+                <img class="img-fluid mx-auto" src="assets/img/feature3.jpg" alt="Generic placeholder image">
               </div>
             </div>
           </mat-grid-tile>

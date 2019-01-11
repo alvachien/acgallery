@@ -47,3 +47,10 @@ h1.app-title-name {
 .toolbar-spacer {
   flex: 1 1 auto;
 }
+
+.version-text {
+  margin-top: 1rem;
+  text-align: center;
+  text-shadow:2px 2px 8px #666666;
+  font-size: 24 px;
+}
