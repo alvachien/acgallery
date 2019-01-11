@@ -131,7 +131,9 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
         console.error(`AC Gallery [Error]: Failed in _loadPhotoIntoPage of AlbumListComponent ${error}`);
       }
 
-      this._snackbar.open(error.message);
+      this._snackbar.open(error.message, undefined, {
+        duration: 3000,
+      });
     }, () => {
       // Do nothing
     });

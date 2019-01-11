@@ -252,7 +252,9 @@ export class AlbumComponent implements OnInit, OnDestroy {
       }
     }, (error: HttpErrorResponse) => {
       // Show error info
-      this._snackBar.open('Error occurred:' + error.message);
+      this._snackBar.open('Error occurred:' + error.message, undefined, {
+        duration: 3000,
+      });
     }, () => {
     });
   }
@@ -272,7 +274,9 @@ export class AlbumComponent implements OnInit, OnDestroy {
       }
     }, (error: HttpErrorResponse) => {
       // Show error via snackbar
-      this._snackBar.open('Error occurred ' + error.message);
+      this._snackBar.open('Error occurred ' + error.message, undefined, {
+        duration: 3000,
+      });
     });
   }
 }

@@ -5,7 +5,7 @@ import { ReplaySubject, of, Observable } from 'rxjs';
 import { takeUntil, map, catchError } from 'rxjs/operators';
 import { EChartOption } from 'echarts';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
-import { MatSnackBar } from '@angular/material'; 
+import { MatSnackBar } from '@angular/material';
 
 import { environment } from '../../environments/environment';
 import { AuthService } from '../services';
@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private _destroyed$: ReplaySubject<boolean>;
   private _isLogin: boolean = false;
   private _albumsTop5: any[] = [];
-  private _tagsTop5: any[] = [];  
+  private _tagsTop5: any[] = [];
 
   public numberOfColumns: number = 3;
   public featureColumnSpan: number = 2;
@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     this._destroyed$ = new ReplaySubject(1);
-    
+
     // Login info.
     this._authService.authContent.pipe(takeUntil(this._destroyed$)).subscribe((x: any) => {
       this._zone.run(() => {
@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       // Show that info via snackbar
       this._snackBar.open(error.message, undefined, {
-        duration: 1500,
+        duration: 3000,
       });
     });
 
@@ -118,10 +118,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       if ( change.mqAlias === 'xs') {
         this.numberOfColumns = 1;
         this.featureColumnSpan = 1;
-      } else if(change.mqAlias === 'sm') {
+      } else if (change.mqAlias === 'sm') {
         this.numberOfColumns = 2;
         this.featureColumnSpan = 1;
-      } else if(change.mqAlias === 'md') {
+      } else if (change.mqAlias === 'md') {
         this.numberOfColumns = 3;
         this.featureColumnSpan = 2;
       } else {
