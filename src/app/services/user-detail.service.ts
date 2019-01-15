@@ -23,7 +23,7 @@ export class UserDetailService {
         console.log('ACGallery [Debug]: Entering UserDetailService constructor...');
       }
 
-      this._authService.authContent.subscribe((x: UserAuthInfo) => {
+      this._authService.authSubject.subscribe((x: UserAuthInfo) => {
       if (!x.isAuthorized) {
         this._usrdetail = undefined;
         this._infoLoaded = false;

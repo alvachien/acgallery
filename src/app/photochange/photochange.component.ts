@@ -88,6 +88,9 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
         } else if (x[0].path === 'display') {
           this.currentMode = 'Common.Display';
           this.uiMode = UIMode.Display;
+        } else {
+          this.uiMode = UIMode.Display;
+          this.currentPhoto = new Photo();
         }
       }
 

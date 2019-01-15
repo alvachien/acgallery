@@ -8,16 +8,16 @@
       <mat-form-field>
         <input matInput placeholder="{{'Common.Title' | translate}}" required maxlength="20" [(ngModel)]="currentPhoto.title" name="title"
           #title="ngModel" [disabled]="!isFieldChangable()">
-        <mat-hint align="end">{{currentPhoto.title && currentPhoto.title.length}} / 20</mat-hint>
+        <mat-hint align="end">{{currentPhoto?.title && currentPhoto?.title.length}} / 20</mat-hint>
       </mat-form-field>
 
       <mat-form-field>
         <input matInput placeholder="{{'Common.Description' | translate}}" maxlength="50" [(ngModel)]="currentPhoto.desp" name="photodesp"
           #photodesp="ngModel" [disabled]="!isFieldChangable()">
-        <mat-hint align="end">{{currentPhoto.desp && currentPhoto.desp.length}} / 50</mat-hint>
+        <mat-hint align="end">{{currentPhoto?.desp && currentPhoto?.desp.length}} / 50</mat-hint>
       </mat-form-field>
 
-      <mat-checkbox [(ngModel)]="currentPhoto.isPublic" name="ispubl" [disabled]="!isFieldChangable()">{{"Album.IsPublic" | translate}}</mat-checkbox>
+      <mat-checkbox [(ngModel)]="currentPhoto.isPublic" name="ispubl" [disabled]="!isFieldChangable()">{{"Album?.IsPublic" | translate}}</mat-checkbox>
       
       <mat-form-field>
         <input matInput placeholder="{{'Common.CameraMaker' | translate}}" [(ngModel)]="currentPhoto.cameraMaker" name="photocmmaker"
@@ -51,7 +51,7 @@
 
       <mat-form-field>
         <mat-chip-list #tagList>
-          <mat-chip *ngFor="let term of currentPhoto.tags" selectable="true"
+          <mat-chip *ngFor="let term of currentPhoto?.tags" selectable="true"
             (remove)="removeItemTag(term)">
             {{term}}
             <mat-icon matChipRemove *ngIf="isFieldChangable()">cancel</mat-icon>

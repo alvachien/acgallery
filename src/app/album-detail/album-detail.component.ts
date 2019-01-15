@@ -12,7 +12,10 @@ export class AlbumDetailComponent implements OnInit {
   @Input()
   uiMode: UIMode;
 
-  constructor() { }
+  constructor() {
+    this.uiMode = UIMode.Create;
+    this.objAlbum = new Album();
+  }
 
   get isFieldChangable(): boolean {
     return this.uiMode === UIMode.Create || this.uiMode === UIMode.Change;

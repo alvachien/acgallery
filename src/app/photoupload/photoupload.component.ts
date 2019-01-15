@@ -119,15 +119,17 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.dataSourceAlbum.paginator = this.paginatorAlbum;
 
     this._albumService.loadAlbums().subscribe((x: any) => {
-      const allAlbum: Album[] = [];
-      for (const alb of x.contentList) {
-        const album = new Album();
-        album.initex(alb);
+      if (x) {
+        const allAlbum: Album[] = [];
+        for (const alb of x.contentList) {
+          const album = new Album();
+          album.initex(alb);
 
-        allAlbum.push(album);
+          allAlbum.push(album);
+        }
+
+        this.dataSourceAlbum.data = allAlbum;
       }
-
-      this.dataSourceAlbum.data = allAlbum;
     });
   }
 

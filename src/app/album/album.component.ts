@@ -43,12 +43,10 @@ export class AlbumComponent implements OnInit, OnDestroy {
   constructor(private _router: Router,
     private _activateRoute: ActivatedRoute,
     private _zone: NgZone,
-    private _authService: AuthService,
     private _albumService: AlbumService,
     private _photoService: PhotoService,
     private _uistatus: UIStatusService,
     private _media: ObservableMedia,
-    private _viewContainerRef: ViewContainerRef,
     private _snackBar: MatSnackBar,
     private _dialog: MatDialog) {
     if (environment.LoggingLevel >= LogLevel.Debug) {

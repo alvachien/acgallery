@@ -53,7 +53,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthService, PhotoService, AlbumService, UIStatusService, AuthGuard, CanDeactivateGuardService, UserDetailService } from './services';
 import { SplitAreaDirective, SplitHandleDirective, SplitDirective, IsOddWithEvenAllowedDirective,
   DateIsEndOfMonthDirective, } from './directives';
-import {  } from './model';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AppComponent } from './app.component';

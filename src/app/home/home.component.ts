@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this._destroyed$ = new ReplaySubject(1);
 
     // Login info.
-    this._authService.authContent.pipe(takeUntil(this._destroyed$)).subscribe((x: any) => {
+    this._authService.authSubject.pipe(takeUntil(this._destroyed$)).subscribe((x: any) => {
       this._zone.run(() => {
         this._isLogin = x.isAuthorized;
         if (x.isAuthorized) {

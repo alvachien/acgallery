@@ -33,7 +33,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private _authService: AuthService,
     private _uistatusService: UIStatusService,
     private _usrdetailService: UserDetailService,
-    private _http: HttpClient,
     private _zone: NgZone,
     private _router: Router,
     private _media: ObservableMedia) {
@@ -64,7 +63,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.initLang();
 
     // Register the Auth service
-    this._authService.authContent.pipe(takeUntil(this._destroyed$)).subscribe((x: any) => {
+    this._authService.authSubject.pipe(takeUntil(this._destroyed$)).subscribe((x: any) => {
       this._zone.run(() => {
         this.isLoggedIn = x.isAuthorized;
         if (this.isLoggedIn) {
