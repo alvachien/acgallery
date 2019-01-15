@@ -116,7 +116,7 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
     this._albumService.loadAlbums(this.pageSize, skipamt)
       .pipe(takeUntil(this._destroyed$))
       .subscribe((x: any) => {
-        if (x) {
+        if (x && x.contentList) {
           this._zone.run(() => {
             this.albumes = [];
             this.albumAmount = x.totalCount;

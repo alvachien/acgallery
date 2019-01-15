@@ -52,10 +52,14 @@ export class Photo {
   }
 
   get fileInAPIUrl(): string {
-    return environment.PhotoFileAPIUrl + '/' + this.fileUrl;
+    if (this.fileUrl) {
+      return environment.PhotoFileAPIUrl + '/' + this.fileUrl;
+    }
   }
   get thumbnailFileInAPIUrl(): string {
-    return environment.PhotoFileAPIUrl + '/' + this.thumbnailFileUrl;
+    if (this.thumbnailFileUrl) {
+      return environment.PhotoFileAPIUrl + '/' + this.thumbnailFileUrl;
+    }
   }
 
   init(data: any) {

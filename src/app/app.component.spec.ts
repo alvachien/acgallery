@@ -10,9 +10,10 @@ import { BehaviorSubject, of } from 'rxjs';
 import { Router, ActivatedRoute, UrlSegment } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NO_ERRORS_SCHEMA,  } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { HttpLoaderTestFactory } from '../testing';
+import { HttpLoaderTestFactory, RouterLinkStubDirective } from '../testing';
 import { AlbumService, PhotoService, UIStatusService, AuthService, UserDetailService, } from './services';
 import { UserAuthInfo } from './model';
 
@@ -39,11 +40,11 @@ describe('AppComponent', () => {
         RouterTestingModule,
         BrowserAnimationsModule,
         TranslateModule.forRoot({
-            loader: {
+          loader: {
             provide: TranslateLoader,
             useFactory: HttpLoaderTestFactory,
             deps: [HttpClient],
-            },
+          },
         }),
       ],
       declarations: [
@@ -52,10 +53,10 @@ describe('AppComponent', () => {
       providers: [
         TranslateService,
         UIStatusService,
-        { provide: Router, useValue: routerSpy },
         { provide: AuthService, useValue: authServiceStub },
         { provide: UserDetailService, useValue: userDetailSrv },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 
