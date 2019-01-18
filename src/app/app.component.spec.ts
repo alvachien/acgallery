@@ -1,7 +1,6 @@
 import { TestBed, async } from '@angular/core/testing';
 import { MatIconModule, MatToolbarModule, MatSidenavModule, MatExpansionModule, MatDividerModule, MatTooltipModule,
-  MatMenuModule,
-  MatListModule, } from '@angular/material';
+  MatMenuModule, MatListModule } from '@angular/material';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -10,11 +9,11 @@ import { BehaviorSubject, of } from 'rxjs';
 import { Router, ActivatedRoute, UrlSegment } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NO_ERRORS_SCHEMA,  } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { HttpLoaderTestFactory, RouterLinkStubDirective } from '../testing';
-import { AlbumService, PhotoService, UIStatusService, AuthService, UserDetailService, } from './services';
+import { AlbumService, PhotoService, UIStatusService, AuthService, UserDetailService } from './services';
 import { UserAuthInfo } from './model';
 
 describe('AppComponent', () => {
