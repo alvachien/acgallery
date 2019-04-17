@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  CurrentVersion: '0.4.2',
+  CurrentVersion: '0.4.3',
   CurrentReleaseDate: '2019.6.1',
   LoggingLevel: 4, // Debug
 

@@ -7,7 +7,7 @@ import { environment } from '../environments/environment';
 import { AuthService, UIStatusService, UserDetailService } from './services';
 import { Observable, Subscription, ReplaySubject, pipe } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { MediaChange, ObservableMedia } from '@angular/flex-layout';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
 
 @Component({
   selector: 'acgallery-root',
@@ -35,23 +35,23 @@ export class AppComponent implements OnInit, OnDestroy {
     private _usrdetailService: UserDetailService,
     private _zone: NgZone,
     private _router: Router,
-    private _media: ObservableMedia) {
+    private _media: MediaObserver) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Entering AppComponent constructor');
     }
 
     this._watcherMedia = this._media.asObservable()
       .pipe(takeUntil(this._destroyed$))
-      .subscribe((change: MediaChange) => {
+      .subscribe((change: MediaChange[]) => {
       if (environment.LoggingLevel >= LogLevel.Debug) {
-        console.log(`ACGallery [Debug]: Entering constructor of AppComponent: ${change.mqAlias} = (${change.mediaQuery})`);
+        console.log(`ACGallery [Debug]: Entering constructor of AppComponent: ${change[0].mqAlias} = (${change[0].mediaQuery})`);
       }
       // xs	'screen and (max-width: 599px)'
       // sm	'screen and (min-width: 600px) and (max-width: 959px)'
       // md	'screen and (min-width: 960px) and (max-width: 1279px)'
       // lg	'screen and (min-width: 1280px) and (max-width: 1919px)'
       // xl	'screen and (min-width: 1920px) and (max-width: 5000px)'
-      if ( change.mqAlias === 'xs') {
+      if ( change[0].mqAlias === 'xs') {
         this.isXSScreen = true;
         this.sidenavMode = 'over';
       } else {

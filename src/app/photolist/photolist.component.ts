@@ -6,7 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http/';
 import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
 import { LogLevel, Album, AlbumPhotoByAlbum, Photo, UpdPhoto } from '../model';
 import { environment } from '../../environments/environment';
-import { MediaChange, ObservableMedia } from '@angular/flex-layout';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { takeUntil } from 'rxjs/operators';
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
@@ -37,7 +37,7 @@ export class PhotolistComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _viewContainerRef: ViewContainerRef,
     private _uistatusService: UIStatusService,
-    private _media: ObservableMedia,
+    private _media: MediaObserver,
     private _photoService: PhotoService,
     private _authService: AuthService,
     private _snackBar: MatSnackBar,
@@ -57,8 +57,8 @@ export class PhotolistComponent implements OnInit, OnDestroy {
 
     this._destroyed$ = new ReplaySubject(1);
     this._watcherMedia = this._media.asObservable()
-      .pipe(takeUntil(this._destroyed$)).subscribe((change: MediaChange) => {
-      this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
+      .pipe(takeUntil(this._destroyed$)).subscribe((change: MediaChange[]) => {
+      this.activeMediaQuery = change ? `'${change[0].mqAlias}' = (${change[0].mediaQuery})` : '';
       if (environment.LoggingLevel >= LogLevel.Debug) {
         console.log(`ACGallery [Debug]: Entering PhotolistComponent, ngOnInit, MediaServer: ${this.activeMediaQuery}`);
       }
@@ -68,13 +68,13 @@ export class PhotolistComponent implements OnInit, OnDestroy {
       // md	'screen and (min-width: 960px) and (max-width: 1279px)'
       // lg	'screen and (min-width: 1280px) and (max-width: 1919px)'
       // xl	'screen and (min-width: 1920px) and (max-width: 5000px)'
-      if ( change.mqAlias === 'xs') {
+      if ( change[0].mqAlias === 'xs') {
         this.clnGridCount = 1;
-      } else if (change.mqAlias === 'sm') {
+      } else if (change[0].mqAlias === 'sm') {
         this.clnGridCount = 2;
-      } else if (change.mqAlias === 'md') {
+      } else if (change[0].mqAlias === 'md') {
         this.clnGridCount = 3;
-      } else if (change.mqAlias === 'lg') {
+      } else if (change[0].mqAlias === 'lg') {
         this.clnGridCount = 4;
       } else {
         this.clnGridCount = 6;

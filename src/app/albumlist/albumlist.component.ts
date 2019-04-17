@@ -3,7 +3,7 @@ import { Observable, Subscription, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PageEvent, MatSnackBar } from '@angular/material';
-import { MediaChange, ObservableMedia } from '@angular/flex-layout';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
 
 import { environment } from '../../environments/environment';
 import { AuthService, PhotoService, AlbumService, UIStatusService } from '../services';
@@ -37,7 +37,7 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _zone: NgZone,
     private _uiStatus: UIStatusService,
-    private _media: ObservableMedia,
+    private _media: MediaObserver,
     private _snackbar: MatSnackBar) {
     this.albumAmount = 0;
     this.clnGridCount = 3; // Default
@@ -50,8 +50,8 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
 
     this._destroyed$ = new ReplaySubject(1);
 
-    this._watcherMedia = this._media.subscribe((change: MediaChange) => {
-      this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
+    this._watcherMedia = this._media.asObservable().subscribe((change: MediaChange[]) => {
+      this.activeMediaQuery = change ? `'${change[0].mqAlias}' = (${change[0].mediaQuery})` : '';
       if (environment.LoggingLevel >= LogLevel.Debug) {
         console.log(`ACGallery [Debug]: Entering AlbumlistComponent ngOnInit: ${this.activeMediaQuery}`);
       }
@@ -60,13 +60,13 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
       // md	'screen and (min-width: 960px) and (max-width: 1279px)'
       // lg	'screen and (min-width: 1280px) and (max-width: 1919px)'
       // xl	'screen and (min-width: 1920px) and (max-width: 5000px)'
-      if ( change.mqAlias === 'xs') {
+      if ( change[0].mqAlias === 'xs') {
         this.clnGridCount = 1;
-      } else if (change.mqAlias === 'sm') {
+      } else if (change[0].mqAlias === 'sm') {
         this.clnGridCount = 2;
-      } else if (change.mqAlias === 'md') {
+      } else if (change[0].mqAlias === 'md') {
         this.clnGridCount = 3;
-      } else if (change.mqAlias === 'lg') {
+      } else if (change[0].mqAlias === 'lg') {
         this.clnGridCount = 4;
       } else {
         this.clnGridCount = 6;

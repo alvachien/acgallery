@@ -9,7 +9,7 @@ import { GeneralFilterValueType, GeneralFilterItem, UIDisplayString, UIDisplaySt
 import { PhotoService, UIStatusService } from '../services';
 import * as moment from 'moment';
 import { environment } from '../../environments/environment';
-import { MediaChange, ObservableMedia } from '@angular/flex-layout';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { PhotoListPhotoEXIFDialog } from '../photolist';
 declare var PhotoSwipe;
 declare var PhotoSwipeUI_Default;
@@ -52,7 +52,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit, OnDestroy {
     private _uistatusService: UIStatusService,
     private _dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private _media: ObservableMedia) {
+    private _media: MediaObserver) {
     this.resultsLength = 0;
     this.allOperators = UIDisplayStringUtil.getGeneralFilterOperatorDisplayStrings();
     this.allFields = [{
@@ -95,8 +95,8 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this._watcherMedia = this._media.asObservable()
       .pipe(takeUntil(this._destroyed$))
-      .subscribe((change: MediaChange) => {
-      this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
+      .subscribe((change: MediaChange[]) => {
+      this.activeMediaQuery = change ? `'${change[0].mqAlias}' = (${change[0].mediaQuery})` : '';
       if (environment.LoggingLevel >= LogLevel.Debug) {
         console.log(`ACGallery [Debug]: Entering constructor of PhotoSearchComponent: ${this.activeMediaQuery}`);
       }
@@ -105,13 +105,13 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit, OnDestroy {
       // md	'screen and (min-width: 960px) and (max-width: 1279px)'
       // lg	'screen and (min-width: 1280px) and (max-width: 1919px)'
       // xl	'screen and (min-width: 1920px) and (max-width: 5000px)'
-      if ( change.mqAlias === 'xs') {
+      if ( change[0].mqAlias === 'xs') {
         this.clnGridCount = 1;
-      } else if (change.mqAlias === 'sm') {
+      } else if (change[0].mqAlias === 'sm') {
         this.clnGridCount = 2;
-      } else if (change.mqAlias === 'md') {
+      } else if (change[0].mqAlias === 'md') {
         this.clnGridCount = 3;
-      } else if (change.mqAlias === 'lg') {
+      } else if (change[0].mqAlias === 'lg') {
         this.clnGridCount = 4;
       } else {
         this.clnGridCount = 6;

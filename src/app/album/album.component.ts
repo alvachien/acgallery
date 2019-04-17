@@ -5,7 +5,7 @@ import { Observable, Subject, forkJoin, Subscription, ReplaySubject } from 'rxjs
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog, MatDialogRef, MatDialogConfig, MatSnackBar, PageEvent, MAT_DIALOG_DATA } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http/';
-import { MediaChange, ObservableMedia } from '@angular/flex-layout';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
 
 import { environment } from '../../environments/environment';
 import { UIMode, LogLevel, Album, Photo } from '../model';
@@ -46,7 +46,7 @@ export class AlbumComponent implements OnInit, OnDestroy {
     private _albumService: AlbumService,
     private _photoService: PhotoService,
     private _uistatus: UIStatusService,
-    private _media: ObservableMedia,
+    private _media: MediaObserver,
     private _snackBar: MatSnackBar,
     private _dialog: MatDialog) {
     if (environment.LoggingLevel >= LogLevel.Debug) {
@@ -65,8 +65,8 @@ export class AlbumComponent implements OnInit, OnDestroy {
     this._destroyed$ = new ReplaySubject(1);
 
     // Media observer
-    this._watcherMedia = this._media.asObservable().pipe(takeUntil(this._destroyed$)).subscribe((change: MediaChange) => {
-      this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
+    this._watcherMedia = this._media.asObservable().pipe(takeUntil(this._destroyed$)).subscribe((change: MediaChange[]) => {
+      this.activeMediaQuery = change ? `'${change[0].mqAlias}' = (${change[0].mediaQuery})` : '';
       if (environment.LoggingLevel >= LogLevel.Debug) {
         console.log(`ACGallery [Debug]: Entering AlbumComponent ngOnInit, MeidaChange: ${this.activeMediaQuery}`);
       }
@@ -76,13 +76,13 @@ export class AlbumComponent implements OnInit, OnDestroy {
       // md	'screen and (min-width: 960px) and (max-width: 1279px)'
       // lg	'screen and (min-width: 1280px) and (max-width: 1919px)'
       // xl	'screen and (min-width: 1920px) and (max-width: 5000px)'
-      if ( change.mqAlias === 'xs') {
+      if ( change[0].mqAlias === 'xs') {
         this.clnGridCount = 1;
-      } else if (change.mqAlias === 'sm') {
+      } else if (change[0].mqAlias === 'sm') {
         this.clnGridCount = 2;
-      } else if (change.mqAlias === 'md') {
+      } else if (change[0].mqAlias === 'md') {
         this.clnGridCount = 3;
-      } else if (change.mqAlias === 'lg') {
+      } else if (change[0].mqAlias === 'lg') {
         this.clnGridCount = 4;
       } else {
         this.clnGridCount = 6;

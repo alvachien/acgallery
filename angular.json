@@ -1,5 +1,5 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "$schema": "./node_modules/@angular-devkit/core/src/workspace/workspace-schema.json",
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -21,16 +21,11 @@
               "src/logincallback.html"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/photoswipe/dist/photoswipe.css",
               "node_modules/photoswipe/dist/default-skin/default-skin.css",
               "src/styles.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/tether/dist/js/tether.min.js",
-              "node_modules/popper.js/dist/umd/popper.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/hammerjs/hammer.min.js",
               "node_modules/photoswipe/dist/photoswipe.min.js",
               "node_modules/photoswipe/dist/photoswipe-ui-default.min.js",
@@ -105,10 +100,6 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/tether/dist/js/tether.min.js",
-              "node_modules/popper.js/dist/umd/popper.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/hammerjs/hammer.min.js",
               "node_modules/photoswipe/dist/photoswipe.min.js",
               "node_modules/photoswipe/dist/photoswipe-ui-default.min.js",
@@ -116,7 +107,6 @@
               "node_modules/echarts-wordcloud/dist/echarts-wordcloud.min.js"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/photoswipe/dist/photoswipe.css",
               "node_modules/photoswipe/dist/default-skin/default-skin.css",
               "src/styles.css"
