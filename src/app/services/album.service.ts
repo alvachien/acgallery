@@ -1,10 +1,11 @@
-import { environment } from '../../environments/environment';
 import { Injectable, EventEmitter } from '@angular/core';
+import { Subject, Observable, throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { HttpParams, HttpClient, HttpHeaders, HttpResponse, HttpRequest, HttpErrorResponse } from '@angular/common/http';
+
+import { environment } from '../../environments/environment';
 import { Album, Photo, AlbumPhotoLink, AlbumPhotoByAlbum, AlbumPhotoByPhoto } from '../model';
 import { AuthService } from './auth.service';
-import { Subject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { HttpParams, HttpClient, HttpHeaders, HttpResponse, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class AlbumService {
@@ -89,7 +90,7 @@ export class AlbumService {
   /**
    * Load all albums which current user can see.
    */
-  public loadAlbums(top?: number, skip?: number): Observable<any> {
+  public loadAlbums(top?: number, skip?: number): Observable<Album[]> {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
       .append('Accept', 'application/json');
@@ -102,12 +103,31 @@ export class AlbumService {
       params = params.append('skip', skip.toString());
     }
 
+    let req: any;
     if (this._authService.authSubject.getValue().isAuthorized) {
       headers = headers.append('Authorization', 'Bearer ' + this._authService.authSubject.getValue().getAccessToken());
-      return this._http.get(environment.AlbumAPIUrl, { headers: headers, params: params });
+      req = this._http.get(environment.AlbumAPIUrl, { headers: headers, params: params });
     }
 
-    return this._http.get(environment.AlbumAPIUrl, { headers: headers, params: params });
+    req = this._http.get(environment.AlbumAPIUrl, { headers: headers, params: params });
+
+    return req.pipe(map((response: HttpResponse<any>) => {
+      let listAlbum: Album[] = [];
+      let resdata: any = <any>response;
+      if (resdata && resdata.contentList) {
+        for (const alb of resdata.contentList) {
+          const album = new Album();
+          album.initex(alb);
+
+          listAlbum.push(album);
+        }
+      }
+
+      return listAlbum;
+    }),
+    catchError((error: HttpErrorResponse) => {
+      return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+    }));
   }
 
   /**

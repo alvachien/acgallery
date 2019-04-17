@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, NgZone, ViewChild, Renderer, ElementRef,
-  Inject, } from '@angular/core';
+  Inject } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { FineUploaderBasic } from 'fine-uploader/lib/core';
@@ -8,7 +8,7 @@ import { Album, AlbumPhotoLink, AlbumPhotoByAlbum } from '../model/album';
 import { LogLevel, Photo, UpdPhoto } from '../model';
 import { environment } from '../../environments/environment';
 import { MatSnackBar, MatPaginator, MatTableDataSource, MatButton, MatVerticalStepper, MatChipInputEvent,
-  MatDialogRef, MAT_DIALOG_DATA, MatDialog, } from '@angular/material';
+  MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 
@@ -35,7 +35,7 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   // Renaming
   public renamingInfo: RenamingDialogData = {
     prefixName: 'Photo',
-    seqNumber: 1
+    seqNumber: 1,
   };
 
   private _photoMinKBSize: number;
@@ -118,18 +118,12 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.paginator = this.paginatorPhoto;
     // this.dataSourceAlbum.paginator = this.paginatorAlbum;
 
-    this._albumService.loadAlbums().subscribe((x: any) => {
-      if (x && x.contentList) {
-        const allAlbum: Album[] = [];
-        for (const alb of x.contentList) {
-          const album = new Album();
-          album.initex(alb);
-
-          allAlbum.push(album);
-        }
-
-        this.dataSourceAlbum.data = allAlbum;
-      }
+    this._albumService.loadAlbums().subscribe((x: Album[]) => {
+      this.dataSourceAlbum.data = x;
+    }, (error: any) => {
+      this._snackBar.open(error, undefined, {
+        duration: 2000,
+      });
     });
   }
 

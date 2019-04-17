@@ -114,13 +114,8 @@ export class PhotochangeComponent implements OnInit, OnDestroy {
       forkJoin([s1, s2])
         .pipe(takeUntil(this._destroyed$))
         .subscribe((y: any) => {
-        if (y[0] && y[0].contentList) {
-          for (const alb of y[0].contentList) {
-            const album = new Album();
-            album.initex(alb);
-
-            allAlbum.push(album);
-          }
+        if (y[0]) {
+          allAlbum.push(...y[0]);
         }
 
         if (y[1] && y[1].contentList) {

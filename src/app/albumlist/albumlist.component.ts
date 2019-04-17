@@ -115,29 +115,16 @@ export class AlbumlistComponent implements OnInit, OnDestroy {
   private _loadPhotoIntoPage(skipamt: number) {
     this._albumService.loadAlbums(this.pageSize, skipamt)
       .pipe(takeUntil(this._destroyed$))
-      .subscribe((x: any) => {
-        if (x && x.contentList) {
-          this._zone.run(() => {
-            this.albumes = [];
-            this.albumAmount = x.totalCount;
-            for (const alb of x.contentList) {
-              const album = new Album();
-              album.initex(alb);
-
-              this.albumes.push(album);
-            }
-          });
-        }
-      }, (error: HttpErrorResponse) => {
+      .subscribe((x: Album[]) => {
+        this.albumes = x;
+      }, (error: string) => {
       if (environment.LoggingLevel >= LogLevel.Error) {
         console.error(`AC Gallery [Error]: Failed in _loadPhotoIntoPage of AlbumListComponent ${error}`);
       }
 
-      this._snackbar.open(error.message, undefined, {
-        duration: 3000,
+      this._snackbar.open(error, undefined, {
+        duration: 2000,
       });
-    }, () => {
-      // Do nothing
     });
   }
 }
