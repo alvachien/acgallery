@@ -15,14 +15,14 @@ import { MediaChange, MediaObserver } from '@angular/flex-layout';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  private _watcherMedia: Subscription;
-  private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  private watcherMedia: Subscription;
+  private destroyed$: ReplaySubject<boolean>;
 
   public isLoggedIn: boolean;
   public titleLogin: string;
   public arLangs: AppLang[];
   public selectedLanguage = '';
-  @ViewChild('pswp', {static: true}) elemPSWP;
+  @ViewChild('pswp', { static: true }) elemPSWP;
   public isXSScreen = false;
   public sidenavMode: string;
   get currentVersion(): string {
@@ -39,37 +39,44 @@ export class AppComponent implements OnInit, OnDestroy {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Entering AppComponent constructor');
     }
+  }
 
-    this._watcherMedia = this._media.asObservable()
-      .pipe(takeUntil(this._destroyed$))
+  ngOnInit(): void {
+    if (this.elemPSWP) {
+      this._uistatusService.elemPSWP = this.elemPSWP.nativeElement;
+    }
+    this.destroyed$ = new ReplaySubject(1);
+
+    this.watcherMedia = this._media.asObservable()
+      .pipe(takeUntil(this.destroyed$))
       .subscribe((change: MediaChange[]) => {
-      if (environment.LoggingLevel >= LogLevel.Debug) {
-        console.log(`ACGallery [Debug]: Entering constructor of AppComponent: ${change[0].mqAlias} = (${change[0].mediaQuery})`);
-      }
-      // xs	'screen and (max-width: 599px)'
-      // sm	'screen and (min-width: 600px) and (max-width: 959px)'
-      // md	'screen and (min-width: 960px) and (max-width: 1279px)'
-      // lg	'screen and (min-width: 1280px) and (max-width: 1919px)'
-      // xl	'screen and (min-width: 1920px) and (max-width: 5000px)'
-      if ( change[0].mqAlias === 'xs') {
-        this.isXSScreen = true;
-        this.sidenavMode = 'over';
-      } else {
-        this.isXSScreen = false;
-        this.sidenavMode = 'side';
-      }
-    });
+        if (environment.LoggingLevel >= LogLevel.Debug) {
+          console.log(`ACGallery [Debug]: Entering constructor of AppComponent: ${change[0].mqAlias} = (${change[0].mediaQuery})`);
+        }
+        // xs	'screen and (max-width: 599px)'
+        // sm	'screen and (min-width: 600px) and (max-width: 959px)'
+        // md	'screen and (min-width: 960px) and (max-width: 1279px)'
+        // lg	'screen and (min-width: 1280px) and (max-width: 1919px)'
+        // xl	'screen and (min-width: 1920px) and (max-width: 5000px)'
+        if (change[0].mqAlias === 'xs') {
+          this.isXSScreen = true;
+          this.sidenavMode = 'over';
+        } else {
+          this.isXSScreen = false;
+          this.sidenavMode = 'side';
+        }
+      });
 
     this.initLang();
 
     // Register the Auth service
-    this._authService.authSubject.pipe(takeUntil(this._destroyed$)).subscribe((x: any) => {
+    this._authService.authSubject.pipe(takeUntil(this.destroyed$)).subscribe((x: any) => {
       this._zone.run(() => {
         this.isLoggedIn = x.isAuthorized;
         if (this.isLoggedIn) {
           this.titleLogin = x.getUserName();
 
-          this._usrdetailService.readDetailInfo().pipe(takeUntil(this._destroyed$)).subscribe((detail: any) => {
+          this._usrdetailService.readDetailInfo().pipe(takeUntil(this.destroyed$)).subscribe((detail: any) => {
             // Do nothing
             if (detail && detail.displayAs) {
               this.titleLogin = detail.displayAs;
@@ -97,22 +104,18 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
-    if (this.elemPSWP) {
-      this._uistatusService.elemPSWP = this.elemPSWP.nativeElement;
-    }
-  }
-
   ngOnDestroy(): void {
     if (environment.LoggingLevel >= LogLevel.Debug) {
       console.log('ACGallery [Debug]: Entering AppComponent ngOnDestroy...');
     }
-    if (this._watcherMedia) {
-      this._watcherMedia.unsubscribe();
+    if (this.watcherMedia) {
+      this.watcherMedia.unsubscribe();
     }
 
-    this._destroyed$.next(true);
-    this._destroyed$.complete();
+    if (this.destroyed$) {
+      this.destroyed$.next(true);
+      this.destroyed$.complete();
+    }
   }
 
   // Handlers
