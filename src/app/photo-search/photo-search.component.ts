@@ -40,7 +40,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   private _watcherMedia: Subscription;
   activeMediaQuery = '';
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   isLoadingResults: boolean = false;
   resultsLength: number;
   public subjFilters: BehaviorSubject<any[]> = new BehaviorSubject([]);

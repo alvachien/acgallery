@@ -5,8 +5,8 @@
 
 export const environment = {
   production: false,
-  CurrentVersion: '0.4.3',
-  CurrentReleaseDate: '2019.6.1',
+  CurrentVersion: '0.4.4',
+  CurrentReleaseDate: '2019.7.10',
   LoggingLevel: 4, // Debug
 
   StatisticsAPIUrl: 'http://localhost:25325/api/statistics',

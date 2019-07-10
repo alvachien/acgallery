@@ -12,7 +12,7 @@ declare var echarts: any;
 export class TagCloudComponent implements OnInit, AfterViewInit {
   private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   tagTerm: string;
-  @ViewChild('tagcloud') tagcloud: ElementRef;
+  @ViewChild('tagcloud', {static: true}) tagcloud: ElementRef;
 
   constructor(private _photoService: PhotoService) { }
 

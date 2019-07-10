@@ -11,7 +11,7 @@
     ],
     "outDir": "../out-tsc/spec",
     "module": "commonjs",
-    "target": "es5",
+    "target": "es2015",
     "baseUrl": "src",
     "types": [
       "jasmine",

@@ -10,9 +10,10 @@
       "dom"
     ],
     "outDir": "../out-tsc/app",
-    "target": "es5",
+    "target": "es2015",
     "module": "es2015",
     "baseUrl": "",
+    "enableIvy": true,
     "types": []
   },
   "exclude": [

@@ -28,7 +28,7 @@ export class SplitDirective implements AfterContentInit, OnDestroy {
   @Input('ngxSplit')
   direction: any = 'row';
 
-  @ContentChild(SplitHandleDirective) handle: SplitHandleDirective;
+  @ContentChild(SplitHandleDirective, {static: true}) handle: SplitHandleDirective;
   @ContentChildren(SplitAreaDirective) areas: QueryList<SplitAreaDirective>;
 
   constructor(private elementRef: ElementRef,
@@ -36,7 +36,7 @@ export class SplitDirective implements AfterContentInit, OnDestroy {
 
   ngAfterContentInit(): void {
     if (isPlatformBrowser(this._platformId)) {
-      this.watcher = this.handle.drag.subscribe(pos => this.onDrag(pos));
+      this.watcher = this.handle.drag.subscribe((pos: any) => this.onDrag(pos));
     }
   }
 

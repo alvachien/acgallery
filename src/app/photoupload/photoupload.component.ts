@@ -45,9 +45,9 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
   public uploader: any = null;
   public albumCreate: Album;
   public arAssignMode: any[] = [];
-  @ViewChild('uploadFileRef') elemUploadFile: MatButton;
-  @ViewChild(MatPaginator) paginatorPhoto: MatPaginator;
-  @ViewChild(MatVerticalStepper) stepper: MatVerticalStepper;
+  @ViewChild('uploadFileRef', {static: true}) elemUploadFile: MatButton;
+  @ViewChild(MatPaginator, {static: true}) paginatorPhoto: MatPaginator;
+  @ViewChild(MatVerticalStepper, {static: true}) stepper: MatVerticalStepper;
 
   displayedColumns = ['thumbnail', 'id', 'name', 'size', 'dimension', 'ispublic', 'title', 'desp', 'tag'];
   dataSource = new MatTableDataSource<UpdPhoto>([]);

@@ -22,7 +22,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public titleLogin: string;
   public arLangs: AppLang[];
   public selectedLanguage = '';
-  @ViewChild('pswp') elemPSWP;
+  @ViewChild('pswp', {static: true}) elemPSWP;
   public isXSScreen = false;
   public sidenavMode: string;
   get currentVersion(): string {
