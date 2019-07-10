@@ -13,8 +13,10 @@
     "target": "es2015",
     "module": "es2015",
     "baseUrl": "",
-    "enableIvy": true,
     "types": []
+  },
+  "angularCompilerOptions": {
+    "enableIvy": true
   },
   "exclude": [
     "test.ts",
