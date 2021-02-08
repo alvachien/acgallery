@@ -1,167 +1,54 @@
-<div class="app-container" [class.app-is-mobile]="isXSScreen">
-  <mat-toolbar color="primary" class="app-toolbar">
-    <button mat-icon-button (click)="snav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <h1 class="app-title-name">AC Photo Gallery</h1>
-    <span class="toolbar-spacer"></span>
-
-    <button mat-icon-button *ngIf="!isLoggedIn" (click)="onLogon()" title="Logon" matTooltip="{{'Login.Login' | translate }}">
-      <mat-icon>account_box</mat-icon>
-    </button>
-    <button mat-icon-button *ngIf="isLoggedIn" [matMenuTriggerFor]="matMenuUser">
-      <mat-icon>account_box</mat-icon>
-    </button>
-    <mat-menu #matMenuUser="matMenu" overlapTrigger="false" xPosition="after" yPosition="below">
-      <button mat-menu-item disabled>{{titleLogin}}</button>
-      <button mat-menu-item (click)="onUserDetail()">
-        <mat-icon color="accent">account_circle</mat-icon>
-        <span class="title">{{'Login.UserDetail' | translate}}</span>
-      </button>
-      <button mat-menu-item (click)="onLogout()">
-        <mat-icon color="accent">exit_to_app</mat-icon>
-        <span>{{'Login.Logout' | translate}}</span>
-      </button>
-    </mat-menu>
-
-    <button mat-icon-button mat-button [matMenuTriggerFor]="matMenuLanguage">
-      <mat-icon>language</mat-icon>
-    </button>
-    <mat-menu #matMenuLanguage="matMenu" overlapTrigger="false" xPosition="after" yPosition="below">
-      <button mat-menu-item *ngFor="let lang of arLangs" (click)="onLanguageChanged(lang.Value)">
-        <mat-icon *ngIf="selectedLanguage === lang.Value">check</mat-icon>
-        {{lang.DisplayString | translate}}
-      </button>
-    </mat-menu>
-
-    <a mat-icon-button href="https://github.com/alvachien/acgallery" target="_blank" aria-label="GitHub Repository">
-      <mat-icon>code</mat-icon>
-    </a>
-
-    <button mat-icon-button mat-button [matMenuTriggerFor]="matMenuApps">
-      <mat-icon>apps</mat-icon>
-    </button>
-    <mat-menu #matMenuApps="matMenu" overlapTrigger="false" xPosition="after" yPosition="below">
-      <button mat-menu-item (click)="onOpenHIH()">H.I.H.</button>
-      <button mat-menu-item (click)="onOpenMathExcises()">Math Exercise</button>
-      <button mat-menu-item disabled>Photo Gallery</button>
-    </mat-menu>
-  </mat-toolbar>
-
-  <mat-sidenav-container class="app-sidenav-container" [style.marginTop.px]="isXSScreen ? 56 : 0">
-    <mat-sidenav #snav [mode]="sidenavMode" [fixedInViewport]="isXSScreen" fixedTopGap="56">
-      <mat-accordion class="sidenav-headers-align">
-        <mat-expansion-panel hideToggle="false">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <mat-icon>home</mat-icon> {{'Nav.Home' | translate}}</mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-nav-list>
-            <a mat-list-item routerLink="/home" routerLinkActive="active">{{'Nav.Home' | translate}}</a>
-            <a mat-list-item routerLink="/tagcloud" routerLinkActive="active">{{'Common.TagCloud' | translate}}</a>
-          </mat-nav-list>
-        </mat-expansion-panel>
-        <mat-expansion-panel hideToggle="false">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <mat-icon>photo_album</mat-icon>{{'Nav.Album' | translate}}</mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-nav-list>
-            <a mat-list-item routerLink="/album" routerLinkActive="active">{{'Nav.Album' | translate}}</a>
-            <a mat-list-item routerLink="/album/create" *ngIf="isLoggedIn" routerLinkActive="active">{{'Nav.AlbumCreate' | translate}}</a>
-          </mat-nav-list>
-        </mat-expansion-panel>
-        <mat-expansion-panel hideToggle="false">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <mat-icon>photo</mat-icon>{{'Nav.Photo' | translate}}</mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-nav-list>
-            <a mat-list-item routerLink="/photo" routerLinkActive="active">{{'Nav.Photo' | translate}}</a>
-            <a mat-list-item routerLink="/photo/search" routerLinkActive="active">{{'Common.Search' | translate}}</a>
-            <a mat-list-item routerLink="/photo/upload" *ngIf="isLoggedIn" routerLinkActive="active">{{'Nav.PhotoUpload' | translate}}</a>
-          </mat-nav-list>
-        </mat-expansion-panel>
-        <mat-expansion-panel hideToggle="false">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <mat-icon>info</mat-icon>{{'Nav.About' | translate}}</mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-nav-list>
-            <a mat-list-item routerLink="/about" routerLinkActive="active">{{'Nav.About' | translate}}</a>
-            <a mat-list-item routerLink="/credits" routerLinkActive="active">{{'Nav.Credits'| translate}}</a>
-            <a mat-list-item (click)="onOpenHIH()">H.I.H.</a>
-            <a mat-list-item (click)="onOpenMathExcises()">Math Exercise</a>
-            <a mat-list-item href="https://www.flickr.com/photos/alvachien" target="_blank">Flickr</a>
-            <a mat-list-item href="https://www.facebook.com/alva.chien" target="_blank">Facebook</a>
-          </mat-nav-list>
-        </mat-expansion-panel>
-        <mat-divider></mat-divider>
-        <div class="version-text">{{'Nav.Version' | translate}}: {{currentVersion}}</div>
-      </mat-accordion>
-    </mat-sidenav>
-
-    <mat-sidenav-content>
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-</div>
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true" #pswp>
-
-  <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-  <div class="pswp__bg"></div>
-
-  <!-- Slides wrapper with overflow:hidden. -->
-  <div class="pswp__scroll-wrap">
-
-    <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-    <div class="pswp__container">
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar"
+            nzCollapsible
+            nzWidth="256px"
+            nzBreakpoint="md"
+            [(nzCollapsed)]="isCollapsed"
+            [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <a href="https://ng.ant.design/" target="_blank">
+        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+        <h1>Ant Design Of Angular</h1>
+      </a>
     </div>
-
-    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-    <div class="pswp__ui pswp__ui--hidden">
-
-      <div class="pswp__top-bar">
-
-        <!--  Controls are self-explanatory. Order can be changed. -->
-
-        <div class="pswp__counter"></div>
-
-        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-        <button class="pswp__button pswp__button--share" title="Share"></button>
-
-        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-        <!-- element will get class pswp__preloader--active when preloader is running -->
-        <div class="pswp__preloader">
-          <div class="pswp__preloader__icn">
-            <div class="pswp__preloader__cut">
-              <div class="pswp__preloader__donut"></div>
-            </div>
-          </div>
-        </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/welcome">Welcome</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a>Monitor</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a>Workplace</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a>Basic Form</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+            <i class="trigger"
+               nz-icon
+               [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            ></i>
+        </span>
       </div>
-
-      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-        <div class="pswp__share-tooltip"></div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
       </div>
-      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
-      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
-      <div class="pswp__caption">
-        <div class="pswp__caption__center"></div>
-      </div>
-    </div>
-  </div>
-</div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

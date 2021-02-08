@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { HashLocationStrategy, LocationStrategy, registerLocaleData } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -74,6 +74,14 @@ import { OperatorFilterPipe } from './pipes';
 import { TagCloudComponent } from './tag-cloud';
 import { RatingInputComponent } from './rating-input';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { zh_CN } from 'ng-zorro-antd/i18n';
+import zh from '@angular/common/locales/zh';
+import { IconsProviderModule } from './icons-provider.module';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+
+registerLocaleData(zh);
 
 export function funcHttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
@@ -171,6 +179,9 @@ export function funcHttpLoaderFactory(http: HttpClient) {
     AppRoutingModule,
     LayoutModule,
     NgxEchartsModule,
+    IconsProviderModule,
+    NzLayoutModule,
+    NzMenuModule,
   ],
   providers: [
     AuthService,
@@ -182,6 +193,7 @@ export function funcHttpLoaderFactory(http: HttpClient) {
     CanDeactivateGuardService,
     UserDetailService,
     { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: NZ_I18N, useValue: zh_CN },
   ],
   bootstrap: [AppComponent],
 })

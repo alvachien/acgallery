@@ -23,9 +23,15 @@
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
-              "src/logincallback.html"
+              "src/logincallback.html",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              }
             ],
             "styles": [
+              "src/theme.less",
               "node_modules/photoswipe/dist/photoswipe.css",
               "node_modules/photoswipe/dist/default-skin/default-skin.css",
               "src/styles.css"
