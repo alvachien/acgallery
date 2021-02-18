@@ -1,4 +1,4 @@
-import { UserAuthInfo, Album, Photo } from '../app/model';
+import { UserAuthInfo, Album, Photo } from '../app/models';
 import { User } from 'oidc-client';
 
 /**

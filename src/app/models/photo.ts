@@ -145,7 +145,7 @@ export class Photo {
 
 export class SelectablePhoto
   extends Photo
-  implements Common.SelectableObject<Boolean> {
+  implements Common.SelectableObject<boolean> {
   public isSelected: boolean;
 }
 
@@ -155,26 +155,26 @@ export class SelectablePhoto
 export class UpdPhoto {
   public imgSrc: string;
 
-  public ID: number;
-  public OrgName: string;
-  public Name: string;
-  public Width: number;
-  public Height: number;
-  public Size: string;
+  public id: number;
+  public orgName: string;
+  public name: string;
+  public width: number;
+  public height: number;
+  public size: string;
 
-  public Title: string;
-  public Desp: string;
-  public IsPublic: boolean;
+  public title: string;
+  public desp: string;
+  public isPublic: boolean;
 
-  public IsValid: boolean;
-  public ValidInfo: string;
-  get Dimension(): string {
-    return this.Width.toString() + ' X ' + this.Height.toString();
+  public isValid: boolean;
+  public validInfo: string;
+  get dimension(): string {
+    return this.width.toString() + ' X ' + this.height.toString();
   }
-  public Tags: string[] = [];
-  public Rating: number;
+  public tags: string[] = [];
+  public rating: number;
 
   constructor() {
-    this.IsPublic = true;
+    this.isPublic = true;
   }
 }

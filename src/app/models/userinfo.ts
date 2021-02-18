@@ -39,25 +39,25 @@ export class UserDetail {
       this.uploadFileMaxSize = +data.uploadFileMaxSize;
     }
     if (data && data.albumCreate) {
-      this.albumCreate = <boolean>data.albumCreate;
+      this.albumCreate = data.albumCreate as boolean;
     }
     if (data && data.albumChange) {
-      this.albumChange = <UserOperationAuthEnum>data.albumChange;
+      this.albumChange = data.albumChange as UserOperationAuthEnum;
     }
     if (data && data.albumDelete) {
-      this.albumDelete = <UserOperationAuthEnum>data.albumDelete;
+      this.albumDelete = data.albumDelete as UserOperationAuthEnum;
     }
     if (data && data.albumRead) {
-      this.albumRead = <UserOperationAuthEnum>data.albumRead;
+      this.albumRead = data.albumRead as UserOperationAuthEnum;
     }
     if (data && data.photoUpload) {
-      this.photoUpload = <boolean>data.photoUpload;
+      this.photoUpload = data.photoUpload as boolean;
     }
     if (data && data.photoChange) {
-      this.photoChange = <UserOperationAuthEnum>data.photoChange;
+      this.photoChange = data.photoChange as UserOperationAuthEnum;
     }
     if (data && data.photoDelete) {
-      this.photoDelete = <UserOperationAuthEnum>data.photoDelete;
+      this.photoDelete = data.photoDelete as UserOperationAuthEnum;
     }
   }
 }

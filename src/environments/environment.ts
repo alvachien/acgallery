@@ -5,9 +5,10 @@
 
 export const environment = {
   production: false,
-  CurrentVersion: '0.4.4',
-  CurrentReleaseDate: '2019.7.10',
-  LoggingLevel: 4, // Debug
+  currentVersion: '0.5.0',
+  currentReleaseDate: '2021.7.9',
+  loggingLevel: 4, // Debug
+  basehref: '/',
 
   StatisticsAPIUrl: 'http://localhost:25325/api/statistics',
   AlbumAPIUrl: 'http://localhost:25325/api/album',

@@ -102,9 +102,9 @@ export class UIDisplayString {
  */
 export class UIDisplayStringUtil {
   public static getUICommonLabelStrings(): UIDisplayString[] {
-    let arrst: UIDisplayString[] = [];
+    const arrst: UIDisplayString[] = [];
 
-    for (let se in UICommonLabelEnum) {
+    for (const se in UICommonLabelEnum) {
       if (Number.isNaN(+se)) {
         // Allowed
       } else {
@@ -120,15 +120,15 @@ export class UIDisplayStringUtil {
   }
 
   public static getGeneralFilterOperatorDisplayStrings(): UIDisplayString[] {
-    let arrst: UIDisplayString[] = [];
+    const arrst: UIDisplayString[] = [];
 
-    for (let rfe in GeneralFilterOperatorEnum) {
+    for (const rfe in GeneralFilterOperatorEnum) {
       if (Number.isNaN(+rfe)) {
         // Do nothing
       } else {
         arrst.push({
           value: +rfe,
-          i18nterm: UIDisplayStringUtil.getGeneralFilterOperatorDisplayString(<GeneralFilterOperatorEnum>+rfe),
+          i18nterm: UIDisplayStringUtil.getGeneralFilterOperatorDisplayString(+rfe),
           displaystring: '',
         });
       }
@@ -138,15 +138,15 @@ export class UIDisplayStringUtil {
   }
 
   public static getUserOperationAuthDisplayStrings(): UIDisplayString[] {
-    let arrst: UIDisplayString[] = [];
+    const arrst: UIDisplayString[] = [];
 
-    for (let rfe in UserOperationAuthEnum) {
+    for (const rfe in UserOperationAuthEnum) {
       if (Number.isNaN(+rfe)) {
         // Do nothing
       } else {
         arrst.push({
           value: +rfe,
-          i18nterm: UIDisplayStringUtil.getUserOperationAuthDisplayString(<UserOperationAuthEnum>+rfe),
+          i18nterm: UIDisplayStringUtil.getUserOperationAuthDisplayString(+rfe),
           displaystring: '',
         });
       }

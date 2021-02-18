@@ -1,8 +1,9 @@
 export const environment = {
   production: true,
-  CurrentVersion: '0.4.4',
-  CurrentReleaseDate: '2019.7.10',
-  LoggingLevel: 1, // Crash
+  currentVersion: '0.4.4',
+  currentReleaseDate: '2019.7.10',
+  loggingLevel: 1, // Crash
+  basehref: '/',
 
   StatisticsAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/statistics',
   AlbumAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/album',
