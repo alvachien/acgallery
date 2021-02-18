@@ -4,12 +4,15 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --ssl true -o --ssl-key ssl/server.key --ssl-cert ssl/server.crt",
     "build": "ng build",
+    "build-ali": "ng build --prod --base-href=/hih/",
     "test": "ng test",
+    "devtest": "ng test --code-coverage",
+    "test-headless": "ng test --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "gulp": "gulp"
+    "deploy-github": "git push origin :gh-pages && git subtree push --prefix dist origin gh-pages"
   },
   "private": true,
   "repository": {
@@ -18,6 +21,7 @@
   },
   "dependencies": {
     "@angular/animations": "^11.1.2",
+    "@angular/cdk": "^11.2.1",
     "@angular/common": "^11.1.2",
     "@angular/compiler": "^11.1.2",
     "@angular/core": "^11.1.2",
@@ -27,6 +31,7 @@
     "@angular/router": "^11.1.2",
     "@ngneat/transloco": "^2.20.0",
     "actslib": "^0.4.22",
+    "ng-gallery": "^5.0.0",
     "ng-zorro-antd": "^11.1.0",
     "oidc-client": "^1.11.5",
     "rxjs": "^6.6.3",

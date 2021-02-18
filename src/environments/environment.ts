@@ -9,6 +9,9 @@ export const environment = {
   currentReleaseDate: '2021.7.9',
   loggingLevel: 4, // Debug
   basehref: '/',
+  mockdata: false,
+
+  apiRootUrl: 'https://localhost:25325/',
 
   StatisticsAPIUrl: 'http://localhost:25325/api/statistics',
   AlbumAPIUrl: 'http://localhost:25325/api/album',

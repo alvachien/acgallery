@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { OdataService } from 'src/app/services';
+
 @Component({
   selector: 'album-list',
   templateUrl: './album-list.component.html',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AlbumListComponent implements OnInit {
 
-  constructor() { }
+  constructor(private odataSvc: OdataService ) { }
 
   ngOnInit(): void {
+    this.odataSvc.getAlbums().subscribe({
+      next: val => {
+        console.log(val);
+      },
+      error: err => {
+        console.error(err);
+      }
+    });
   }
-
 }

@@ -4,6 +4,9 @@ export const environment = {
   currentReleaseDate: '2019.7.10',
   loggingLevel: 1, // Crash
   basehref: '/',
+  mockdata: false,
+
+  apiRootUrl: 'https://acgalleryapi.azurewebsites.net/',
 
   StatisticsAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/statistics',
   AlbumAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/album',

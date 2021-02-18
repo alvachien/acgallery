@@ -42,7 +42,7 @@ export class Album {
     return true;
   }
 
-  initex(data: any) {
+  parseData(data: any) {
     if (data && data.id) {
       this.Id = data.id;
     }

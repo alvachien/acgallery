@@ -22,18 +22,18 @@
       ],
       "rules": {
         "@angular-eslint/component-selector": [
-          "error",
+          "warning",
           {
             "type": "element",
-            "prefix": "app",
+            "prefix": "acgallery",
             "style": "kebab-case"
           }
         ],
         "@angular-eslint/directive-selector": [
-          "error",
+          "warning",
           {
             "type": "attribute",
-            "prefix": "app",
+            "prefix": "acgallery",
             "style": "camelCase"
           }
         ],

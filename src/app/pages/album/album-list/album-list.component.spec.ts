@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { AlbumListComponent } from './album-list.component';
+import { OdataService } from 'src/app/services';
 
 describe('AlbumListComponent', () => {
   let component: AlbumListComponent;
@@ -8,7 +10,15 @@ describe('AlbumListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AlbumListComponent ]
+      imports: [
+        HttpClientTestingModule,
+      ],
+      declarations: [
+        AlbumListComponent,
+      ],
+      providers: [
+        OdataService,
+      ]
     })
     .compileComponents();
   });

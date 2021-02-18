@@ -4,6 +4,9 @@ export const environment = {
   currentReleaseDate: '2019.7.10',
   loggingLevel: 1, // Crash
   basehref: '/',
+  mockdata: false,
+
+  apiRootUrl: 'https://www.alvachien.com/galleryapi/',
 
   StatisticsAPIUrl: 'http://118.178.58.187:5310/api/statistics',
   AlbumAPIUrl: 'http://118.178.58.187:5310/api/album',

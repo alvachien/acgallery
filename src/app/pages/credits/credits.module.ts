@@ -1,17 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AboutComponent } from './about.component';
+
+import { CreditsRoutingModule } from './credits-routing.module';
+import { CreditsComponent } from './';
 import { UIModulesModule } from 'src/app/ui-modules.module';
-import { AboutRoutingModule } from './about-routing.module';
+
 
 @NgModule({
   declarations: [
-    AboutComponent
+    CreditsComponent
   ],
   imports: [
     CommonModule,
+    CreditsRoutingModule,
     UIModulesModule,
-    AboutRoutingModule
   ]
 })
-export class AboutModule { }
+export class CreditsModule { }

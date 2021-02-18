@@ -11,6 +11,9 @@ import { CdkTreeModule } from '@angular/cdk/tree';
 
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzResultModule } from 'ng-zorro-antd/result';
 
 @NgModule({
   exports: [
@@ -25,6 +28,9 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 
     NzLayoutModule,
     NzMenuModule,
+    NzTypographyModule,
+    NzPageHeaderModule,
+    NzResultModule,
   ]
 })
 export class UIModulesModule { }

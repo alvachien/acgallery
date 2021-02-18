@@ -12,12 +12,12 @@
  *  previousAPIString: URL string for getting previous page
  */
 export class UIPagination {
+  public visPags: Array<number>;
   private _totalItems: number;
   private _currentPage: number;
   private _itemsPerPage: number;
   private _maxVisualPage: number;
   private _totalPages: number;
-  public visPags: Array<number>;
 
   /**
    * Constructor
@@ -120,7 +120,7 @@ export class UIPagination {
     if (skipamt > 0) {
       rst.set('skip', skipamt);
     }
-    
+
     return rst;
   }
 

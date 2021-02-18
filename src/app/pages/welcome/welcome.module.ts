@@ -8,6 +8,6 @@ import { WelcomeComponent } from './welcome.component';
 @NgModule({
   imports: [WelcomeRoutingModule],
   declarations: [WelcomeComponent],
-  exports: [WelcomeComponent]
+  exports: [WelcomeComponent],
 })
 export class WelcomeModule { }
