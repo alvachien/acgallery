@@ -89,11 +89,11 @@ export class OdataService {
         const ritems = rjs.value as any[];
         const items: SequenceList<Album> = new SequenceList<Album>();
         
-        ritems.forEach(item => {
+        for(let item of ritems) {
           const rit: Album = new Album();
           rit.parseData(item);
           items.AppendElement(rit);
-        });
+        }
 
         // if (environment.mockdata) {
         //   this.mockedKnowledgeItem = items.slice();

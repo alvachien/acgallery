@@ -8,6 +8,9 @@ const routes: Routes = [
   { path: 'photo', loadChildren: () => import('./pages/photo/photo.module').then(m => m.PhotoModule) },
   { path: 'about', loadChildren: () => import('./pages/about/about.module').then(m => m.AboutModule) },
   { path: 'credits', loadChildren: () => import('./pages/credits/credits.module').then(m => m.CreditsModule) },
+  { path: 'unauthorized', loadChildren: () => import('./pages/unauthorized/unauthorized.module').then(m => m.UnauthorizedModule) },
+  
+  { path: '**', loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule )},
 ];
 
 @NgModule({

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Album } from 'src/app/models';
 import { OdataService } from 'src/app/services';
 
 @Component({
@@ -8,13 +9,19 @@ import { OdataService } from 'src/app/services';
   styleUrls: ['./album-list.component.less'],
 })
 export class AlbumListComponent implements OnInit {
+  albums: Album[] = [];
+  totalCount = 0;
 
   constructor(private odataSvc: OdataService ) { }
 
   ngOnInit(): void {
     this.odataSvc.getAlbums().subscribe({
       next: val => {
-        console.log(val);
+        // console.log(val);
+        this.totalCount = val.totalCount;
+        for(let i = 0; i < val.items.Length(); i++) {
+          this.albums.push(val.items.GetElement(i));
+        }
       },
       error: err => {
         console.error(err);

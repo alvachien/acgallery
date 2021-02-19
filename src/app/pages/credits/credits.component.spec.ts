@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UIModulesModule } from 'src/app/ui-modules.module';
 
+import { TestingDependsModule } from 'src/testing/';
 import { CreditsComponent } from './credits.component';
 
 describe('CreditsComponent', () => {
@@ -9,8 +9,12 @@ describe('CreditsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UIModulesModule],
-      declarations: [ CreditsComponent ]
+      imports: [
+        TestingDependsModule,
+      ],
+      declarations: [
+        CreditsComponent,
+      ],
     })
     .compileComponents();
   });

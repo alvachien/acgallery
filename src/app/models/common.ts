@@ -26,15 +26,6 @@ export class AppLang {
 }
 
 /**
- * UI Mode
- */
-export enum UIMode {
-  Create = 1,
-  Change = 2,
-  Display = 3,
-}
-
-/**
  * Enum for Common Label
  */
 export enum UICommonLabelEnum {
@@ -95,6 +86,15 @@ export class UIDisplayString {
   public value: UIDisplayStringEnum;
   public i18nterm: string;
   public displaystring: string;
+}
+
+/**
+ * Credits 
+ *  
+ */
+export interface AppCredits {
+  name: string;
+  link: string;
 }
 
 /**

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UIModulesModule } from 'src/app/ui-modules.module';
 
+import { TestingDependsModule } from 'src/testing/';
 import { AboutComponent } from './about.component';
 
 describe('AboutComponent', () => {
@@ -9,7 +9,9 @@ describe('AboutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UIModulesModule],
+      imports: [
+        TestingDependsModule,
+      ],
       declarations: [ AboutComponent ]
     })
     .compileComponents();

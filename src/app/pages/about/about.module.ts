@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslocoModule } from '@ngneat/transloco';
+
+
 import { AboutComponent } from './about.component';
 import { UIModulesModule } from 'src/app/ui-modules.module';
 import { AboutRoutingModule } from './about-routing.module';
@@ -11,7 +14,8 @@ import { AboutRoutingModule } from './about-routing.module';
   imports: [
     CommonModule,
     UIModulesModule,
-    AboutRoutingModule
+    AboutRoutingModule,
+    TranslocoModule,
   ]
 })
 export class AboutModule { }

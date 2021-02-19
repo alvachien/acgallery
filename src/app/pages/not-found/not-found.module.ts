@@ -1,23 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { PhotoRoutingModule } from './photo-routing.module';
-import { PhotoListComponent } from './photo-list';
-import { PhotoDetailComponent } from './photo-detail';
+import { NotFoundRoutingModule } from './not-found-routing.module';
+import { NotFoundComponent } from './';
 import { UIModulesModule } from 'src/app/ui-modules.module';
 import { TranslocoModule } from '@ngneat/transloco';
 
 
 @NgModule({
-  declarations: [
-    PhotoListComponent,
-    PhotoDetailComponent,
-  ],
+  declarations: [NotFoundComponent],
   imports: [
     CommonModule,
-    PhotoRoutingModule,
+    NotFoundRoutingModule,
     UIModulesModule,
     TranslocoModule,
   ]
 })
-export class PhotoModule { }
+export class NotFoundModule { }

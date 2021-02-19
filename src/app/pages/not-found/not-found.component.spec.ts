@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TestingDependsModule } from 'src/testing/';
-import { PhotoListComponent } from './photo-list.component';
+import { NotFoundComponent } from './not-found.component';
 
-describe('PhotoListComponent', () => {
-  let component: PhotoListComponent;
-  let fixture: ComponentFixture<PhotoListComponent>;
+describe('NotFoundComponent', () => {
+  let component: NotFoundComponent;
+  let fixture: ComponentFixture<NotFoundComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -13,14 +13,14 @@ describe('PhotoListComponent', () => {
         TestingDependsModule,
       ],
       declarations: [
-        PhotoListComponent,
+        NotFoundComponent,
       ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PhotoListComponent);
+    fixture = TestBed.createComponent(NotFoundComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

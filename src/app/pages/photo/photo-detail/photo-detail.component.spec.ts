@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { TestingDependsModule } from 'src/testing/';
 import { PhotoDetailComponent } from './photo-detail.component';
 
 describe('PhotoDetailComponent', () => {
@@ -8,6 +9,9 @@ describe('PhotoDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        TestingDependsModule,
+      ],
       declarations: [ PhotoDetailComponent ]
     })
     .compileComponents();

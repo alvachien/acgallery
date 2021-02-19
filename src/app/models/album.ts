@@ -43,40 +43,28 @@ export class Album {
   }
 
   parseData(data: any) {
-    if (data && data.id) {
-      this.Id = data.id;
+    if (data && data.Id) {
+      this.Id = data.Id;
     }
-    if (data && data.title) {
-      this.Title = data.title;
+    if (data && data.Title) {
+      this.Title = data.Title;
     }
-    if (data && data.desp) {
-      this.Desp = data.desp;
+    if (data && data.Desp) {
+      this.Desp = data.Desp;
     }
-    if (data && data.firstPhotoThumnailUrl) {
-      this.Thumbnail = data.firstPhotoThumnailUrl;
+    if (data && data.CreatedAt) {
+      this.CreatedAt = new Date(data.CreatedAt);
     }
-    if (data && data.createdAt) {
-      this.CreatedAt = data.createdAt;
+    if (data && data.CreatedBy) {
+      this.CreatedBy = data.CreatedBy;
     }
-    if (data && data.createdBy) {
-      this.CreatedBy = data.createdBy;
-    }
-    if (data && data.isPublic) {
-      this.IsPublic = data.isPublic;
+    if (data && data.IsPublic) {
+      this.IsPublic = true;
     } else {
       this.IsPublic = false;
     }
-    if (data && data.accessCodeHint) {
-      this.accessCodeHint = data.accessCodeHint;
-    }
-    if (data && data.accessCode) {
-      this.AccessCode = data.accessCode;
-    }
-    if (data && data.accessCodeRequired) {
-      this.accessCodeRequired = data.accessCodeRequired;
-    }
-    if (data && data.photoCount) {
-      this.PhotoCount = data.photoCount;
+    if (data && data.AccessCodeHint) {
+      this.accessCodeHint = data.AccessCodeHint;
     }
   }
 

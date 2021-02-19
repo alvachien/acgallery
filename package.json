@@ -1,6 +1,6 @@
 {
   "name": "acgallery",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -30,7 +30,7 @@
     "@angular/platform-browser-dynamic": "^11.1.2",
     "@angular/router": "^11.1.2",
     "@ngneat/transloco": "^2.20.0",
-    "actslib": "^0.4.22",
+    "actslib": "^0.4.24",
     "ng-gallery": "^5.0.0",
     "ng-zorro-antd": "^11.1.0",
     "oidc-client": "^1.11.5",
@@ -51,7 +51,6 @@
     "@types/node": "^14.14.25",
     "@typescript-eslint/eslint-plugin": "4.3.0",
     "@typescript-eslint/parser": "4.3.0",
-    "codelyzer": "^6.0.0",
     "eslint": "^7.6.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-jsdoc": "30.7.6",

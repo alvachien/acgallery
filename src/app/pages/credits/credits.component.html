@@ -7,84 +7,15 @@
 >
 </nz-page-header>
 
-<div class="container">
-  <div class="panel panel-info">
-    <div class="panel-heading">
-      <h3 class="panel-title">{{ "Nav.Credits" | transloco }}</h3>
-    </div>
-    <div class="panel-body">
-      <ul class="list-group">
-        <a
-          target="_blank"
-          href="https://www.asp.net/core"
-          class="list-group-item"
-        >
-          ASP.NET Core
-        </a>
-        <a
-          target="_blank"
-          href="https://www.angular.io/"
-          class="list-group-item"
-        >
-          Angular 7
-        </a>
-        <a
-          target="_blank"
-          href="http://www.typescriptlang.org/"
-          class="list-group-item"
-        >
-          TypeScript 3
-        </a>
-        <a
-          target="_blank"
-          href="http://getbootstrap.com/"
-          class="list-group-item"
-        >
-          Bootstrap 4
-        </a>
-        <a
-          target="_blank"
-          href="http://github.com/angular/material/"
-          class="list-group-item"
-        >
-          Material 7
-        </a>
-        <a
-          target="_blank"
-          href="https://github.com/dimsemenov/PhotoSwipe"
-          class="list-group-item"
-        >
-          PhotoSwipe
-        </a>
-        <a
-          target="_blank"
-          href="https://fineuploader.com"
-          class="list-group-item"
-        >
-          Fine uploader
-        </a>
-        <a
-          target="_blank"
-          href="https://github.com/IdentityModel/oidc-client-js"
-          class="list-group-item"
-        >
-          OIDC-client
-        </a>
-        <a
-          target="_blank"
-          href="http://www.sno.phy.queensu.ca/~phil/exiftool"
-          class="list-group-item"
-        >
-          EXIF tools
-        </a>
-        <a
-          target="_blank"
-          href="https://www.imagemagick.org/"
-          class="list-group-item"
-        >
-          Magick.NET
-        </a>
-      </ul>
-    </div>
-  </div>
-</div>
+<ul nz-list [nzDataSource]="data" nzBordered nzSize="large">
+  <!-- <nz-list-header>Header</nz-list-header> -->
+  <li nz-list-item *ngFor="let item of credits" nzNoFlex>
+    <ul nz-list-item-actions>
+      <nz-list-item-action>
+        <a target="_blank" href="{{item.link}}">Link</a>
+      </nz-list-item-action>
+    </ul>
+    {{ item.name }}
+  </li>
+  <!-- <nz-list-footer>Footer</nz-list-footer> -->
+</ul>

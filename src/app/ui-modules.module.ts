@@ -14,6 +14,21 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzResultModule } from 'ng-zorro-antd/result';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzTreeModule } from 'ng-zorro-antd/tree';
 
 @NgModule({
   exports: [
@@ -31,6 +46,21 @@ import { NzResultModule } from 'ng-zorro-antd/result';
     NzTypographyModule,
     NzPageHeaderModule,
     NzResultModule,
+    NzAvatarModule,
+    NzListModule,
+    NzTableModule,
+    NzModalModule,
+    NzInputModule,
+    NzFormModule,
+    NzSelectModule,
+    NzDatePickerModule,
+    NzUploadModule,
+    NzImageModule,
+    NzProgressModule,
+    NzPopconfirmModule,
+    NzNotificationModule,
+    NzMessageModule,
+    NzTreeModule,
   ]
 })
 export class UIModulesModule { }
