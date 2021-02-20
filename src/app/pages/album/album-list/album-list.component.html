@@ -1,3 +1,17 @@
+<nz-page-header class="site-page-header" nzTitle="Title" nzSubtitle="This is a subtitle">
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>Welcome</nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a>Albums</a>
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <nz-page-header-extra>
+    <button nz-button>Operation</button>
+    <button nz-button>Operation</button>
+    <button nz-button nzType="primary" (click)="onCreate()">Create</button>
+  </nz-page-header-extra>  
+</nz-page-header>
+
 <nz-list nzItemLayout="vertical">
   <nz-list-item *ngFor="let item of albums">
     <nz-list-item-meta>

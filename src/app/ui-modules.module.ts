@@ -29,6 +29,9 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 
 @NgModule({
   exports: [
@@ -61,6 +64,9 @@ import { NzTreeModule } from 'ng-zorro-antd/tree';
     NzNotificationModule,
     NzMessageModule,
     NzTreeModule,
+    NzButtonModule,
+    NzIconModule,
+    NzBreadCrumbModule,
   ]
 })
 export class UIModulesModule { }

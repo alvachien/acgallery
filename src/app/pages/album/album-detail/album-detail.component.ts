@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { OdataService } from 'src/app/services';
 
 @Component({
   selector: 'album-detail',
@@ -7,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AlbumDetailComponent implements OnInit {
 
-  constructor() { }
+  constructor(private odataSvc: OdataService,
+    public _router: Router) { }
 
   ngOnInit(): void {
   }
 
+  public onSave(): void {    
+  }
 }

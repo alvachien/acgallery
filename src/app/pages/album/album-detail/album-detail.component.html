@@ -1,5 +1,14 @@
-<nz-result nzStatus="warning" nzTitle="Page under construction">
-    <div nz-result-extra>
-      <button nz-button nzType="primary">Go Console</button>
-    </div>
-</nz-result>
+<nz-page-header class="site-page-header" nzTitle="Album" nzSubtitle="Album Detail">
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>Welcome</nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a routerLink="/album">Albums</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>Create</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <nz-page-header-extra>
+    <button nz-button>Operation</button>
+    <button nz-button>Operation</button>
+    <button nz-button nzType="primary" (click)="onSave()">Save</button>
+  </nz-page-header-extra>  
+</nz-page-header>

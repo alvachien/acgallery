@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Album } from 'src/app/models';
 import { OdataService } from 'src/app/services';
@@ -12,7 +13,8 @@ export class AlbumListComponent implements OnInit {
   albums: Album[] = [];
   totalCount = 0;
 
-  constructor(private odataSvc: OdataService ) { }
+  constructor(private odataSvc: OdataService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.odataSvc.getAlbums().subscribe({
@@ -27,5 +29,9 @@ export class AlbumListComponent implements OnInit {
         console.error(err);
       }
     });
+  }
+
+  onCreate(): void {
+    this.router.navigate(['/album/create']);
   }
 }
