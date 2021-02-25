@@ -69,6 +69,16 @@ nz-header {
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
 }
 
+.app-header-content {
+  display: inline;
+  float: right;
+  margin-right: 24px;
+}
+
+.flex-spacer {
+  flex-grow: 1;
+}
+
 nz-content {
   margin: 24px;
 }
@@ -78,3 +88,4 @@ nz-content {
   /* background: #fff; */
   height: 100%;
 }
+

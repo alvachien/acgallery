@@ -32,6 +32,9 @@ import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 @NgModule({
   exports: [
@@ -67,6 +70,9 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
     NzButtonModule,
     NzIconModule,
     NzBreadCrumbModule,
+    NzDropDownModule,
+    NzSpaceModule,
+    NzCheckboxModule,
   ]
 })
 export class UIModulesModule { }

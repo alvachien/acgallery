@@ -6,7 +6,7 @@
             [(nzCollapsed)]="isCollapsed"
             [nzTrigger]="null">
     <div class="sidebar-logo">
-      <a href="https://ng.ant.design/" target="_blank">
+      <a href="/" target="_blank">
         <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
         <h1>AC Photo Gallery</h1>
       </a>
@@ -41,11 +41,31 @@
     <nz-header>
       <div class="app-header">
         <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-            <i class="trigger"
-               nz-icon
-               [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-            ></i>
+          <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
         </span>
+        <div class="app-header-content">
+          <nz-space [nzSize]="16">
+            <nz-space-item>
+              <a nz-dropdown [nzDropdownMenu]="menu" [nzClickHide]="false" [(nzVisible)]="visible">
+                Language
+                <i nz-icon nzType="down"></i>
+              </a>
+              <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                  <li nz-menu-item>English</li>
+                  <li nz-menu-item>Simplified</li>
+                  <li nz-menu-item (click)="visible = false">Clicking me will close the menu</li>
+                </ul>
+              </nz-dropdown-menu>
+            </nz-space-item>
+            <nz-space-item>
+              <button nz-button nzType="primary" [nzSize]="size" nzShape="circle"><i nz-icon nzType="github" nzTheme="outline"></i></button>  
+            </nz-space-item>
+            <nz-space-item>
+              <span nz-typography nzType="success">Version: 0.1.2</span>
+            </nz-space-item>            
+          </nz-space>   
+        </div>
       </div>
     </nz-header>
     <nz-content>

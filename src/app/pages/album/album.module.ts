@@ -6,6 +6,7 @@ import { AlbumRoutingModule } from './album-routing.module';
 import { AlbumListComponent } from './album-list/album-list.component';
 import { AlbumDetailComponent } from './album-detail/album-detail.component';
 import { UIModulesModule } from 'src/app/ui-modules.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -18,6 +19,8 @@ import { UIModulesModule } from 'src/app/ui-modules.module';
     AlbumRoutingModule,
     UIModulesModule,
     TranslocoModule,
+    FormsModule,
+    ReactiveFormsModule,
   ]
 })
 export class AlbumModule { }

@@ -12,3 +12,35 @@
     <button nz-button nzType="primary" (click)="onSave()">Save</button>
   </nz-page-header-extra>  
 </nz-page-header>
+
+<form nz-form [formGroup]="detailForm" (ngSubmit)="submitForm()">
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title">Title</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid Title!">
+      <input nz-input formControlName="Title" id="title" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="desp" nzRequired>Description</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your description!">
+      <input nz-input id="desp" formControlName="Desp" (ngModelChange)="updateConfirmValidator()" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row class="register-area">
+    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+      <label nz-checkbox formControlName="IsPublic">
+        <span>
+          Is Public
+        </span>
+      </label>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row class="register-area">
+    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+      <button nz-button nzType="primary">Register</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
