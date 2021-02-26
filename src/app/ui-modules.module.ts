@@ -35,6 +35,7 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
 
 @NgModule({
   exports: [
@@ -73,6 +74,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
     NzDropDownModule,
     NzSpaceModule,
     NzCheckboxModule,
+    NzStepsModule,
   ]
 })
 export class UIModulesModule { }

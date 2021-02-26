@@ -30,7 +30,7 @@
     "@angular/platform-browser-dynamic": "^11.1.2",
     "@angular/router": "^11.1.2",
     "@ngneat/transloco": "^2.20.0",
-    "actslib": "^0.4.24",
+    "actslib": "^0.4.27",
     "ng-gallery": "^5.0.0",
     "ng-zorro-antd": "^11.1.0",
     "oidc-client": "^1.11.5",
