@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { environment } from 'src/environments/environment';
 
 function getBase64(file: File): Promise<string | ArrayBuffer | null> {
@@ -73,5 +73,16 @@ export class PhotoUploadComponent implements OnInit {
     }
     this.previewImage = file.url || file.preview;
     this.previewVisible = true;
-  };  
+  };
+  
+  handleChange(info: NzUploadChangeParam): void {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      console.log(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      console.error(`${info.file.name} file upload failed.`);
+    }
+  }
 }

@@ -21,11 +21,8 @@
 <div class="steps-content">
   <div [ngSwitch]="current">
     <div *ngSwitchCase="0">
-      <nz-upload
-        [nzAction]="photoFileAPI"
-        nzListType="picture-card"
-        [(nzFileList)]="fileList"
-        [nzShowButton]="fileList.length < 8"
+      <nz-upload [nzAction]="photoFileAPI" nzListType="picture-card" nzFileType="image/png,image/jpeg" [(nzFileList)]="fileList"
+        [nzShowButton]="fileList.length < 8" nzSize="2048" (nzChange)="handleChange"
         [nzPreview]="handlePreview">
         <div>
           <i nz-icon nzType="plus"></i>
