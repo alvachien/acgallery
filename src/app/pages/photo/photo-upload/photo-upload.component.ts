@@ -67,7 +67,16 @@ export class PhotoUploadComponent implements OnInit {
   previewImage: string | undefined = '';
   previewVisible = false;
 
+  beforeUpload = (file: NzUploadFile): boolean => {
+    console.log("Entering beforeUpload");
+
+    this.fileList = this.fileList.concat(file);
+    return false;
+  };
+
   handlePreview = async (file: NzUploadFile) => {
+    console.log("Entering handlePreview");
+
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj!);
     }
@@ -76,9 +85,13 @@ export class PhotoUploadComponent implements OnInit {
   };
   
   handleChange(info: NzUploadChangeParam): void {
-    if (info.file.status !== 'uploading') {
+    console.log("Entering handleChange");
+
+    const status = info.file.status;
+    if (status !== 'uploading') {
       console.log(info.file, info.fileList);
     }
+
     if (info.file.status === 'done') {
       console.log(`${info.file.name} file uploaded successfully`);
     } else if (info.file.status === 'error') {
