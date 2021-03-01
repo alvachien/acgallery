@@ -153,7 +153,9 @@ export class SelectablePhoto
  * Photo for upload
  */
 export class UpdPhoto {
+  public uid: string;
   public imgSrc: string;
+  public thumbSrc: string;
 
   public id: number;
   public orgName: string;

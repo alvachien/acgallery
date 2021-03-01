@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
+import { UpdPhoto } from 'src/app/models';
 import { environment } from 'src/environments/environment';
 
 function getBase64(file: File): Promise<string | ArrayBuffer | null> {
@@ -64,8 +65,10 @@ export class PhotoUploadComponent implements OnInit {
   }
 
   fileList: NzUploadFile[] = [];
+  filePhotos: UpdPhoto[] = [];
   previewImage: string | undefined = '';
   previewVisible = false;
+  editId: string | null = null;
 
   beforeUpload = (file: NzUploadFile): boolean => {
     console.log("Entering beforeUpload");
@@ -83,19 +86,38 @@ export class PhotoUploadComponent implements OnInit {
     this.previewImage = file.url || file.preview;
     this.previewVisible = true;
   };
-  
-  handleChange(info: NzUploadChangeParam): void {
+
+  handleChange({ file, fileList }: NzUploadChangeParam): void {
     console.log("Entering handleChange");
 
-    const status = info.file.status;
+    const status = file.status;
     if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
+      console.log(file, fileList);
     }
 
-    if (info.file.status === 'done') {
-      console.log(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === 'error') {
-      console.error(`${info.file.name} file upload failed.`);
+    if (file.status === 'done') {
+      console.log(`${file.name} file uploaded successfully`);
+      let pobj = new UpdPhoto();
+      pobj.uid = file.uid;
+      pobj.orgName = file.name;
+      // pobj.imgSrc = environment.apiRootUrl + file.url;
+      // pobj.thumbSrc = environment.apiRootUrl + file.thumbUrl;
+      pobj.thumbSrc = file.thumbUrl;
+      pobj.imgSrc = environment.apiRootUrl + file.response.url;
+      pobj.size = file.size.toString();
+      
+      this.filePhotos.push(pobj);
+    
+    } else if (file.status === 'error') {
+      console.error(`${file.name} file upload failed.`);
     }
+  }
+
+  startEdit(id: string): void {
+    this.editId = id;
+  }
+
+  stopEdit(): void {
+    this.editId = null;
   }
 }
