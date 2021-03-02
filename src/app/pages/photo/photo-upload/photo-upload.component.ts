@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+
 import { UpdPhoto } from 'src/app/models';
+import { CanComponentDeactivate } from 'src/app/services';
 import { environment } from 'src/environments/environment';
+
 
 function getBase64(file: File): Promise<string | ArrayBuffer | null> {
   return new Promise((resolve, reject) => {
@@ -15,15 +21,33 @@ function getBase64(file: File): Promise<string | ArrayBuffer | null> {
 @Component({
   selector: 'acgallery-photo-upload',
   templateUrl: './photo-upload.component.html',
-  styleUrls: ['./photo-upload.component.less']
+  styleUrls: ['./photo-upload.component.less'],
 })
-export class PhotoUploadComponent implements OnInit {
+export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
+  confirmModal?: NzModalRef; // For testing by now
 
-  constructor() { }
+  constructor(private modal: NzModalService) { }
 
   ngOnInit(): void {
   }
 
+  canDeactivate(): Observable<boolean> | boolean {    
+    // // Allow synchronous navigation (`true`) if no crisis or the crisis is unchanged
+    // if (!this.crisis || this.crisis.name === this.editName) {
+    //   return true;
+    // }
+    // // Otherwise ask the user with the dialog service and return its
+    // // observable which resolves to true or false when the user decides
+    // return this.dialogService.confirm('Discard changes?');
+    if (this.filePhotos.length > 0) {
+      this.modal.confirm({
+        nzTitle: 'Do you Want to delete these items?',
+        nzContent: 'When clicked the OK button, this dialog will be closed after 1 second'
+      });
+      return false;
+    }
+    return true;
+  }
   current = 0;
 
   index = 'First-content';

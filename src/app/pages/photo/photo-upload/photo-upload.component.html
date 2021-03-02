@@ -16,6 +16,7 @@
   <nz-step nzTitle="{{'Photo.ChoosePhoto' | transloco}}"></nz-step>
   <nz-step nzTitle="Change Names"></nz-step>
   <nz-step nzTitle="Assign Album"></nz-step>
+  <nz-step nzTitle="Result"></nz-step>
 </nz-steps>
 
 <div class="steps-content">
@@ -82,7 +83,7 @@
   <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
     <span>Previous</span>
   </button>
-  <button nz-button nzType="default" (click)="next()" *ngIf="current < 2">
+  <button nz-button nzType="default" (click)="next()" *ngIf="current < 3">
     <span>Next</span>
   </button>
   <button nz-button nzType="primary" (click)="done()" *ngIf="current === 2">
