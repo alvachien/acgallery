@@ -51,7 +51,9 @@ export class OdataService {
     }
   }
 
-  // Albums
+  ///
+  /// Albums
+  ///
   public getAlbums(): Observable<{
     totalCount: number,
     items: SequenceList<Album>}> {
@@ -107,5 +109,70 @@ export class OdataService {
       catchError((error: HttpErrorResponse) => {
         return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
       }));
+  }
+
+  public createAlbum(alb: Album): Observable<Album> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+              .append('Accept', 'application/json');
+
+    let apiurl = `${this.apiUrl}Albums`;
+    let jdata = alb.writeJSONString();
+    return this.http.post(apiurl, jdata, {
+        headers,
+      })
+    .pipe(map(response => {
+      const rjs = response as any;
+      let alb2 = new Album();
+      alb2.parseData(rjs);
+      return alb2;
+    }),
+    catchError((error: HttpErrorResponse) => {
+      return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+    }));
+  }
+
+  // Photos
+  public createPhoto(pto: Photo): Observable<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+              .append('Accept', 'application/json');
+
+    let params: HttpParams = new HttpParams();
+    let apiurl = `${this.apiUrl}Photos`;
+    // TBD.
+    // if (environment.mockdata) {
+    //   apiurl = `${environment.basehref}assets/mockdata/albums.json`;
+    //   params = new HttpParams();
+    // }
+
+    return this.http.get(apiurl, {
+        headers,
+        params,
+      })
+      .pipe(map(response => {
+        const rjs = response as any;
+        const ritems = rjs.value as any[];
+        const items: SequenceList<Album> = new SequenceList<Album>();
+        
+        for(let item of ritems) {
+          const rit: Album = new Album();
+          rit.parseData(item);
+          items.AppendElement(rit);
+        }
+
+        // if (environment.mockdata) {
+        //   this.mockedKnowledgeItem = items.slice();
+        // }
+
+        return {
+          totalCount: rjs['@odata.count'],
+          items: items,
+        };
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+      }));
+
   }
 }

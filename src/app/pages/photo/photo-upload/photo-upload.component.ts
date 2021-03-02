@@ -7,6 +7,7 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { UpdPhoto } from 'src/app/models';
 import { CanComponentDeactivate } from 'src/app/services';
 import { environment } from 'src/environments/environment';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 function getBase64(file: File): Promise<string | ArrayBuffer | null> {
@@ -24,11 +25,30 @@ function getBase64(file: File): Promise<string | ArrayBuffer | null> {
   styleUrls: ['./photo-upload.component.less'],
 })
 export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
-  confirmModal?: NzModalRef; // For testing by now
+  fileList: NzUploadFile[] = [];
+  filePhotos: UpdPhoto[] = [];
+  previewImage: string | undefined = '';
+  previewVisible = false;
+  editId: string | null = null;
+  arAssignMode: any[] = [];
+  assignMode = 0;
+  current = 0;
+  photoFileAPI = environment.apiRootUrl + 'PhotoFile';
+  albumForm!: FormGroup;
 
-  constructor(private modal: NzModalService) { }
+  constructor(private modal: NzModalService,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.arAssignMode.push({value: 0, name: 'Photo.Upload_NoAlbum',});
+    this.arAssignMode.push({value: 1, name: 'Photo.Upload_AssignExistAlbum',});
+    this.arAssignMode.push({value: 2, name: 'Photo.Upload_AssignNewAlbum', });
+
+    this.albumForm = this.fb.group({
+      Title: ['', [Validators.required]],
+      Desp: ['', [Validators.required]],
+      IsPublic: [false]
+    });
   }
 
   canDeactivate(): Observable<boolean> | boolean {    
@@ -48,58 +68,55 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     }
     return true;
   }
-  current = 0;
-
-  index = 'First-content';
-
-  photoFileAPI = environment.apiRootUrl + 'PhotoFile';
 
   pre(): void {
     this.current -= 1;
-    this.changeContent();
   }
 
   next(): void {
     this.current += 1;
-    this.changeContent();
+  }
+
+  get nextButtonEnabled(): boolean {
+    let isenabled = false;
+    switch (this.current) {
+      case 0:   isenabled = this.fileList.length > 0;   break;
+      case 1: {
+        isenabled = true;
+        for(let i = 0; i < this.filePhotos.length; i++) {
+          if (!this.filePhotos[i].isValid) {
+            isenabled = false;
+            break;
+          }
+        }
+      } 
+      break;
+      case 2: {
+        if (this.assignMode === 0) {
+          isenabled = true;
+        } else if (this.assignMode === 1) {
+          // Existing albums
+        } else if (this.assignMode === 2) {
+          // New album
+          isenabled = this.albumForm.valid;
+        }
+      }
+      default:
+        break;
+    }
+    return isenabled;
   }
 
   done(): void {
     console.log('done');
   }
 
-  changeContent(): void {
-    switch (this.current) {
-      case 0: {
-        this.index = 'First-content';
-        break;
-      }
-      case 1: {
-        this.index = 'Second-content';
-        break;
-      }
-      case 2: {
-        this.index = 'third-content';
-        break;
-      }
-      default: {
-        this.index = 'error';
-      }
-    }
-  }
+  // beforeUpload = (file: NzUploadFile): boolean => {
+  //   console.log("Entering beforeUpload");
 
-  fileList: NzUploadFile[] = [];
-  filePhotos: UpdPhoto[] = [];
-  previewImage: string | undefined = '';
-  previewVisible = false;
-  editId: string | null = null;
-
-  beforeUpload = (file: NzUploadFile): boolean => {
-    console.log("Entering beforeUpload");
-
-    this.fileList = this.fileList.concat(file);
-    return false;
-  };
+  //   this.fileList = this.fileList.concat(file);
+  //   return false;
+  // };
 
   handlePreview = async (file: NzUploadFile) => {
     console.log("Entering handlePreview");

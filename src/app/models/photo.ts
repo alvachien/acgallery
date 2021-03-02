@@ -1,5 +1,6 @@
 import * as Common from './common';
 import { environment } from '../../environments/environment';
+import { transCompatFormat } from 'ng-zorro-antd/date-picker';
 
 /**
  * Exif item
@@ -168,7 +169,7 @@ export class UpdPhoto {
   public desp: string;
   public isPublic: boolean;
 
-  public isValid: boolean;
+  // public isValid: boolean;
   public validInfo: string;
   get dimension(): string {
     return this.width.toString() + ' X ' + this.height.toString();
@@ -178,5 +179,12 @@ export class UpdPhoto {
 
   constructor() {
     this.isPublic = true;
+  }
+  get isValid(): boolean {
+    if (!this.imgSrc) return false;
+    if (!this.thumbSrc) return false;
+    if (!this.title) return false;
+    // if (!this.desp) return false;
+    return true;
   }
 }

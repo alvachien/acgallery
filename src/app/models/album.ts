@@ -77,6 +77,23 @@ export class Album {
     this.PhotoIDs = [];
     this.IsPhotoIDFetched = false;
   }
+
+  public writeJSONString(): string {
+    const forJSON: any = {
+      Title: this.Title,
+      Desp: this.Desp,
+      CreatedAt: this.CreatedAt.toString(),
+      CreatedBy: this.CreatedBy,
+      IsPublic: this.IsPublic
+    };
+    if (this.Id) {
+      forJSON.Id = this.Id;
+    }
+    if (forJSON) {
+      return JSON && JSON.stringify(forJSON);
+    }
+    return JSON && JSON.stringify(this);
+  }
 }
 
 export class SelectableAlbum

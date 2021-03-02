@@ -6,9 +6,6 @@
     </nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
-    <button nz-button>Operation</button>
-    <button nz-button>Operation</button>
-    <button nz-button nzType="primary" (click)="onCreate()">Upload</button>
   </nz-page-header-extra>
 </nz-page-header>
 
@@ -45,6 +42,7 @@
             <th nzWidth="20%">Org File</th>
             <th>Size</th>
             <th>Title</th>
+            <th>Desp</th>
             <th>Is Public</th>
           </tr>
         </thead>
@@ -63,18 +61,55 @@
             <td>{{ data.orgName }}</td>
             <td>{{ data.size }}</td>
             <td>
-              <div class="editable-cell" [hidden]="editId === data.uid" (click)="startEdit(data.uid)">
-                {{ data.title }}
-              </div>
-              <input [hidden]="editId !== data.uid" type="text" nz-input [(ngModel)]="data.title" (blur)="stopEdit()" />
+              <input type="text" nz-input [(ngModel)]="data.title" />
+            </td>
             <td>
+              <input type="text" nz-input [(ngModel)]="data.desp" />
+            </td>
+            <td>
+              <label nz-checkbox [(ngModel)]="data.isPublic"></label>
+            </td>
           </tr>
         </tbody>
       </nz-table>
     </div>
 
-    <div *ngSwitchDefault>
-      {{index}}
+    <div *ngSwitchCase="2">
+      <nz-radio-group [(ngModel)]="assignMode">
+        <label nz-radio *ngFor="let am of arAssignMode" [nzValue]="am.value">{{ am.name | transloco }}</label>
+      </nz-radio-group>
+      
+      <div *ngIf="assignMode === 2">
+        <form nz-form [formGroup]="albumForm">
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title">Title</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid Title!">
+              <input nz-input formControlName="Title" id="title" />
+            </nz-form-control>
+          </nz-form-item>
+        
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="desp" nzRequired>Description</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your description!">
+              <input nz-input id="desp" formControlName="Desp" />
+            </nz-form-control>
+          </nz-form-item>
+        
+          <nz-form-item nz-row class="register-area">
+            <nz-form-control [nzSpan]="14" [nzOffset]="6">
+              <label nz-checkbox formControlName="IsPublic">
+                <span>
+                  Is Public
+                </span>
+              </label>
+            </nz-form-control>
+          </nz-form-item>
+        </form>        
+      </div>
+    </div>
+
+    <div *ngSwitchCase="3">
+      Result
     </div>
   </div>
 </div>
@@ -83,10 +118,10 @@
   <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
     <span>Previous</span>
   </button>
-  <button nz-button nzType="default" (click)="next()" *ngIf="current < 3">
+  <button nz-button nzType="default" [disabled]="!nextButtonEnabled" (click)="next()" *ngIf="current < 3">
     <span>Next</span>
   </button>
-  <button nz-button nzType="primary" (click)="done()" *ngIf="current === 2">
+  <button nz-button nzType="primary" (click)="done()" *ngIf="current === 3">
     <span>Done</span>
   </button>
 </div>

@@ -23,19 +23,19 @@ export class AlbumDetailComponent implements OnInit {
       }
     }
   
-    updateConfirmValidator(): void {
-      /** wait for refresh value */
-      Promise.resolve().then(() => this.detailForm.controls.checkPassword.updateValueAndValidity());
-    }
+    // updateConfirmValidator(): void {
+    //   /** wait for refresh value */
+    //   Promise.resolve().then(() => this.detailForm.controls.checkPassword.updateValueAndValidity());
+    // }
   
-    confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
-      if (!control.value) {
-        return { required: true };
-      } else if (control.value !== this.detailForm.controls.password.value) {
-        return { confirm: true, error: true };
-      }
-      return {};
-    };
+    // confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
+    //   if (!control.value) {
+    //     return { required: true };
+    //   } else if (control.value !== this.detailForm.controls.password.value) {
+    //     return { confirm: true, error: true };
+    //   }
+    //   return {};
+    // };
   
     getCaptcha(e: MouseEvent): void {
       e.preventDefault();

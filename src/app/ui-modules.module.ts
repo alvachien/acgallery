@@ -36,6 +36,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
 
 @NgModule({
   exports: [
@@ -75,6 +76,7 @@ import { NzStepsModule } from 'ng-zorro-antd/steps';
     NzSpaceModule,
     NzCheckboxModule,
     NzStepsModule,
+    NzRadioModule,
   ]
 })
 export class UIModulesModule { }
