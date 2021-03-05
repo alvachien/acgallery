@@ -133,6 +133,63 @@ export class OdataService {
   }
 
   // Photos
+  public getPhotos(): Observable<{
+    totalCount: number,
+    items: SequenceList<Photo>}> {
+
+    // TBD.
+    // if (environment.mockdata && this.mockedKnowledgeItem.length > 0) {
+    //   return of({
+    //     totalCount: this.mockedKnowledgeItem.length,
+    //     items: this.mockedKnowledgeItem
+    //   });
+    // }
+
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+              .append('Accept', 'application/json');
+
+    let params: HttpParams = new HttpParams();
+    params = params.append('$top', '30');
+    params = params.append('$count', 'true');
+    // TBD.
+    // params = params.append('$select', 'ID,Category,Title,CreatedAt,ModifiedAt');
+    let apiurl = `${this.apiUrl}Photos`;
+    // TBD.
+    // if (environment.mockdata) {
+    //   apiurl = `${environment.basehref}assets/mockdata/albums.json`;
+    //   params = new HttpParams();
+    // }
+
+    return this.http.get(apiurl, {
+        headers,
+        params,
+      })
+      .pipe(map(response => {
+        const rjs = response as any;
+        const ritems = rjs.value as any[];
+        const items: SequenceList<Photo> = new SequenceList<Photo>();
+        
+        for(let item of ritems) {
+          const rit: Photo = new Photo();
+          rit.parseData(item);
+          items.AppendElement(rit);
+        }
+
+        // if (environment.mockdata) {
+        //   this.mockedKnowledgeItem = items.slice();
+        // }
+
+        return {
+          totalCount: rjs['@odata.count'],
+          items: items,
+        };
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+      }));
+  }
+
   public createPhoto(pto: Photo): Observable<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
@@ -173,6 +230,5 @@ export class OdataService {
       catchError((error: HttpErrorResponse) => {
         return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
       }));
-
   }
 }

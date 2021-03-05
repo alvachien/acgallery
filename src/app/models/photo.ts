@@ -63,7 +63,7 @@ export class Photo {
     }
   }
 
-  init(data: any) {
+  parseData(data: any) {
     if (data && data.photoId) {
       this.photoId = data.photoId;
     }

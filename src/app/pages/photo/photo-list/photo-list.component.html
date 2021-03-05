@@ -11,3 +11,9 @@
     <button nz-button nzType="primary" (click)="onUpload()">Upload</button>
   </nz-page-header-extra>  
 </nz-page-header>
+
+<nz-image-group>
+  <div *ngFor="let pht of photos">
+    <img nz-image width="200px" [nzSrc]="getFileUrl(pht)" alt="" />
+  </div>  
+</nz-image-group>
