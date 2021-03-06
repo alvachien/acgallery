@@ -190,7 +190,7 @@ export class OdataService {
       }));
   }
 
-  public createPhoto(pto: Photo): Observable<any> {
+  public createPhoto(pto: Photo): Observable<Photo> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
               .append('Accept', 'application/json');
@@ -203,29 +203,17 @@ export class OdataService {
     //   params = new HttpParams();
     // }
 
-    return this.http.get(apiurl, {
+    let odata = pto.generateJson();
+    return this.http.post(apiurl, odata, {
         headers,
         params,
       })
       .pipe(map(response => {
         const rjs = response as any;
-        const ritems = rjs.value as any[];
-        const items: SequenceList<Album> = new SequenceList<Album>();
+        let pto2 = new Photo();
+        pto2.parseData(rjs);
         
-        for(let item of ritems) {
-          const rit: Album = new Album();
-          rit.parseData(item);
-          items.AppendElement(rit);
-        }
-
-        // if (environment.mockdata) {
-        //   this.mockedKnowledgeItem = items.slice();
-        // }
-
-        return {
-          totalCount: rjs['@odata.count'],
-          items: items,
-        };
+        return pto2;
       }),
       catchError((error: HttpErrorResponse) => {
         return throwError(error.statusText + '; ' + error.error + '; ' + error.message);

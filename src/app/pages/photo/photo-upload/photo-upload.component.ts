@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
-import { UpdPhoto } from 'src/app/models';
-import { CanComponentDeactivate } from 'src/app/services';
+import { Photo, UpdPhoto } from 'src/app/models';
+import { CanComponentDeactivate, OdataService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -36,8 +36,10 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   photoFileAPI = environment.apiRootUrl + 'PhotoFile';
   albumForm!: FormGroup;
 
-  constructor(private modal: NzModalService,
-    private fb: FormBuilder) { }
+  constructor(
+    private modal: NzModalService,
+    private fb: FormBuilder,
+    private odataSvc: OdataService) { }
 
   ngOnInit(): void {
     this.arAssignMode.push({value: 0, name: 'Photo.Upload_NoAlbum',});
@@ -108,7 +110,25 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   }
 
   done(): void {
-    console.log('done');
+    switch (this.assignMode) {
+      case 0: {
+        // No assign at all.
+        let arreqs = [];
+        this.filePhotos.forEach(updpto => {
+          let pto = new Photo();
+          pto.photoId = updpto.imgSrc;
+          pto.title = updpto.title;
+          pto.desp = updpto.desp;
+          pto.orgFileName = updpto.orgName;
+          pto.fileUrl = updpto.imgSrc;
+          arreqs.push(this.odataSvc.createPhoto(pto));
+        });
+      }
+      break;
+
+      default:
+        break;
+    }
   }
 
   // beforeUpload = (file: NzUploadFile): boolean => {

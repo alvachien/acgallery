@@ -142,6 +142,20 @@ export class Photo {
       }
     }
   }
+  generateJson(): any {
+    return {
+      PhotoId: this.photoId,
+      Title: this.title,
+      Desp: this.desp,
+      Width: this.width,
+      Height: this.height,
+      FileUrl: this.fileUrl,
+      ThumbnailFileUrl: this.thumbnailFileUrl,
+      ThumbWidth: this.thumbWidth,
+      ThumbHeight: this.thumbHeight,
+      IsPublic: this.isPublic,
+    };
+  }
 }
 
 export class SelectablePhoto

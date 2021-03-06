@@ -1,13 +1,8 @@
 <nz-layout class="app-layout">
-  <nz-sider class="menu-sidebar"
-            nzCollapsible
-            nzWidth="256px"
-            nzBreakpoint="md"
-            [(nzCollapsed)]="isCollapsed"
-            [nzTrigger]="null">
+  <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
     <div class="sidebar-logo">
       <a href="/" target="_blank">
-        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+        <img src="/assets/acgallery.ico" alt="logo">
         <h1>AC Photo Gallery</h1>
       </a>
     </div>
@@ -18,20 +13,20 @@
             <a routerLink="/welcome">Welcome</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/album">Albums</a>
+            <a routerLink="/album">{{'Nav.Albums' | transloco}}</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/photo">Photos</a>
+            <a routerLink="/photo">{{ 'Nav.Photos' | transloco }}</a>
           </li>
         </ul>
       </li>
-      <li nz-submenu nzOpen nzTitle="About" nzIcon="form">
+      <li nz-submenu nzOpen nzTitle="{{'Nav.About' | transloco}}" nzIcon="form">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/about">About</a>
+            <a routerLink="/about">{{ 'Nav.About' | transloco }}</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/credits">Credits</a>
+            <a routerLink="/credits">{{ 'Nav.Credits' | transloco }}</a>
           </li>
         </ul>
       </li>
@@ -47,13 +42,13 @@
           <nz-space [nzSize]="16">
             <nz-space-item>
               <a nz-dropdown [nzDropdownMenu]="menu" [nzClickHide]="false" [(nzVisible)]="visible">
-                Language
+                {{'Common.Language' | transloco}}
                 <i nz-icon nzType="down"></i>
               </a>
               <nz-dropdown-menu #menu="nzDropdownMenu">
                 <ul nz-menu>
-                  <li nz-menu-item>English</li>
-                  <li nz-menu-item>Simplified</li>
+                  <li nz-menu-item>{{'Language.English' | transloco}}</li>
+                  <li nz-menu-item>{{'Language.SimpChinese' | transloco}}</li>
                 </ul>
               </nz-dropdown-menu>
             </nz-space-item>
@@ -61,7 +56,7 @@
               <button nz-button nzType="primary" [nzSize]="size" nzShape="circle"><i nz-icon nzType="github" nzTheme="outline"></i></button>  
             </nz-space-item>
             <nz-space-item>
-              <span nz-typography nzType="success">Version: 0.5.2</span>
+              <span nz-typography nzType="success">{{'Nav.Version' | transloco}}: 0.5.2</span>
             </nz-space-item>            
           </nz-space>   
         </div>

@@ -13,7 +13,11 @@
 </nz-page-header>
 
 <nz-image-group>
-  <div *ngFor="let pht of photos">
-    <img nz-image width="200px" [nzSrc]="getFileUrl(pht)" alt="" />
-  </div>  
+  <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+    <div nz-col class="gutter-row" [nzSpan]="6" *ngFor="let pht of photos">
+      <div class="inner-box">
+        <img nz-image width="200px" [nzSrc]="getFileUrl(pht)" alt="" />
+      </div>
+    </div>
+  </div>
 </nz-image-group>
