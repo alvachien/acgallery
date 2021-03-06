@@ -64,32 +64,32 @@ export class Photo {
   }
 
   parseData(data: any) {
-    if (data && data.photoId) {
-      this.photoId = data.photoId;
+    if (data && data.PhotoId) {
+      this.photoId = data.PhotoId;
     }
-    if (data && data.title) {
-      this.title = data.title;
+    if (data && data.Title) {
+      this.title = data.Title;
     }
-    if (data && data.desp) {
-      this.desp = data.desp;
+    if (data && data.Desp) {
+      this.desp = data.Desp;
     }
-    if (data && data.width) {
-      this.width = data.width;
+    if (data && data.Width) {
+      this.width = data.Width;
     }
-    if (data && data.height) {
-      this.height = data.height;
+    if (data && data.Height) {
+      this.height = data.Height;
     }
-    if (data && data.fileUrl) {
-      this.fileUrl = data.fileUrl;
+    if (data && data.FileUrl) {
+      this.fileUrl = data.FileUrl;
     }
-    if (data && data.thumbWidth) {
-      this.thumbWidth = data.thumbWidth;
+    if (data && data.ThumbWidth) {
+      this.thumbWidth = data.ThumbWidth;
     }
-    if (data && data.thumbHeight) {
-      this.thumbHeight = data.thumbHeight;
+    if (data && data.ThumbHeight) {
+      this.thumbHeight = data.ThumbHeight;
     }
-    if (data && data.thumbnailFileUrl) {
-      this.thumbnailFileUrl = data.thumbnailFileUrl;
+    if (data && data.ThumbnailFileUrl) {
+      this.thumbnailFileUrl = data.ThumbnailFileUrl;
     }
     if (data && data.fileFormat) {
       this.fileFormat = data.fileFormat;
@@ -100,11 +100,11 @@ export class Photo {
     if (data && data.uploadedTime) {
       this.uploadedTime = data.uploadedTime;
     }
-    if (data && data.orgFileName) {
-      this.orgFileName = data.orgFileName;
+    if (data && data.OrgFileName) {
+      this.orgFileName = data.OrgFileName;
     }
-    if (data && data.isPublic) {
-      this.isPublic = data.isPublic;
+    if (data && data.IsPublic) {
+      this.isPublic = data.IsPublic;
     } else {
       this.isPublic = false;
     }
