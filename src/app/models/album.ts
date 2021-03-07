@@ -82,7 +82,7 @@ export class Album {
     const forJSON: any = {
       Title: this.Title,
       Desp: this.Desp,
-      CreatedAt: this.CreatedAt.toString(),
+      CreatedAt: this.CreatedAt?.toString(),
       CreatedBy: this.CreatedBy,
       IsPublic: this.IsPublic
     };
@@ -105,6 +105,25 @@ export class SelectableAlbum
 export class AlbumPhotoLink {
   albumID: number;
   photoID: string;
+
+  public parseData(data): void {
+    if (data && data.AlbumID) {
+      this.albumID = data.AlbumID;
+    }
+    if (data && data.PhotoID) {
+      this.photoID = data.PhotoID;
+    }
+  }
+  public writeJSONString(): string {
+    const forJSON = {
+      AlbumID: this.albumID,
+      PhotoID: this.photoID,
+    };
+    if (forJSON) {
+      return JSON && JSON.stringify(forJSON);
+    }
+    return JSON && JSON.stringify(this);
+  }
 }
 
 export class AlbumPhotoByAlbum {

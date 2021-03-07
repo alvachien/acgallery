@@ -5,7 +5,7 @@ import { map, catchError } from 'rxjs/operators';
 import { SequenceList } from 'actslib';
 
 import { environment } from 'src/environments/environment';
-import { Album, Photo } from '../models';
+import { Album, AlbumPhotoLink, Photo } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -132,6 +132,81 @@ export class OdataService {
     }));
   }
 
+  public readAlbum(albumid: number): Observable<Album> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+              .append('Accept', 'application/json');
+
+    let params: HttpParams = new HttpParams();
+    let apiurl = `${this.apiUrl}Albums(${albumid})`;
+    // TBD.
+    // if (environment.mockdata) {
+    //   apiurl = `${environment.basehref}assets/mockdata/albums.json`;
+    //   params = new HttpParams();
+    // }
+
+    return this.http.get(apiurl, {
+        headers,
+        params,
+      })
+      .pipe(map(response => {
+        const rjs = response as any;
+        const rit: Album = new Album();
+        rit.parseData(rjs);
+        return rit;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+      }));
+  }
+
+  public getAlbumRelatedPhotos(albumid: number): Observable<{
+    totalCount: number,
+    items: SequenceList<Photo>}> {
+    // https://localhost:25325/Albums/GetPhotos(2005)?$count=true&$top=3    
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+              .append('Accept', 'application/json');
+
+    let params: HttpParams = new HttpParams();
+    params = params.append('$top', '30');
+    params = params.append('$count', 'true');
+    let apiurl = `${this.apiUrl}Albums/GetPhotos(${albumid})`;
+    // TBD.
+    // if (environment.mockdata) {
+    //   apiurl = `${environment.basehref}assets/mockdata/albums.json`;
+    //   params = new HttpParams();
+    // }
+
+    return this.http.get(apiurl, {
+        headers,
+        params,
+      })
+      .pipe(map(response => {
+        const rjs = response as any;
+        const ritems = rjs.value as any[];
+        const items: SequenceList<Photo> = new SequenceList<Photo>();
+        
+        for(let item of ritems) {
+          const rit: Photo = new Photo();
+          rit.parseData(item);
+          items.AppendElement(rit);
+        }
+
+        // if (environment.mockdata) {
+        //   this.mockedKnowledgeItem = items.slice();
+        // }
+
+        return {
+          totalCount: rjs['@odata.count'],
+          items: items,
+        };
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+      }));
+  }
+
   // Photos
   public getPhotos(): Observable<{
     totalCount: number,
@@ -214,6 +289,38 @@ export class OdataService {
         pto2.parseData(rjs);
         
         return pto2;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+      }));
+  }
+
+  public assignPhotoToAlbum(albid: number, photoid: string): Observable<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+              .append('Accept', 'application/json');
+
+    let params: HttpParams = new HttpParams();
+    let apiurl = `${this.apiUrl}AlbumPhotos`;
+    // TBD.
+    // if (environment.mockdata) {
+    //   apiurl = `${environment.basehref}assets/mockdata/albums.json`;
+    //   params = new HttpParams();
+    // }
+
+    let link = new AlbumPhotoLink();
+    link.albumID = albid;
+    link.photoID = photoid;
+    let odata = link.writeJSONString();
+
+    return this.http.post(apiurl, odata, {
+        headers,
+        params,
+      })
+      .pipe(map(response => {
+        let link2 = new AlbumPhotoLink();
+        link2.parseData(response as any);
+        return link2;
       }),
       catchError((error: HttpErrorResponse) => {
         return throwError(error.statusText + '; ' + error.error + '; ' + error.message);

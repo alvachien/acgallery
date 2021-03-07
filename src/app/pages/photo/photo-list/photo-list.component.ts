@@ -30,7 +30,6 @@ export class PhotoListComponent implements OnInit {
         console.error(err);
       }
     });
-
   }
 
   onUpload(): void {

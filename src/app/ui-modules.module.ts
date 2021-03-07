@@ -38,6 +38,8 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 
 @NgModule({
   exports: [
@@ -79,6 +81,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     NzStepsModule,
     NzRadioModule,
     NzGridModule,
+    NzDividerModule,
+    NzCollapseModule,
   ]
 })
 export class UIModulesModule { }

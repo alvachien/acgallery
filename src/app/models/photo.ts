@@ -1,6 +1,5 @@
 import * as Common from './common';
 import { environment } from '../../environments/environment';
-import { transCompatFormat } from 'ng-zorro-antd/date-picker';
 
 /**
  * Exif item
@@ -169,21 +168,26 @@ export class SelectablePhoto
  */
 export class UpdPhoto {
   public uid: string;
-  public imgSrc: string;
-  public thumbSrc: string;
-
-  public id: number;
-  public orgName: string;
-  public name: string;
+  public imgFile: string;
+  public thumbFile: string;
   public width: number;
   public height: number;
   public size: string;
-
+  public thumbWidth: number;
+  public thumbHeight: number;
+  get imgSrc(): string {
+    return `${ environment.apiRootUrl }PhotoFile/${ this.imgFile }`;
+  }
+  get thumbSrc(): string {
+    return `${ environment.apiRootUrl }PhotoFile/${ this.thumbFile }`;
+  }
   public title: string;
   public desp: string;
   public isPublic: boolean;
+  public orgName: string;
+  public name: string;
 
-  // public isValid: boolean;
+  public id: number;
   public validInfo: string;
   get dimension(): string {
     return this.width.toString() + ' X ' + this.height.toString();
@@ -195,8 +199,8 @@ export class UpdPhoto {
     this.isPublic = true;
   }
   get isValid(): boolean {
-    if (!this.imgSrc) return false;
-    if (!this.thumbSrc) return false;
+    if (!this.imgFile) return false;
+    if (!this.thumbFile) return false;
     if (!this.title) return false;
     // if (!this.desp) return false;
     return true;
