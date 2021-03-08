@@ -4,7 +4,7 @@ import { forkJoin, Observable } from 'rxjs';
 import { finalize, map, takeUntil } from 'rxjs/operators';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
-import { Album, Photo, UpdPhoto } from 'src/app/models';
+import { Album, Photo, SelectableAlbum, UpdPhoto } from 'src/app/models';
 import { CanComponentDeactivate, OdataService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -35,7 +35,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   current = 0;
   photoFileAPI = environment.apiRootUrl + 'PhotoFile';
   albumForm!: FormGroup;
-  listOfAlbums: Album[] = [];
+  listOfAlbums: SelectableAlbum[] = [];
 
   constructor(
     private modal: NzModalService,
@@ -51,7 +51,12 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
       next: val => {
         // Value
         for(let i = 0; i < val.items.Length(); i++) {
-          this.listOfAlbums.push(val.items.GetElement(i));
+          let selalb = new SelectableAlbum();
+          let alb = val.items.GetElement(i);
+          selalb.Id = alb.Id;
+          selalb.Title = alb.Title;
+          selalb.Desp = alb.Desp;
+          this.listOfAlbums.push(selalb);
         }
       },
       error: err => {
@@ -82,6 +87,10 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
       return false;
     }
     return true;
+  }
+
+  onAllAlbumChecked() {
+    
   }
 
   pre(): void {
