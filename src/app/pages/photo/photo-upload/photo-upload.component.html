@@ -79,6 +79,27 @@
         <label nz-radio *ngFor="let am of arAssignMode" [nzValue]="am.value">{{ am.name | transloco }}</label>
       </nz-radio-group>
       
+      <div *ngIf="assignMode === 1">
+        <nz-table #rowSelectionTable nzShowPagination nzShowSizeChanger [nzData]="listOfAlbums" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+          <thead>
+            <tr>
+              <th [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
+              <th>Title</th>
+              <th>Desp</th>
+              <th>Address</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of rowSelectionTable.data">
+              <td [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+              <td>{{ data.Title }}</td>
+              <td>{{ data.Desp }}</td>
+              <td>{{ data.address }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+
       <div *ngIf="assignMode === 2">
         <form nz-form [formGroup]="albumForm">
           <nz-form-item>

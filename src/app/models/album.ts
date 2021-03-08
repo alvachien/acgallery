@@ -82,10 +82,12 @@ export class Album {
     const forJSON: any = {
       Title: this.Title,
       Desp: this.Desp,
-      CreatedAt: this.CreatedAt?.toString(),
       CreatedBy: this.CreatedBy,
       IsPublic: this.IsPublic
     };
+    if (this.CreatedAt) {
+      forJSON.CreatedAt = this.CreatedAt.toISOString().slice(0,10);
+    }
     if (this.Id) {
       forJSON.Id = this.Id;
     }

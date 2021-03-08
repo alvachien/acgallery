@@ -35,6 +35,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   current = 0;
   photoFileAPI = environment.apiRootUrl + 'PhotoFile';
   albumForm!: FormGroup;
+  listOfAlbums: Album[] = [];
 
   constructor(
     private modal: NzModalService,
@@ -45,6 +46,18 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     this.arAssignMode.push({ value: 0, name: 'Photo.Upload_NoAlbum', });
     this.arAssignMode.push({ value: 1, name: 'Photo.Upload_AssignExistAlbum', });
     this.arAssignMode.push({ value: 2, name: 'Photo.Upload_AssignNewAlbum', });
+
+    this.odataSvc.getAlbums().subscribe({
+      next: val => {
+        // Value
+        for(let i = 0; i < val.items.Length(); i++) {
+          this.listOfAlbums.push(val.items.GetElement(i));
+        }
+      },
+      error: err => {
+        // Error
+      }
+    })
 
     this.albumForm = this.fb.group({
       Title: ['', [Validators.required]],
