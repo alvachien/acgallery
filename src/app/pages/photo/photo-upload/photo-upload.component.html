@@ -75,31 +75,31 @@
     </div>
 
     <div *ngSwitchCase="2">
-      <nz-radio-group [(ngModel)]="assignMode">
+      <nz-radio-group [(ngModel)]="assignMode" nzButtonStyle="solid">
         <label nz-radio *ngFor="let am of arAssignMode" [nzValue]="am.value">{{ am.name | transloco }}</label>
       </nz-radio-group>
       
+      <!-- Assigning Existed Albums -->
       <div *ngIf="assignMode === 1">
         <nz-table #rowSelectionTable nzShowPagination nzShowSizeChanger [nzData]="listOfAlbums" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
           <thead>
             <tr>
-              <th [nzChecked]="isSelected" (nzCheckedChange)="onAllAlbumChecked($event)"></th>
+              <th></th>
               <th>Title</th>
               <th>Desp</th>
-              <th>Address</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let data of rowSelectionTable.data">
-              <td [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+              <td [nzChecked]="setOfCheckedId.has(data.Id)" (nzCheckedChange)="onItemChecked(data.Id, $event)"></td>
               <td>{{ data.Title }}</td>
               <td>{{ data.Desp }}</td>
-              <td>{{ data.address }}</td>
             </tr>
           </tbody>
         </nz-table>
       </div>
 
+      <!-- Assigning New Created Albums -->
       <div *ngIf="assignMode === 2">
         <form nz-form [formGroup]="albumForm">
           <nz-form-item>

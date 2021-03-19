@@ -35,7 +35,9 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   current = 0;
   photoFileAPI = environment.apiRootUrl + 'PhotoFile';
   albumForm!: FormGroup;
-  listOfAlbums: SelectableAlbum[] = [];
+  listOfAlbums: ReadonlyArray<Album> = [];
+  listOfData: ReadonlyArray<Album> = [];
+  setOfCheckedId = new Set<number>();
 
   constructor(
     private modal: NzModalService,
@@ -50,14 +52,16 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     this.odataSvc.getAlbums().subscribe({
       next: val => {
         // Value
+        let arAlbums: any[] = [];
         for(let i = 0; i < val.items.Length(); i++) {
           let selalb = new SelectableAlbum();
           let alb = val.items.GetElement(i);
           selalb.Id = alb.Id;
           selalb.Title = alb.Title;
           selalb.Desp = alb.Desp;
-          this.listOfAlbums.push(selalb);
+          arAlbums.push(selalb);
         }
+        this.listOfAlbums = arAlbums.map(_ => _);
       },
       error: err => {
         // Error
@@ -240,8 +244,6 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   // };
 
   handlePreview = async (file: NzUploadFile) => {
-    console.log("Entering handlePreview");
-
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj!);
     }
@@ -250,8 +252,6 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   };
 
   handleChange({ file, fileList }: NzUploadChangeParam): void {
-    console.log("Entering handleChange");
-
     const status = file.status;
     if (status !== 'uploading') {
       console.log(file, fileList);
@@ -277,6 +277,11 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
 
     } else if (file.status === 'error') {
       console.error(`${file.name} file upload failed.`);
+    } else if (file.status === 'removed') {
+      console.error(`${file.name} file upload removed.`);
+    } else if (file.status === 'uploading') {
+      console.log(`${file.name} file upload uploading.`);
+      // file.pre
     }
   }
 
@@ -287,4 +292,21 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   stopEdit(): void {
     this.editId = null;
   }
+
+  updateCheckedSet(id: number, checked: boolean): void {
+    if (checked) {
+      this.setOfCheckedId.add(id);
+    } else {
+      this.setOfCheckedId.delete(id);
+    }
+  }
+
+  onItemChecked(id: number, checked: boolean): void {
+    this.updateCheckedSet(id, checked);
+    // this.refreshCheckedStatus();
+  }
+  onCurrentPageDataChange($event: ReadonlyArray<Album>): void {
+    // this.listOfCurrentPageData = $event;
+    // this.refreshCheckedStatus();
+  }  
 }

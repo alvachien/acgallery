@@ -295,6 +295,37 @@ export class OdataService {
       }));
   }
 
+  // Change photo
+  public changeePhoto(pto: Photo): Observable<Photo> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+              .append('Accept', 'application/json');
+
+    let params: HttpParams = new HttpParams();
+    let apiurl = `${this.apiUrl}Photos(${pto.photoId})`;
+
+    let odata = pto.generateJson();
+    return this.http.put(apiurl, odata, {
+        headers,
+        params,
+      })
+      .pipe(map(response => {
+        const rjs = response as any;
+        let pto2 = new Photo();
+        pto2.parseData(rjs);
+        
+        return pto2;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+      }));
+  }
+
+  // Change photo via patch
+  public changePhotoByPatch() {
+    
+  }
+
   public assignPhotoToAlbum(albid: number, photoid: string): Observable<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
