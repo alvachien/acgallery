@@ -1,29 +1,27 @@
-<nz-page-header class="site-page-header" nzTitle="Album" nzSubtitle="Album Detail">
+<nz-page-header class="site-page-header" [nzTitle]="'Nav.Albums' | transloco" nzSubtitle="Album Detail">
   <nz-breadcrumb nz-page-header-breadcrumb>
     <nz-breadcrumb-item>Welcome</nz-breadcrumb-item>
     <nz-breadcrumb-item>
-      <a routerLink="/album">Albums</a>
+      <a routerLink="/album">{{'Nav.Albums' | transloco}}</a>
     </nz-breadcrumb-item>
-    <nz-breadcrumb-item>Create</nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{currentMode | transloco}}</nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
-    <button nz-button>Operation</button>
-    <button nz-button>Operation</button>
-    <button nz-button nzType="primary" (click)="onSave()">Save</button>
+    <button nz-button nzType="primary" (click)="onSave()">{{'Common.Save' | transloco}}</button>
   </nz-page-header-extra>  
 </nz-page-header>
 <nz-collapse nzGhost>  
-  <nz-collapse-panel nzHeader="Detail">
+  <nz-collapse-panel [nzHeader]="'Common.Detail' | transloco" [nzActive]="isEditableMode">
     <form nz-form [formGroup]="detailForm" (ngSubmit)="submitForm()">
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title">Title</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid Title!">
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title">{{'Common.Title' | transloco}}</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="'Message.TitleIsMust' | transloco">
           <input nz-input formControlName="Title" id="title" />
         </nz-form-control>
       </nz-form-item>
     
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="desp" nzRequired>Description</nz-form-label>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="desp" nzRequired>{{'Common.Description' | transloco}}</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your description!">
           <input nz-input id="desp" formControlName="Desp" />
         </nz-form-control>
@@ -32,30 +30,24 @@
       <nz-form-item nz-row class="register-area">
         <nz-form-control [nzSpan]="14" [nzOffset]="6">
           <label nz-checkbox formControlName="IsPublic">
-            <span>
-              Is Public
-            </span>
+            <span>{{'Album.IsPublic' | transloco}}</span>
           </label>
-        </nz-form-control>
-      </nz-form-item>
-    
-      <nz-form-item nz-row class="register-area">
-        <nz-form-control [nzSpan]="14" [nzOffset]="6">
-          <button nz-button nzType="primary">Register</button>
         </nz-form-control>
       </nz-form-item>
     </form>
   </nz-collapse-panel>
 </nz-collapse>
 
-<nz-divider nzText="With Text"></nz-divider>
+<div *ngIf="isDisplayMode">
+  <nz-divider [nzText]="'Nav.Photos' | transloco"></nz-divider>
 
-<nz-image-group>
-  <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
-    <div nz-col class="gutter-row" [nzSpan]="6" *ngFor="let pht of photos">
-      <div class="inner-box">
-        <img nz-image width="200px" [nzSrc]="getFileUrl(pht)" alt="" />
+  <nz-image-group>
+    <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+      <div nz-col class="gutter-row" [nzSpan]="6" *ngFor="let pht of photos">
+        <div nz-col class="inner-box">
+          <img nz-image width="200px" [nzSrc]="getFileUrl(pht)" alt="" />
+        </div>
       </div>
     </div>
-  </div>
-</nz-image-group>
+  </nz-image-group>  
+</div>

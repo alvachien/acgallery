@@ -12,6 +12,8 @@ import { environment } from 'src/environments/environment';
 })
 export class PhotoListComponent implements OnInit {
   totalCount = 0;
+  viewMode = 'std';
+  pageIndex = 1;
   photos: Photo[] = [];
 
   constructor(public odataSvc: OdataService, 
@@ -40,5 +42,24 @@ export class PhotoListComponent implements OnInit {
     if (pht.fileUrl)
       return environment.apiRootUrl + 'PhotoFile/' + pht.fileUrl;
     return '';
+  }
+
+  onChangePhoto(pht: Photo): void {
+    // Show the dialog
+  }
+  onDeletePhoto(pht: Photo): void {
+    // Delete    
+    this.odataSvc.deletePhoto(pht.photoId).subscribe({
+      next: val => {
+        let pidx = this.photos.findIndex(pt => pt.photoId === pht.photoId);
+        if (pidx !== -1) {
+          this.photos.splice(pidx, 1);
+        }
+        this.totalCount --;
+      },
+      error: err => {
+        console.error(err);
+      }
+    })
   }
 }

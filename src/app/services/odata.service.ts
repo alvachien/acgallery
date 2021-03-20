@@ -54,10 +54,7 @@ export class OdataService {
   ///
   /// Albums
   ///
-  public getAlbums(): Observable<{
-    totalCount: number,
-    items: SequenceList<Album>}> {
-
+  public getAlbums(): Observable<{totalCount: number, items: SequenceList<Album>}> {
     // TBD.
     // if (environment.mockdata && this.mockedKnowledgeItem.length > 0) {
     //   return of({
@@ -160,9 +157,7 @@ export class OdataService {
       }));
   }
 
-  public getAlbumRelatedPhotos(albumid: number): Observable<{
-    totalCount: number,
-    items: SequenceList<Photo>}> {
+  public getAlbumRelatedPhotos(albumid: number): Observable<{totalCount: number, items: SequenceList<Photo>}> {
     // https://localhost:25325/Albums/GetPhotos(2005)?$count=true&$top=3    
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
@@ -208,10 +203,7 @@ export class OdataService {
   }
 
   // Photos
-  public getPhotos(): Observable<{
-    totalCount: number,
-    items: SequenceList<Photo>}> {
-
+  public getPhotos(): Observable<{ totalCount: number, items: SequenceList<Photo>}> {
     // TBD.
     // if (environment.mockdata && this.mockedKnowledgeItem.length > 0) {
     //   return of({
@@ -296,13 +288,13 @@ export class OdataService {
   }
 
   // Change photo
-  public changeePhoto(pto: Photo): Observable<Photo> {
+  public changePhoto(pto: Photo): Observable<Photo> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
               .append('Accept', 'application/json');
 
     let params: HttpParams = new HttpParams();
-    let apiurl = `${this.apiUrl}Photos(${pto.photoId})`;
+    let apiurl = `${this.apiUrl}Photos('${pto.photoId}')`;
 
     let odata = pto.generateJson();
     return this.http.put(apiurl, odata, {
@@ -322,8 +314,56 @@ export class OdataService {
   }
 
   // Change photo via patch
-  public changePhotoByPatch() {
-    
+  public changePhotoInfo(photoId: string, title: string, desp: string, ispublic: boolean) {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+              .append('Accept', 'application/json');
+
+    let params: HttpParams = new HttpParams();
+    let apiurl = `${this.apiUrl}Photos('${photoId}')`;
+
+    // Replace
+    let content = {
+      'Title': title,
+      'Desp': desp,
+      'IsPublic': ispublic
+    };
+
+    return this.http.patch(apiurl, content, {
+        headers,
+        params,
+      })
+      .pipe(map(response => {
+        const rjs = response as any;
+        let pto2 = new Photo();
+        pto2.parseData(rjs);
+        
+        return pto2;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+      }));    
+  }
+
+  // Delete photo
+  public deletePhoto(photoId: string): Observable<boolean> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+              .append('Accept', 'application/json');
+
+    let params: HttpParams = new HttpParams();
+    let apiurl = `${this.apiUrl}Photos('${photoId}')`;
+
+    return this.http.delete(apiurl, {
+        headers,
+        params,
+      })
+      .pipe(map(response => {
+        return true;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+      }));
   }
 
   public assignPhotoToAlbum(albid: number, photoid: string): Observable<any> {

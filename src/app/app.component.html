@@ -7,7 +7,7 @@
       </a>
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+      <li nz-submenu nzOpen nzTitle="{{'Common.Dashboard' | transloco}}" nzIcon="dashboard">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/welcome">Welcome</a>
@@ -48,8 +48,8 @@
               </a>
               <nz-dropdown-menu #menu="nzDropdownMenu">
                 <ul nz-menu>
-                  <li nz-menu-item>{{'Language.English' | transloco}}</li>
-                  <li nz-menu-item>{{'Language.SimpChinese' | transloco}}</li>
+                  <li nz-menu-item (click)="onSetLanguage('en')">{{'Language.English' | transloco}}</li>
+                  <li nz-menu-item (click)="onSetLanguage('zh')">{{'Language.SimpChinese' | transloco}}</li>
                 </ul>
               </nz-dropdown-menu>
             </nz-space-item>
@@ -57,7 +57,7 @@
               <button nz-button nzType="primary" [nzSize]="size" nzShape="circle"><i nz-icon nzType="github" nzTheme="outline"></i></button>  
             </nz-space-item>
             <nz-space-item>
-              <span nz-typography nzType="success">{{'Nav.Version' | transloco}}: 0.5.2</span>
+              <span nz-typography nzType="success">{{'Nav.Version' | transloco}}: {{currentVersion}}</span>
             </nz-space-item>            
           </nz-space>   
         </div>

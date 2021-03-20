@@ -40,6 +40,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 @NgModule({
   exports: [
@@ -83,6 +84,7 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
     NzGridModule,
     NzDividerModule,
     NzCollapseModule,
+    NzPaginationModule,
   ]
 })
 export class UIModulesModule { }

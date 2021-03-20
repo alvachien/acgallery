@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'acgallery-not-found',
   templateUrl: './not-found.component.html',
-  styleUrls: ['./not-found.component.less']
+  styleUrls: ['./not-found.component.less'],
 })
 export class NotFoundComponent implements OnInit {
 
@@ -11,5 +11,4 @@ export class NotFoundComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

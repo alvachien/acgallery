@@ -12,6 +12,7 @@ import { OdataService } from 'src/app/services';
 export class AlbumListComponent implements OnInit {
   albums: Album[] = [];
   totalCount = 0;
+  pageIndex = 1;
 
   constructor(private odataSvc: OdataService,
     private router: Router) { }
@@ -36,5 +37,8 @@ export class AlbumListComponent implements OnInit {
   }
   onDisplay(instance: Album): void {
     this.router.navigate(['/album/display', instance.Id]);
+  }
+  onEdit(instance: Album): void {
+    this.router.navigate(['/album/change', instance.Id]);
   }
 }

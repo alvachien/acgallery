@@ -1,23 +1,47 @@
-<nz-page-header class="site-page-header" nzTitle="Photos" nzSubtitle="List mode">
+<nz-page-header class="site-page-header" [nzTitle]="'Nav.Photos' | transloco" [nzSubtitle]="'Common.ListView' | transloco">
   <nz-breadcrumb nz-page-header-breadcrumb>
     <nz-breadcrumb-item>Welcome</nz-breadcrumb-item>
     <nz-breadcrumb-item>
-      <a>Photos</a>
+      <a>{{'Nav.Photos' | transloco}}</a>
     </nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
-    <button nz-button>Operation</button>
-    <button nz-button>Operation</button>
-    <button nz-button nzType="primary" (click)="onUpload()">Upload</button>
+    <nz-radio-group [(ngModel)]="viewMode">
+      <label nz-radio-button nzValue="std"><span>Standard</span></label>
+      <label nz-radio-button nzValue="adv"><span>Advance</span></label>
+    </nz-radio-group>
+    <button nz-button nzType="primary" (click)="onUpload()">{{'Nav.PhotoUpload' | transloco}}</button>
   </nz-page-header-extra>  
 </nz-page-header>
+
+<div nz-row nzJustify="center">
+  <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="20" [nzShowTotal]="rangeTemplate"></nz-pagination>
+  <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}-{{ range[1] }} of {{ total }} items </ng-template>        
+</div>
+
+<nz-divider></nz-divider>
 
 <nz-image-group>
   <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
     <div nz-col class="gutter-row" [nzSpan]="6" *ngFor="let pht of photos">
-      <div class="inner-box">
-        <img nz-image width="200px" [nzSrc]="getFileUrl(pht)" alt="" />
+      <div nz-col class="inner-box">
+        <div nz-row>
+          <img nz-image width="200px" [nzSrc]="getFileUrl(pht)" alt="" />
+        </div>
+        <div nz-row *ngIf="viewMode === 'adv'">
+          <nz-button-group>
+            <a nz-button nzType="link" (click)="onChangePhoto(pht)" nzGhost>Change</a>
+            <a nz-button nzType="link" (click)="onDeletePhoto(pht)" nzDanger>Delete</a>
+          </nz-button-group>  
+        </div>
       </div>
     </div>
   </div>
 </nz-image-group>
+
+<nz-divider></nz-divider>
+
+<div nz-row nzJustify="center">
+  <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="20" [nzShowTotal]="rangeTemplate"></nz-pagination>
+  <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}-{{ range[1] }} of {{ total }} items </ng-template>        
+</div>

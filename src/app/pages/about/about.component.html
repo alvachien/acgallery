@@ -1,13 +1,12 @@
-<nz-page-header
-  class="site-page-header"
+<nz-page-header class="site-page-header"
   (nzBack)="onBack()"
   nzBackIcon
-  nzTitle="About"
-  nzSubtitle="About"
+  [nzTitle]="'Nav.About' | transloco"
+  [nzSubtitle]="'Nav.About' | transloco"
 >
 </nz-page-header>
 <article nz-typography>
-  <h1 nz-typography>About</h1>
+  <h1 nz-typography>{{'Nav.About' | transloco}}</h1>
   <p nz-typography>
     When the Yahoo! has been sold out, I start to worry about the future of Flickr.com.
   </p>

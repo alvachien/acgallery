@@ -2,14 +2,15 @@
   <nz-breadcrumb nz-page-header-breadcrumb>
     <nz-breadcrumb-item>Welcome</nz-breadcrumb-item>
     <nz-breadcrumb-item>
-      <a>Photos</a>
+      <a>{{'Nav.Photos' | transloco}}</a>
     </nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{'Nav.PhotoUpload' | transloco}}</nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
   </nz-page-header-extra>
 </nz-page-header>
 
-<nz-steps [nzCurrent]="current">
+<nz-steps [nzCurrent]="currentStep">
   <nz-step nzTitle="{{'Photo.ChoosePhoto' | transloco}}"></nz-step>
   <nz-step nzTitle="Change Names"></nz-step>
   <nz-step nzTitle="Assign Album"></nz-step>
@@ -17,14 +18,15 @@
 </nz-steps>
 
 <div class="steps-content">
-  <div [ngSwitch]="current">
+  <div [ngSwitch]="currentStep">
+    <!-- Step 1. Choose file to upload -->
     <div *ngSwitchCase="0">
-      <nz-upload [nzAction]="photoFileAPI" nzListType="picture-card" nzFileType="image/png,image/jpeg" [(nzFileList)]="fileList"
-        [nzShowButton]="fileList.length < 8" nzSize="2048" (nzChange)="handleChange($event)" [nzMultiple]="true"        
-        [nzPreview]="handlePreview">
+      <nz-upload [nzAction]="photoFileAPI" nzListType="picture-card" nzFileType="image/png,image/jpeg" [(nzFileList)]="fileUploadList"
+        [nzShowButton]="fileUploadList.length < 8" nzSize="2048" (nzChange)="handleUploadChange($event)" [nzMultiple]="true"        
+        [nzPreview]="handleUploadPreview">
         <div>
           <i nz-icon nzType="plus"></i>
-          <div style="margin-top: 8px">Upload</div>
+          <div style="margin-top: 8px">{{'Nav.PhotoUpload' | transloco}}</div>
         </div>
       </nz-upload>
       <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible = false">
@@ -34,6 +36,7 @@
       </nz-modal>  
     </div>
 
+    <!-- Step 2. Change Name and Description -->
     <div *ngSwitchCase="1">
       <nz-table #editRowTable nzBordered [nzData]="filePhotos">
         <thead>
@@ -60,26 +63,21 @@
             </td>
             <td>{{ data.orgName }}</td>
             <td>{{ data.size }}</td>
-            <td>
-              <input type="text" nz-input [(ngModel)]="data.title" />
-            </td>
-            <td>
-              <input type="text" nz-input [(ngModel)]="data.desp" />
-            </td>
-            <td>
-              <label nz-checkbox [(ngModel)]="data.isPublic"></label>
-            </td>
+            <td><input type="text" nz-input [(ngModel)]="data.title" /></td>
+            <td><input type="text" nz-input [(ngModel)]="data.desp" /></td>
+            <td><label nz-checkbox [(ngModel)]="data.isPublic"></label></td>
           </tr>
         </tbody>
       </nz-table>
     </div>
 
+    <!-- Step 3. Choose Albums to assign -->
     <div *ngSwitchCase="2">
       <nz-radio-group [(ngModel)]="assignMode" nzButtonStyle="solid">
         <label nz-radio *ngFor="let am of arAssignMode" [nzValue]="am.value">{{ am.name | transloco }}</label>
       </nz-radio-group>
       
-      <!-- Assigning Existed Albums -->
+      <!-- Assign to album: Choosing existing one -->
       <div *ngIf="assignMode === 1">
         <nz-table #rowSelectionTable nzShowPagination nzShowSizeChanger [nzData]="listOfAlbums" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
           <thead>
@@ -91,7 +89,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let data of rowSelectionTable.data">
-              <td [nzChecked]="setOfCheckedId.has(data.Id)" (nzCheckedChange)="onItemChecked(data.Id, $event)"></td>
+              <td [nzChecked]="setOfChosedAlbumIDs.has(data.Id)" (nzCheckedChange)="onExistedAlbumSelected(data.Id, $event)"></td>
               <td>{{ data.Title }}</td>
               <td>{{ data.Desp }}</td>
             </tr>
@@ -99,7 +97,7 @@
         </nz-table>
       </div>
 
-      <!-- Assigning New Created Albums -->
+      <!-- Assign to album: Create a new album -->
       <div *ngIf="assignMode === 2">
         <form nz-form [formGroup]="albumForm">
           <nz-form-item>
@@ -129,20 +127,40 @@
       </div>
     </div>
 
+    <!-- Step 4. Show result -->
     <div *ngSwitchCase="3">
-      Result
+      <nz-result *ngIf="!isErrorOccurred" nzStatus="success" nzTitle="Successfully upload photo and assigned to albums!"
+        nzSubTitle="Successfully upload the photos and assigned to albums based on need.">
+        <div nz-result-extra>
+          <button nz-button nzType="primary">Go Photos</button>
+          <button nz-button>Upload Further</button>
+        </div>
+      </nz-result>
+      <nz-result *ngIf="isErrorOccurred" nzTitle="Upload Failed" nzStatus="error"
+        nzSubTitle="Please check and modify the following information before resubmitting.">
+        <div nz-result-content>
+          <div class="desc">
+            <h4 nz-title>The content you submitted has the following error:</h4>
+            <p nz-paragraph>
+              <i nz-icon nzType="close-circle"></i>
+              {{errorInfo}}
+            </p>
+          </div>
+        </div>
+        <div nz-result-extra>
+          <button nz-button nzType="primary">Go Photos</button>
+          <button nz-button>Abandon uploading</button>
+        </div>
+      </nz-result>      
     </div>
   </div>
 </div>
 
 <div class="steps-action">
-  <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
-    <span>Previous</span>
+  <button nz-button nzType="default" (click)="pre()" *ngIf="currentStep > 0 && currentStep < 3">
+    <span>{{'Common.PreviousStep' | transloco}}</span>
   </button>
-  <button nz-button nzType="default" [disabled]="!nextButtonEnabled" (click)="next()" *ngIf="current < 3">
-    <span>Next</span>
-  </button>
-  <button nz-button nzType="primary" (click)="done()" *ngIf="current === 3">
-    <span>Done</span>
+  <button nz-button nzType="default" [disabled]="!nextButtonEnabled" (click)="next()" *ngIf="currentStep < 3">
+    <span>{{'Common.NextStep' | transloco}}</span>
   </button>
 </div>

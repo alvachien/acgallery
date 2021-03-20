@@ -25,29 +25,42 @@ function getBase64(file: File): Promise<string | ArrayBuffer | null> {
   styleUrls: ['./photo-upload.component.less'],
 })
 export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
-  fileList: NzUploadFile[] = [];
-  filePhotos: UpdPhoto[] = [];
+  // Current step
+  currentStep = 0;
+  // Step 1. Choose file to upload
+  photoFileAPI = environment.apiRootUrl + 'PhotoFile';
+  fileUploadList: NzUploadFile[] = [];
   previewImage: string | undefined = '';
   previewVisible = false;
   editId: string | null = null;
+  // Step 2. Change the info of files
+  filePhotos: UpdPhoto[] = [];
+  // Step 3. Assign to album
   arAssignMode: any[] = [];
   assignMode = 0;
-  current = 0;
-  photoFileAPI = environment.apiRootUrl + 'PhotoFile';
   albumForm!: FormGroup;
   listOfAlbums: ReadonlyArray<Album> = [];
   listOfData: ReadonlyArray<Album> = [];
-  setOfCheckedId = new Set<number>();
+  setOfChosedAlbumIDs = new Set<number>();
+  // Step 4. Result
+  isErrorOccurred = false;
+  errorInfo = '';
 
   constructor(
     private modal: NzModalService,
     private fb: FormBuilder,
-    private odataSvc: OdataService) { }
-
-  ngOnInit(): void {
+    private odataSvc: OdataService) { 
     this.arAssignMode.push({ value: 0, name: 'Photo.Upload_NoAlbum', });
     this.arAssignMode.push({ value: 1, name: 'Photo.Upload_AssignExistAlbum', });
     this.arAssignMode.push({ value: 2, name: 'Photo.Upload_AssignNewAlbum', });
+  }
+
+  ngOnInit(): void {
+    this.fileUploadList = [];
+    this.filePhotos = [];
+    this.setOfChosedAlbumIDs.clear();
+    this.isErrorOccurred = false;
+    this.errorInfo = '';
 
     this.odataSvc.getAlbums().subscribe({
       next: val => {
@@ -65,6 +78,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
       },
       error: err => {
         // Error
+        console.error(err);
       }
     })
 
@@ -77,114 +91,41 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
 
   canDeactivate(): Observable<boolean> | boolean {
     // // Allow synchronous navigation (`true`) if no crisis or the crisis is unchanged
-    // if (!this.crisis || this.crisis.name === this.editName) {
-    //   return true;
-    // }
     // // Otherwise ask the user with the dialog service and return its
     // // observable which resolves to true or false when the user decides
     // return this.dialogService.confirm('Discard changes?');
-    if (this.filePhotos.length > 0) {
-      this.modal.confirm({
-        nzTitle: 'Photo uploading in process, discard them?',
-        nzContent: 'When clicked the OK button, this dialog will be closed after 1 second'
-      });
-      return false;
-    }
+
+    // if (this.filePhotos.length > 0) {
+    //   this.modal.confirm({
+    //     nzTitle: 'Photo uploading in process, discard them?',
+    //     nzContent: 'When clicked the OK button, this dialog will be closed after 1 second'
+    //   });
+    //   return false;
+    // }
     return true;
   }
 
-  onAllAlbumChecked() {
-    
-  }
-
   pre(): void {
-    this.current -= 1;
+    this.currentStep -= 1;
   }
 
   next(): void {
-    if (this.current === 2) {
-      let arreqs = this.getPhotosToBeUpload();
-      switch (this.assignMode) {
-        case 0: {          
-          forkJoin(arreqs)
-            .pipe(
-              // takeUntil(this._destroyed$),
-              finalize(() => {
-                // this.isLoadingResults = false;
-              }))
-            .subscribe({
-              next: (val: any) => {
-                this.filePhotos = [];
-                this.fileList = [];
-              },
-              error: (err: any) => {
-              }
-            });
-        }
-        break;
-
-        case 1: {
-
-        }
-        break;
-
-        case 2: {
-          // New create album
-          let alb = new Album();
-          alb.Title = this.albumForm.get('Title').value;
-          alb.Desp = this.albumForm.get('Desp').value;
-          alb.IsPublic = this.albumForm.get('IsPublic').value;
-          // alb.CreatedAt = new Date();
-          this.odataSvc.createAlbum(alb).subscribe({
-            next: (val: Album) => {
-              alb.Id = val.Id;
-
-              forkJoin(arreqs)
-                .pipe(
-                  // takeUntil(this._destroyed$),
-                  finalize(() => {
-                  // this.isLoadingResults = false;
-                }))
-                .subscribe({
-                  next: (ptos: any) => {
-                    // Update the album/photo bindings
-                    let arreq2 = [];
-                    this.filePhotos.forEach(updpto => {
-                      arreq2.push(this.odataSvc.assignPhotoToAlbum(alb.Id, updpto.name));
-                    });
-                    forkJoin(arreq2).subscribe({
-                      next: (lik) => {
-                        // TBD.
-                      },
-                      error: (err) => {
-                        // TBD.
-                      }
-                    });
-                    this.filePhotos = [];
-                    this.fileList = [];
-                  },
-                  error: (err2: any) => {
-                  }
-                });
-            },
-            error: (err : any) => {
-              // TBD.
-            }
-          });
-        }
-          break;
-
-        default:
-          break;
-      }
+    if (this.currentStep === 0) {
+      // Upload the photo
+      this.currentStep ++;
+    } else if (this.currentStep === 1) {
+      // Change the title, desp
+      this.updatePhotoInfo();
+    } else if (this.currentStep === 2) {
+      // Assign the albums
+      this.assignPhotoToAlbum();
     }
-    this.current += 1;
   }
 
   get nextButtonEnabled(): boolean {
     let isenabled = false;
-    switch (this.current) {
-      case 0: isenabled = this.fileList.length > 0; break;
+    switch (this.currentStep) {
+      case 0: isenabled = this.fileUploadList.length > 0; break;
       case 1: {
         isenabled = true;
         for (let i = 0; i < this.filePhotos.length; i++) {
@@ -194,13 +135,14 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
           }
         }
       }
-        break;
+      break;
 
       case 2: {
         if (this.assignMode === 0) {
           isenabled = true;
         } else if (this.assignMode === 1) {
           // Existing albums
+          isenabled = this.setOfChosedAlbumIDs.size > 0;
         } else if (this.assignMode === 2) {
           // New album
           isenabled = this.albumForm.valid;
@@ -209,31 +151,9 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
       break;
 
       default:
-        break;
+      break;
     }
     return isenabled;
-  }
-
-  getPhotosToBeUpload(): any[] {
-    let arreqs = [];
-    this.filePhotos.forEach(updpto => {
-      let pto = new Photo();
-      pto.photoId = updpto.name;
-      pto.title = updpto.title;
-      pto.desp = updpto.desp;
-      pto.orgFileName = updpto.orgName;
-      pto.fileUrl = updpto.imgFile;
-      pto.thumbnailFileUrl = updpto.thumbFile;
-      pto.width = updpto.width;
-      pto.height = updpto.height;
-      pto.thumbWidth = updpto.thumbWidth;
-      pto.thumbWidth = updpto.thumbHeight;
-      arreqs.push(this.odataSvc.createPhoto(pto));
-    });
-    return arreqs;
-  }
-
-  done(): void {
   }
 
   // beforeUpload = (file: NzUploadFile): boolean => {
@@ -243,7 +163,8 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   //   return false;
   // };
 
-  handlePreview = async (file: NzUploadFile) => {
+  // Step 1. Choose photo to upload
+  handleUploadPreview = async (file: NzUploadFile) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj!);
     }
@@ -251,7 +172,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     this.previewVisible = true;
   };
 
-  handleChange({ file, fileList }: NzUploadChangeParam): void {
+  handleUploadChange({ file, fileList }: NzUploadChangeParam): void {
     const status = file.status;
     if (status !== 'uploading') {
       console.log(file, fileList);
@@ -272,41 +193,134 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
       pobj.height = file.response.height;
       pobj.thumbWidth = file.response.thumbwidth;
       pobj.thumbHeight = file.response.thumbheight;
+      pobj.title = pobj.name;
+      pobj.desp = pobj.name;
 
       this.filePhotos.push(pobj);
-
     } else if (file.status === 'error') {
       console.error(`${file.name} file upload failed.`);
     } else if (file.status === 'removed') {
       console.error(`${file.name} file upload removed.`);
     } else if (file.status === 'uploading') {
       console.log(`${file.name} file upload uploading.`);
-      // file.pre
     }
   }
 
-  startEdit(id: string): void {
-    this.editId = id;
+  // Step 2. Update photo info
+  updatePhotoInfo(): void {
+    let arreqs = [];
+    this.filePhotos.forEach(updpto => {
+      arreqs.push(this.odataSvc.changePhotoInfo(updpto.name, updpto.title, updpto.desp, updpto.isPublic));
+    });
+
+    forkJoin(arreqs)
+      .pipe(
+        // takeUntil(this._destroyed$),
+        finalize(() => {
+          // this.isLoadingResults = false;
+        }))
+      .subscribe({
+        next: (val: any) => {
+          this.currentStep ++;
+        },
+        error: (err: any) => {
+          console.error(err);
+        }
+    });
   }
 
-  stopEdit(): void {
-    this.editId = null;
+  // Step 3. Assign to albums
+  assignPhotoToAlbum(): void {
+    switch (this.assignMode) {
+      case 0: {
+        // No assign to album
+        this.currentStep ++;
+      }
+      break;
+
+      case 1: {
+        // Assign to existing album
+        this.assignPhotoToExistingAlbums();
+      }
+      break;
+
+      case 2: {
+        // Assign to new album
+        this.assignPhotoToNewAlbum();
+      }
+      break;
+
+      default:
+      break;
+    }
   }
 
-  updateCheckedSet(id: number, checked: boolean): void {
+  updateExistedAlbumSelected(id: number, checked: boolean): void {
     if (checked) {
-      this.setOfCheckedId.add(id);
+      this.setOfChosedAlbumIDs.add(id);
     } else {
-      this.setOfCheckedId.delete(id);
+      this.setOfChosedAlbumIDs.delete(id);
     }
   }
 
-  onItemChecked(id: number, checked: boolean): void {
-    this.updateCheckedSet(id, checked);
+  onExistedAlbumSelected(id: number, checked: boolean): void {
+    this.updateExistedAlbumSelected(id, checked);
     // this.refreshCheckedStatus();
   }
   onCurrentPageDataChange($event: ReadonlyArray<Album>): void {
     // this.listOfCurrentPageData = $event;
     // this.refreshCheckedStatus();
-  }  
+  }
+  assignPhotoToExistingAlbums(): void {
+    let arreq = [];
+    this.setOfChosedAlbumIDs.forEach(albid => {
+      this.filePhotos.forEach(updpht => {
+        arreq.push(this.odataSvc.assignPhotoToAlbum(albid, updpht.name));
+      });
+    });
+    forkJoin(arreq).subscribe({
+      next: (lik) => {
+        this.currentStep ++;
+      },
+      error: (err) => {
+        console.error(err);
+        this.isErrorOccurred = true;
+        this.errorInfo = err;
+      }
+    });
+  }
+  assignPhotoToNewAlbum(): void {
+    // New create album
+    let alb = new Album();
+    alb.Title = this.albumForm.get('Title').value;
+    alb.Desp = this.albumForm.get('Desp').value;
+    alb.IsPublic = this.albumForm.get('IsPublic').value;
+
+    this.odataSvc.createAlbum(alb).subscribe({
+      next: (val: Album) => {
+        alb.Id = val.Id;
+
+        // Update the album/photo bindings
+        let arreq2 = [];
+        this.filePhotos.forEach(updpto => {
+          arreq2.push(this.odataSvc.assignPhotoToAlbum(alb.Id, updpto.name));
+        });
+        forkJoin(arreq2).subscribe({
+          next: (lik) => {
+            this.currentStep ++;
+          },
+          error: (err) => {
+            console.error(err);
+            this.isErrorOccurred = true;
+            this.errorInfo = err;
+          }
+        });
+      },
+      error: (err : any) => {
+        console.error(err);
+        this.isErrorOccurred = true;
+        this.errorInfo = err;
+      }
+    });
+  }
 }
