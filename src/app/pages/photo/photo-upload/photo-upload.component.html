@@ -13,7 +13,7 @@
 <nz-steps [nzCurrent]="currentStep">
   <nz-step nzTitle="{{'Photo.ChoosePhoto' | transloco}}"></nz-step>
   <nz-step nzTitle="Change Names"></nz-step>
-  <nz-step nzTitle="Assign Album"></nz-step>
+  <nz-step nzTitle="{{'Photo.Assignment' | transloco}}"></nz-step>
   <nz-step nzTitle="Result"></nz-step>
 </nz-steps>
 
@@ -83,8 +83,8 @@
           <thead>
             <tr>
               <th></th>
-              <th>Title</th>
-              <th>Desp</th>
+              <th>{{'Common.Title' | transloco}}</th>
+              <th>{{'Common.Description' | transloco}}</th>
             </tr>
           </thead>
           <tbody>
@@ -101,14 +101,14 @@
       <div *ngIf="assignMode === 2">
         <form nz-form [formGroup]="albumForm">
           <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title">Title</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid Title!">
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title">{{'Common.Title' | transloco}}</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="'Message.TitleIsMust' | transloco">
               <input nz-input formControlName="Title" id="title" />
             </nz-form-control>
           </nz-form-item>
         
           <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="desp" nzRequired>Description</nz-form-label>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="desp" nzRequired>{{'Common.Description' | transloco}}</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your description!">
               <input nz-input id="desp" formControlName="Desp" />
             </nz-form-control>
@@ -117,9 +117,7 @@
           <nz-form-item nz-row class="register-area">
             <nz-form-control [nzSpan]="14" [nzOffset]="6">
               <label nz-checkbox formControlName="IsPublic">
-                <span>
-                  Is Public
-                </span>
+                <span>{{'Album.IsPublic' | transloco}}</span>
               </label>
             </nz-form-control>
           </nz-form-item>

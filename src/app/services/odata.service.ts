@@ -54,7 +54,7 @@ export class OdataService {
   ///
   /// Albums
   ///
-  public getAlbums(): Observable<{totalCount: number, items: SequenceList<Album>}> {
+  public getAlbums(skip = 0, top = 20): Observable<{totalCount: number, items: SequenceList<Album>}> {
     // TBD.
     // if (environment.mockdata && this.mockedKnowledgeItem.length > 0) {
     //   return of({
@@ -68,7 +68,8 @@ export class OdataService {
               .append('Accept', 'application/json');
 
     let params: HttpParams = new HttpParams();
-    params = params.append('$top', '30');
+    params = params.append('$top', top.toString());
+    params = params.append('$skip', skip.toString());
     params = params.append('$count', 'true');
     // TBD.
     // params = params.append('$select', 'ID,Category,Title,CreatedAt,ModifiedAt');
@@ -203,7 +204,7 @@ export class OdataService {
   }
 
   // Photos
-  public getPhotos(): Observable<{ totalCount: number, items: SequenceList<Photo>}> {
+  public getPhotos(skip = 0, top = 20): Observable<{ totalCount: number, items: SequenceList<Photo>}> {
     // TBD.
     // if (environment.mockdata && this.mockedKnowledgeItem.length > 0) {
     //   return of({
@@ -217,7 +218,8 @@ export class OdataService {
               .append('Accept', 'application/json');
 
     let params: HttpParams = new HttpParams();
-    params = params.append('$top', '30');
+    params = params.append('$top', top.toString());
+    params = params.append('$skip', skip.toString());
     params = params.append('$count', 'true');
     // TBD.
     // params = params.append('$select', 'ID,Category,Title,CreatedAt,ModifiedAt');
