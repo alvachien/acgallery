@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TestingDependsModule } from 'src/testing/';
+import { TestingDependsModule, getTranslocoModule } from 'src/testing/';
 import { AlbumListComponent } from './album-list.component';
 import { OdataService } from 'src/app/services';
 
@@ -12,6 +12,7 @@ describe('AlbumListComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         TestingDependsModule,
+        getTranslocoModule(),
       ],
       declarations: [
         AlbumListComponent,

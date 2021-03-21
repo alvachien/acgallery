@@ -1,14 +1,10 @@
 import { TestBed, } from '@angular/core/testing';
-import { HttpClient } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
-import { Router, ActivatedRoute, UrlSegment } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { RouterLinkStubDirective } from '../testing';
+import { TestingDependsModule, getTranslocoModule } from 'src/testing/';
 
 describe('AppComponent', () => {
   beforeEach(async() => {
@@ -20,9 +16,8 @@ describe('AppComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        BrowserAnimationsModule,
+        TestingDependsModule,
+        getTranslocoModule(),
       ],
       declarations: [
         AppComponent,

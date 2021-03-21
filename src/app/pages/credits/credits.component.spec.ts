@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TestingDependsModule } from 'src/testing/';
+import { TestingDependsModule, getTranslocoModule } from 'src/testing/';
 import { CreditsComponent } from './credits.component';
 
 describe('CreditsComponent', () => {
@@ -11,6 +11,7 @@ describe('CreditsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         TestingDependsModule,
+        getTranslocoModule(),
       ],
       declarations: [
         CreditsComponent,

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TestingDependsModule } from 'src/testing/';
+import { TestingDependsModule, getTranslocoModule } from 'src/testing/';
 import { PhotoDetailComponent } from './photo-detail.component';
 
 describe('PhotoDetailComponent', () => {
@@ -11,6 +11,7 @@ describe('PhotoDetailComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         TestingDependsModule,
+        getTranslocoModule(),
       ],
       declarations: [ PhotoDetailComponent ]
     })

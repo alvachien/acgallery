@@ -30,6 +30,6 @@ describe('Photo', () => {
   it('generateJson', () => {
     objInstance.photoId = 'Test 1';
     let odata = objInstance.generateJson();
-    expect(odata.PhotoID).toEqual(objInstance.photoId);
+    expect(odata.PhotoId).toEqual(objInstance.photoId);
   });
 });

@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { TestingDependsModule, getTranslocoModule } from 'src/testing/';
 import { PhotoUploadComponent } from './photo-upload.component';
 
 describe('PhotoUploadComponent', () => {
@@ -8,6 +9,10 @@ describe('PhotoUploadComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        TestingDependsModule,
+        getTranslocoModule(),
+      ],
       declarations: [ PhotoUploadComponent ]
     })
     .compileComponents();
