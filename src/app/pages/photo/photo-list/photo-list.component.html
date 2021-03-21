@@ -10,6 +10,7 @@
       <label nz-radio-button nzValue="std"><span>Standard</span></label>
       <label nz-radio-button nzValue="adv"><span>Advance</span></label>
     </nz-radio-group>
+    <button nz-button (click)="onRefresh()">{{'Common.Refresh' | transloco}}</button>
     <button nz-button nzType="primary" (click)="onUpload()">{{'Nav.PhotoUpload' | transloco}}</button>
   </nz-page-header-extra>  
 </nz-page-header>
@@ -30,8 +31,8 @@
         </div>
         <div nz-row *ngIf="viewMode === 'adv'">
           <nz-button-group>
-            <a nz-button nzType="link" (click)="onChangePhoto(pht)" nzGhost>Change</a>
-            <a nz-button nzType="link" (click)="onDeletePhoto(pht)" nzDanger>Delete</a>
+            <a nz-button nzType="link" (click)="onChangePhoto(pht)" nzGhost>{{'Common.Edit' | transloco}}</a>
+            <a nz-button nzType="link" (click)="onDeletePhoto(pht)" nzDanger>{{'Common.Delete' | transloco}}</a>
           </nz-button-group>  
         </div>
       </div>

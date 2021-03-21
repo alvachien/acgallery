@@ -221,7 +221,9 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
         }))
       .subscribe({
         next: (val: any) => {
+          console.debug(`Step ${this.currentStep}: Photo info updated successfully, go to next step`);
           this.currentStep ++;
+          console.debug(`Now Step is ${this.currentStep}`);
         },
         error: (err: any) => {
           console.error(err);
@@ -280,7 +282,9 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     });
     forkJoin(arreq).subscribe({
       next: (lik) => {
+        console.debug(`Step ${this.currentStep}: Photo assigned to existing albums successfully, go to next step`);
         this.currentStep ++;
+        console.debug(`Now Step is ${this.currentStep}`);
       },
       error: (err) => {
         console.error(err);
@@ -307,7 +311,9 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
         });
         forkJoin(arreq2).subscribe({
           next: (lik) => {
+            console.debug(`Step ${this.currentStep}: Photo assigned to new created album successfully, go to next step`);
             this.currentStep ++;
+            console.debug(`Now Step is ${this.currentStep}`);
           },
           error: (err) => {
             console.error(err);

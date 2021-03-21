@@ -37,7 +37,9 @@ export class PhotoListComponent implements OnInit {
   onUpload(): void {
     this.router.navigate(['/photo/upload']);
   }
-
+  onRefresh(): void {
+    // TBD. Refresh
+  }
   getFileUrl(pht: Photo): string {
     if (pht.fileUrl)
       return environment.apiRootUrl + 'PhotoFile/' + pht.fileUrl;

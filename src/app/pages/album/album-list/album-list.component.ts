@@ -41,4 +41,7 @@ export class AlbumListComponent implements OnInit {
   onEdit(instance: Album): void {
     this.router.navigate(['/album/change', instance.Id]);
   }
+  onRefresh(): void {
+    // TBD. refresh the list
+  }
 }

@@ -6,6 +6,7 @@
     </nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
+    <button nz-button (click)="onRefresh()">{{'Common.Refresh' | transloco}}</button>
     <button nz-button nzType="primary" (click)="onCreate()">{{'Common.Create' | transloco}}</button>
   </nz-page-header-extra>  
 </nz-page-header>
@@ -31,9 +32,9 @@
     </nz-list-item-meta>
     {{ item.Title }}
     <ul nz-list-item-actions>
-      <nz-list-item-action><i nz-icon nzType="star-o" style="margin-right: 8px"></i>156</nz-list-item-action>
-      <nz-list-item-action><i nz-icon nzType="star-o" style="margin-right: 8px"></i>156</nz-list-item-action>
-      <nz-list-item-action><i nz-icon nzType="star-o" style="margin-right: 8px"></i>2</nz-list-item-action>
+      <nz-list-item-action><i nz-icon nzType="flag" style="margin-right: 8px"></i>156</nz-list-item-action>
+      <nz-list-item-action><i nz-icon nzType="picture" style="margin-right: 8px"></i>156</nz-list-item-action>
+      <nz-list-item-action><i nz-icon nzType="heart" style="margin-right: 8px"></i>2</nz-list-item-action>
       <nz-list-item-action><a nz-button nzType="link" (click)="onDisplay(item)">{{'Common.Display' | transloco}}</a></nz-list-item-action>
       <nz-list-item-action><a nz-button nzType="link" (click)="onEdit(item)">{{'Common.Edit' | transloco}}</a></nz-list-item-action>
     </ul>
