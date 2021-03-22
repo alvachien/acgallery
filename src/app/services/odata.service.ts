@@ -158,16 +158,22 @@ export class OdataService {
       }));
   }
 
-  public getAlbumRelatedPhotos(albumid: number): Observable<{totalCount: number, items: SequenceList<Photo>}> {
+  public getAlbumRelatedPhotos(albumid: number, accessCode?: string, skip = 0, top = 20): Observable<{totalCount: number, items: SequenceList<Photo>}> {
     // https://localhost:25325/Albums/GetPhotos(2005)?$count=true&$top=3    
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
               .append('Accept', 'application/json');
 
     let params: HttpParams = new HttpParams();
-    params = params.append('$top', '30');
     params = params.append('$count', 'true');
-    let apiurl = `${this.apiUrl}Albums/GetPhotos(${albumid})`;
+    params = params.append('$skip', skip.toString());
+    params = params.append('$top', top.toString());
+    let apiurl = '';
+    if (accessCode) {
+      apiurl = `${this.apiUrl}Albums/GetPhotos(AlbumID=${albumid},AccessCode='${accessCode}')`;
+    } else {
+      apiurl = `${this.apiUrl}Albums/GetPhotos(${albumid})`;
+    }
     // TBD.
     // if (environment.mockdata) {
     //   apiurl = `${environment.basehref}assets/mockdata/albums.json`;
@@ -221,8 +227,8 @@ export class OdataService {
     params = params.append('$top', top.toString());
     params = params.append('$skip', skip.toString());
     params = params.append('$count', 'true');
-    // TBD.
-    // params = params.append('$select', 'ID,Category,Title,CreatedAt,ModifiedAt');
+    params = params.append('$select', 'PhotoId,Title,Desp,FileUrl,ThumbnailFileUrl,IsPublic');
+    params = params.append('$expand', 'Tags');
     let apiurl = `${this.apiUrl}Photos`;
     // TBD.
     // if (environment.mockdata) {

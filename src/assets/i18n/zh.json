@@ -80,6 +80,8 @@
     "ShutterSpeed": "快门速度",
     "Aperture": "光圈",
     "ISO": "ISO",
+    "Standard": "标准",
+    "Advanced": "高级",
 
     "DeleteConfirmation": "确认删除操作",
     "ConfirmToDeleteSelectedItem": "选择项将被删除，请确认继续？",

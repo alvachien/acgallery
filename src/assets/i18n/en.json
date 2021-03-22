@@ -80,6 +80,8 @@
     "ShutterSpeed": "Shutter Speed",
     "Aperture": "Aperture",
     "ISO": "ISO",
+    "Standard": "Standard",
+    "Advanced": "Advanced",
 
     "DeleteConfirmation": "Delete Confirmation",
     "ConfirmToDeleteSelectedItem": "The selected item(s) will be deleted. Do you confirm to continue?",

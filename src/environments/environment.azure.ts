@@ -1,24 +1,12 @@
 export const environment = {
   production: true,
-  currentVersion: '0.5.8',
+  currentVersion: '0.5.9',
   currentReleaseDate: '2019.7.10',
   loggingLevel: 1, // Crash
   basehref: '/',
   mockdata: false,
 
   apiRootUrl: 'https://acgalleryapi.azurewebsites.net/',
-
-  StatisticsAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/statistics',
-  AlbumAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/album',
-  PhotoAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/photo',
-  PhotoSearchAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/photosearch',
-  PhotoFileAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/photofile',
-  AlbumPhotoByAlbumAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/albumphotobyalbum',
-  AlbumPhotoByPhotoAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/albumphotobyphoto',
-  AlbumPhotoLinkUrl: 'https://acgalleryapi.azurewebsites.net/api/albumphotolink',
-  WakeupAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/wakeup',
-  UserDetailAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/userdetail',
-  PhotoTagCountAPIUrl: 'https://acgalleryapi.azurewebsites.net/api/PhotoTagCount',
 
   IDServerUrl: 'https://acidserver.azurewebsites.net',
   AppLoginCallbackUrl: 'https://acgallery.azurewebsites.net/logincallback.html',

@@ -41,6 +41,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
 
 @NgModule({
   exports: [
@@ -85,6 +87,8 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
     NzDividerModule,
     NzCollapseModule,
     NzPaginationModule,
+    NzTagModule,
+    NzBadgeModule,
   ]
 })
 export class UIModulesModule { }

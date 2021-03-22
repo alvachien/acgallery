@@ -20,18 +20,19 @@ export class PhotoListComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.odataSvc.getPhotos().subscribe({
-      next: val => {
-        // console.log(val);
-        this.totalCount = val.totalCount;
-        for(let i = 0; i < val.items.Length(); i++) {
-          this.photos.push(val.items.GetElement(i));
-        }
-      },
-      error: err => {
-        console.error(err);
-      }
-    });
+    this.onPageIndexChanged(1);
+    // this.odataSvc.getPhotos().subscribe({
+    //   next: val => {
+    //     // console.log(val);
+    //     this.totalCount = val.totalCount;
+    //     for(let i = 0; i < val.items.Length(); i++) {
+    //       this.photos.push(val.items.GetElement(i));
+    //     }
+    //   },
+    //   error: err => {
+    //     console.error(err);
+    //   }
+    // });
   }
 
   onUpload(): void {
@@ -63,5 +64,21 @@ export class PhotoListComponent implements OnInit {
         console.error(err);
       }
     })
+  }
+  onPageIndexChanged(pgIdx: number): void {
+    console.log("Photo List page: Entering onPageIndexChanged");
+    this.odataSvc.getPhotos((pgIdx - 1) * 20, 20).subscribe({
+      next: val => {
+        // console.log(val);
+        this.totalCount = val.totalCount;
+        this.photos = [];
+        for(let i = 0; i < val.items.Length(); i++) {
+          this.photos.push(val.items.GetElement(i));
+        }
+      },
+      error: err => {
+        console.error(err);
+      }
+    });
   }
 }

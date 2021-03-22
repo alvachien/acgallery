@@ -12,7 +12,8 @@
 </nz-page-header>
 
 <div nz-row nzJustify="center">
-  <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="20" [nzShowTotal]="rangeTemplate"></nz-pagination>
+  <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="10" [nzShowTotal]="rangeTemplate" 
+    nzShowQuickJumper (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
   <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}-{{ range[1] }} of {{ total }} items </ng-template>        
 </div>
 
@@ -24,7 +25,12 @@
       <nz-list-item-meta-avatar [nzSrc]="item.Thumbnail">
       </nz-list-item-meta-avatar>
       <nz-list-item-meta-title>
-        <a (click)="onDisplay(item)">{{ item.Title }}</a>
+        <nz-ribbon *ngIf="item.accessCodeHint" nzText="Access Code Required">
+          <a (click)="onDisplay(item)">{{ item.Title }}</a>
+        </nz-ribbon>
+        <div *ngIf="!item.accessCodeHint">
+          <a (click)="onDisplay(item)">{{ item.Title }}</a>
+        </div>
       </nz-list-item-meta-title>
       <nz-list-item-meta-description>
         {{ item.Desp }}
@@ -34,7 +40,7 @@
     <ul nz-list-item-actions>
       <nz-list-item-action><i nz-icon nzType="flag" style="margin-right: 8px"></i>156</nz-list-item-action>
       <nz-list-item-action><i nz-icon nzType="picture" style="margin-right: 8px"></i>156</nz-list-item-action>
-      <nz-list-item-action><i nz-icon nzType="heart" style="margin-right: 8px"></i>2</nz-list-item-action>
+      <nz-list-item-action *ngIf="item.accessCodeHint"><i nz-icon nzType="lock" nzTheme="twotone" style="margin-right: 8px"></i></nz-list-item-action>
       <nz-list-item-action><a nz-button nzType="link" (click)="onDisplay(item)">{{'Common.Display' | transloco}}</a></nz-list-item-action>
       <nz-list-item-action><a nz-button nzType="link" (click)="onEdit(item)">{{'Common.Edit' | transloco}}</a></nz-list-item-action>
     </ul>
@@ -47,6 +53,6 @@
 <nz-divider></nz-divider>
 
 <div nz-row nzJustify="center">
-  <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="20" [nzShowTotal]="rangeTemplate"></nz-pagination>
-  <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}-{{ range[1] }} of {{ total }} items </ng-template>        
+  <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="10" [nzShowTotal]="rangeTemplate"
+    nzShowQuickJumper (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
 </div>

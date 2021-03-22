@@ -51,16 +51,16 @@ export class Photo {
   constructor() {
   }
 
-  get fileInAPIUrl(): string {
-    if (this.fileUrl) {
-      return environment.PhotoFileAPIUrl + '/' + this.fileUrl;
-    }
-  }
-  get thumbnailFileInAPIUrl(): string {
-    if (this.thumbnailFileUrl) {
-      return environment.PhotoFileAPIUrl + '/' + this.thumbnailFileUrl;
-    }
-  }
+  // get fileInAPIUrl(): string {
+  //   if (this.fileUrl) {
+  //     return environment.PhotoFileAPIUrl + '/' + this.fileUrl;
+  //   }
+  // }
+  // get thumbnailFileInAPIUrl(): string {
+  //   if (this.thumbnailFileUrl) {
+  //     return environment.PhotoFileAPIUrl + '/' + this.thumbnailFileUrl;
+  //   }
+  // }
 
   parseData(data: any) {
     if (data && data.PhotoId) {
@@ -134,10 +134,10 @@ export class Photo {
     if (data && data.rating) {
       this.rating = data.rating;
     }
-    if (data && data.tags && data.tags instanceof Array) {
+    if (data && data.Tags && data.Tags instanceof Array) {
       this.tags = [];
-      for (const tg of data.tags) {
-        this.tags.push(tg);
+      for (const tg of data.Tags) {
+        this.tags.push(tg.TagString);
       }
     }
   }

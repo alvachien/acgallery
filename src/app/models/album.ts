@@ -26,13 +26,13 @@ export class Album {
     this.IsPublic = true;
   }
 
-  get ThumbnailInAPIUrl(): string {
-    if (this.Thumbnail) {
-      return environment.PhotoFileAPIUrl + '/' + this.Thumbnail;
-    } else {
-      return '/assets/img/grey.jpg';
-    }
-  }
+  // get ThumbnailInAPIUrl(): string {
+  //   if (this.Thumbnail) {
+  //     return environment.PhotoFileAPIUrl + '/' + this.Thumbnail;
+  //   } else {
+  //     return '/assets/img/grey.jpg';
+  //   }
+  // }
 
   get isValid(): boolean {
     if (this.Title === undefined

@@ -23,8 +23,16 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
   isLoadingResults: boolean;
   public routerID = -1; // Current object ID in routing
   public currentMode: string;
-  public uiMode: UIMode = UIMode.Create;  
-  
+  public uiMode: UIMode = UIMode.Create;
+  // Access code
+  accessCodeHint = '';
+  isAccessCodeDlgVisible = false;
+  isAccessCodeSubmitting = false;
+  accessCodeInputted = '';
+  // Pagination
+  pageIndex = 1;
+  sizePerPage = 20;
+
   get isCreateMode(): boolean { return this.uiMode === UIMode.Create; }
   get isDisplayMode(): boolean { return this.uiMode === UIMode.Display; }
   get isEditableMode(): boolean { return this.uiMode === UIMode.Create || this.uiMode === UIMode.Update; }
@@ -40,12 +48,12 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
       this.detailForm.controls[i].updateValueAndValidity();
     }
   }
-  
+
   // updateConfirmValidator(): void {
   //   /** wait for refresh value */
   //   Promise.resolve().then(() => this.detailForm.controls.checkPassword.updateValueAndValidity());
   // }
-  
+
   // confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
   //   if (!control.value) {
   //     return { required: true };
@@ -54,11 +62,11 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
   //   }
   //   return {};
   // };
-  
+
   getCaptcha(e: MouseEvent): void {
     e.preventDefault();
   }
-  
+
   ngOnInit(): void {
     this.detailForm = this.fb.group({
       Title: ['', [Validators.required]],
@@ -74,22 +82,22 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
           this.currentMode = 'Common.Create';
         } else if (x[0].path === 'change') {
           this.routerID = +x[1].path;
-  
+
           this.uiMode = UIMode.Update;
           this.currentMode = 'Common.Edit';
         } else if (x[0].path === 'display') {
           this.routerID = +x[1].path;
-  
+
           this.uiMode = UIMode.Display;
           this.currentMode = 'Common.Display';
         }
       }
-  
+
       switch (this.uiMode) {
         case UIMode.Update:
         case UIMode.Display: {
           this.isLoadingResults = true;
-  
+
           // Read the album
           this.odataSvc.readAlbum(this.routerID)
             .pipe(takeUntil(this._destroyed$),
@@ -108,18 +116,13 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
                 }
 
                 if (this.uiMode === UIMode.Display) {
-                  this.odataSvc.getAlbumRelatedPhotos(this.routerID).subscribe({
-                    next: val => {
-                      // console.log(val);
-                      this.totalCount = val.totalCount;
-                      for(let i = 0; i < val.items.Length(); i++) {
-                        this.photos.push(val.items.GetElement(i));
-                      }
-                    },
-                    error: err => {
-                      console.error(err);
-                    }
-                  });
+                  // Load the photos
+                  this.accessCodeHint = rsts.accessCodeHint;
+                  if (rsts.accessCodeHint) {
+                    this.isAccessCodeDlgVisible = true;
+                  } else {
+                    this.handleAccessCodeDlgOk();
+                  }
                 }
               },
               error: err => {
@@ -128,7 +131,7 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
             });
           break;
         }
-  
+
         case UIMode.Create:
         default:
           break;
@@ -143,7 +146,37 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onSave(): void {    
+  handleAccessCodeDlgCancel() {
+    this.isAccessCodeDlgVisible = false;
+  }
+  handleAccessCodeDlgOk() {
+    this.isAccessCodeSubmitting = true;
+
+    this.onPageIndexChanged(1);
+  }
+  onPageIndexChanged(pgIdx: number): void {
+    this.odataSvc.getAlbumRelatedPhotos(this.routerID, this.accessCodeInputted, (pgIdx - 1) * this.sizePerPage, this.sizePerPage)
+      .pipe(finalize(() => {
+        if (this.isAccessCodeDlgVisible) {
+          this.isAccessCodeSubmitting = false;
+          this.isAccessCodeDlgVisible = false;
+        }
+      }))
+      .subscribe({
+        next: val => {
+          this.totalCount = val.totalCount;
+          this.photos = []; // Clear it!
+          for (let i = 0; i < val.items.Length(); i++) {
+            this.photos.push(val.items.GetElement(i));
+          }
+        },
+        error: err => {
+          console.error(err);
+        }
+      });
+  }
+
+  public onSave(): void {
   }
 
   getFileUrl(pht: Photo): string {

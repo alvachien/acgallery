@@ -53,11 +53,12 @@ AC Photo Gallery web app built with following UI technologies:
 - Angular;
 - Ant-Design;
 - TypeScript;
+- ECharts;
 
 
 Besides, it also using the following server side libaries:
-- EXIF Tool [Link] (http://www.sno.phy.queensu.ca/~phil/exiftool/);
-- Magick.NET [Link] (https://www.imagemagick.org/)
+- .NET Core [Link](https://dot.net)
+- Magick.NET [Link](https://www.imagemagick.org/)
 
 
 ## Author

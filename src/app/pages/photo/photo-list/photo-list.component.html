@@ -7,8 +7,8 @@
   </nz-breadcrumb>
   <nz-page-header-extra>
     <nz-radio-group [(ngModel)]="viewMode">
-      <label nz-radio-button nzValue="std"><span>Standard</span></label>
-      <label nz-radio-button nzValue="adv"><span>Advance</span></label>
+      <label nz-radio-button nzValue="std">{{'Common.Standard' | transloco}}</label>
+      <label nz-radio-button nzValue="adv">{{'Common.Advanced' | transloco}}</label>
     </nz-radio-group>
     <button nz-button (click)="onRefresh()">{{'Common.Refresh' | transloco}}</button>
     <button nz-button nzType="primary" (click)="onUpload()">{{'Nav.PhotoUpload' | transloco}}</button>
@@ -16,7 +16,8 @@
 </nz-page-header>
 
 <div nz-row nzJustify="center">
-  <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="20" [nzShowTotal]="rangeTemplate"></nz-pagination>
+  <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="20" [nzShowTotal]="rangeTemplate"
+    nzShowQuickJumper (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
   <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}-{{ range[1] }} of {{ total }} items </ng-template>        
 </div>
 
@@ -28,6 +29,9 @@
       <div nz-col class="inner-box">
         <div nz-row>
           <img nz-image width="200px" [nzSrc]="getFileUrl(pht)" alt="" />
+        </div>
+        <div nz-row>
+          <nz-tag *ngFor="let tag of pht.tags" [nzColor]="'#f50'">{{tag}}</nz-tag>
         </div>
         <div nz-row *ngIf="viewMode === 'adv'">
           <nz-button-group>
@@ -43,6 +47,6 @@
 <nz-divider></nz-divider>
 
 <div nz-row nzJustify="center">
-  <nz-pagination [nzPageIndex]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="20" [nzShowTotal]="rangeTemplate"></nz-pagination>
-  <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}-{{ range[1] }} of {{ total }} items </ng-template>        
+  <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="20" [nzShowTotal]="rangeTemplate"
+    nzShowQuickJumper (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
 </div>

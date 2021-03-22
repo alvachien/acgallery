@@ -13,23 +13,13 @@ export class AlbumListComponent implements OnInit {
   albums: Album[] = [];
   totalCount = 0;
   pageIndex = 1;
+  sizePerPage = 10;
 
   constructor(private odataSvc: OdataService,
     private router: Router) { }
 
   ngOnInit(): void {
-    this.odataSvc.getAlbums().subscribe({
-      next: val => {
-        // console.log(val);
-        this.totalCount = val.totalCount;
-        for(let i = 0; i < val.items.Length(); i++) {
-          this.albums.push(val.items.GetElement(i));
-        }
-      },
-      error: err => {
-        console.error(err);
-      }
-    });
+    this.onPageIndexChanged(1);
   }
 
   onCreate(): void {
@@ -43,5 +33,20 @@ export class AlbumListComponent implements OnInit {
   }
   onRefresh(): void {
     // TBD. refresh the list
+  }
+  onPageIndexChanged(pgIdx: number): void {
+    this.odataSvc.getAlbums((pgIdx - 1) * this.sizePerPage, this.sizePerPage).subscribe({
+      next: val => {
+        // console.log(val);
+        this.totalCount = val.totalCount;
+        this.albums = []; // Clear it before assign.
+        for(let i = 0; i < val.items.Length(); i++) {
+          this.albums.push(val.items.GetElement(i));
+        }
+      },
+      error: err => {
+        console.error(err);
+      }
+    });
   }
 }

@@ -38,8 +38,25 @@
   </nz-collapse-panel>
 </nz-collapse>
 
+<nz-modal
+  [(nzVisible)]="isAccessCodeDlgVisible"
+  [nzTitle]="'Album.AccessCode' | transloco"
+  (nzOnCancel)="handleAccessCodeDlgCancel()"
+  (nzOnOk)="handleAccessCodeDlgOk()"
+  [nzOkLoading]="isAccessCodeSubmitting">
+  <p *nzModalContent>
+    <input nz-input [placeholder]="accessCodeHint" [(ngModel)]="accessCodeInputted" />   
+  </p>
+</nz-modal>
+
 <div *ngIf="isDisplayMode">
   <nz-divider [nzText]="'Nav.Photos' | transloco"></nz-divider>
+
+  <div nz-row nzJustify="center">
+    <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="20" [nzShowTotal]="rangeTemplate"
+      nzShowQuickJumper (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
+    <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}-{{ range[1] }} of {{ total }} items </ng-template>        
+  </div>
 
   <nz-image-group>
     <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
@@ -49,5 +66,10 @@
         </div>
       </div>
     </div>
-  </nz-image-group>  
+  </nz-image-group>
+
+  <div nz-row nzJustify="center">
+    <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="20" [nzShowTotal]="rangeTemplate"
+      nzShowQuickJumper (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
+  </div>  
 </div>

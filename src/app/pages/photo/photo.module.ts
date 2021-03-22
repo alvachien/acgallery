@@ -8,12 +8,14 @@ import { PhotoDetailComponent } from './photo-detail';
 import { PhotoUploadComponent } from './photo-upload';
 import { UIModulesModule } from 'src/app/ui-modules.module';
 import { TranslocoModule } from '@ngneat/transloco';
+import { PhotoSearchComponent } from './photo-search';
 
 @NgModule({
   declarations: [
     PhotoListComponent,
     PhotoDetailComponent,
     PhotoUploadComponent,
+    PhotoSearchComponent,
   ],
   imports: [
     CommonModule,
