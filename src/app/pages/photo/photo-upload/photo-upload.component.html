@@ -42,30 +42,41 @@
         <thead>
           <tr>
             <th nzWidth="10%">Unique ID</th>
-            <th nzWidth="20%">Org File</th>
-            <th>Size</th>
-            <th>Title</th>
-            <th>Desp</th>
-            <th>Is Public</th>
+            <!-- <th nzWidth="10%">Org File</th> -->
+            <!-- <th>{{'Photo.FileSize' | transloco}}</th> -->
+            <th nzWidth="20%">{{'Common.Title' | transloco}}</th>
+            <th nzWidth="20%">{{'Common.Description' | transloco}}</th>
+            <th nzWidth="10%">{{'Album.IsPublic' | transloco}}</th>
+            <th nzWidth="40%">{{'Common.Tags' | transloco}}</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of editRowTable.data" class="editable-row">
             <td>
               <div class="editable-cell">
-                <img nz-image
-                  width="200px"
-                  height="200px"
-                  [nzSrc]="data.imgSrc"
-                  alt=""
+                <img nz-image width="200px" [nzSrc]="data.imgSrc" alt=""
                 />
               </div>
             </td>
-            <td>{{ data.orgName }}</td>
-            <td>{{ data.size }}</td>
+            <!-- <td>{{ data.orgName }}</td> -->
+            <!-- <td>{{ data.size }}</td> -->
             <td><input type="text" nz-input [(ngModel)]="data.title" /></td>
             <td><input type="text" nz-input [(ngModel)]="data.desp" /></td>
             <td><label nz-checkbox [(ngModel)]="data.isPublic"></label></td>
+            <td>
+              <nz-tag *ngFor="let tag of data.tags; let i = index" [nzMode]="'closeable'" (nzOnClose)="handleTagClose(data, tag)">
+                {{ sliceTagName(tag) }}
+              </nz-tag>
+              <nz-tag *ngIf="!inputTagVisible" class="editable-tag" nzNoAnimation (click)="showTagInput()">
+                <i nz-icon nzType="plus"></i>
+              </nz-tag>
+              <input #inputTagElement nz-input nzSize="small" *ngIf="inputTagVisible" type="text"
+                [(ngModel)]="inputTagValue"
+                style="width: 78px;"
+                (blur)="handleTagInputConfirm(data)"
+                (keydown.enter)="handleTagInputConfirm(data)"
+              />
+            </td>
           </tr>
         </tbody>
       </nz-table>

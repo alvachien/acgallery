@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize, map, takeUntil } from 'rxjs/operators';
@@ -45,6 +45,10 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   // Step 4. Result
   isErrorOccurred = false;
   errorInfo = '';
+  // Tag
+  inputTagVisible = false;
+  inputTagValue = '';
+  @ViewChild('inputTagElement', { static: false }) inputTagElement?: ElementRef;
 
   constructor(
     private modal: NzModalService,
@@ -211,6 +215,11 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     let arreqs = [];
     this.filePhotos.forEach(updpto => {
       arreqs.push(this.odataSvc.changePhotoInfo(updpto.name, updpto.title, updpto.desp, updpto.isPublic));
+      if (updpto.tags.length > 0) {
+        updpto.tags.forEach(tag => {
+          arreqs.push(this.odataSvc.createPhotoTag(updpto.name, tag));
+        });
+      }
     });
 
     forkJoin(arreqs)
@@ -329,4 +338,29 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
       }
     });
   }
+
+  // Tags
+  handleTagClose(pto: Photo, removedTag: {}): void {
+    pto.tags = pto.tags.filter(tag => tag !== removedTag);
+  }
+
+  sliceTagName(tag: string): string {
+    const isLongTag = tag.length > 20;
+    return isLongTag ? `${tag.slice(0, 20)}...` : tag;
+  }
+
+  showTagInput(): void {
+    this.inputTagVisible = true;
+    setTimeout(() => {
+      this.inputTagElement?.nativeElement.focus();
+    }, 10);
+  }
+
+  handleTagInputConfirm(pto: Photo): void {
+    if (this.inputTagValue && pto.tags.indexOf(this.inputTagValue) === -1) {
+      pto.tags = [...pto.tags, this.inputTagValue];
+    }
+    this.inputTagValue = '';
+    this.inputTagVisible = false;
+  }  
 }

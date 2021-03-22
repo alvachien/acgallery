@@ -25,15 +25,15 @@
 
 <nz-image-group>
   <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
-    <div nz-col class="gutter-row" [nzSpan]="6" *ngFor="let pht of photos">
+    <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="8" nzXl="6" class="gutter-row" [nzSpan]="6" *ngFor="let pht of photos">
       <div nz-col class="inner-box">
         <div nz-row>
           <img nz-image width="200px" [nzSrc]="getFileUrl(pht)" alt="" />
         </div>
-        <div nz-row>
+        <div nz-row class="button-group-row">
           <nz-tag *ngFor="let tag of pht.tags" [nzColor]="'#f50'">{{tag}}</nz-tag>
         </div>
-        <div nz-row *ngIf="viewMode === 'adv'">
+        <div nz-row *ngIf="viewMode === 'adv'" class="button-group-row">
           <nz-button-group>
             <a nz-button nzType="link" (click)="onChangePhoto(pht)" nzGhost>{{'Common.Edit' | transloco}}</a>
             <a nz-button nzType="link" (click)="onDeletePhoto(pht)" nzDanger>{{'Common.Delete' | transloco}}</a>

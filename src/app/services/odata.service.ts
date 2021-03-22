@@ -322,7 +322,7 @@ export class OdataService {
   }
 
   // Change photo via patch
-  public changePhotoInfo(photoId: string, title: string, desp: string, ispublic: boolean) {
+  public changePhotoInfo(photoId: string, title: string, desp: string, ispublic: boolean): Observable<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
               .append('Accept', 'application/json');
@@ -351,6 +351,52 @@ export class OdataService {
       catchError((error: HttpErrorResponse) => {
         return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
       }));    
+  }
+
+  public createPhotoTag(photoId: string, tags: string): Observable<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+              .append('Accept', 'application/json');
+
+    let params: HttpParams = new HttpParams();
+    let apiurl = `${this.apiUrl}PhotoTags`;
+
+    // Replace
+    let content = {
+      'PhotoID': photoId,
+      'TagString': tags
+    };
+
+    return this.http.post(apiurl, content, {
+        headers,
+        params,
+      })
+      .pipe(map(response => {
+        return response;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+      }));
+  }
+
+  public deletePhotoTag(photoId: string, tags: string): Observable<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+              .append('Accept', 'application/json');
+
+    let params: HttpParams = new HttpParams();
+    let apiurl = `${this.apiUrl}PhotoTags(PhotoID='${photoId},TagString='${tags}')`;
+
+    return this.http.delete(apiurl, {
+        headers,
+        params,
+      })
+      .pipe(map(response => {
+        return response;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+      }));
   }
 
   // Delete photo
