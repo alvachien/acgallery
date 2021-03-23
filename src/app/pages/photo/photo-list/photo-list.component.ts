@@ -41,6 +41,9 @@ export class PhotoListComponent implements OnInit {
   onRefresh(): void {
     // TBD. Refresh
   }
+  onSearch(): void {
+    this.router.navigate(['/photo/search']);
+  }
   getFileUrl(pht: Photo): string {
     if (pht.fileUrl)
       return environment.apiRootUrl + 'PhotoFile/' + pht.fileUrl;

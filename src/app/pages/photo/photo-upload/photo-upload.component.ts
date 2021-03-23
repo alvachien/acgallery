@@ -8,6 +8,7 @@ import { Album, Photo, SelectableAlbum, UpdPhoto } from 'src/app/models';
 import { CanComponentDeactivate, OdataService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 function getBase64(file: File): Promise<string | ArrayBuffer | null> {
@@ -46,25 +47,20 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   isErrorOccurred = false;
   errorInfo = '';
   // Tag
-  inputTagVisible = false;
   inputTagValue = '';
-  @ViewChild('inputTagElement', { static: false }) inputTagElement?: ElementRef;
 
   constructor(
     private modal: NzModalService,
     private fb: FormBuilder,
-    private odataSvc: OdataService) { 
+    private odataSvc: OdataService,
+    private router: Router,) { 
     this.arAssignMode.push({ value: 0, name: 'Photo.Upload_NoAlbum', });
     this.arAssignMode.push({ value: 1, name: 'Photo.Upload_AssignExistAlbum', });
     this.arAssignMode.push({ value: 2, name: 'Photo.Upload_AssignNewAlbum', });
   }
 
   ngOnInit(): void {
-    this.fileUploadList = [];
-    this.filePhotos = [];
-    this.setOfChosedAlbumIDs.clear();
-    this.isErrorOccurred = false;
-    this.errorInfo = '';
+    this.clearContent();
 
     this.odataSvc.getAlbums().subscribe({
       next: val => {
@@ -91,6 +87,14 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
       Desp: ['', [Validators.required]],
       IsPublic: [false]
     });
+  }
+
+  private clearContent() {
+    this.fileUploadList = [];
+    this.filePhotos = [];
+    this.setOfChosedAlbumIDs.clear();
+    this.isErrorOccurred = false;
+    this.errorInfo = '';
   }
 
   canDeactivate(): Observable<boolean> | boolean {
@@ -349,18 +353,19 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     return isLongTag ? `${tag.slice(0, 20)}...` : tag;
   }
 
-  showTagInput(): void {
-    this.inputTagVisible = true;
-    setTimeout(() => {
-      this.inputTagElement?.nativeElement.focus();
-    }, 10);
-  }
-
   handleTagInputConfirm(pto: Photo): void {
     if (this.inputTagValue && pto.tags.indexOf(this.inputTagValue) === -1) {
       pto.tags = [...pto.tags, this.inputTagValue];
     }
     this.inputTagValue = '';
-    this.inputTagVisible = false;
-  }  
+  }
+  
+  // Result page
+  onGoToPhotoList(): void {
+    this.router.navigate(['photo']);
+  }
+  onUploadFurther(): void {
+    this.clearContent();
+    this.currentStep = 0;
+  }
 }

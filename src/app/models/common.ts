@@ -74,9 +74,12 @@ export enum GeneralFilterValueType {
 export class GeneralFilterItem {
   fieldName: string;
   operator: GeneralFilterOperatorEnum;
-  lowValue: any;
-  highValue: any;
+  value: any[];
   valueType: GeneralFilterValueType;
+
+  constructor() {
+    this.value = [undefined, undefined];
+  }
 }
 
 /**

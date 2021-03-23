@@ -1,1 +1,66 @@
-<p>photo-search works!</p>
+<nz-page-header class="site-page-header" [nzTitle]="'Nav.Photos' | transloco" [nzSubtitle]="'Common.Search' | transloco">
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>Welcome</nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a>{{'Nav.Photos' | transloco}}</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{'Common.Search' | transloco}}</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <nz-page-header-extra>
+  </nz-page-header-extra>
+</nz-page-header>
+
+<!-- Filter -->
+<div>
+  <div nz-row *ngFor="let filter of filters; let idxfilter = index" class="control-full-width">
+    <div nz-col nzSpan="4">
+      <nz-form-item>
+        <nz-select nzPlaceHolder="{{'Common.Field' | transloco}}" [(ngModel)]="filter.fieldName" (ngModelChange)="onFieldSelectionChanged(filter)">
+          <nz-option *ngFor="let field of allFields" [nzValue]="field.value" [nzLabel]="field.displayas | transloco">
+          </nz-option>
+        </nz-select>
+      </nz-form-item>  
+    </div>
+    <div nz-col nzSpan="2">
+      <nz-form-item>
+        <nz-select nzPlaceHolder="{{'Common.Operator' | transloco}}" [(ngModel)]="filter.operator">
+          <nz-option *ngFor="let opr of allOperators | operatorFilter: filter.valueType" [nzValue]="opr.value" [nzLabel]="opr.i18nterm | transloco">
+          </nz-option>
+        </nz-select>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="4">
+      <nz-form-item *ngIf="filter.valueType === 1">
+        <input nz-input type="number" placeholder="{{'Common.Value' | transloco}}" name="lvalue_1" [(ngModel)]="filter.value[0]">
+      </nz-form-item>
+      <nz-form-item *ngIf="filter.valueType === 2">
+        <input nz-input type="text" placeholder="{{'Common.Value' | transloco}}" name="lvalue_2" [(ngModel)]="filter.value[0]">
+      </nz-form-item>
+      <nz-form-item *ngIf="filter.valueType === 3">
+        <nz-range-picker [nzShowTime]="true" [(ngModel)]="filter.value"></nz-range-picker>
+      </nz-form-item>
+      <div class="typechkbox" *ngIf="filter.valueType === 4">
+        <label nz-checkbox [(ngModel)]="filter.value[0]">Checkbox</label>
+      </div>
+    </div>
+    <div nz-col nzSpan="4">
+      <nz-form-item *ngIf="filter.valueType === 1">
+        <input nz-input type="number" placeholder="{{'Common.Value' | transloco}}" name="hvalue_1" [(ngModel)]="filter.value[1]">
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="4">
+      <button nz-button aria-label="Add" (click)="onAddFilter()">
+        <i nz-icon nzType="plus"></i>
+      </button>
+      <button nz-button aria-label="Clear" (click)="onRemoveFilter(idxfilter)">
+        <i nz-icon nzType="delete"></i>
+      </button>
+    </div>
+  </div>
+
+  <div nz-row class="control-full-width">
+    <button nz-button aria-label="Search" (click)="onSearch()">
+      <i nz-icon nzType="search"></i>{{'Common.Search' | transloco}}
+    </button>
+  </div>
+</div>

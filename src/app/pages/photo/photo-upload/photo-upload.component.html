@@ -1,4 +1,4 @@
-<nz-page-header class="site-page-header" nzTitle="Photos" nzSubtitle="Upload mode">
+<nz-page-header class="site-page-header" [nzTitle]="'Nav.Photos' | transloco" [nzSubtitle]="'Nav.PhotoUpload' | transloco">
   <nz-breadcrumb nz-page-header-breadcrumb>
     <nz-breadcrumb-item>Welcome</nz-breadcrumb-item>
     <nz-breadcrumb-item>
@@ -67,10 +67,7 @@
               <nz-tag *ngFor="let tag of data.tags; let i = index" [nzMode]="'closeable'" (nzOnClose)="handleTagClose(data, tag)">
                 {{ sliceTagName(tag) }}
               </nz-tag>
-              <nz-tag *ngIf="!inputTagVisible" class="editable-tag" nzNoAnimation (click)="showTagInput()">
-                <i nz-icon nzType="plus"></i>
-              </nz-tag>
-              <input #inputTagElement nz-input nzSize="small" *ngIf="inputTagVisible" type="text"
+              <input nz-input nzSize="small" type="text"
                 [(ngModel)]="inputTagValue"
                 style="width: 78px;"
                 (blur)="handleTagInputConfirm(data)"
@@ -141,8 +138,8 @@
       <nz-result *ngIf="!isErrorOccurred" nzStatus="success" nzTitle="Successfully upload photo and assigned to albums!"
         nzSubTitle="Successfully upload the photos and assigned to albums based on need.">
         <div nz-result-extra>
-          <button nz-button nzType="primary">Go Photos</button>
-          <button nz-button>Upload Further</button>
+          <button nz-button nzType="primary" (click)="onGoToPhotoList()">Go Photos</button>
+          <button nz-button (click)="onUploadFurther()">Upload Further</button>
         </div>
       </nz-result>
       <nz-result *ngIf="isErrorOccurred" nzTitle="Upload Failed" nzStatus="error"
@@ -160,7 +157,7 @@
           <button nz-button nzType="primary">Go Photos</button>
           <button nz-button>Abandon uploading</button>
         </div>
-      </nz-result>      
+      </nz-result>
     </div>
   </div>
 </div>

@@ -44,7 +44,12 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 
+import { OperatorFilterPipe } from './pipes';
+
 @NgModule({
+  declarations: [
+    OperatorFilterPipe,
+  ],
   exports: [
     A11yModule,
     ClipboardModule,
@@ -89,6 +94,8 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
     NzPaginationModule,
     NzTagModule,
     NzBadgeModule,
-  ]
+
+    OperatorFilterPipe,
+  ],
 })
 export class UIModulesModule { }
