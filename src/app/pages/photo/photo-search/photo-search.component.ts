@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BehaviorSubject, merge, of as observableOf } from 'rxjs';
-import { catchError, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, finalize, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
 import { GeneralFilterItem, GeneralFilterOperatorEnum, GeneralFilterValueType, Photo,
   UIDisplayString, UIDisplayStringUtil } from 'src/app/models';
 import { OdataService } from 'src/app/services';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'acgallery-photo-search',
@@ -21,6 +22,8 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
   isLoadingResults: boolean = false;
   resultsLength: number;
   public subjFilters: BehaviorSubject<any[]> = new BehaviorSubject([]);
+  photos: Photo[] = [];
+  pageIndex = 1;
 
   constructor(private odataSvc: OdataService) {
     this.resultsLength = 0;
@@ -71,67 +74,47 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
         startWith({}),
         switchMap(() => {
           if (this.subjFilters.value.length <= 0) {
-            return observableOf([]);
+            return observableOf(undefined);
           }
 
           this.isLoadingResults = true;
 
           // Prepare filters
-          let filter = this.prepareFilters();
+          let filter = this.prepareFilters(this.subjFilters.value);
 
           // return this._photoService.searchPhoto(this.subjFilters.value,
           //   this.paginator.pageSize,
           //   this.paginator.pageIndex * this.paginator.pageSize);
-          return this.odataSvc.getPhotos();
+          return this.odataSvc.getPhotos(0, 20, filter);
         }),
-        map((data: any) => {
-          // Flip flag to show that loading has finished.
-          // this.isLoadingResults = false;
-          // if (data && data.totalCount) {
-          //   this.resultsLength = data.totalCount;
-          //   this.photoAmount = data.totalCount;
-          // }
-
-          return data && data.contentList;
-        }),
-        catchError(() => {
-          this.isLoadingResults = false;
-          return observableOf(undefined);
-        }),
-    ).subscribe({
-      next: val => {
-
-      },
-      error: err => {
-        
-      }
+        finalize(() => this.isLoadingResults = false),
+      ).subscribe({
+        next: (val : any) => {
+          if (val === undefined) {
+          } else {
+            this.resultsLength = val.totalCount;
+            this.photos = [];
+            for(let i = 0; i < val.items.Length(); i++) {
+              this.photos.push(val.items.GetElement(i));
+            }  
+          }
+        },
+        error: err => {
+          console.error(err);
+        }
     });
-    //   (photolist: any) => {
-    //   this.photos = [];
-    //   if (photolist && photolist instanceof Array) {
-    //     for (const ce of photolist) {
-    //       const pi: Photo = new Photo();
-    //       pi.init(ce);
-    //       this.photos.push(pi);
-    //     }
-    //   }
-    // }, (error: HttpErrorResponse) => {
-    //   this._snackBar.open('Error occurred: ' + error.message, undefined, {
-    //     duration: 3000,
-    //   });
-    // }, () => {
-    //   // Do nothing
-    // });
-
   }
-  prepareFilters(): string {
+  prepareFilters(arFilter: any[]): string {
     let rstfilter = '';
-    this.filters.forEach(flt => {
-      if (flt.fieldName === 'Title') {
-        
+    arFilter.sort((a, b) => a.fieldName.localeCompare(b.fieldName));
 
-      } else if (flt.fieldName === 'CameraMaker') {
-
+    arFilter.forEach(flt => {
+      if (flt.fieldName === 'Title' || flt.fieldName === 'CameraModel' || flt.fieldName === 'CameraMaker' || flt.fieldName === 'LensModel') {
+        if (flt.operator === GeneralFilterOperatorEnum.Equal) {
+          rstfilter = rstfilter ? `${rstfilter} and ${flt.fieldName} eq '${flt.lowValue}'` : `${flt.fieldName} eq '${flt.lowValue}'`;
+        } else if(flt.operator === GeneralFilterOperatorEnum.Like) {
+          rstfilter = rstfilter ? `${rstfilter} and contains(${flt.fieldName},'${flt.lowValue}')` : `contains(${flt.fieldName},'${flt.lowValue}')`;
+        }
       }
     });
     return rstfilter;
@@ -156,7 +139,6 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
   }
 
   onSearch() {
-    // Do the real search
     // Do the translate first
     let arRealFilter: any[] = [];
     this.filters.forEach((value: GeneralFilterItem) => {
@@ -219,6 +201,16 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
 
     // Do the real search
     this.subjFilters.next(arRealFilter);
+  }
+
+  getFileUrl(pht: Photo): string {
+    if (pht.fileUrl)
+      return environment.apiRootUrl + 'PhotoFile/' + pht.fileUrl;
+    return '';
+  }
+
+  onChangePhoto(pht: Photo): void {
+    // Show the dialog
   }
 }
 
