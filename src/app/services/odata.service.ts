@@ -210,7 +210,7 @@ export class OdataService {
   }
 
   // Photos
-  public getPhotos(skip = 0, top = 20): Observable<{ totalCount: number, items: SequenceList<Photo>}> {
+  public getPhotos(skip = 0, top = 20, filter?: string): Observable<{ totalCount: number, items: SequenceList<Photo>}> {
     // TBD.
     // if (environment.mockdata && this.mockedKnowledgeItem.length > 0) {
     //   return of({
@@ -229,6 +229,9 @@ export class OdataService {
     params = params.append('$count', 'true');
     params = params.append('$select', 'PhotoId,Title,Desp,FileUrl,ThumbnailFileUrl,IsPublic');
     params = params.append('$expand', 'Tags');
+    if (filter) {
+      params = params.append('$filter', filter);
+    }
     let apiurl = `${this.apiUrl}Photos`;
     // TBD.
     // if (environment.mockdata) {

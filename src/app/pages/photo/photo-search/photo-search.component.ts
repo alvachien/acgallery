@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { BehaviorSubject, merge } from 'rxjs';
+import { BehaviorSubject, merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
-import { GeneralFilterItem, GeneralFilterOperatorEnum, GeneralFilterValueType, Photo, UIDisplayString, UIDisplayStringUtil } from 'src/app/models';
+import { GeneralFilterItem, GeneralFilterOperatorEnum, GeneralFilterValueType, Photo,
+  UIDisplayString, UIDisplayStringUtil } from 'src/app/models';
 import { OdataService } from 'src/app/services';
 
 @Component({
@@ -25,8 +26,8 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
     this.resultsLength = 0;
     this.allOperators = UIDisplayStringUtil.getGeneralFilterOperatorDisplayStrings();
     this.allFields = [{
-      displayas: 'Common.Tag',
-      value: 'Tags',
+      displayas: 'Common.Title',
+      value: 'Title',
       valueType: 2,
     }, {
       displayas: 'Common.CameraMaker',
@@ -75,6 +76,9 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
 
           this.isLoadingResults = true;
 
+          // Prepare filters
+          let filter = this.prepareFilters();
+
           // return this._photoService.searchPhoto(this.subjFilters.value,
           //   this.paginator.pageSize,
           //   this.paginator.pageIndex * this.paginator.pageSize);
@@ -119,6 +123,18 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
     //   // Do nothing
     // });
 
+  }
+  prepareFilters(): string {
+    let rstfilter = '';
+    this.filters.forEach(flt => {
+      if (flt.fieldName === 'Title') {
+        
+
+      } else if (flt.fieldName === 'CameraMaker') {
+
+      }
+    });
+    return rstfilter;
   }
 
   // Filters
@@ -204,8 +220,5 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
     // Do the real search
     this.subjFilters.next(arRealFilter);
   }
-}
-function observableOf(arg0: undefined[]): any {
-  throw new Error('Function not implemented.');
 }
 
