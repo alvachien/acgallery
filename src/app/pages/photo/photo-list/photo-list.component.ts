@@ -20,7 +20,7 @@ export class PhotoListComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.onPageIndexChanged(1);
+    this.onFetchData(20, 0);
     // this.odataSvc.getPhotos().subscribe({
     //   next: val => {
     //     // console.log(val);
@@ -44,33 +44,9 @@ export class PhotoListComponent implements OnInit {
   onSearch(): void {
     this.router.navigate(['/photo/search']);
   }
-  getFileUrl(pht: Photo): string {
-    if (pht.fileUrl)
-      return environment.apiRootUrl + 'PhotoFile/' + pht.fileUrl;
-    return '';
-  }
 
-  onChangePhoto(pht: Photo): void {
-    // Show the dialog
-  }
-  onDeletePhoto(pht: Photo): void {
-    // Delete    
-    this.odataSvc.deletePhoto(pht.photoId).subscribe({
-      next: val => {
-        let pidx = this.photos.findIndex(pt => pt.photoId === pht.photoId);
-        if (pidx !== -1) {
-          this.photos.splice(pidx, 1);
-        }
-        this.totalCount --;
-      },
-      error: err => {
-        console.error(err);
-      }
-    })
-  }
-  onPageIndexChanged(pgIdx: number): void {
-    console.log("Photo List page: Entering onPageIndexChanged");
-    this.odataSvc.getPhotos((pgIdx - 1) * 20, 20).subscribe({
+  onFetchData(top, skip): void {
+    this.odataSvc.getPhotos(skip, top).subscribe({
       next: val => {
         // console.log(val);
         this.totalCount = val.totalCount;
@@ -83,5 +59,11 @@ export class PhotoListComponent implements OnInit {
         console.error(err);
       }
     });
+  }
+  onPaginationEvent(pgInfo: any) {
+    // Get the results based on pagination info.
+    const top = pgInfo.pageSize;
+    const skip = pgInfo.pageSize * (pgInfo.pageIndex - 1);
+    this.onFetchData(top, skip);
   }
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Photo } from 'src/app/models';
@@ -11,10 +12,15 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./photo-list-core.component.less'],
 })
 export class PhotoListCoreComponent implements OnInit {
+  @Input()
   totalCount = 0;
   viewMode = 'std';
+  pageSize = 20;
   pageIndex = 1;
+  @Input()
   photos: Photo[] = [];
+  @Output()
+  paginationEvent = new EventEmitter<{pageSize: number, pageIndex: number}>();
 
   constructor(public odataSvc: OdataService, 
     private router: Router) { }
@@ -48,7 +54,11 @@ export class PhotoListCoreComponent implements OnInit {
     })
   }
   onPageIndexChanged(pgIdx: number): void {
-    console.log("Photo List page: Entering onPageIndexChanged");
+    console.log("Photo List Core: Entering onPageIndexChanged");
+    this.paginationEvent.emit({
+      pageSize: this.pageSize,
+      pageIndex: this.pageIndex,
+    });
     // this.odataSvc.getPhotos((pgIdx - 1) * 20, 20).subscribe({
     //   next: val => {
     //     // console.log(val);

@@ -3,7 +3,8 @@
         <label nz-radio-button nzValue="std">{{'Common.Standard' | transloco}}</label>
         <label nz-radio-button nzValue="adv">{{'Common.Advanced' | transloco}}</label>
     </nz-radio-group>
-    <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="20" [nzShowTotal]="rangeTemplate"
+    <nz-divider nzType="vertical"></nz-divider>
+    <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="pageSize" [nzShowTotal]="rangeTemplate"
         nzShowQuickJumper (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
     <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}-{{ range[1] }} of {{ total }} items
     </ng-template>
@@ -36,6 +37,11 @@
 <nz-divider></nz-divider>
 
 <div nz-row nzJustify="center">
-    <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="20" [nzShowTotal]="rangeTemplate"
+    <nz-radio-group [(ngModel)]="viewMode">
+        <label nz-radio-button nzValue="std">{{'Common.Standard' | transloco}}</label>
+        <label nz-radio-button nzValue="adv">{{'Common.Advanced' | transloco}}</label>
+    </nz-radio-group>
+    <nz-divider nzType="vertical"></nz-divider>
+    <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="pageSize" [nzShowTotal]="rangeTemplate"
         nzShowQuickJumper (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
 </div>

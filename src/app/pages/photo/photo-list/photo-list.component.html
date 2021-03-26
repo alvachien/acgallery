@@ -6,48 +6,10 @@
     </nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
-    <nz-radio-group [(ngModel)]="viewMode">
-      <label nz-radio-button nzValue="std">{{'Common.Standard' | transloco}}</label>
-      <label nz-radio-button nzValue="adv">{{'Common.Advanced' | transloco}}</label>
-    </nz-radio-group>
     <button nz-button (click)="onSearch()">{{'Common.Search' | transloco}}</button>
     <button nz-button (click)="onRefresh()">{{'Common.Refresh' | transloco}}</button>
     <button nz-button nzType="primary" (click)="onUpload()">{{'Nav.PhotoUpload' | transloco}}</button>
   </nz-page-header-extra>  
 </nz-page-header>
 
-<div nz-row nzJustify="center">
-  <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="20" [nzShowTotal]="rangeTemplate"
-    nzShowQuickJumper (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
-  <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}-{{ range[1] }} of {{ total }} items </ng-template>        
-</div>
-
-<nz-divider></nz-divider>
-
-<nz-image-group>
-  <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
-    <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="8" nzXl="6" class="gutter-row" [nzSpan]="6" *ngFor="let pht of photos">
-      <div nz-col class="inner-box">
-        <div nz-row>
-          <img nz-image width="200px" [nzSrc]="getFileUrl(pht)" alt="" />
-        </div>
-        <div nz-row class="button-group-row">
-          <nz-tag *ngFor="let tag of pht.tags" [nzColor]="'#f50'">{{tag}}</nz-tag>
-        </div>
-        <div nz-row *ngIf="viewMode === 'adv'" class="button-group-row">
-          <nz-button-group>
-            <a nz-button nzType="link" (click)="onChangePhoto(pht)" nzGhost>{{'Common.Edit' | transloco}}</a>
-            <a nz-button nzType="link" (click)="onDeletePhoto(pht)" nzDanger>{{'Common.Delete' | transloco}}</a>
-          </nz-button-group>  
-        </div>
-      </div>
-    </div>
-  </div>
-</nz-image-group>
-
-<nz-divider></nz-divider>
-
-<div nz-row nzJustify="center">
-  <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="20" [nzShowTotal]="rangeTemplate"
-    nzShowQuickJumper (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
-</div>
+<acgallery-photo-list-core [totalCount]="totalCount" [photos]="photos" (paginationEvent)="onPaginationEvent($event)"></acgallery-photo-list-core>

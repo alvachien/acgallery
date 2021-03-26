@@ -23,7 +23,6 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
   resultsLength: number;
   public subjFilters: BehaviorSubject<any[]> = new BehaviorSubject([]);
   photos: Photo[] = [];
-  pageIndex = 1;
 
   constructor(private odataSvc: OdataService) {
     this.resultsLength = 0;
@@ -203,14 +202,8 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
     this.subjFilters.next(arRealFilter);
   }
 
-  getFileUrl(pht: Photo): string {
-    if (pht.fileUrl)
-      return environment.apiRootUrl + 'PhotoFile/' + pht.fileUrl;
-    return '';
-  }
-
-  onChangePhoto(pht: Photo): void {
-    // Show the dialog
+  onPaginationEvent(pgInfo: any) {
+    // Get the results based on pagination info.
   }
 }
 
