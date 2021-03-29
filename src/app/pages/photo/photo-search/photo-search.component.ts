@@ -110,9 +110,15 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
     arFilter.forEach(flt => {
       if (flt.fieldName === 'Title' || flt.fieldName === 'CameraModel' || flt.fieldName === 'CameraMaker' || flt.fieldName === 'LensModel') {
         if (flt.operator === GeneralFilterOperatorEnum.Equal) {
-          rstfilter = rstfilter ? `${rstfilter} and ${flt.fieldName} eq '${flt.lowValue}'` : `${flt.fieldName} eq '${flt.lowValue}'`;
+          if (flt.lowValue) {
+            rstfilter = rstfilter ? `${rstfilter} and ${flt.fieldName} eq '${flt.lowValue}'` : `${flt.fieldName} eq '${flt.lowValue}'`;
+          } else {
+            rstfilter = rstfilter ? `${rstfilter} and ${flt.fieldName} eq null` : `${flt.fieldName} eq null`;
+          }          
         } else if(flt.operator === GeneralFilterOperatorEnum.Like) {
-          rstfilter = rstfilter ? `${rstfilter} and contains(${flt.fieldName},'${flt.lowValue}')` : `contains(${flt.fieldName},'${flt.lowValue}')`;
+          if (flt.lowValue) {
+            rstfilter = rstfilter ? `${rstfilter} and contains(${flt.fieldName},'${flt.lowValue}')` : `contains(${flt.fieldName},'${flt.lowValue}')`;
+          }
         }
       }
     });

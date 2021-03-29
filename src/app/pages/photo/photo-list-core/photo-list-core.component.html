@@ -21,12 +21,13 @@
                     <img nz-image width="200px" [nzSrc]="getFileUrl(pht)" alt="" />
                 </div>
                 <div nz-row class="button-group-row">
+                    <a nz-button nzType="link" nzSize="small" (click)="onPhotoViewEXIF(pht)">EXIF</a>
                     <nz-tag *ngFor="let tag of pht.tags" [nzColor]="'#f50'">{{tag}}</nz-tag>
                 </div>
                 <div nz-row *ngIf="viewMode === 'adv'" class="button-group-row">
                     <nz-button-group>
-                        <a nz-button nzType="link" (click)="onChangePhoto(pht)" nzGhost>{{'Common.Edit' | transloco}}</a>
-                        <a nz-button nzType="link" (click)="onDeletePhoto(pht)" nzDanger>{{'Common.Delete' | transloco}}</a>
+                        <a nz-button nzType="link" (click)="onChangePhoto(pht)" nzSize="small" nzGhost>{{'Common.Edit' | transloco}}</a>
+                        <a nz-button nzType="link" (click)="onDeletePhoto(pht)" nzSize="small" nzDanger>{{'Common.Delete' | transloco}}</a>
                     </nz-button-group>
                 </div>
             </div>
@@ -45,3 +46,14 @@
     <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="pageSize" [nzShowTotal]="rangeTemplate"
         nzShowQuickJumper (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
 </div>
+
+<nz-modal [(nzVisible)]="isExifVisible" nzTitle="EXIF" (nzOnCancel)="handleExifDlgCancel()" (nzOnOk)="handleExifDlgOk()">
+    <ng-container *nzModalContent>
+      <p>Camera Maker: {{curExif.CameraMaker}}</p>
+      <p>Camera Model: {{curExif.CameraModel}}</p>
+      <p>Lens Model: {{curExif.LensModel}}</p>
+      <p>Aperture Value: {{curExif.AVNumber}}</p>
+      <p>Shutter Speed: {{curExif.ShutterSpeed}}</p>
+      <p>ISO: {{curExif.ISONumber}}</p>
+    </ng-container>
+</nz-modal>

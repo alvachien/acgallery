@@ -21,6 +21,8 @@ export class PhotoListCoreComponent implements OnInit {
   photos: Photo[] = [];
   @Output()
   paginationEvent = new EventEmitter<{pageSize: number, pageIndex: number}>();
+  isExifVisible = false;
+  curExif = {};
 
   constructor(public odataSvc: OdataService, 
     private router: Router) { }
@@ -35,6 +37,24 @@ export class PhotoListCoreComponent implements OnInit {
   }
 
   // Command handlers
+  onPhotoViewEXIF(pht: Photo): void {
+    console.log('View EXIF button clicked');
+    this.odataSvc.getPhotoEXIF(pht.photoId).subscribe({
+      next: val => {
+        this.curExif = val;
+        this.isExifVisible = true;
+      },
+      error: err => {
+        console.error(err);
+      }
+    });
+  }
+  handleExifDlgCancel() {
+    this.isExifVisible = false;
+  }
+  handleExifDlgOk() {
+    this.isExifVisible = false;
+  }
   onChangePhoto(pht: Photo): void {
     // Show the dialog
   }

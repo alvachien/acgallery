@@ -268,6 +268,44 @@ export class OdataService {
       }));
   }
 
+  public getPhotoEXIF(phtId: string): Observable<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+              .append('Accept', 'application/json');
+
+    let params: HttpParams = new HttpParams();
+    params = params.append('$select', 'PhotoId,CameraMaker,CameraModel,LensModel,AVNumber,ShutterSpeed,ISONumber');
+    let apiurl = `${this.apiUrl}Photos('${phtId}')`;
+    // TBD.
+    // if (environment.mockdata) {
+    //   apiurl = `${environment.basehref}assets/mockdata/albums.json`;
+    //   params = new HttpParams();
+    // }
+
+    return this.http.get(apiurl, {
+        headers,
+        params,
+      })
+      .pipe(map(response => {
+        const rjs = response as any;
+        // if (environment.mockdata) {
+        //   this.mockedKnowledgeItem = items.slice();
+        // }
+
+        return {
+          CameraMaker: rjs['CameraMaker'],
+          CameraModel: rjs['CameraModel'],
+          LensModel: rjs['LensModel'],
+          AVNumber: rjs['AVNumber'],
+          ShutterSpeed: rjs['ShutterSpeed'],
+          ISONumber: rjs['ISONumber'],
+        };
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+      }));
+  }
+
   public createPhoto(pto: Photo): Observable<Photo> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
