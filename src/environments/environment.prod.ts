@@ -8,10 +8,10 @@ export const environment = {
 
   apiRootUrl: 'https://www.alvachien.com/galleryapi/',
 
-  IDServerUrl: 'http://118.178.58.187:5100',
-  AppLoginCallbackUrl: 'http://118.178.58.187:5210/logincallback.html',
-  AppLogoutCallbackUrl: 'http://118.178.58.187:5210',
-  AppHost: 'http://118.178.58.187:5210',
-  AppHIH: 'http://118.178.58.187:5200',
-  AppMathExercise: 'http://118.178.58.187:5230',
+  IDServerUrl: 'https://www.alvachien.com/idserver',
+  AppLoginCallbackUrl: 'https://www.alvachien.com/acgallery/logincallback.html',
+  AppLogoutCallbackUrl: 'https://www.alvachien.com/acgallery',
+  AppHost: 'https://www.alvachien.com/acgallery',
+  AppHIH: 'https://www.alvachien.com/hih',
+  AppMathExercise: 'https://www.alvachien.com/math',
 };

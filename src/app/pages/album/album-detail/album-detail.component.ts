@@ -29,9 +29,6 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
   isAccessCodeDlgVisible = false;
   isAccessCodeSubmitting = false;
   accessCodeInputted = '';
-  // Pagination
-  pageIndex = 1;
-  sizePerPage = 20;
 
   get isCreateMode(): boolean { return this.uiMode === UIMode.Create; }
   get isDisplayMode(): boolean { return this.uiMode === UIMode.Display; }
@@ -47,24 +44,6 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
       this.detailForm.controls[i].markAsDirty();
       this.detailForm.controls[i].updateValueAndValidity();
     }
-  }
-
-  // updateConfirmValidator(): void {
-  //   /** wait for refresh value */
-  //   Promise.resolve().then(() => this.detailForm.controls.checkPassword.updateValueAndValidity());
-  // }
-
-  // confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
-  //   if (!control.value) {
-  //     return { required: true };
-  //   } else if (control.value !== this.detailForm.controls.password.value) {
-  //     return { confirm: true, error: true };
-  //   }
-  //   return {};
-  // };
-
-  getCaptcha(e: MouseEvent): void {
-    e.preventDefault();
   }
 
   ngOnInit(): void {
@@ -152,10 +131,10 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
   handleAccessCodeDlgOk() {
     this.isAccessCodeSubmitting = true;
 
-    this.onPageIndexChanged(1);
+    this.onFetchData(20, 0);
   }
-  onPageIndexChanged(pgIdx: number): void {
-    this.odataSvc.getAlbumRelatedPhotos(this.routerID, this.accessCodeInputted, (pgIdx - 1) * this.sizePerPage, this.sizePerPage)
+  onFetchData(top, skip): void {
+    this.odataSvc.getAlbumRelatedPhotos(this.routerID, this.accessCodeInputted, skip, top)
       .pipe(finalize(() => {
         if (this.isAccessCodeDlgVisible) {
           this.isAccessCodeSubmitting = false;

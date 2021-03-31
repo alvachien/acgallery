@@ -4,12 +4,12 @@ import { PhotoListComponent } from './photo-list';
 import { PhotoDetailComponent } from './photo-detail';
 import { PhotoUploadComponent } from './photo-upload';
 import { PhotoSearchComponent } from './photo-search';
-import { CanDeactivateGuard } from 'src/app/services';
+import { AuthGuard, CanDeactivateGuard } from 'src/app/services';
 
 const routes: Routes = [
   { path: '', component: PhotoListComponent },
   { path: 'display/:id', component: PhotoDetailComponent },
-  { path: 'upload', component: PhotoUploadComponent, canDeactivate: [CanDeactivateGuard] },
+  { path: 'upload', component: PhotoUploadComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard] },
   { path: 'search', component: PhotoSearchComponent },
 ];
 

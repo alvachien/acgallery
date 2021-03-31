@@ -54,7 +54,10 @@
               </nz-dropdown-menu>
             </nz-space-item>
             <nz-space-item>
-              <button nz-button><i nz-icon nzType="github" nzTheme="outline"></i></button>  
+              <button nz-button (click)="onLogin()"><i nz-icon nzType="user" nzTheme="outline"></i></button>
+            </nz-space-item>
+            <nz-space-item>
+              <button nz-button (click)="onOpenGithub()"><i nz-icon nzType="github" nzTheme="outline"></i></button>  
             </nz-space-item>
             <nz-space-item>
               <span nz-typography nzType="success">{{'Nav.Version' | transloco}}: {{currentVersion}}</span>

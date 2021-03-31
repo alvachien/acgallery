@@ -52,24 +52,5 @@
 <div *ngIf="isDisplayMode">
   <nz-divider [nzText]="'Nav.Photos' | transloco"></nz-divider>
 
-  <div nz-row nzJustify="center">
-    <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="20" [nzShowTotal]="rangeTemplate"
-      nzShowQuickJumper (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
-    <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}-{{ range[1] }} of {{ total }} items </ng-template>        
-  </div>
-
-  <nz-image-group>
-    <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
-      <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="8" nzXl="6" class="gutter-row" [nzSpan]="6" *ngFor="let pht of photos">
-        <div nz-col class="inner-box">
-          <img nz-image width="200px" [nzSrc]="getFileUrl(pht)" alt="" />
-        </div>
-      </div>
-    </div>
-  </nz-image-group>
-
-  <div nz-row nzJustify="center">
-    <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="20" [nzShowTotal]="rangeTemplate"
-      nzShowQuickJumper (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
-  </div>  
+  <acgallery-photo-list-core [totalCount]="totalCount" [photos]="photos" (paginationEvent)="onPaginationEvent($event)"></acgallery-photo-list-core>
 </div>

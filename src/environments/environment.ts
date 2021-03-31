@@ -13,10 +13,10 @@ export const environment = {
 
   apiRootUrl: 'https://localhost:25325/',
 
-  IDServerUrl: 'http://localhost:41016',
-  AppLoginCallbackUrl: 'http://localhost:16001/logincallback.html',
-  AppLogoutCallbackUrl: 'http://localhost:16001',
-  AppHost: 'http://localhost:16001',
-  AppHIH: 'http://localhost:29521',
-  AppMathExercise: 'http://localhost:20000',
+  IDServerUrl: 'https://localhost:44353',
+  AppLoginCallbackUrl: 'https://localhost:16001/logincallback.html',
+  AppLogoutCallbackUrl: 'https://localhost:16001',
+  AppHost: 'https://localhost:16001',
+  AppHIH: 'https://localhost:29521',
+  AppMathExercise: 'https://localhost:20000',
 };

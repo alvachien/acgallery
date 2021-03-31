@@ -6,6 +6,7 @@ import { SequenceList } from 'actslib';
 
 import { environment } from 'src/environments/environment';
 import { Album, AlbumPhotoLink, Photo } from '../models';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,7 @@ export class OdataService {
   // private mockedExerciseItem: ExerciseItem[] = [];
 
   constructor(private http: HttpClient,
+    private authService: AuthService,
     ) { }
 
   public getMetadata(forceReload?: boolean): Observable<any> {
@@ -66,6 +68,9 @@ export class OdataService {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
               .append('Accept', 'application/json');
+    if (this.authService.authSubject.getValue().isAuthorized) {
+      headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
+    }
 
     let params: HttpParams = new HttpParams();
     params = params.append('$top', top.toString());
@@ -113,7 +118,8 @@ export class OdataService {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
               .append('Accept', 'application/json');
-
+    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
+          
     let apiurl = `${this.apiUrl}Albums`;
     let jdata = alb.writeJSONString();
     return this.http.post(apiurl, jdata, {
@@ -134,7 +140,10 @@ export class OdataService {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
               .append('Accept', 'application/json');
-
+    if (this.authService.authSubject.getValue().isAuthorized) {
+      headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
+    }
+          
     let params: HttpParams = new HttpParams();
     let apiurl = `${this.apiUrl}Albums(${albumid})`;
     // TBD.
@@ -163,16 +172,20 @@ export class OdataService {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
               .append('Accept', 'application/json');
-
+    if (this.authService.authSubject.getValue().isAuthorized) {
+      headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
+    }
+          
     let params: HttpParams = new HttpParams();
     params = params.append('$count', 'true');
     params = params.append('$skip', skip.toString());
     params = params.append('$top', top.toString());
+    params = params.append('$expand', 'Tags');
     let apiurl = '';
     if (accessCode) {
       apiurl = `${this.apiUrl}Albums/GetPhotos(AlbumID=${albumid},AccessCode='${accessCode}')`;
     } else {
-      apiurl = `${this.apiUrl}Albums/GetPhotos(${albumid})`;
+      apiurl = `${this.apiUrl}Albums/GetPhotos(AlbumID=${albumid},AccessCode='')`;
     }
     // TBD.
     // if (environment.mockdata) {
@@ -222,7 +235,10 @@ export class OdataService {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
               .append('Accept', 'application/json');
-
+    if (this.authService.authSubject.getValue().isAuthorized) {
+      headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
+    }
+          
     let params: HttpParams = new HttpParams();
     params = params.append('$top', top.toString());
     params = params.append('$skip', skip.toString());
