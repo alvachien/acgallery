@@ -5,7 +5,7 @@ import { map, catchError } from 'rxjs/operators';
 import { SequenceList } from 'actslib';
 
 import { environment } from 'src/environments/environment';
-import { Album, AlbumPhotoLink, Photo } from '../models';
+import { Album, AlbumPhotoLink, Photo, UserDetail } from '../models';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -326,6 +326,7 @@ export class OdataService {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
               .append('Accept', 'application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
     let params: HttpParams = new HttpParams();
     let apiurl = `${this.apiUrl}Photos`;
@@ -357,7 +358,7 @@ export class OdataService {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
               .append('Accept', 'application/json');
-
+    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
     let params: HttpParams = new HttpParams();
     let apiurl = `${this.apiUrl}Photos('${pto.photoId}')`;
 
@@ -383,6 +384,7 @@ export class OdataService {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
               .append('Accept', 'application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
     let params: HttpParams = new HttpParams();
     let apiurl = `${this.apiUrl}Photos('${photoId}')`;
@@ -414,6 +416,7 @@ export class OdataService {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
               .append('Accept', 'application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
     let params: HttpParams = new HttpParams();
     let apiurl = `${this.apiUrl}PhotoTags`;
@@ -440,6 +443,7 @@ export class OdataService {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
               .append('Accept', 'application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
     let params: HttpParams = new HttpParams();
     let apiurl = `${this.apiUrl}PhotoTags(PhotoID='${photoId},TagString='${tags}')`;
@@ -461,6 +465,7 @@ export class OdataService {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
               .append('Accept', 'application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
     let params: HttpParams = new HttpParams();
     let apiurl = `${this.apiUrl}Photos('${photoId}')`;
@@ -481,6 +486,7 @@ export class OdataService {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
               .append('Accept', 'application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
     let params: HttpParams = new HttpParams();
     let apiurl = `${this.apiUrl}AlbumPhotos`;
@@ -503,6 +509,31 @@ export class OdataService {
         let link2 = new AlbumPhotoLink();
         link2.parseData(response as any);
         return link2;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+      }));
+  }
+
+  // User detail
+  public getUserDetail(): Observable<UserDetail> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+              .append('Accept', 'application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
+    let params: HttpParams = new HttpParams();
+    let apiurl = `${this.apiUrl}UserDetails('${this.authService.authSubject.getValue().getUserID()}')`;
+
+    return this.http.get(apiurl, {
+        headers,
+        params,
+      })
+      .pipe(map(response => {
+        const ud = new UserDetail();
+        ud.onSetData(response);
+        ud.email = this.authService.authSubject.getValue().getUserName();
+        ud.others = '';
+        return ud;
       }),
       catchError((error: HttpErrorResponse) => {
         return throwError(error.statusText + '; ' + error.error + '; ' + error.message);

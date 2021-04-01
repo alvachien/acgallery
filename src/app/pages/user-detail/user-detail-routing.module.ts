@@ -4,7 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 
 const routes: Routes = [
-  { path: '', component: UserDetailComponent },
+  { path: 'display', component: UserDetailComponent },
+  { path: 'edit/:id', component: UserDetailComponent },
 ];
 
 @NgModule({

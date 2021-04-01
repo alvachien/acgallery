@@ -20,11 +20,11 @@ export class UserDetail {
   public photoDelete: UserOperationAuthEnum;
 
   public onSetData(data: any) {
-    if (data && data.userID) {
-      this.userId = data.userID;
+    if (data && data.UserID) {
+      this.userId = data.UserID;
     }
-    if (data && data.displayAs) {
-      this.displayAs = data.displayAs;
+    if (data && data.DisplayAs) {
+      this.displayAs = data.DisplayAs;
     }
     if (data && data.email) {
       this.email = data.email;
@@ -32,32 +32,32 @@ export class UserDetail {
     if (data && data.others) {
       this.others = data.others;
     }
-    if (data && data.uploadFileMinSize) {
-      this.uploadFileMinSize = +data.uploadFileMinSize;
+    if (data && data.UploadFileMinSize) {
+      this.uploadFileMinSize = +data.UploadFileMinSize;
     }
-    if (data && data.uploadFileMaxSize) {
-      this.uploadFileMaxSize = +data.uploadFileMaxSize;
+    if (data && data.UploadFileMaxSize) {
+      this.uploadFileMaxSize = +data.UploadFileMaxSize;
     }
-    if (data && data.albumCreate) {
-      this.albumCreate = data.albumCreate as boolean;
+    if (data && data.AlbumCreate) {
+      this.albumCreate = data.AlbumCreate as boolean;
     }
-    if (data && data.albumChange) {
-      this.albumChange = data.albumChange as UserOperationAuthEnum;
+    if (data && data.AlbumChange) {
+      this.albumChange = data.AlbumChange as UserOperationAuthEnum;
     }
-    if (data && data.albumDelete) {
-      this.albumDelete = data.albumDelete as UserOperationAuthEnum;
+    if (data && data.AlbumDelete) {
+      this.albumDelete = data.AlbumDelete as UserOperationAuthEnum;
     }
-    if (data && data.albumRead) {
-      this.albumRead = data.albumRead as UserOperationAuthEnum;
+    if (data && data.AlbumRead) {
+      this.albumRead = data.AlbumRead as UserOperationAuthEnum;
     }
-    if (data && data.photoUpload) {
-      this.photoUpload = data.photoUpload as boolean;
+    if (data && data.PhotoUpload) {
+      this.photoUpload = data.PhotoUpload as boolean;
     }
-    if (data && data.photoChange) {
-      this.photoChange = data.photoChange as UserOperationAuthEnum;
+    if (data && data.PhotoChange) {
+      this.photoChange = data.PhotoChange as UserOperationAuthEnum;
     }
-    if (data && data.photoDelete) {
-      this.photoDelete = data.photoDelete as UserOperationAuthEnum;
+    if (data && data.PhotoDelete) {
+      this.photoDelete = data.PhotoDelete as UserOperationAuthEnum;
     }
   }
 }

@@ -13,7 +13,6 @@ import { AuthService } from './services';
 })
 export class AppComponent {
   isCollapsed = false;
-  isLogin = false;
 
   constructor(private tranService: TranslocoService,
     private i18n: NzI18nService,
@@ -37,10 +36,10 @@ export class AppComponent {
   }
 
   onOpenGithub(): void {
-    window.open(environment.AppMathExercise, '_blank');
+    window.open('https://www.github.com/alvachien/acgallery', '_blank');
   }
   onLogin(): void {
-    if (this.isLogin) {
+    if (this.authService.authSubject.getValue().isAuthorized) {
       this.onUserDetail();
     } else {
       this.authService.doLogin();
@@ -48,6 +47,6 @@ export class AppComponent {
   }
 
   onUserDetail(): void {
-    this.router.navigate(['/userdetail']);
+    this.router.navigate(['/userdetail/display']);
   }
 }

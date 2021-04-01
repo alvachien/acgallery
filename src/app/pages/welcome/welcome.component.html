@@ -1,1 +1,22 @@
-<div>This is a welcome page</div>
+<nz-page-header class="site-page-header" [nzTitle]="'Common.Dashboard' | transloco" [nzSubtitle]="'Common.KeyFigure' | transloco">
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>{{'Common.Dashboard' | transloco}}</nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <nz-page-header-extra>
+  </nz-page-header-extra>  
+</nz-page-header>
+
+<nz-row [nzGutter]="16">
+  <nz-col [nzSpan]="12">
+    <nz-statistic
+      [nzValue]="(1949101 | number)!"
+      [nzTitle]="'Common.TotalAlbum' | transloco">
+    </nz-statistic>
+  </nz-col>
+  <nz-col [nzSpan]="12">
+    <nz-statistic
+      [nzValue]="(2019.111 | number: '1.0-2')!"
+      [nzTitle]="'Common.TotalPhoto' | transloco">
+    </nz-statistic>
+  </nz-col>
+</nz-row>

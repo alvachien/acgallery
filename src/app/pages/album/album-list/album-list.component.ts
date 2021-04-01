@@ -23,7 +23,8 @@ export class AlbumListComponent implements OnInit {
   }
 
   onCreate(): void {
-    this.router.navigate(['/album/create']);
+    // Create ablum coming from upload.
+    this.router.navigate(['/photo/upload']);
   }
   onDisplay(instance: Album): void {
     this.router.navigate(['/album/display', instance.Id]);
