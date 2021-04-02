@@ -23,6 +23,7 @@
     <div *ngSwitchCase="0">
       <nz-upload [nzAction]="photoFileAPI" nzListType="picture-card" nzFileType="image/png,image/jpeg" [(nzFileList)]="fileUploadList"
         [nzShowButton]="fileUploadList.length < 8" nzSize="2048" (nzChange)="handleUploadChange($event)" [nzMultiple]="true"        
+        [nzHeaders]="getUploadHeader"
         [nzPreview]="handleUploadPreview">
         <div>
           <i nz-icon nzType="plus"></i>

@@ -1,5 +1,4 @@
 import * as Common from './common';
-import { environment } from '../../environments/environment';
 
 /**
  * Album

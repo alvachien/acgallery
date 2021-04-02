@@ -539,4 +539,23 @@ export class OdataService {
         return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
       }));
   }
+
+  public getStatistics(): Observable<any> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+              .append('Accept', 'application/json');
+    let params: HttpParams = new HttpParams();
+    let apiurl = `${this.apiUrl}api/Statistics`;
+
+    return this.http.get(apiurl, {
+        headers,
+        params,
+      })
+      .pipe(map(response => {
+        return response;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+      }));
+  }
 }

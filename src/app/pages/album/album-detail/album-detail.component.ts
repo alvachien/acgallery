@@ -124,7 +124,9 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
       this._destroyed$.complete();
     }
   }
-
+  onPaginationEvent(pageSize: number, pageIndex: number) {
+    this.onFetchData(pageSize, pageSize * pageIndex);
+  }
   handleAccessCodeDlgCancel() {
     this.isAccessCodeDlgVisible = false;
   }

@@ -6,16 +6,16 @@
   </nz-page-header-extra>  
 </nz-page-header>
 
-<nz-row [nzGutter]="16">
+<nz-row [nzGutter]="8">
   <nz-col [nzSpan]="12">
     <nz-statistic
-      [nzValue]="(1949101 | number)!"
+      [nzValue]="statInfo.albumAmount | number"
       [nzTitle]="'Common.TotalAlbum' | transloco">
     </nz-statistic>
   </nz-col>
   <nz-col [nzSpan]="12">
     <nz-statistic
-      [nzValue]="(2019.111 | number: '1.0-2')!"
+      [nzValue]="statInfo.photoAmount | number"
       [nzTitle]="'Common.TotalPhoto' | transloco">
     </nz-statistic>
   </nz-col>

@@ -5,10 +5,11 @@ import { finalize, map, takeUntil } from 'rxjs/operators';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 import { Album, Photo, SelectableAlbum, UpdPhoto } from 'src/app/models';
-import { CanComponentDeactivate, OdataService } from 'src/app/services';
+import { AuthService, CanComponentDeactivate, OdataService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpHeaders } from '@angular/common/http';
 
 
 function getBase64(file: File): Promise<string | ArrayBuffer | null> {
@@ -53,7 +54,8 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     private modal: NzModalService,
     private fb: FormBuilder,
     private odataSvc: OdataService,
-    private router: Router,) { 
+    private router: Router,
+    private authService: AuthService) { 
     this.arAssignMode.push({ value: 0, name: 'Photo.Upload_NoAlbum', });
     this.arAssignMode.push({ value: 1, name: 'Photo.Upload_AssignExistAlbum', });
     this.arAssignMode.push({ value: 2, name: 'Photo.Upload_AssignNewAlbum', });
@@ -269,6 +271,11 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
       break;
     }
   }
+  getUploadHeader = (file: NzUploadFile) : Object | Observable<{}> => {
+    return {
+      'Authorization': 'Bearer ' + this.authService.authSubject.getValue().getAccessToken()
+    };
+  };
 
   updateExistedAlbumSelected(id: number, checked: boolean): void {
     if (checked) {
