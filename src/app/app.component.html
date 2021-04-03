@@ -41,12 +41,12 @@
         <div class="app-header-content">
           <nz-space [nzSize]="16">
             <nz-space-item>
-              <a nz-dropdown [nzDropdownMenu]="menu" [nzClickHide]="false" [(nzVisible)]="visible">                
+              <a nz-dropdown [nzDropdownMenu]="menuLang" [nzClickHide]="false" [(nzVisible)]="visibleMenuLang">                
                 <i nz-icon nzType="translation" nzTheme="outline"></i>
                 {{'Common.Language' | transloco}}
                 <i nz-icon nzType="down"></i>
               </a>
-              <nz-dropdown-menu #menu="nzDropdownMenu">
+              <nz-dropdown-menu #menuLang="nzDropdownMenu">
                 <ul nz-menu>
                   <li nz-menu-item (click)="onSetLanguage('en')">{{'Language.English' | transloco}}</li>
                   <li nz-menu-item (click)="onSetLanguage('zh')">{{'Language.SimpChinese' | transloco}}</li>
@@ -54,7 +54,18 @@
               </nz-dropdown-menu>
             </nz-space-item>
             <nz-space-item>
-              <button nz-button (click)="onLogin()"><i nz-icon nzType="user" nzTheme="outline"></i></button>
+              <a nz-dropdown [nzDropdownMenu]="menuLogin" [nzClickHide]="false" [(nzVisible)]="visibleMenuUser">                
+                <i nz-icon nzType="user" nzTheme="outline"></i>
+                {{'Login.User' | transloco}}
+                <i nz-icon nzType="down"></i>
+              </a>
+              <nz-dropdown-menu #menuLogin="nzDropdownMenu">
+                <ul nz-menu>
+                  <li nz-menu-item *ngIf="!isLoggedIn" (click)="onLogin()">{{'Login.Login' | transloco}}</li>
+                  <li nz-menu-item *ngIf="isLoggedIn" (click)="onUserDetail()">{{'Login.UserDetail' | transloco}}</li>
+                  <li nz-menu-item *ngIf="isLoggedIn" (click)="onLogout()">{{'Login.Logout' | transloco}}</li>
+                </ul>
+              </nz-dropdown-menu>
             </nz-space-item>
             <nz-space-item>
               <button nz-button (click)="onOpenGithub()"><i nz-icon nzType="github" nzTheme="outline"></i></button>  

@@ -23,6 +23,9 @@ export class AppComponent {
   get currentVersion(): string {
     return environment.currentVersion;
   }
+  get isLoggedIn(): boolean {
+    return this.authService.authSubject.getValue().isAuthorized;
+  }
 
   onSetLanguage(lang: string) {
     if ((lang === 'en' || lang === 'zh') && this.tranService.getActiveLang() !== lang) {
@@ -39,13 +42,11 @@ export class AppComponent {
     window.open('https://www.github.com/alvachien/acgallery', '_blank');
   }
   onLogin(): void {
-    if (this.authService.authSubject.getValue().isAuthorized) {
-      this.onUserDetail();
-    } else {
-      this.authService.doLogin();
-    }
+    this.authService.doLogin();
   }
-
+  onLogout(): void {
+    this.authService.doLogout();
+  }
   onUserDetail(): void {
     this.router.navigate(['/userdetail/display']);
   }
