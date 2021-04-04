@@ -322,6 +322,66 @@ export class OdataService {
       }));
   }
 
+  public searchPhotos(skip = 0, top = 20, filter?: string): Observable<{ totalCount: number, items: SequenceList<Photo>}> {
+    // TBD.
+    // if (environment.mockdata && this.mockedKnowledgeItem.length > 0) {
+    //   return of({
+    //     totalCount: this.mockedKnowledgeItem.length,
+    //     items: this.mockedKnowledgeItem
+    //   });
+    // }
+
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+              .append('Accept', 'application/json');
+    if (this.authService.authSubject.getValue().isAuthorized) {
+      headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
+    }
+          
+    let params: HttpParams = new HttpParams();
+    params = params.append('$top', top.toString());
+    params = params.append('$skip', skip.toString());
+    params = params.append('$count', 'true');
+    params = params.append('$select', 'PhotoId,Title,Desp,FileUrl,ThumbnailFileUrl,IsPublic');
+    if (filter) {
+      params = params.append('$filter', filter);
+    }
+    let apiurl = `${this.apiUrl}PhotoViews`;
+    // TBD.
+    // if (environment.mockdata) {
+    //   apiurl = `${environment.basehref}assets/mockdata/albums.json`;
+    //   params = new HttpParams();
+    // }
+
+    return this.http.get(apiurl, {
+        headers,
+        params,
+      })
+      .pipe(map(response => {
+        const rjs = response as any;
+        const ritems = rjs.value as any[];
+        const items: SequenceList<Photo> = new SequenceList<Photo>();
+        
+        for(let item of ritems) {
+          const rit: Photo = new Photo();
+          rit.parseData(item);
+          items.AppendElement(rit);
+        }
+
+        // if (environment.mockdata) {
+        //   this.mockedKnowledgeItem = items.slice();
+        // }
+
+        return {
+          totalCount: rjs['@odata.count'],
+          items: items,
+        };
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+      }));
+  }
+
   public createPhoto(pto: Photo): Observable<Photo> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')

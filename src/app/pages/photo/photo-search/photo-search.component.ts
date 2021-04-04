@@ -55,6 +55,10 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
       displayas: 'Common.ISO',
       value: 'ISONumber',
       valueType: 1,
+    }, {
+      displayas: 'Common.Tags',
+      value: 'Tags',
+      valueType: 2,
     },
     ];
   }
@@ -84,7 +88,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
           // return this._photoService.searchPhoto(this.subjFilters.value,
           //   this.paginator.pageSize,
           //   this.paginator.pageIndex * this.paginator.pageSize);
-          return this.odataSvc.getPhotos(0, 20, filter);
+          return this.odataSvc.searchPhotos(0, 20, filter);
         }),
         finalize(() => this.isLoadingResults = false),
       ).subscribe({
@@ -108,7 +112,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
     arFilter.sort((a, b) => a.fieldName.localeCompare(b.fieldName));
 
     arFilter.forEach(flt => {
-      if (flt.fieldName === 'Title' || flt.fieldName === 'CameraModel' || flt.fieldName === 'CameraMaker' || flt.fieldName === 'LensModel') {
+      if (flt.fieldName === 'Title' || flt.fieldName === 'CameraModel' || flt.fieldName === 'CameraMaker' || flt.fieldName === 'LensModel' || flt.fieldName === 'Tags') {
         if (flt.operator === GeneralFilterOperatorEnum.Equal) {
           if (flt.lowValue) {
             rstfilter = rstfilter ? `${rstfilter} and ${flt.fieldName} eq '${flt.lowValue}'` : `${flt.fieldName} eq '${flt.lowValue}'`;
