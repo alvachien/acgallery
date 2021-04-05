@@ -85,4 +85,7 @@ export class UserDetailComponent implements OnInit {
       }
     });
   }
+
+  onSave(): void {    
+  }
 }

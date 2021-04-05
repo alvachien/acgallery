@@ -12,4 +12,6 @@ export class PhotoDetailComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onCreate(): void {    
+  }
 }

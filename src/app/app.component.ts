@@ -13,6 +13,8 @@ import { AuthService } from './services';
 })
 export class AppComponent {
   isCollapsed = false;
+  visibleMenuLang = false;
+  visibleMenuUser = false;
 
   constructor(private tranService: TranslocoService,
     private i18n: NzI18nService,
