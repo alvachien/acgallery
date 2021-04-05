@@ -38,8 +38,8 @@
     </nz-list-item-meta>
     {{ item.Title }}
     <ul nz-list-item-actions>
-      <nz-list-item-action><i nz-icon nzType="flag" style="margin-right: 8px"></i>156</nz-list-item-action>
-      <nz-list-item-action><i nz-icon nzType="picture" style="margin-right: 8px"></i>156</nz-list-item-action>
+      <nz-list-item-action><i nz-icon nzType="flag" style="margin-right: 8px"></i>{{9 * item.PhotoCount}}</nz-list-item-action>
+      <nz-list-item-action><i nz-icon nzType="picture" style="margin-right: 8px"></i>{{item.PhotoCount}}</nz-list-item-action>
       <nz-list-item-action *ngIf="item.accessCodeHint"><i nz-icon nzType="lock" nzTheme="twotone" style="margin-right: 8px"></i></nz-list-item-action>
       <nz-list-item-action><a nz-button nzType="link" (click)="onDisplay(item)">{{'Common.Display' | transloco}}</a></nz-list-item-action>
       <nz-list-item-action><a nz-button nzType="link" (click)="onEdit(item)">{{'Common.Edit' | transloco}}</a></nz-list-item-action>

@@ -19,6 +19,7 @@ export class Album {
   public PhotoIDs: string[];
   public PhotoCount: number;
   public IsPhotoIDFetched: boolean;
+  public AlbumThumnailUrl: string;
 
   constructor() {
     this.IsPhotoIDFetched = false;
@@ -64,6 +65,12 @@ export class Album {
     }
     if (data && data.AccessCodeHint) {
       this.accessCodeHint = data.AccessCodeHint;
+    }
+    if (data && data.PhotoCount) {
+      this.PhotoCount = data.PhotoCount;
+    }
+    if (data && data.AlbumThumnailUrl) {
+      this.AlbumThumnailUrl = data.AlbumThumnailUrl;
     }
   }
 
