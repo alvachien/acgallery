@@ -28,6 +28,9 @@ export class AppComponent {
   get isLoggedIn(): boolean {
     return this.authService.authSubject.getValue().isAuthorized;
   }
+  get logoIcon(): string {
+    return `${environment.AppHost}/assets/acgallery.ico`;
+  }
 
   onSetLanguage(lang: string) {
     if ((lang === 'en' || lang === 'zh') && this.tranService.getActiveLang() !== lang) {

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { Album } from 'src/app/models';
 import { OdataService } from 'src/app/services';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'album-list',
@@ -20,6 +21,10 @@ export class AlbumListComponent implements OnInit {
 
   ngOnInit(): void {
     this.onPageIndexChanged(1);
+  }
+
+  get greyJpg(): string {
+    return `${environment.AppHost}/assets/img/grey.jpg`;
   }
 
   onCreate(): void {
