@@ -38,7 +38,6 @@ export class AlbumListComponent implements OnInit {
   onPageIndexChanged(pgIdx: number): void {
     this.odataSvc.getAlbums((pgIdx - 1) * this.sizePerPage, this.sizePerPage).subscribe({
       next: val => {
-        // console.log(val);
         this.totalCount = val.totalCount;
         this.albums = []; // Clear it before assign.
         for(let i = 0; i < val.items.Length(); i++) {

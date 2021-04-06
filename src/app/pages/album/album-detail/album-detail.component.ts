@@ -124,8 +124,10 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
       this._destroyed$.complete();
     }
   }
-  onPaginationEvent(pageSize: number, pageIndex: number) {
-    this.onFetchData(pageSize, pageSize * pageIndex);
+  onPaginationEvent(pgInfo: {pageSize: number, pageIndex: number}) {
+    const top = pgInfo.pageSize;
+    const skip = pgInfo.pageSize * (pgInfo.pageIndex - 1);
+    this.onFetchData(top, skip);
   }
   handleAccessCodeDlgCancel() {
     this.isAccessCodeDlgVisible = false;
@@ -135,7 +137,7 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
 
     this.onFetchData(20, 0);
   }
-  onFetchData(top, skip): void {
+  onFetchData(top: number, skip: number): void {
     this.odataSvc.getAlbumRelatedPhotos(this.routerID, this.accessCodeInputted, skip, top)
       .pipe(finalize(() => {
         if (this.isAccessCodeDlgVisible) {

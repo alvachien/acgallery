@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, merge, of as observableOf } from 'rxjs';
 import { catchError, finalize, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
@@ -6,6 +6,7 @@ import { GeneralFilterItem, GeneralFilterOperatorEnum, GeneralFilterValueType, P
   UIDisplayString, UIDisplayStringUtil } from 'src/app/models';
 import { OdataService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
+import { PhotoListCoreComponent } from '../../photo-common/photo-list-core';
 
 @Component({
   selector: 'acgallery-photo-search',
@@ -23,6 +24,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
   resultsLength: number;
   public subjFilters: BehaviorSubject<any[]> = new BehaviorSubject([]);
   photos: Photo[] = [];
+  @ViewChild(PhotoListCoreComponent, {static: true}) photoList?: PhotoListCoreComponent;
 
   constructor(private odataSvc: OdataService) {
     this.resultsLength = 0;
@@ -71,7 +73,8 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
     // this.subjFilters.subscribe(() => this.paginator.pageIndex = 0);
 
     // merge(this.subjFilters, this.paginator.page)
-    this.subjFilters
+    merge(this.subjFilters, this.photoList.paginationEvent)
+    //this.subjFilters
       .pipe(
         // takeUntil(this._destroyed$),
         startWith({}),
@@ -85,10 +88,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
           // Prepare filters
           let filter = this.prepareFilters(this.subjFilters.value);
 
-          // return this._photoService.searchPhoto(this.subjFilters.value,
-          //   this.paginator.pageSize,
-          //   this.paginator.pageIndex * this.paginator.pageSize);
-          return this.odataSvc.searchPhotos(0, 20, filter);
+          return this.odataSvc.searchPhotos((this.photoList.pageIndex - 1) * this.photoList.pageSize, this.photoList.pageSize, filter);
         }),
         finalize(() => this.isLoadingResults = false),
       ).subscribe({
@@ -210,10 +210,6 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
 
     // Do the real search
     this.subjFilters.next(arRealFilter);
-  }
-
-  onPaginationEvent(pgInfo: any) {
-    // Get the results based on pagination info.
   }
 }
 
