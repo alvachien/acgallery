@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { TestingDependsModule, getTranslocoModule } from 'src/testing/';
 import { UserDetailComponent } from './user-detail.component';
 
 describe('UserDetailComponent', () => {
@@ -8,6 +9,10 @@ describe('UserDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        TestingDependsModule,
+        getTranslocoModule(),
+      ],
       declarations: [ UserDetailComponent ]
     })
     .compileComponents();

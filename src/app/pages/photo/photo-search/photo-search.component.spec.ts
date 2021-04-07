@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { TestingDependsModule, getTranslocoModule } from 'src/testing/';
 import { PhotoSearchComponent } from './photo-search.component';
 
 describe('PhotoSearchComponent', () => {
@@ -8,6 +9,10 @@ describe('PhotoSearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        TestingDependsModule,
+        getTranslocoModule(),
+      ],
       declarations: [ PhotoSearchComponent ]
     })
     .compileComponents();

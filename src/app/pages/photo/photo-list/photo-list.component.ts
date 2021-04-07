@@ -49,11 +49,12 @@ export class PhotoListComponent implements OnInit {
   onFetchData(top, skip): void {
     this.odataSvc.getPhotos(skip, top).subscribe({
       next: val => {
-        // console.log(val);
-        this.totalCount = val.totalCount;
-        this.photos = [];
-        for(let i = 0; i < val.items.Length(); i++) {
-          this.photos.push(val.items.GetElement(i));
+        if (val && val.items) {
+          this.totalCount = val.totalCount;
+          this.photos = [];
+          for(let i = 0; i < val.items.Length(); i++) {
+            this.photos.push(val.items.GetElement(i));
+          }  
         }
       },
       error: err => {

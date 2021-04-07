@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TestingDependsModule } from 'src/testing/';
+import { TestingDependsModule, getTranslocoModule } from 'src/testing/';
 import { WelcomeComponent } from './';
 
 describe('WelcomeComponent', () => {
@@ -11,6 +11,7 @@ describe('WelcomeComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         TestingDependsModule,
+        getTranslocoModule(),
       ],
       declarations: [ WelcomeComponent ]
     })

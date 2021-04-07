@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TestingDependsModule, getTranslocoModule } from 'src/testing/';
+import { PhotoCommonModule } from 'src/app/pages/photo-common/photo-common.module';
 import { AlbumDetailComponent } from './album-detail.component';
 
 describe('AlbumDetailComponent', () => {
@@ -11,6 +12,7 @@ describe('AlbumDetailComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         TestingDependsModule,
+        PhotoCommonModule,
         getTranslocoModule(),
       ],
       declarations: [ AlbumDetailComponent ]
