@@ -17,8 +17,4 @@ export class AboutComponent implements OnInit {
     this.currentVersion = environment.currentVersion;
     this.currentReleaseDate = environment.currentReleaseDate;
   }
-
-  onBack(): void {
-    console.log('onBack');
-  }  
 }

@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { NzImageService } from 'ng-zorro-antd/image';
 
 import { Photo } from 'src/app/models';
 import { OdataService } from 'src/app/services';
@@ -12,33 +12,29 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./photo-list-core.component.less'],
 })
 export class PhotoListCoreComponent implements OnInit {
-  @Input()
-  totalCount = 0;
+  @Input() totalCount = 0;
   viewMode = 'std';
-  pageSize = 20;
+  @Input() pageSize = 20;
   pageIndex = 1;
-  @Input()
-  photos: Photo[] = [];
-  @Output()
-  paginationEvent = new EventEmitter<{pageSize: number, pageIndex: number}>();
+  @Input() photos: Photo[] = [];
+  @Output() paginationEvent = new EventEmitter<{pageSize: number, pageIndex: number}>();
   isExifVisible = false;
   curExif = {};
 
   constructor(public odataSvc: OdataService, 
-    private router: Router) { }
+    private nzImageService: NzImageService ) { }
 
   ngOnInit(): void {
   }
 
   getFileUrl(pht: Photo): string {
     if (pht.fileUrl)
-      return environment.apiRootUrl + 'PhotoFile/' + pht.fileUrl;
+      return environment.apiRootUrl + 'PhotoFile/' + pht.thumbnailFileUrl;
     return '';
   }
 
   // Command handlers
   onPhotoViewEXIF(pht: Photo): void {
-    console.log('View EXIF button clicked');
     this.odataSvc.getPhotoEXIF(pht.photoId).subscribe({
       next: val => {
         this.curExif = val;
@@ -79,18 +75,31 @@ export class PhotoListCoreComponent implements OnInit {
       pageSize: this.pageSize,
       pageIndex: this.pageIndex,
     });
-    // this.odataSvc.getPhotos((pgIdx - 1) * 20, 20).subscribe({
-    //   next: val => {
-    //     // console.log(val);
-    //     this.totalCount = val.totalCount;
-    //     this.photos = [];
-    //     for(let i = 0; i < val.items.Length(); i++) {
-    //       this.photos.push(val.items.GetElement(i));
-    //     }
-    //   },
-    //   error: err => {
-    //     console.error(err);
-    //   }
-    // });
+ }
+  onStartPreview(phtid: string): void {
+    console.log("Start preview");
+    const idx = this.photos.findIndex(val => val.photoId === phtid);
+    const images = [];
+    if (idx >= 0) {
+      let idx2 = idx;
+      for(idx2 = idx; idx2 < this.photos.length; idx2 ++) {
+        images.push({
+          src: environment.apiRootUrl + 'PhotoFile/' + this.photos[idx2].fileUrl,
+          width: this.photos[idx2].width + 'px',
+          height: this.photos[idx2].height + 'px'
+        });  
+      }
+    }
+    if (idx > 0) {
+      let idx3 = 0;
+      for(; idx3 < idx; idx3 ++) {
+        images.push({
+          src: environment.apiRootUrl + 'PhotoFile/' + this.photos[idx3].fileUrl,
+          width: this.photos[idx3].width + 'px',
+          height: this.photos[idx3].height + 'px'
+        });
+      }
+    }
+    this.nzImageService.preview(images, { nzZoom: 1, nzRotate: 0 });
   }
 }

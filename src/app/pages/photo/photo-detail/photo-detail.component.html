@@ -1,13 +1,8 @@
 <nz-page-header class="site-page-header" nzTitle="Photos" nzSubtitle="Detail mode">
   <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item>Welcome</nz-breadcrumb-item>
-    <nz-breadcrumb-item>
-      <a>Photos</a>
-    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{'Common.Dashboard' | transloco}}</nz-breadcrumb-item>
+    <nz-breadcrumb-item><a routerLink="/photo">{{'Nav.Photos' | transloco}}</a></nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
-    <button nz-button>Operation</button>
-    <button nz-button>Operation</button>
-    <button nz-button nzType="primary" (click)="onCreate()">Upload</button>
   </nz-page-header-extra>  
 </nz-page-header>

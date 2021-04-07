@@ -322,7 +322,7 @@ export class OdataService {
       }));
   }
 
-  public searchPhotos(skip = 0, top = 20, filter?: string): Observable<{ totalCount: number, items: SequenceList<Photo>}> {
+  public searchPhotos(skip = 0, top = 20, filter?: string, albumId?: number, accessCode?: string): Observable<{ totalCount: number, items: SequenceList<Photo>}> {
     // TBD.
     // if (environment.mockdata && this.mockedKnowledgeItem.length > 0) {
     //   return of({
@@ -347,6 +347,10 @@ export class OdataService {
       params = params.append('$filter', filter);
     }
     let apiurl = `${this.apiUrl}PhotoViews`;
+    if (albumId) {
+      apiurl = `${apiurl}/SearchPhotoInAlbum(AlbumID=${albumId},AccessCode='${accessCode ? accessCode : ''}')`;
+    }
+
     // TBD.
     // if (environment.mockdata) {
     //   apiurl = `${environment.basehref}assets/mockdata/albums.json`;

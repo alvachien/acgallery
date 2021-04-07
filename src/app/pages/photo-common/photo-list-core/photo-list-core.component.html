@@ -4,6 +4,7 @@
         <label nz-radio-button nzValue="adv">{{'Common.Advanced' | transloco}}</label>
     </nz-radio-group>
     <nz-divider nzType="vertical"></nz-divider>
+    <nz-divider nzType="vertical"></nz-divider>
     <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="pageSize" [nzShowTotal]="rangeTemplate"
         nzShowQuickJumper (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
     <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}-{{ range[1] }} of {{ total }} items
@@ -18,10 +19,10 @@
             *ngFor="let pht of photos">
             <div nz-col class="inner-box">
                 <div nz-row>
-                    <img nz-image width="200px" [nzSrc]="getFileUrl(pht)" alt="" />
+                    <img [src]="getFileUrl(pht)" (click)="onStartPreview(pht.photoId)" alt="" />
                 </div>
                 <div nz-row class="button-group-row">
-                    <a nz-button nzType="link" nzSize="small" (click)="onPhotoViewEXIF(pht)">EXIF</a>
+                    <button nz-button nzType="primary" nzSize="small" nzShape="circle" (click)="onPhotoViewEXIF(pht)" style="margin-right: 4px"><i nz-icon nzType="info"></i></button>
                     <nz-tag *ngFor="let tag of pht.tags" [nzColor]="'#f50'">{{tag}}</nz-tag>
                 </div>
                 <div nz-row *ngIf="viewMode === 'adv'" class="button-group-row">

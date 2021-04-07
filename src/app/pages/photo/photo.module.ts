@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
 import { PhotoRoutingModule } from './photo-routing.module';
 import { PhotoListComponent } from './photo-list';
@@ -26,6 +27,7 @@ import { PhotoCommonModule } from '../photo-common/photo-common.module';
     FormsModule,
     ReactiveFormsModule,
     PhotoCommonModule,
+    NzEmptyModule,
   ]
 })
 export class PhotoModule { }

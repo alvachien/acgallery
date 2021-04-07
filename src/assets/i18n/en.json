@@ -86,6 +86,8 @@
     "DeleteConfirmation": "Delete Confirmation",
     "ConfirmToDeleteSelectedItem": "The selected item(s) will be deleted. Do you confirm to continue?",
     "SearchViaName": "Select an item via the name...",
+    "SearchPhotos": "Search Photos",
+    "SearchPhotosInAlbum": "Search Photos In Album",
     "Dashboard": "Dashboard",
     "KeyFigure": "Key Figures",
     "TotalPhoto": "Photos in total",

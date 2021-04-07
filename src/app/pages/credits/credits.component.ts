@@ -19,8 +19,4 @@ export class CreditsComponent  {
     // this.credits.push({name: 'EXIF Tools',    link: 'http://www.sno.phy.queensu.ca/~phil/exiftool' });
     this.credits.push({name: 'Magick.NET',    link: 'https://www.imagemagick.org/' });
   }
-
-  onBack(): void {
-    console.log('onBack');
-  }
 }

@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, merge, of as observableOf } from 'rxjs';
 import { catchError, finalize, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
 import { GeneralFilterItem, GeneralFilterOperatorEnum, GeneralFilterValueType, Photo,
   UIDisplayString, UIDisplayStringUtil } from 'src/app/models';
-import { OdataService } from 'src/app/services';
-import { environment } from 'src/environments/environment';
+import { OdataService, UIInfoService } from 'src/app/services';
 import { PhotoListCoreComponent } from '../../photo-common/photo-list-core';
 
 @Component({
@@ -19,14 +19,37 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
   allOperators: UIDisplayString[] = [];
   allFields: any[] = [];
   filterEditable: boolean = true;
+  currentAlbumID?: number;
+  currentAlbumInfo?: string;
+  currentAlbumTitle?: string;
   // Result
   isLoadingResults: boolean = false;
   resultsLength: number;
   public subjFilters: BehaviorSubject<any[]> = new BehaviorSubject([]);
   photos: Photo[] = [];
-  @ViewChild(PhotoListCoreComponent, {static: true}) photoList?: PhotoListCoreComponent;
+  pageSize = 20;
+  private photoListComponent: PhotoListCoreComponent;
+  // UI
+  pageHeader: string;
 
-  constructor(private odataSvc: OdataService) {
+  @ViewChild(PhotoListCoreComponent) set content(content: PhotoListCoreComponent) {
+    if(content) { // initially setter gets called with undefined
+      this.photoListComponent = content;
+      this.photoListComponent.paginationEvent.subscribe({
+        next: val => {
+          // Do the research
+          this.onSearch();
+        },
+        error: err => {
+          console.error(err);
+        }
+      })
+    }
+  }
+
+  constructor(private odataSvc: OdataService,
+    private activateRoute: ActivatedRoute,
+    private uiSrv: UIInfoService,) {
     this.resultsLength = 0;
     this.allOperators = UIDisplayStringUtil.getGeneralFilterOperatorDisplayStrings();
     this.allFields = [{
@@ -63,18 +86,35 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
       valueType: 2,
     },
     ];
+
+    this.pageHeader = 'Common.SearchPhotos';
   }
 
   ngOnInit(): void {
     this.onAddFilter();
+
+    this.activateRoute.url.subscribe((x: any) => {
+      if (x instanceof Array && x.length > 0) {
+        if (x[0].path === 'search') {
+          this.currentAlbumID = undefined;
+          this.pageHeader = 'Common.SearchPhotos';
+        } else if (x[0].path === 'searchinalbum') {
+          this.currentAlbumID = +x[1].path;
+          if (this.currentAlbumID === +this.uiSrv.AlbumIDForPhotoSearching) {
+            this.currentAlbumInfo = this.uiSrv.AlbumInfoForPhotoSearching;
+            this.currentAlbumTitle = this.uiSrv.AlbumTitleForPhotoSearching;
+          }
+          this.uiSrv.AlbumIDForPhotoSearching = undefined;
+          this.uiSrv.AlbumInfoForPhotoSearching = undefined;
+          this.uiSrv.AlbumTitleForPhotoSearching = undefined;
+          this.pageHeader = 'Common.SearchPhotosInAlbum';
+        }
+      }
+    });
   }
 
   ngAfterViewInit(): void {
-    // this.subjFilters.subscribe(() => this.paginator.pageIndex = 0);
-
-    // merge(this.subjFilters, this.paginator.page)
-    merge(this.subjFilters, this.photoList.paginationEvent)
-    //this.subjFilters
+    this.subjFilters
       .pipe(
         // takeUntil(this._destroyed$),
         startWith({}),
@@ -88,7 +128,12 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
           // Prepare filters
           let filter = this.prepareFilters(this.subjFilters.value);
 
-          return this.odataSvc.searchPhotos((this.photoList.pageIndex - 1) * this.photoList.pageSize, this.photoList.pageSize, filter);
+          return this.odataSvc.searchPhotos(
+            this.photoListComponent ? (this.photoListComponent.pageIndex - 1) * this.pageSize : 0, 
+            this.pageSize, 
+            filter, 
+            this.currentAlbumID,
+            this.currentAlbumInfo);
         }),
         finalize(() => this.isLoadingResults = false),
       ).subscribe({

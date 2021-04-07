@@ -13,7 +13,8 @@ import { environment } from 'src/environments/environment';
 export class PhotoListComponent implements OnInit {
   totalCount = 0;
   viewMode = 'std';
-  pageIndex = 1;
+  pageSize = 20;
+
   photos: Photo[] = [];
 
   constructor(public odataSvc: OdataService, 

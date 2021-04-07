@@ -6,7 +6,7 @@ import { ReplaySubject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 
 import { Album, Photo } from 'src/app/models';
-import { OdataService } from 'src/app/services';
+import { OdataService, UIInfoService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -19,6 +19,7 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
 
   detailForm!: FormGroup;
   totalCount = 0;
+  pageSize = 20;
   photos: Photo[] = [];
   isLoadingResults: boolean;
   public routerID = -1; // Current object ID in routing
@@ -37,6 +38,7 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
   constructor(private odataSvc: OdataService,
     public _router: Router,
     private activateRoute: ActivatedRoute,
+    private uiSrv: UIInfoService,
     private fb: FormBuilder) { }
 
   submitForm(): void {
@@ -166,5 +168,12 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
     if (pht.fileUrl)
       return environment.apiRootUrl + 'PhotoFile/' + pht.fileUrl;
     return '';
+  }
+
+  onSearch(): void {
+    this.uiSrv.AlbumIDForPhotoSearching = this.routerID;
+    this.uiSrv.AlbumInfoForPhotoSearching = this.accessCodeInputted;
+    this.uiSrv.AlbumTitleForPhotoSearching = this.detailForm.get('Title').value;
+    this._router.navigate([`/photo/searchinalbum/${this.routerID}`]);
   }
 }

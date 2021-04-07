@@ -1,12 +1,13 @@
-<nz-page-header class="site-page-header" [nzTitle]="'Nav.Photos' | transloco" [nzSubtitle]="'Common.Search' | transloco">
+<nz-page-header class="site-page-header" [nzTitle]="'Nav.Photos' | transloco" [nzSubtitle]="pageHeader | transloco">
   <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item>Welcome</nz-breadcrumb-item>
-    <nz-breadcrumb-item>
-      <a>{{'Nav.Photos' | transloco}}</a>
-    </nz-breadcrumb-item>
-    <nz-breadcrumb-item>{{'Common.Search' | transloco}}</nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{'Common.Dashboard' | transloco}}</nz-breadcrumb-item>
+    <nz-breadcrumb-item><a routerLink="/photo">{{'Nav.Photos' | transloco}}</a></nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{pageHeader | transloco}}</nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
+    <div *ngIf="currentAlbumID">
+      {{'Nav.Albums' | transloco}}: {{currentAlbumTitle}} ({{currentAlbumID}})
+    </div>
   </nz-page-header-extra>
 </nz-page-header>
 
@@ -67,4 +68,9 @@
 
 <nz-divider></nz-divider>
 
-<acgallery-photo-list-core [totalCount]="resultsLength" [photos]="photos"></acgallery-photo-list-core>
+<div *ngIf="resultsLength <= 0">
+  <nz-empty></nz-empty>
+</div>
+<div *ngIf="resultsLength > 0">
+  <acgallery-photo-list-core [totalCount]="resultsLength" [pageSize]="pageSize" [photos]="photos"></acgallery-photo-list-core>
+</div>

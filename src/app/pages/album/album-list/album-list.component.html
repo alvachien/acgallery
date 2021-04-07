@@ -1,9 +1,7 @@
 <nz-page-header class="site-page-header" [nzTitle]="'Nav.Albums' | transloco" [nzSubtitle]="'Common.ListView' | transloco">
   <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item>Welcome</nz-breadcrumb-item>
-    <nz-breadcrumb-item>
-      <a>{{'Nav.Albums' | transloco}}</a>
-    </nz-breadcrumb-item>
+    <nz-breadcrumb-item><a routerLink="/welcome">{{'Common.Dashboard' | transloco}}</a></nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{'Nav.Albums' | transloco}}</nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
     <button nz-button (click)="onRefresh()">{{'Common.Refresh' | transloco}}</button>

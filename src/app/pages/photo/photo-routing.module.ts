@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'display/:id', component: PhotoDetailComponent },
   { path: 'upload', component: PhotoUploadComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard] },
   { path: 'search', component: PhotoSearchComponent },
+  { path: 'searchinalbum/:id', component: PhotoSearchComponent }
 ];
 
 @NgModule({

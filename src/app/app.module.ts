@@ -15,7 +15,7 @@ import zh from '@angular/common/locales/zh';
 import { IconsProviderModule } from './icons-provider.module';
 import { environment } from 'src/environments/environment';
 import { UIModulesModule } from './ui-modules.module';
-import { AuthService, OdataService } from './services';
+import { AuthService, OdataService, UIInfoService, } from './services';
 
 registerLocaleData(zh);
 
@@ -51,6 +51,7 @@ registerLocaleData(zh);
     translocoLoader,
     AuthService,
     OdataService,
+    UIInfoService,
   ],
   bootstrap: [AppComponent],
 })

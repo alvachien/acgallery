@@ -1,9 +1,7 @@
 <nz-page-header class="site-page-header" [nzTitle]="'Nav.Photos' | transloco" [nzSubtitle]="'Nav.PhotoUpload' | transloco">
   <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item>Welcome</nz-breadcrumb-item>
-    <nz-breadcrumb-item>
-      <a>{{'Nav.Photos' | transloco}}</a>
-    </nz-breadcrumb-item>
+    <nz-breadcrumb-item><a routerLink="/welcome">{{'Common.Dashboard' | transloco}}</a></nz-breadcrumb-item>
+    <nz-breadcrumb-item><a routerLink="/photo">{{'Nav.Photos' | transloco}}</a></nz-breadcrumb-item>
     <nz-breadcrumb-item>{{'Nav.PhotoUpload' | transloco}}</nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
