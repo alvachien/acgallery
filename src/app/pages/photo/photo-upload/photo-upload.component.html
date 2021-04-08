@@ -10,9 +10,9 @@
 
 <nz-steps [nzCurrent]="currentStep">
   <nz-step nzTitle="{{'Photo.ChoosePhoto' | transloco}}"></nz-step>
-  <nz-step nzTitle="Change Names"></nz-step>
+  <nz-step nzTitle="{{'Common.ChangePhotoInfo' | transloco}}"></nz-step>
   <nz-step nzTitle="{{'Photo.Assignment' | transloco}}"></nz-step>
-  <nz-step nzTitle="Result"></nz-step>
+  <nz-step nzTitle="{{'Common.Result' | transloco}}"></nz-step>
 </nz-steps>
 
 <div class="steps-content">
@@ -153,7 +153,7 @@
           </div>
         </div>
         <div nz-result-extra>
-          <button nz-button nzType="primary">Go Photos</button>
+          <button nz-button nzType="primary" (click)="onGoToPhotoList()">{{'Nav.Photos' | transloco}}</button>
           <button nz-button>Abandon uploading</button>
         </div>
       </nz-result>

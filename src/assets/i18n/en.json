@@ -91,7 +91,9 @@
     "Dashboard": "Dashboard",
     "KeyFigure": "Key Figures",
     "TotalPhoto": "Photos in total",
-    "TotalAlbum": "Albums in total"
+    "TotalAlbum": "Albums in total",
+    "Result": "Result",
+    "ChangePhotoInfo": "Change Photo Info"
   },
   "Sys":{
     "Operator": {
