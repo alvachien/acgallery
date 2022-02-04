@@ -1,12 +1,12 @@
 language: node_js
 node_js:
-  - 12
+  - 16
 addons:
     chrome: stable
 branches:
   only:
     - master
-before_script:
-  - npm install -g @angular/cli
+install:
+  - npm install
 script:  
   - npm run test-headless
