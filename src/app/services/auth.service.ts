@@ -143,7 +143,7 @@ export class AuthService {
         console.log(`ACGallery [Debug]: got user: ${user}`);
       }
 
-      this.userLoadededEvent.emit(user);
+      this.userLoadededEvent.emit(user!);
     }).catch(function (err) {
       if (environment.loggingLevel >= LogLevel.Error) {
         console.error(`ACGallery [Error]: getUser error: ${err}`);
@@ -153,7 +153,7 @@ export class AuthService {
 
   removeUser() {
     this.mgr.removeUser().then(() => {
-      this.userLoadededEvent.emit(null);
+      this.userLoadededEvent.emit(undefined);
       if (environment.loggingLevel >= LogLevel.Debug) {
         console.log('ACGallery [Debug]: user removed');
       }

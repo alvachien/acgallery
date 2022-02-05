@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { AuthService } from './services';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'acgallery-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']

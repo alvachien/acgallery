@@ -12,12 +12,12 @@
  *  previousAPIString: URL string for getting previous page
  */
 export class UIPagination {
-  public visPags: Array<number>;
+  public visPags: Array<number> = new Array();
   private _totalItems: number;
   private _currentPage: number;
   private _itemsPerPage: number;
   private _maxVisualPage: number;
-  private _totalPages: number;
+  private _totalPages: number = 0;
 
   /**
    * Constructor

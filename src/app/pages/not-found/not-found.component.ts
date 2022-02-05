@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'acgallery-not-found',
   templateUrl: './not-found.component.html',
   styleUrls: ['./not-found.component.less'],
 })
-export class NotFoundComponent implements OnInit {
+export class NotFoundComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 }

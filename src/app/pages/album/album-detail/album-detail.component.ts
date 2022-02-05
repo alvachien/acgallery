@@ -10,20 +10,21 @@ import { OdataService, UIInfoService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'album-detail',
   templateUrl: './album-detail.component.html',
   styleUrls: ['./album-detail.component.less']
 })
 export class AlbumDetailComponent implements OnInit, OnDestroy {
-  private _destroyed$: ReplaySubject<boolean>;
+  private _destroyed$?: ReplaySubject<boolean>;
 
   detailForm!: FormGroup;
   totalCount = 0;
   pageSize = 20;
   photos: Photo[] = [];
-  isLoadingResults: boolean;
+  isLoadingResults: boolean = false;
   public routerID = -1; // Current object ID in routing
-  public currentMode: string;
+  public currentMode: string = '';
   public uiMode: UIMode = UIMode.Create;
   // Access code
   accessCodeHint = '';
@@ -81,15 +82,15 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
 
           // Read the album
           this.odataSvc.readAlbum(this.routerID)
-            .pipe(takeUntil(this._destroyed$),
+            .pipe(takeUntil(this._destroyed$!),
               finalize(() => {
                 this.isLoadingResults = false;
               }))
             .subscribe({
               next: rsts => {
-                this.detailForm.get('Title').setValue(rsts.Title);
-                this.detailForm.get('Desp').setValue(rsts.Desp);
-                this.detailForm.get('IsPublic').setValue(rsts.IsPublic);
+                this.detailForm.get('Title')?.setValue(rsts.Title);
+                this.detailForm.get('Desp')?.setValue(rsts.Desp);
+                this.detailForm.get('IsPublic')?.setValue(rsts.IsPublic);
                 if (this.uiMode === UIMode.Display) {
                   this.detailForm.disable();
                 } else {
@@ -152,7 +153,7 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
           this.totalCount = val.totalCount;
           this.photos = []; // Clear it!
           for (let i = 0; i < val.items.Length(); i++) {
-            this.photos.push(val.items.GetElement(i));
+            this.photos.push(val.items.GetElement(i)!);
           }
         },
         error: err => {
@@ -173,7 +174,7 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
   onSearch(): void {
     this.uiSrv.AlbumIDForPhotoSearching = this.routerID;
     this.uiSrv.AlbumInfoForPhotoSearching = this.accessCodeInputted;
-    this.uiSrv.AlbumTitleForPhotoSearching = this.detailForm.get('Title').value;
+    this.uiSrv.AlbumTitleForPhotoSearching = this.detailForm.get('Title')!.value;
     this._router.navigate([`/photo/searchinalbum/${this.routerID}`]);
   }
 }

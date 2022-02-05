@@ -72,10 +72,10 @@ export enum GeneralFilterValueType {
  * Filter item
  */
 export class GeneralFilterItem {
-  fieldName: string;
-  operator: GeneralFilterOperatorEnum;
+  fieldName: string = '';
+  operator: GeneralFilterOperatorEnum = GeneralFilterOperatorEnum.Equal;
   value: any[];
-  valueType: GeneralFilterValueType;
+  valueType: GeneralFilterValueType = GeneralFilterValueType.string;
 
   constructor() {
     this.value = [undefined, undefined];
@@ -86,9 +86,9 @@ export class GeneralFilterItem {
  * UI Display string
  */
 export class UIDisplayString {
-  public value: UIDisplayStringEnum;
-  public i18nterm: string;
-  public displaystring: string;
+  public value: UIDisplayStringEnum = UICommonLabelEnum.Error;
+  public i18nterm: string = '';
+  public displaystring: string = '';
 }
 
 /**

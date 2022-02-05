@@ -16,39 +16,26 @@
         "createDefaultProgram": true
       },
       "extends": [
-        "plugin:@angular-eslint/ng-cli-compat",
-        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+        "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
         "@angular-eslint/component-selector": [
-          "warning",
+          "error",
           {
-            "type": "element",
-            "prefix": "acgallery",
-            "style": "kebab-case"
+            "prefix": "hih",
+            "style": "kebab-case",
+            "type": "element"
           }
         ],
         "@angular-eslint/directive-selector": [
-          "warning",
+          "error",
           {
-            "type": "attribute",
-            "prefix": "acgallery",
-            "style": "camelCase"
+            "prefix": "hih",
+            "style": "camelCase",
+            "type": "attribute"
           }
-        ],
-        "@typescript-eslint/explicit-member-accessibility": [
-          "off",
-          {
-            "accessibility": "explicit"
-          }
-        ],
-        "@typescript-eslint/no-use-before-define": "error",
-        "arrow-parens": [
-          "off",
-          "always"
-        ],
-        "import/order": "off"
+        ]
       }
     },
     {

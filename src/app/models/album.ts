@@ -4,22 +4,22 @@ import * as Common from './common';
  * Album
  */
 export class Album {
-  public Id: number;
-  public Title: string;
-  public Desp: string;
-  public Thumbnail: string;
-  public CreatedAt: Date;
-  public CreatedBy: string;
+  public Id: number = 0;
+  public Title: string = '';
+  public Desp: string = '';
+  public Thumbnail: string = '';
+  public CreatedAt: Date = new Date();
+  public CreatedBy: string = '';
   public IsPublic: boolean;
-  public AccessCode: string;
-  public accessCodeHint: string;
-  public accessCodeRequired: boolean;
+  public AccessCode: string = '';
+  public accessCodeHint: string = '';
+  public accessCodeRequired: boolean = false;
 
   // Runtime info
-  public PhotoIDs: string[];
-  public PhotoCount: number;
+  public PhotoIDs: string[] = [];
+  public PhotoCount: number = 0;
   public IsPhotoIDFetched: boolean;
-  public AlbumThumnailUrl: string;
+  public AlbumThumnailUrl: string = '';
 
   constructor() {
     this.IsPhotoIDFetched = false;
@@ -107,14 +107,14 @@ export class Album {
 export class SelectableAlbum
   extends Album
   implements Common.SelectableObject<Boolean> {
-  public isSelected: boolean;
+  public isSelected: boolean = false;
 }
 
 export class AlbumPhotoLink {
-  albumID: number;
-  photoID: string;
+  albumID: number = 0;
+  photoID: string = '';
 
-  public parseData(data): void {
+  public parseData(data: any): void {
     if (data && data.AlbumID) {
       this.albumID = data.AlbumID;
     }
@@ -135,11 +135,11 @@ export class AlbumPhotoLink {
 }
 
 export class AlbumPhotoByAlbum {
-  public albumId: number;
-  public photoIDList: string[];
+  public albumId: number = 0;
+  public photoIDList: string[] = [];
 }
 
 export class AlbumPhotoByPhoto {
-  public photoID: string;
-  public albumIDList: number[];
+  public photoID: string = '';
+  public albumIDList: number[] = [];
 }

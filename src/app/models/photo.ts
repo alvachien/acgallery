@@ -5,14 +5,14 @@ import { environment } from '../../environments/environment';
  * Exif item
  */
 export class PhotoExif {
-  public group: number;
-  public name: string;
-  public value: string;
+  public group: number = 0;
+  public name: string = '';
+  public value: string = '';
 }
 
 export class TagCount {
-  public tagString: string;
-  public count: number;
+  public tagString: string = '';
+  public count: number = 0;
 }
 
 /**
@@ -20,32 +20,32 @@ export class TagCount {
  */
 export class Photo {
 
-  public photoId: string;
+  public photoId: string = '';
 
-  public title: string;
-  public desp: string;
-  public width: number;
-  public height: number;
-  public fileUrl: string;
-  public thumbWidth: number;
-  public thumbHeight: number;
+  public title: string = '';
+  public desp: string = '';
+  public width: number = 0;
+  public height: number = 0;
+  public fileUrl: string = '';
+  public thumbWidth: number = 0;
+  public thumbHeight: number = 0;
 
-  public thumbnailFileUrl: string;
-  public fileFormat: string;
-  public uploadedBy: string;
-  public uploadedTime: Date;
-  public orgFileName: string;
-  public isPublic: boolean;
+  public thumbnailFileUrl: string = '';
+  public fileFormat: string = '';
+  public uploadedBy: string = '';
+  public uploadedTime: Date = new Date();
+  public orgFileName: string = '';
+  public isPublic: boolean = false;
 
-  public cameraMaker: string;
-  public cameraModel: string;
-  public lensModel: string;
-  public avNumber: string;
-  public shutterSpeed: string;
-  public isoNumber: number;
+  public cameraMaker: string = '';
+  public cameraModel: string = '';
+  public lensModel: string = '';
+  public avNumber: string = '';
+  public shutterSpeed: string = '';
+  public isoNumber: number = 0;
 
-  public exifTags: PhotoExif[];
-  public rating: number;
+  public exifTags: PhotoExif[] = [];
+  public rating: number = 0;
   public tags: string[] = [];
 
   constructor() {
@@ -160,40 +160,40 @@ export class Photo {
 export class SelectablePhoto
   extends Photo
   implements Common.SelectableObject<boolean> {
-  public isSelected: boolean;
+  public isSelected: boolean = false;
 }
 
 /**
  * Photo for upload
  */
 export class UpdPhoto {
-  public uid: string;
-  public imgFile: string;
-  public thumbFile: string;
-  public width: number;
-  public height: number;
-  public size: string;
-  public thumbWidth: number;
-  public thumbHeight: number;
+  public uid: string = '';
+  public imgFile: string = '';
+  public thumbFile: string = '';
+  public width: number = 0;
+  public height: number = 0;
+  public size: string = '';
+  public thumbWidth: number = 0;
+  public thumbHeight: number = 0;
   get imgSrc(): string {
     return `${ environment.apiRootUrl }PhotoFile/${ this.imgFile }`;
   }
   get thumbSrc(): string {
     return `${ environment.apiRootUrl }PhotoFile/${ this.thumbFile }`;
   }
-  public title: string;
-  public desp: string;
-  public isPublic: boolean;
-  public orgName: string;
-  public name: string;
+  public title: string = '';
+  public desp: string = '';
+  public isPublic: boolean = false;
+  public orgName: string = '';
+  public name: string = '';
 
-  public id: number;
-  public validInfo: string;
+  public id: number = 0;
+  public validInfo: string = '';
   get dimension(): string {
     return this.width.toString() + ' X ' + this.height.toString();
   }
   public tags: string[] = [];
-  public rating: number;
+  public rating: number = 0;
 
   constructor() {
     this.isPublic = true;

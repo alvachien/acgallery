@@ -9,8 +9,6 @@ import { AuthService, CanComponentDeactivate, OdataService } from 'src/app/servi
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpHeaders } from '@angular/common/http';
-
 
 function getBase64(file: File): Promise<string | ArrayBuffer | null> {
   return new Promise((resolve, reject) => {
@@ -22,6 +20,7 @@ function getBase64(file: File): Promise<string | ArrayBuffer | null> {
 }
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'acgallery-photo-upload',
   templateUrl: './photo-upload.component.html',
   styleUrls: ['./photo-upload.component.less'],
@@ -71,9 +70,9 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
         for(let i = 0; i < val.items.Length(); i++) {
           let selalb = new SelectableAlbum();
           let alb = val.items.GetElement(i);
-          selalb.Id = alb.Id;
-          selalb.Title = alb.Title;
-          selalb.Desp = alb.Desp;
+          selalb.Id = alb!.Id;
+          selalb.Title = alb!.Title;
+          selalb.Desp = alb!.Desp;
           arAlbums.push(selalb);
         }
         this.listOfAlbums = arAlbums.map(_ => _);
@@ -175,10 +174,10 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
 
   // Step 1. Choose photo to upload
   handleUploadPreview = async (file: NzUploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj!);
+    if (!file.url && !file['preview']) {
+      file['preview'] = await getBase64(file.originFileObj!);
     }
-    this.previewImage = file.url || file.preview;
+    this.previewImage = file.url || file['preview'];
     this.previewVisible = true;
   };
 
@@ -197,7 +196,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
       // pobj.thumbSrc = environment.apiRootUrl + file.thumbUrl;
       pobj.thumbFile = file.response.thumbnailUrl;
       pobj.imgFile = file.response.url;
-      pobj.size = file.size.toString();
+      pobj.size = file.size!.toString();
       pobj.name = file.response.name;
       pobj.width = file.response.width;
       pobj.height = file.response.height;
@@ -218,7 +217,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
 
   // Step 2. Update photo info
   updatePhotoInfo(): void {
-    let arreqs = [];
+    let arreqs: any[] = [];
     this.filePhotos.forEach(updpto => {
       arreqs.push(this.odataSvc.changePhotoInfo(updpto.name, updpto.title, updpto.desp, updpto.isPublic));
       if (updpto.tags.length > 0) {
@@ -294,7 +293,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     // this.refreshCheckedStatus();
   }
   assignPhotoToExistingAlbums(): void {
-    let arreq = [];
+    let arreq: any[] = [];
     this.setOfChosedAlbumIDs.forEach(albid => {
       this.filePhotos.forEach(updpht => {
         arreq.push(this.odataSvc.assignPhotoToAlbum(albid, updpht.name));
@@ -316,16 +315,16 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   assignPhotoToNewAlbum(): void {
     // New create album
     let alb = new Album();
-    alb.Title = this.albumForm.get('Title').value;
-    alb.Desp = this.albumForm.get('Desp').value;
-    alb.IsPublic = this.albumForm.get('IsPublic').value;
+    alb.Title = this.albumForm.get('Title')?.value;
+    alb.Desp = this.albumForm.get('Desp')?.value;
+    alb.IsPublic = this.albumForm.get('IsPublic')?.value;
 
     this.odataSvc.createAlbum(alb).subscribe({
       next: (val: Album) => {
         alb.Id = val.Id;
 
         // Update the album/photo bindings
-        let arreq2 = [];
+        let arreq2: any[] = [];
         this.filePhotos.forEach(updpto => {
           arreq2.push(this.odataSvc.assignPhotoToAlbum(alb.Id, updpto.name));
         });

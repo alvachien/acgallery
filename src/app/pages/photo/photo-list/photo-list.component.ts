@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 
 import { Photo } from 'src/app/models';
 import { OdataService } from 'src/app/services';
-import { environment } from 'src/environments/environment';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'photo-list',
   templateUrl: './photo-list.component.html',
   styleUrls: ['./photo-list.component.less'],
@@ -46,14 +46,14 @@ export class PhotoListComponent implements OnInit {
     this.router.navigate(['/photo/search']);
   }
 
-  onFetchData(top, skip): void {
+  onFetchData(top: any, skip: any): void {
     this.odataSvc.getPhotos(skip, top).subscribe({
       next: val => {
         if (val && val.items) {
           this.totalCount = val.totalCount;
           this.photos = [];
           for(let i = 0; i < val.items.Length(); i++) {
-            this.photos.push(val.items.GetElement(i));
+            this.photos.push(val.items.GetElement(i)!);
           }  
         }
       },

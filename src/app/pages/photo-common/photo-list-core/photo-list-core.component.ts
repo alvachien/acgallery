@@ -7,11 +7,12 @@ import { OdataService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'acgallery-photo-list-core',
   templateUrl: './photo-list-core.component.html',
   styleUrls: ['./photo-list-core.component.less'],
 })
-export class PhotoListCoreComponent implements OnInit {
+export class PhotoListCoreComponent {
   @Input() totalCount = 0;
   viewMode = 'std';
   @Input() pageSize = 20;
@@ -19,13 +20,10 @@ export class PhotoListCoreComponent implements OnInit {
   @Input() photos: Photo[] = [];
   @Output() paginationEvent = new EventEmitter<{pageSize: number, pageIndex: number}>();
   isExifVisible = false;
-  curExif = {};
+  curExif: any = {};
 
   constructor(public odataSvc: OdataService, 
     private nzImageService: NzImageService ) { }
-
-  ngOnInit(): void {
-  }
 
   getFileUrl(pht: Photo): string {
     if (pht.fileUrl)

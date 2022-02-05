@@ -6,6 +6,7 @@ import { OdataService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'album-list',
   templateUrl: './album-list.component.html',
   styleUrls: ['./album-list.component.less'],
@@ -46,7 +47,7 @@ export class AlbumListComponent implements OnInit {
         this.totalCount = val.totalCount;
         this.albums = []; // Clear it before assign.
         for(let i = 0; i < val.items.Length(); i++) {
-          this.albums.push(val.items.GetElement(i));
+          this.albums.push(val.items.GetElement(i)!);
         }
       },
       error: err => {

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppCredits } from '../../models';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'acgallery-credits',
   templateUrl: './credits.component.html',
   styleUrls: ['./credits.component.less'],

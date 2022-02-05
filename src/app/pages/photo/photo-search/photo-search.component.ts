@@ -9,6 +9,7 @@ import { OdataService, UIInfoService } from 'src/app/services';
 import { PhotoListCoreComponent } from '../../photo-common/photo-list-core';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'acgallery-photo-search',
   templateUrl: './photo-search.component.html',
   styleUrls: ['./photo-search.component.less'],
@@ -25,10 +26,10 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
   // Result
   isLoadingResults: boolean = false;
   resultsLength: number;
-  public subjFilters: BehaviorSubject<any[]> = new BehaviorSubject([]);
+  public subjFilters: BehaviorSubject<[]> = new BehaviorSubject([]);
   photos: Photo[] = [];
   pageSize = 20;
-  private photoListComponent: PhotoListCoreComponent;
+  private photoListComponent?: PhotoListCoreComponent;
   // UI
   pageHeader: string;
 
@@ -36,11 +37,11 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
     if(content) { // initially setter gets called with undefined
       this.photoListComponent = content;
       this.photoListComponent.paginationEvent.subscribe({
-        next: val => {
+        next: (val: any) => {
           // Do the research
           this.onSearch();
         },
-        error: err => {
+        error: (err: any) => {
           console.error(err);
         }
       })
@@ -100,7 +101,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
           this.pageHeader = 'Common.SearchPhotos';
         } else if (x[0].path === 'searchinalbum') {
           this.currentAlbumID = +x[1].path;
-          if (this.currentAlbumID === +this.uiSrv.AlbumIDForPhotoSearching) {
+          if (this.currentAlbumID === +this.uiSrv.AlbumIDForPhotoSearching!) {
             this.currentAlbumInfo = this.uiSrv.AlbumInfoForPhotoSearching;
             this.currentAlbumTitle = this.uiSrv.AlbumTitleForPhotoSearching;
           }

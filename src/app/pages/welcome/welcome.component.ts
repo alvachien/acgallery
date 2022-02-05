@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OdataService } from 'src/app/services';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.css'],

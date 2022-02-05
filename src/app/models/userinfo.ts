@@ -5,19 +5,19 @@ import { UserOperationAuthEnum } from './common';
  * User detail
  */
 export class UserDetail {
-  public userId: string;
-  public displayAs: string;
-  public email: string;
-  public others: string;
-  public uploadFileMinSize: number;
-  public uploadFileMaxSize: number;
-  public albumCreate: boolean;
-  public albumChange: UserOperationAuthEnum;
-  public albumDelete: UserOperationAuthEnum;
-  public albumRead: UserOperationAuthEnum;
-  public photoUpload: boolean;
-  public photoChange: UserOperationAuthEnum;
-  public photoDelete: UserOperationAuthEnum;
+  public userId: string = '';
+  public displayAs: string = '';
+  public email: string = '';
+  public others: string = '';
+  public uploadFileMinSize: number = 0;
+  public uploadFileMaxSize: number = 0;
+  public albumCreate: boolean = false;
+  public albumChange: UserOperationAuthEnum = UserOperationAuthEnum.All;
+  public albumDelete: UserOperationAuthEnum = UserOperationAuthEnum.All;
+  public albumRead: UserOperationAuthEnum = UserOperationAuthEnum.All;
+  public photoUpload: boolean = false;
+  public photoChange: UserOperationAuthEnum = UserOperationAuthEnum.All;
+  public photoDelete: UserOperationAuthEnum = UserOperationAuthEnum.All;
 
   public onSetData(data: any) {
     if (data && data.UserID) {
@@ -66,11 +66,11 @@ export class UserDetail {
  * User Auth. info
  */
 export class UserAuthInfo {
-  public isAuthorized: boolean;
-  private currentUser: User;
-  private userId: string;
-  private userName: string;
-  private accessToken: string;
+  public isAuthorized: boolean = false;
+  private currentUser?: User;
+  private userId: string = '';
+  private userName: string = '';
+  private accessToken: string = '';
 
   public setContent(user: User): void {
     if (user) {
@@ -78,7 +78,7 @@ export class UserAuthInfo {
       this.isAuthorized = true;
 
       this.userId = user.profile.sub;
-      this.userName = user.profile.name;
+      this.userName = user.profile.name!;
       this.accessToken = user.access_token;
     } else {
       this.cleanContent();
@@ -86,7 +86,7 @@ export class UserAuthInfo {
   }
 
   public cleanContent(): void {
-    this.currentUser = null;
+    this.currentUser = undefined;
     this.isAuthorized = false;
   }
 

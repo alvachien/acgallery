@@ -6,6 +6,7 @@ import { UIMode } from 'actslib';
 import { OdataService } from 'src/app/services';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'acgallery-user-detail',
   templateUrl: './user-detail.component.html',
   styleUrls: ['./user-detail.component.less'],
