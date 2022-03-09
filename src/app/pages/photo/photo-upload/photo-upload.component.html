@@ -63,14 +63,14 @@
             <td><input type="text" nz-input [(ngModel)]="data.desp" /></td>
             <td><label nz-checkbox [(ngModel)]="data.isPublic"></label></td>
             <td>
-              <nz-tag *ngFor="let tag of data.tags; let i = index" [nzMode]="'closeable'" (nzOnClose)="handleTagClose(data, tag)">
+              <nz-tag *ngFor="let tag of data.tags; let i = index" [nzMode]="'closeable'" (nzOnClose)="handleTagClose(data!, tag)">
                 {{ sliceTagName(tag) }}
               </nz-tag>
               <input nz-input nzSize="small" type="text"
                 [(ngModel)]="inputTagValue"
                 style="width: 78px;"
-                (blur)="handleTagInputConfirm(data)"
-                (keydown.enter)="handleTagInputConfirm(data)"
+                (blur)="handleTagInputConfirm(data!)"
+                (keydown.enter)="handleTagInputConfirm(data!)"
               />
             </td>
           </tr>

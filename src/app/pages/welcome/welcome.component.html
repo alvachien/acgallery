@@ -9,13 +9,13 @@
 <nz-row [nzGutter]="8">
   <nz-col [nzSpan]="12">
     <nz-statistic
-      [nzValue]="statInfo.albumAmount | number"
+      [nzValue]="(statInfo.albumAmount | number)!"
       [nzTitle]="'Common.TotalAlbum' | transloco">
     </nz-statistic>
   </nz-col>
   <nz-col [nzSpan]="12">
     <nz-statistic
-      [nzValue]="statInfo.photoAmount | number"
+      [nzValue]="(statInfo.photoAmount! | number)!"
       [nzTitle]="'Common.TotalPhoto' | transloco">
     </nz-statistic>
   </nz-col>

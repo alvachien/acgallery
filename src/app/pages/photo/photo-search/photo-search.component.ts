@@ -255,7 +255,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
     });
 
     // Do the real search
-    this.subjFilters.next(arRealFilter);
+    this.subjFilters.next(arRealFilter!);
   }
 }
 
