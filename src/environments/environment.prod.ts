@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  currentVersion: '0.5.20',
-  currentReleaseDate: '2019.7.10',
+  currentVersion: '0.5.30',
+  currentReleaseDate: '2022.7.31',
   loggingLevel: 1, // Crash
   basehref: '/',
   mockdata: false,
