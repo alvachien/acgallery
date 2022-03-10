@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpParams, HttpClient, HttpHeaders, HttpResponse, HttpRequest, HttpErrorResponse, HttpEventType } from '@angular/common/http';
+import { HttpParams, HttpClient, HttpHeaders, HttpErrorResponse, } from '@angular/common/http';
 import { Observable, throwError, Subject, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { SequenceList } from 'actslib';
@@ -17,15 +17,8 @@ export class OdataService {
   private isMetadataLoaded = false;
   private metadataInfo = '';
 
-  // Mockdata
-  // // Mockdata - knowledge item
-  // private mockedKnowledgeItem: KnowledgeItem[] = [];
-  // // Mockdata - exercise item
-  // private mockedExerciseItem: ExerciseItem[] = [];
-
   constructor(private http: HttpClient,
-    private authService: AuthService,
-    ) { }
+    private authService: AuthService,) { }
 
   public getMetadata(forceReload?: boolean): Observable<any> {
     if (!this.isMetadataLoaded || forceReload) {
@@ -46,7 +39,7 @@ export class OdataService {
           this.metadataInfo = response as unknown as string;
           return this.metadataInfo;
         }),
-        catchError((error: HttpErrorResponse) => throwError(error.statusText + '; ' + error.error + '; ' + error.message)
+        catchError((error: HttpErrorResponse) => throwError(() => new Error(error.statusText + '; ' + error.error + '; ' + error.message))
         ));
     } else {
       return of(this.metadataInfo);

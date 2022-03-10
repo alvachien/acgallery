@@ -26,7 +26,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
   // Result
   isLoadingResults: boolean = false;
   resultsLength: number;
-  public subjFilters: BehaviorSubject<[]> = new BehaviorSubject([]);
+  public subjFilters: BehaviorSubject<any[]> = new BehaviorSubject([] as any[]);
   photos: Photo[] = [];
   pageSize = 20;
   private photoListComponent?: PhotoListCoreComponent;

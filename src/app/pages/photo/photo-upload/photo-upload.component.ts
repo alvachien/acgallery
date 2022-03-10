@@ -350,7 +350,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   }
 
   // Tags
-  handleTagClose(pto: Photo, removedTag: {}): void {
+  handleTagClose(pto: UpdPhoto, removedTag: {}): void {
     pto.tags = pto.tags.filter(tag => tag !== removedTag);
   }
 
@@ -359,7 +359,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     return isLongTag ? `${tag.slice(0, 20)}...` : tag;
   }
 
-  handleTagInputConfirm(pto: Photo): void {
+  handleTagInputConfirm(pto: UpdPhoto): void {
     if (this.inputTagValue && pto.tags.indexOf(this.inputTagValue) === -1) {
       pto.tags = [...pto.tags, this.inputTagValue];
     }

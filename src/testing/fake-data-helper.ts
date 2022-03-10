@@ -5,9 +5,9 @@ import { User } from 'oidc-client';
  * Fake data helper
  */
 export class FakeDataHelper {
-  private _currUser: UserAuthInfo;
-  private _listAlbums: Album[];
-  private _listPhotos: Photo[];
+  private _currUser?: UserAuthInfo;
+  private _listAlbums: Album[] = [];
+  private _listPhotos: Photo[] = [];
 
   readonly userID1: string = 'uttest';
   readonly userID1Sub: string = '12345abcdefg';
@@ -16,20 +16,14 @@ export class FakeDataHelper {
     // Empty
   }
 
-  get currentUser(): UserAuthInfo {
-    if (this._currUser) {
-      return this._currUser;
-    }
+  get currentUser(): UserAuthInfo | undefined {
+    return this._currUser;
   }
   get Albums(): Album[] {
-    if (this._listAlbums) {
-      return this._listAlbums;
-    }
+    return this._listAlbums;
   }
   get Photos(): Photo[] {
-    if (this._listPhotos) {
-      return this._listPhotos;
-    }
+    return this._listPhotos;
   }
 
   public buildCurrentUser(): void {
