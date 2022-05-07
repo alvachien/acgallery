@@ -32,7 +32,7 @@
     "@ngneat/transloco": "^3.1.2",
     "actslib": "^0.5.55",
     "ng-gallery": "^6.0.0",
-    "ng-zorro-antd": "^13.1.1",
+    "ng-zorro-antd": "^13.2.1",
     "oidc-client": "^1.11.5",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
