@@ -42,6 +42,14 @@
             "scripts": []
           },
           "configurations": {
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -52,7 +60,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -61,8 +68,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "5mb",
+                  "maximumError": "15mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -112,8 +119,12 @@
             },
             "azure": {
               "browserTarget": "acgallery:build:azure"
+            },
+            "development": {
+              "browserTarget": "acgallery:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -146,21 +157,12 @@
               "src/**/*.html"
             ]
           }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "angular11test:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "angular11test:serve:production"
-            }
-          }
         }
       }
     }
   },
-  "defaultProject": "acgallery"
+  "defaultProject": "acgallery",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }

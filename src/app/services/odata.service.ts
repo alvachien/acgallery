@@ -50,14 +50,6 @@ export class OdataService {
   /// Albums
   ///
   public getAlbums(skip = 0, top = 20): Observable<{totalCount: number, items: SequenceList<Album>}> {
-    // TBD.
-    // if (environment.mockdata && this.mockedKnowledgeItem.length > 0) {
-    //   return of({
-    //     totalCount: this.mockedKnowledgeItem.length,
-    //     items: this.mockedKnowledgeItem
-    //   });
-    // }
-
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')
               .append('Accept', 'application/json');
@@ -69,14 +61,7 @@ export class OdataService {
     params = params.append('$top', top.toString());
     params = params.append('$skip', skip.toString());
     params = params.append('$count', 'true');
-    // TBD.
-    // params = params.append('$select', 'ID,Category,Title,CreatedAt,ModifiedAt');
     let apiurl = `${this.apiUrl}Albums`;
-    // TBD.
-    // if (environment.mockdata) {
-    //   apiurl = `${environment.basehref}assets/mockdata/albums.json`;
-    //   params = new HttpParams();
-    // }
 
     return this.http.get(apiurl, {
         headers,
@@ -93,17 +78,13 @@ export class OdataService {
           items.AppendElement(rit);
         }
 
-        // if (environment.mockdata) {
-        //   this.mockedKnowledgeItem = items.slice();
-        // }
-
         return {
           totalCount: rjs['@odata.count'],
           items: items,
         };
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+        return throwError(() => new Error(error.statusText + '; ' + error.error + '; ' + error.message));
       }));
   }
 
