@@ -75,7 +75,6 @@ export class PhotoListCoreComponent {
     });
  }
   onStartPreview(phtid: string): void {
-    console.log("Start preview");
     const idx = this.photos.findIndex(val => val.photoId === phtid);
     const images = [];
     if (idx >= 0) {
@@ -83,8 +82,8 @@ export class PhotoListCoreComponent {
       for(idx2 = idx; idx2 < this.photos.length; idx2 ++) {
         images.push({
           src: environment.apiRootUrl + 'PhotoFile/' + this.photos[idx2].fileUrl,
-          width: this.photos[idx2].width + 'px',
-          height: this.photos[idx2].height + 'px'
+          // width: this.photos[idx2].width + 'px',
+          // height: this.photos[idx2].height + 'px'
         });  
       }
     }
@@ -93,8 +92,8 @@ export class PhotoListCoreComponent {
       for(; idx3 < idx; idx3 ++) {
         images.push({
           src: environment.apiRootUrl + 'PhotoFile/' + this.photos[idx3].fileUrl,
-          width: this.photos[idx3].width + 'px',
-          height: this.photos[idx3].height + 'px'
+          // width: this.photos[idx3].width + 'px',
+          // height: this.photos[idx3].height + 'px'
         });
       }
     }
