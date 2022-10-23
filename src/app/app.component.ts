@@ -10,7 +10,7 @@ import { AuthService } from './services';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'acgallery-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   isCollapsed = false;

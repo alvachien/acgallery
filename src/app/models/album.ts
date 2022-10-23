@@ -84,7 +84,7 @@ export class Album {
     this.IsPhotoIDFetched = false;
   }
 
-  public writeJSONString(): string {
+  public writeJSONObject(): any {
     const forJSON: any = {
       Title: this.Title,
       Desp: this.Desp,
@@ -97,6 +97,10 @@ export class Album {
     if (this.Id) {
       forJSON.Id = this.Id;
     }
+    return forJSON;
+  }
+  public writeJSONString(): string {
+    const forJSON: any = this.writeJSONObject();
     if (forJSON) {
       return JSON && JSON.stringify(forJSON);
     }

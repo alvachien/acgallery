@@ -106,7 +106,7 @@ export class OdataService {
       return alb2;
     }),
     catchError((error: HttpErrorResponse) => {
-      return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+      return throwError(() => new Error(error.statusText + '; ' + error.error + '; ' + error.message));
     }));
   }
 

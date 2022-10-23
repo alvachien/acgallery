@@ -4,12 +4,24 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { OdataService } from './odata.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { FakeDataHelper } from 'src/testing';
+import { Album } from '../models';
 
 describe('OdataService', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   let service: OdataService;
   let apiUrl = `${environment.apiRootUrl}`;
+  let fakeData: FakeDataHelper;
+  const albumAPI = `${environment.apiRootUrl}Albums`;
+  const photoAPI = `${environment.apiRootUrl}Photos`;
+
+  beforeAll(() => {
+    fakeData = new FakeDataHelper();
+    fakeData.buildAlbums();
+    fakeData.buildPhotos();
+    fakeData.buildCurrentUser();
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,10 +35,10 @@ describe('OdataService', () => {
 
     httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(OdataService);
   });
 
   it('should be created without data', () => {
+    service = TestBed.inject(OdataService);
     expect(service).toBeTruthy();
   });
 
@@ -117,5 +129,238 @@ describe('OdataService', () => {
       // Respond with the mock currencies
       req.flush(msg, { status: 404, statusText: 'Not Found' });
     });    
+  });
+
+  describe('getAlbums', () => {
+    beforeEach(() => {
+      service = TestBed.inject(OdataService);
+    });
+    afterEach(() => {
+      // After every test, assert that there are no more pending requests.
+      httpTestingController.verify();
+    });
+
+    it('should return expected data (called once)', () => {      
+      service.getAlbums().subscribe({
+        next: (data: any) => {
+          expect(data.totalCount).withContext('should return expected data').toEqual(2);
+          // expect(service.Currencies.length).withContext('should have buffered').toEqual(fakeData.currenciesFromAPI.length);
+        },
+        error: (fail: any) => {
+          // Empty
+        },
+      });
+
+      // Service should have made one request to GET currencies from expected URL
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'GET'
+          && requrl.url === albumAPI
+          && requrl.params.has('$count');
+      });
+      expect(req.request.params.get('$count')).toEqual('true');
+
+      // Respond with the mock currencies
+      req.flush({
+        '@odata.count': 2,
+        value: [{
+          "Id": 21,
+          "Title": "Test 21"
+        }, {
+          "Id": 22,
+          "Title": "Test 22"
+        }]
+      });
+    });
+
+    it('should be OK returning no data', () => {
+      service.getAlbums().subscribe({
+        next: (data: any) => {
+          expect(data.totalCount).withContext('should have empty data array').toEqual(0);
+          // expect(service.Currencies.length).withContext('should buffered nothing').toEqual(0);
+        },
+        error: (fail: any) => {
+          // Empty
+        },
+      });
+
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'GET'
+          && requrl.url === albumAPI
+          && requrl.params.has('$count');
+      });
+      expect(req.request.params.get('$count')).toEqual('true');
+
+      req.flush({
+        '@odata.count': 0,
+        value: []
+      }); // Respond with no data
+    });
+
+    it('should return error in case error appear', () => {
+      const msg = 'Error 404';
+      service.getAlbums().subscribe({
+        next: (data: any) => {
+          fail('expected to fail');
+        },
+        error: (err: any) => {
+          expect(err.toString()).toContain(msg);
+        }
+      });
+
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'GET'
+          && requrl.url === albumAPI
+          && requrl.params.has('$count');
+      });
+      expect(req.request.params.get('$count')).toEqual('true');
+
+      // respond with a 404 and the error message in the body
+      req.flush(msg, { status: 404, statusText: 'Not Found' });
+    });
+  });
+
+  describe('createAlbum', () => {
+    let tbcAlbum: Album;
+
+    beforeEach(() => {
+      service = TestBed.inject(OdataService);
+      tbcAlbum = new Album();
+      tbcAlbum.Title = 'test2';
+      tbcAlbum.Desp = 'Desp2';      
+    });
+    afterEach(() => {
+      // After every test, assert that there are no more pending requests.
+      httpTestingController.verify();
+    });
+
+    it('should return expected data (called once)', () => {      
+      service.createAlbum(tbcAlbum).subscribe({
+        next: (rtn: Album) => {
+          expect(rtn.Title).withContext('should return expected data').toEqual(tbcAlbum.Title);
+          expect(rtn.Desp).withContext('should return expected data').toEqual(tbcAlbum.Desp);
+        },
+        error: (fail: any) => {
+          // Empty
+        },
+      });
+
+      // Service should have made one request to GET currencies from expected URL
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'POST'
+          && requrl.url === albumAPI;
+      });
+
+      // Respond with the mock currencies
+      req.flush(tbcAlbum.writeJSONObject());
+    });
+
+    it('should return error in case error appear', () => {
+      const msg = 'Error 404';
+      service.createAlbum(tbcAlbum).subscribe({
+        next: (data: any) => {
+          fail('expected to fail');
+        },
+        error: (err: any) => {
+          expect(err.toString()).toContain(msg);
+        }
+      });
+
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'POST'
+          && requrl.url === albumAPI;
+      });
+
+      // respond with a 404 and the error message in the body
+      req.flush(msg, { status: 404, statusText: 'Not Found' });
+    });
+  });
+
+  describe('getPhotos', () => {
+
+    beforeEach(() => {
+      service = TestBed.inject(OdataService);
+    });
+    afterEach(() => {
+      // After every test, assert that there are no more pending requests.
+      httpTestingController.verify();
+    });
+
+    it('should return expected data (called once)', () => {      
+      service.getPhotos().subscribe({
+        next: (data: any) => {
+          expect(data.totalCount).withContext('should return expected data').toEqual(2);
+          // expect(service.Currencies.length).withContext('should have buffered').toEqual(fakeData.currenciesFromAPI.length);
+        },
+        error: (fail: any) => {
+          // Empty
+        },
+      });
+
+      // Service should have made one request to GET currencies from expected URL
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'GET'
+          && requrl.url === photoAPI
+          && requrl.params.has('$count');
+      });
+      expect(req.request.params.get('$count')).toEqual('true');
+
+      // Respond with the mock currencies
+      req.flush({
+        '@odata.count': 2,
+        value: [{
+          "PhotoId": 21,
+          "Title": "Test 21"
+        }, {
+          "PhotoId": 22,
+          "Title": "Test 22"
+        }]
+      });
+    });
+
+    it('should be OK returning no data', () => {
+      service.getPhotos().subscribe({
+        next: (data: any) => {
+          expect(data.totalCount).withContext('should have empty data array').toEqual(0);
+          // expect(service.Currencies.length).withContext('should buffered nothing').toEqual(0);
+        },
+        error: (fail: any) => {
+          // Empty
+        },
+      });
+
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'GET'
+          && requrl.url === photoAPI
+          && requrl.params.has('$count');
+      });
+      expect(req.request.params.get('$count')).toEqual('true');
+
+      req.flush({
+        '@odata.count': 0,
+        value: []
+      }); // Respond with no data
+    });
+
+    it('should return error in case error appear', () => {
+      const msg = 'Error 404';
+      service.getPhotos().subscribe({
+        next: (data: any) => {
+          fail('expected to fail');
+        },
+        error: (err: any) => {
+          expect(err.toString()).toContain(msg);
+        }
+      });
+
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'GET'
+          && requrl.url === photoAPI
+          && requrl.params.has('$count');
+      });
+      expect(req.request.params.get('$count')).toEqual('true');
+
+      // respond with a 404 and the error message in the body
+      req.flush(msg, { status: 404, statusText: 'Not Found' });
+    });
   });
 });

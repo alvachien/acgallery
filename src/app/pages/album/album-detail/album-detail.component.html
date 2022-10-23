@@ -51,5 +51,6 @@
 <div *ngIf="isDisplayMode">
   <nz-divider [nzText]="'Nav.Photos' | transloco"></nz-divider>
 
-  <acgallery-photo-list-core [totalCount]="totalCount" [pageSize]="pageSize" [photos]="photos" (paginationEvent)="onPaginationEvent($event)"></acgallery-photo-list-core>
+  <acgallery-photo-list-core [totalCount]="totalCount" [pageSize]="pageSize" [photos]="photos" (paginationEvent)="onPaginationEvent($event)">    
+  </acgallery-photo-list-core>
 </div>

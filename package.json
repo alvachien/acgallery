@@ -1,6 +1,6 @@
 {
   "name": "acgallery",
-  "version": "0.5.33",
+  "version": "0.5.50",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -32,7 +32,7 @@
     "@ngneat/transloco": "^4.1.0",
     "actslib": "^0.5.55",
     "ng-gallery": "^6.0.1",
-    "ng-zorro-antd": "^13.3.2",
+    "ng-zorro-antd": "^13.4.0",
     "oidc-client": "^1.11.5",
     "rxjs": "^7.4.0",
     "tslib": "^2.4.0",
