@@ -5,7 +5,8 @@ import { OdataService } from './odata.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { FakeDataHelper } from 'src/testing';
-import { Album } from '../models';
+import { Album, Photo } from '../models';
+import { SequenceList } from 'actslib';
 
 describe('OdataService', () => {
   let httpClient: HttpClient;
@@ -268,6 +269,158 @@ describe('OdataService', () => {
       const req: any = httpTestingController.expectOne((requrl: any) => {
         return requrl.method === 'POST'
           && requrl.url === albumAPI;
+      });
+
+      // respond with a 404 and the error message in the body
+      req.flush(msg, { status: 404, statusText: 'Not Found' });
+    });
+  });
+
+  describe('readAlbum', () => {
+    let tbcAlbum: Album;
+
+    beforeEach(() => {
+      service = TestBed.inject(OdataService);
+      tbcAlbum = new Album();
+      tbcAlbum.Id = 22;
+      tbcAlbum.Title = 'test2';
+      tbcAlbum.Desp = 'Desp2';      
+    });
+    afterEach(() => {
+      // After every test, assert that there are no more pending requests.
+      httpTestingController.verify();
+    });
+
+    it('should return expected data (called once)', () => {      
+      service.readAlbum(22).subscribe({
+        next: (rtn: Album) => {
+          expect(rtn.Id).withContext('should return expected data').toEqual(tbcAlbum.Id);
+          expect(rtn.Title).withContext('should return expected data').toEqual(tbcAlbum.Title);
+          expect(rtn.Desp).withContext('should return expected data').toEqual(tbcAlbum.Desp);
+        },
+        error: (fail: any) => {
+          // Empty
+        },
+      });
+
+      // Service should have made one request to GET currencies from expected URL
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'GET'
+          && requrl.url === `${albumAPI}(22)`;
+      });
+
+      // Respond with the mock currencies
+      req.flush(tbcAlbum.writeJSONObject());
+    });
+
+    it('should return error in case error appear', () => {
+      const msg = 'Error 404';
+      service.readAlbum(22).subscribe({
+        next: (data: any) => {
+          fail('expected to fail');
+        },
+        error: (err: any) => {
+          expect(err.toString()).toContain(msg);
+        }
+      });
+
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'GET'
+          && requrl.url === `${albumAPI}(22)`;
+      });
+
+      // respond with a 404 and the error message in the body
+      req.flush(msg, { status: 404, statusText: 'Not Found' });
+    });
+  });
+
+  describe('getAlbumRelatedPhotos', () => {
+    beforeEach(() => {
+      service = TestBed.inject(OdataService);
+    });
+    afterEach(() => {
+      // After every test, assert that there are no more pending requests.
+      httpTestingController.verify();
+    });
+
+    it('should return expected data with access code', () => {      
+      service.getAlbumRelatedPhotos(22, 'test').subscribe({
+        next: (rtn: {totalCount: number, items: SequenceList<Photo>}) => {
+          expect(rtn.items.Length()).withContext('should return expected data').toEqual(2);
+          // expect(rtn.Title).withContext('should return expected data').toEqual(tbcAlbum.Title);
+          // expect(rtn.Desp).withContext('should return expected data').toEqual(tbcAlbum.Desp);
+        },
+        error: (fail: any) => {
+          // Empty
+        },
+      });
+
+      // Service should have made one request to GET currencies from expected URL
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'GET'
+          && requrl.url === `${albumAPI}/GetPhotos(AlbumID=22,AccessCode='test')`;
+      });
+
+      // Respond with the mock currencies
+      req.flush({
+        "value": [{
+          "PhotoId": "22",
+          "Title": "test1",
+          "Desp": "test1"
+        }, {
+          "PhotoId": "23",
+          "Title": "test1",
+          "Desp": "test1"
+        }]
+      });
+    });
+
+    it('should return expected data without access code', () => {      
+      service.getAlbumRelatedPhotos(22).subscribe({
+        next: (rtn: {totalCount: number, items: SequenceList<Photo>}) => {
+          expect(rtn.items.Length()).withContext('should return expected data').toEqual(2);
+          // expect(rtn.Title).withContext('should return expected data').toEqual(tbcAlbum.Title);
+          // expect(rtn.Desp).withContext('should return expected data').toEqual(tbcAlbum.Desp);
+        },
+        error: (fail: any) => {
+          // Empty
+        },
+      });
+
+      // Service should have made one request to GET currencies from expected URL
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'GET'
+          && requrl.url === `${albumAPI}/GetPhotos(AlbumID=22,AccessCode='')`;
+      });
+
+      // Respond with the mock currencies
+      req.flush({
+        "value": [{
+          "PhotoId": "22",
+          "Title": "test1",
+          "Desp": "test1"
+        }, {
+          "PhotoId": "23",
+          "Title": "test1",
+          "Desp": "test1"
+        }]
+      });
+    });
+
+    it('should return error in case error appear', () => {
+      const msg = 'Error 404';
+      service.getAlbumRelatedPhotos(22).subscribe({
+        next: (data: any) => {
+          fail('expected to fail');
+        },
+        error: (err: any) => {
+          expect(err.toString()).toContain(msg);
+        }
+      });
+
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'GET'
+          && requrl.url === `${albumAPI}/GetPhotos(AlbumID=22,AccessCode='')`;
       });
 
       // respond with a 404 and the error message in the body
