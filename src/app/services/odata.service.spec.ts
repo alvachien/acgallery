@@ -516,4 +516,84 @@ describe('OdataService', () => {
       req.flush(msg, { status: 404, statusText: 'Not Found' });
     });
   });
+
+  describe('getPhotoEXIF', () => {
+    beforeEach(() => {
+      service = TestBed.inject(OdataService);
+    });
+    afterEach(() => {
+      // After every test, assert that there are no more pending requests.
+      httpTestingController.verify();
+    });
+
+    it('should return expected data (called once)', () => {
+      service.getPhotoEXIF('photo-id').subscribe({
+        next: (data: any) => {
+          expect(data.CameraMaker).withContext('should return expected data').toEqual('CameraMaker');
+          // expect(service.Currencies.length).withContext('should have buffered').toEqual(fakeData.currenciesFromAPI.length);
+        },
+        error: (fail: any) => {
+          // Empty
+        },
+      });
+
+      // Service should have made one request to GET currencies from expected URL
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'GET'
+          && requrl.url === `${photoAPI}('photo-id')`;
+      });
+      expect(req.request.params.get('$select')).toEqual('PhotoId,CameraMaker,CameraModel,LensModel,AVNumber,ShutterSpeed,ISONumber');
+
+      // Respond with the mock currencies
+      req.flush({
+        'CameraMaker': 'CameraMaker',
+        'CameraModel': 'CameraModel',
+        'LensModel': 'LensModel',
+        'AVNumber': 'AVNumber'
+      });
+    });
+
+    it('should be OK returning no data', () => {
+      service.getPhotoEXIF('photo-id').subscribe({
+        next: (data: any) => {
+          expect(data.CameraMaker).withContext('should have empty data array').toBeUndefined();
+          // expect(service.Currencies.length).withContext('should buffered nothing').toEqual(0);
+        },
+        error: (fail: any) => {
+          // Empty
+        },
+      });
+
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'GET'
+          && requrl.url === `${photoAPI}('photo-id')`;
+      });
+      expect(req.request.params.get('$select')).toEqual('PhotoId,CameraMaker,CameraModel,LensModel,AVNumber,ShutterSpeed,ISONumber');
+
+      req.flush({
+      }); // Respond with no data
+    });
+
+    it('should return error in case error appear', () => {
+      const msg = 'Error 404';
+      service.getPhotoEXIF('photo-id').subscribe({
+        next: (data: any) => {
+          fail('expected to fail');
+        },
+        error: (err: any) => {
+          expect(err.toString()).toContain(msg);
+        }
+      });
+
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'GET'
+          && requrl.url === `${photoAPI}('photo-id')`;
+      });
+      expect(req.request.params.get('$select')).toEqual('PhotoId,CameraMaker,CameraModel,LensModel,AVNumber,ShutterSpeed,ISONumber');
+
+      // respond with a 404 and the error message in the body
+      req.flush(msg, { status: 404, statusText: 'Not Found' });
+    });
+  });
+
 });

@@ -292,7 +292,7 @@ export class OdataService {
         };
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+        return throwError(() => new Error(error.statusText + '; ' + error.error + '; ' + error.message));
       }));
   }
 
@@ -356,7 +356,7 @@ export class OdataService {
         };
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+        return throwError(() => new Error(error.statusText + '; ' + error.error + '; ' + error.message));
       }));
   }
 
