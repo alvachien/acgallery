@@ -596,4 +596,165 @@ describe('OdataService', () => {
     });
   });
 
+  describe('createPhoto', () => {
+    let tbcPhoto: Photo;
+
+    beforeEach(() => {
+      service = TestBed.inject(OdataService);
+      tbcPhoto = new Photo();
+      tbcPhoto.photoId = 'test';
+      tbcPhoto.desp = 'test';
+    });
+    afterEach(() => {
+      // After every test, assert that there are no more pending requests.
+      httpTestingController.verify();
+    });
+
+    it('should return expected data when create success', () => {
+      service.createPhoto(tbcPhoto).subscribe({
+        next: (rtn: Photo) => {
+          expect(rtn.photoId).withContext('should return expected data').toEqual(tbcPhoto.photoId);
+          expect(rtn.desp).withContext('should return expected data').toEqual(tbcPhoto.desp);
+        },
+        error: (fail: any) => {
+          // Empty
+        },
+      });
+
+      // Service should have made one request to GET currencies from expected URL
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'POST'
+          && requrl.url === photoAPI;
+      });
+
+      // Respond with the mock currencies
+      req.flush(tbcPhoto.generateJson());
+    });
+
+    it('should return error in case error appear', () => {
+      const msg = 'Error 404';
+      service.createPhoto(tbcPhoto).subscribe({
+        next: (data: any) => {
+          fail('expected to fail');
+        },
+        error: (err: any) => {
+          expect(err.toString()).toContain(msg);
+        }
+      });
+
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'POST'
+          && requrl.url === photoAPI;
+      });
+
+      // respond with a 404 and the error message in the body
+      req.flush(msg, { status: 404, statusText: 'Not Found' });
+    });
+  });
+
+  describe('changePhoto', () => {
+    let tbcPhoto: Photo;
+    beforeEach(() => {
+      service = TestBed.inject(OdataService);
+      tbcPhoto = new Photo();
+      tbcPhoto.photoId = 'test';
+      tbcPhoto.desp = 'test';
+    });
+    afterEach(() => {
+      // After every test, assert that there are no more pending requests.
+      httpTestingController.verify();
+    });
+
+    it('should return expected data when change success', () => {
+      service.changePhoto(tbcPhoto).subscribe({
+        next: (rtn: Photo) => {
+          expect(rtn.photoId).withContext('should return expected data').toEqual(tbcPhoto.photoId);
+          expect(rtn.desp).withContext('should return expected data').toEqual(tbcPhoto.desp);
+        },
+        error: (fail: any) => {
+          // Empty
+        },
+      });
+
+      // Service should have made one request to GET currencies from expected URL
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'PUT'
+          && requrl.url === `${photoAPI}('${tbcPhoto.photoId}')`;
+      });
+
+      // Respond with the mock currencies
+      req.flush(tbcPhoto.generateJson());
+    });
+
+    it('should return error in case error appear', () => {
+      const msg = 'Error 404';
+      service.changePhoto(tbcPhoto).subscribe({
+        next: (data: any) => {
+          fail('expected to fail');
+        },
+        error: (err: any) => {
+          expect(err.toString()).toContain(msg);
+        }
+      });
+
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'PUT'
+          && requrl.url === `${photoAPI}('${tbcPhoto.photoId}')`;
+      });
+
+      // respond with a 404 and the error message in the body
+      req.flush(msg, { status: 404, statusText: 'Not Found' });
+    });
+  });
+
+  describe('deletePhoto', () => {
+    beforeEach(() => {
+      service = TestBed.inject(OdataService);
+    });
+    afterEach(() => {
+      // After every test, assert that there are no more pending requests.
+      httpTestingController.verify();
+    });
+
+    it('should return expected data when change success', () => {
+      service.deletePhoto('22').subscribe({
+        next: (rtn: Boolean) => {
+          expect(rtn).withContext('should return expected data').toBeTrue();
+        },
+        error: (fail: any) => {
+          // Empty
+        },
+      });
+
+      // Service should have made one request to GET currencies from expected URL
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'DELETE'
+          && requrl.url === `${photoAPI}('22')`;
+      });
+
+      // Respond with the mock currencies
+      req.flush(true);
+    });
+
+    it('should return error in case error appear', () => {
+      const msg = 'Error 404';
+      service.deletePhoto('22').subscribe({
+        next: (data: any) => {
+          fail('expected to fail');
+        },
+        error: (err: any) => {
+          expect(err.toString()).toContain(msg);
+        }
+      });
+
+      // Service should have made one request to GET currencies from expected URL
+      const req: any = httpTestingController.expectOne((requrl: any) => {
+        return requrl.method === 'DELETE'
+          && requrl.url === `${photoAPI}('22')`;
+      });
+
+      // respond with a 404 and the error message in the body
+      req.flush(msg, { status: 404, statusText: 'Not Found' });
+    });
+  });
 });

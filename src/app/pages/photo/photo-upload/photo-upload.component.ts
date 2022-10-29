@@ -9,6 +9,7 @@ import { AuthService, CanComponentDeactivate, OdataService } from 'src/app/servi
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { translate } from '@ngneat/transloco';
 
 function getBase64(file: File): Promise<string | ArrayBuffer | null> {
   return new Promise((resolve, reject) => {
@@ -79,7 +80,11 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
       },
       error: err => {
         // Error
-        console.error(err);
+        this.modal.error({
+          nzTitle: translate('Common.Error'),
+          nzContent: err,
+          nzClosable: true,
+        });
       }
     })
 

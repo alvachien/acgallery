@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { translate } from '@ngneat/transloco';
 import { UIMode } from 'actslib';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 import { OdataService } from 'src/app/services';
 
@@ -18,7 +20,8 @@ export class UserDetailComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private odataSrv: OdataService,
-    private activateRoute: ActivatedRoute,) { }
+    private activateRoute: ActivatedRoute,
+    private modalService: NzModalService,) { }
 
   get isEditableMode(): boolean {
     return this.uiMode === UIMode.Update;
@@ -73,7 +76,13 @@ export class UserDetailComponent implements OnInit {
               }
             },
             error: err => {
-              console.error(err);
+              this.detailForm.disable();
+              // Show error
+              this.modalService.error({
+                nzTitle: translate('Common.Error'),
+                nzContent: err,
+                nzClosable: true,
+              });
             }
           });
           break;

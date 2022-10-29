@@ -12,11 +12,14 @@ describe('PhotoListComponent', () => {
   let odataService: any;
   let getPhotosSpy: any;
 
-  beforeEach(async () => {
+  beforeAll(() => {
     odataService = jasmine.createSpyObj('OdataService', [
       'getPhotos',
     ]);
     getPhotosSpy = odataService.getPhotos.and.returnValue(of([]));
+  });
+  
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         TestingDependsModule,
