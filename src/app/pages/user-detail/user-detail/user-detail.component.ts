@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { translate } from '@ngneat/transloco';
 import { UIMode } from 'actslib';
@@ -14,11 +14,11 @@ import { OdataService } from 'src/app/services';
   styleUrls: ['./user-detail.component.less'],
 })
 export class UserDetailComponent implements OnInit {
-  detailForm!: FormGroup;
+  detailForm!: UntypedFormGroup;
   uiMode = UIMode.Invalid;
   currentMode = 'Common.Display';
 
-  constructor(private fb: FormBuilder,
+  constructor(private fb: UntypedFormBuilder,
     private odataSrv: OdataService,
     private activateRoute: ActivatedRoute,
     private modalService: NzModalService,) { }

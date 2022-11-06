@@ -20,39 +20,37 @@ import { AuthService, OdataService, UIInfoService, } from './services';
 registerLocaleData(zh);
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
-  entryComponents: [
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    IconsProviderModule,
-    TranslocoModule,
-    UIModulesModule,
-  ],
-  providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
-    { provide: NZ_I18N, useValue: zh_CN },
-    {
-      provide: TRANSLOCO_CONFIG,
-      useValue: translocoConfig({
-        availableLangs: ['en', 'zh'],
-        defaultLang: 'zh',
-        reRenderOnLangChange: true,
-        prodMode: environment.production,
-      })
-    },
-    translocoLoader,
-    AuthService,
-    OdataService,
-    UIInfoService,
-  ],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        IconsProviderModule,
+        TranslocoModule,
+        UIModulesModule,
+    ],
+    providers: [
+        { provide: LocationStrategy, useClass: HashLocationStrategy },
+        { provide: NZ_I18N, useValue: zh_CN },
+        {
+            provide: TRANSLOCO_CONFIG,
+            useValue: translocoConfig({
+                availableLangs: ['en', 'zh'],
+                defaultLang: 'zh',
+                reRenderOnLangChange: true,
+                prodMode: environment.production,
+            })
+        },
+        translocoLoader,
+        AuthService,
+        OdataService,
+        UIInfoService,
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

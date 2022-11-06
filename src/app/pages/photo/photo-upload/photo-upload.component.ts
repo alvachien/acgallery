@@ -7,7 +7,7 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { Album, Photo, SelectableAlbum, UpdPhoto } from 'src/app/models';
 import { AuthService, CanComponentDeactivate, OdataService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { translate } from '@ngneat/transloco';
 
@@ -40,7 +40,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   // Step 3. Assign to album
   arAssignMode: any[] = [];
   assignMode = 0;
-  albumForm!: FormGroup;
+  albumForm!: UntypedFormGroup;
   listOfAlbums: ReadonlyArray<Album> = [];
   listOfData: ReadonlyArray<Album> = [];
   setOfChosedAlbumIDs = new Set<number>();
@@ -52,7 +52,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
 
   constructor(
     private modal: NzModalService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private odataSvc: OdataService,
     private router: Router,
     private authService: AuthService) { 

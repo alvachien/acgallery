@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UIMode } from 'actslib';
 import { ReplaySubject } from 'rxjs';
@@ -18,7 +18,7 @@ import { environment } from 'src/environments/environment';
 export class AlbumDetailComponent implements OnInit, OnDestroy {
   private _destroyed$?: ReplaySubject<boolean>;
 
-  detailForm!: FormGroup;
+  detailForm!: UntypedFormGroup;
   totalCount = 0;
   pageSize = 20;
   photos: Photo[] = [];
@@ -40,7 +40,7 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
     public _router: Router,
     private activateRoute: ActivatedRoute,
     private uiSrv: UIInfoService,
-    private fb: FormBuilder) { }
+    private fb: UntypedFormBuilder) { }
 
   submitForm(): void {
     for (const i in this.detailForm.controls) {
