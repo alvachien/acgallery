@@ -7,6 +7,8 @@ import { environment } from 'src/environments/environment';
 import { FakeDataHelper } from 'src/testing';
 import { Album, Photo } from '../models';
 import { SequenceList } from 'actslib';
+import { AuthService } from './auth.service';
+import { BehaviorSubject } from 'rxjs';
 
 describe('OdataService', () => {
   let httpClient: HttpClient;
@@ -25,12 +27,16 @@ describe('OdataService', () => {
   });
 
   beforeEach(() => {
+    const authServiceStub: Partial<AuthService> = {};
+    authServiceStub.authSubject = new BehaviorSubject(fakeData.currentUser!);
+    
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule
       ],
       providers: [
         OdataService,
+        { provide: AuthService, useValue: authServiceStub }
       ],
     });
 

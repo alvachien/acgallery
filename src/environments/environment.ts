@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  currentVersion: '0.5.55',
+  currentVersion: '0.5.62',
   currentReleaseDate: '2022.12.31',
   loggingLevel: 4, // Debug
   basehref: '/',
@@ -14,8 +14,6 @@ export const environment = {
   apiRootUrl: 'https://localhost:25325/',
 
   IDServerUrl: 'https://localhost:44353',
-  AppLoginCallbackUrl: 'https://localhost:16001/logincallback.html',
-  AppLogoutCallbackUrl: 'https://localhost:16001',
   AppHost: 'https://localhost:16001',
   AppHIH: 'https://localhost:29521',
   AppMathExercise: 'https://localhost:20000',

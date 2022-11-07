@@ -16,6 +16,7 @@ import { IconsProviderModule } from './icons-provider.module';
 import { environment } from 'src/environments/environment';
 import { UIModulesModule } from './ui-modules.module';
 import { AuthService, OdataService, UIInfoService, } from './services';
+import { AuthConfigModule } from './auth/auth-config.module';
 
 registerLocaleData(zh);
 
@@ -33,6 +34,7 @@ registerLocaleData(zh);
         IconsProviderModule,
         TranslocoModule,
         UIModulesModule,
+        AuthConfigModule,
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

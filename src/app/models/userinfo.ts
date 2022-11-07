@@ -1,4 +1,3 @@
-import { User } from 'oidc-client';
 import { UserOperationAuthEnum } from './common';
 
 /**
@@ -66,37 +65,48 @@ export class UserDetail {
  * User Auth. info
  */
 export class UserAuthInfo {
-  public isAuthorized: boolean = false;
-  private currentUser?: User;
-  private userId: string = '';
-  private userName: string = '';
-  private accessToken: string = '';
+  private userName?: string;
+  private userId?: string;
+  private userMailbox?: string;
+  private accessToken?: string;
 
-  public setContent(user: User): void {
+  public isAuthorized: boolean = false;
+
+  public setContent(user: {
+    userId?: string;
+    userName?: string;
+    accessToken?: string;  
+  }): void {
     if (user) {
-      this.currentUser = user;
       this.isAuthorized = true;
 
-      this.userId = user.profile.sub;
-      this.userName = user.profile.name!;
-      this.accessToken = user.access_token;
+      this.userName = user.userName;
+      this.userId = user.userId;
+      // this.userMailbox = user.profile['mail'];
+      this.accessToken = user.accessToken;
     } else {
       this.cleanContent();
     }
   }
 
   public cleanContent(): void {
-    this.currentUser = undefined;
     this.isAuthorized = false;
+    this.userName = undefined;
+    this.userId = undefined;
+    this.userMailbox = undefined;
+    this.accessToken = undefined;
   }
 
-  public getUserName(): string {
+  public getUserName(): string | undefined {
     return this.userName;
   }
-  public getAccessToken(): string {
+  public getUserId(): string | undefined {
+    return this.userId;
+  }
+  public getAccessToken(): string | undefined {
     return this.accessToken;
   }
-  public getUserID(): string {
-    return this.userId;
+  public getUserMailbox(): string | undefined {
+    return this.userMailbox;
   }
 }

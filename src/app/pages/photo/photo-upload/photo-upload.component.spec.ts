@@ -1,10 +1,10 @@
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { SequenceList } from 'actslib';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { Album } from 'src/app/models';
-import { OdataService } from 'src/app/services';
+import { AuthService, OdataService } from 'src/app/services';
 
-import { TestingDependsModule, getTranslocoModule, asyncData } from 'src/testing/';
+import { TestingDependsModule, getTranslocoModule, asyncData, FakeDataHelper } from 'src/testing/';
 import { PhotoUploadComponent } from './photo-upload.component';
 
 describe('PhotoUploadComponent', () => {
@@ -12,8 +12,12 @@ describe('PhotoUploadComponent', () => {
   let fixture: ComponentFixture<PhotoUploadComponent>;
   let odataService: any;
   let getAlbumsSpy: any;
+  let fakeData: FakeDataHelper;
 
   beforeAll(() => {
+    fakeData = new FakeDataHelper();
+    fakeData.buildCurrentUser();
+
     odataService = jasmine.createSpyObj('OdataService', [
       'getAlbums',
     ]);
@@ -21,6 +25,9 @@ describe('PhotoUploadComponent', () => {
   });
 
   beforeEach(async () => {
+    const authServiceStub: Partial<AuthService> = {};
+    authServiceStub.authSubject = new BehaviorSubject(fakeData.currentUser!);
+
     await TestBed.configureTestingModule({
       imports: [
         TestingDependsModule,
@@ -28,6 +35,7 @@ describe('PhotoUploadComponent', () => {
       ],
       declarations: [ PhotoUploadComponent ],
       providers: [
+        { provide: AuthService, useValue: authServiceStub },
         { provide: OdataService, useValue: odataService },
       ],
     })

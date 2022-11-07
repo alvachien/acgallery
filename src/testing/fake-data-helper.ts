@@ -1,5 +1,4 @@
 import { UserAuthInfo, Album, Photo } from '../app/models';
-import { User } from 'oidc-client';
 
 /**
  * Fake data helper
@@ -37,7 +36,7 @@ export class FakeDataHelper {
       },
     };
 
-    this._currUser.setContent(usr as User);
+    this._currUser.setContent(usr);
   }
   public buildAlbums(): void {
     this._listAlbums = [];

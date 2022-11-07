@@ -3,13 +3,22 @@ import { BehaviorSubject, of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { RouterLinkStubDirective } from '../testing';
+import { FakeDataHelper, RouterLinkStubDirective } from '../testing';
 import { TestingDependsModule, getTranslocoModule } from 'src/testing/';
+import { AuthService } from './services';
 
 describe('AppComponent', () => {
+  let fakeData: FakeDataHelper;
+
+  beforeAll(() => {
+    fakeData = new FakeDataHelper();
+    fakeData.buildCurrentUser();
+  });
+
   beforeEach(async() => {
-    // const authServiceStub: Partial<AuthService> = {};
-    // authServiceStub.authSubject = new BehaviorSubject(new UserAuthInfo());
+    const authServiceStub: Partial<AuthService> = {};
+    authServiceStub.authSubject = new BehaviorSubject(fakeData.currentUser!);
+
     const userDetailSrv = jasmine.createSpyObj('UserDetailService', ['readDetailInfo']);
     const readDetailInfoSpy = userDetailSrv.readDetailInfo.and.returnValue(of({}));
     const routerSpy: any = jasmine.createSpyObj('Router', ['navigate']);
@@ -23,6 +32,7 @@ describe('AppComponent', () => {
         AppComponent,
       ],
       providers: [
+        { provide: AuthService, useValue: authServiceStub },
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();

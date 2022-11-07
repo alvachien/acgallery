@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  currentVersion: '0.5.55',
+  currentVersion: '0.5.62',
   currentReleaseDate: '2022.12.31',
   loggingLevel: 1, // Crash
   basehref: '/',
@@ -9,8 +9,6 @@ export const environment = {
   apiRootUrl: 'https://acgalleryapi.azurewebsites.net/',
 
   IDServerUrl: 'https://acidserver.azurewebsites.net',
-  AppLoginCallbackUrl: 'https://acgallery.azurewebsites.net/logincallback.html',
-  AppLogoutCallbackUrl: 'https://acgallery.azurewebsites.net',
   AppHost: 'https://acgallery.azurewebsites.net',
   AppHIH: 'https://achihui.azurewebsites.net',
   AppMathExercise: 'https://alvachien.github.io/mathexercise/',

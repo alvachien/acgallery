@@ -553,31 +553,6 @@ export class OdataService {
       }));
   }
 
-  // User detail
-  public getUserDetail(): Observable<UserDetail> {
-    let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('Content-Type', 'application/json')
-              .append('Accept', 'application/json');
-    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
-    let params: HttpParams = new HttpParams();
-    let apiurl = `${this.apiUrl}UserDetails('${this.authService.authSubject.getValue().getUserID()}')`;
-
-    return this.http.get(apiurl, {
-        headers,
-        params,
-      })
-      .pipe(map(response => {
-        const ud = new UserDetail();
-        ud.onSetData(response);
-        ud.email = this.authService.authSubject.getValue().getUserName();
-        ud.others = '';
-        return ud;
-      }),
-      catchError((error: HttpErrorResponse) => {
-        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
-      }));
-  }
-
   public getStatistics(): Observable<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json')

@@ -1,3 +1,4 @@
+import { environment } from "src/environments/environment";
 
 /**
  * Interface: SelectableObject<T>
@@ -15,6 +16,48 @@ export enum LogLevel {
   Warning = 2,
   Info = 3,
   Debug = 4,
+}
+
+export enum ConsoleLogTypeEnum {
+  log   = 0,
+  debug = 1,
+  warn  = 2,
+  error = 3,
+}
+
+export function writeConsole(log: string, logType: ConsoleLogTypeEnum = ConsoleLogTypeEnum.log): void {
+  if (log) {
+    switch (logType) {
+      case ConsoleLogTypeEnum.debug:
+        if (environment.loggingLevel >= LogLevel.Debug) {
+          // eslint-disable-next-line no-console
+          console.debug(log);
+        }
+        break;
+
+      case ConsoleLogTypeEnum.warn:
+        if (environment.loggingLevel >= LogLevel.Warning) {
+          // eslint-disable-next-line no-console
+          console.warn(log);
+        }
+        break;
+
+      case ConsoleLogTypeEnum.error:
+        if (environment.loggingLevel >= LogLevel.Error) {
+          // eslint-disable-next-line no-console
+          console.error(log);
+        }
+        break;
+
+      case ConsoleLogTypeEnum.log:
+      default:
+        if (environment.loggingLevel >= LogLevel.Info) {
+          // eslint-disable-next-line no-console
+          console.log(log);
+        }
+        break;
+    }
+  }
 }
 
 /**

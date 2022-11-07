@@ -5,7 +5,7 @@ import { translate } from '@ngneat/transloco';
 import { UIMode } from 'actslib';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { OdataService } from 'src/app/services';
+import { AuthService, OdataService } from 'src/app/services';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -19,7 +19,7 @@ export class UserDetailComponent implements OnInit {
   currentMode = 'Common.Display';
 
   constructor(private fb: UntypedFormBuilder,
-    private odataSrv: OdataService,
+    private authSrv: AuthService,
     private activateRoute: ActivatedRoute,
     private modalService: NzModalService,) { }
 
@@ -55,8 +55,8 @@ export class UserDetailComponent implements OnInit {
       switch (this.uiMode) {
         case UIMode.Update:
         case UIMode.Display: {
-          this.odataSrv.getUserDetail().subscribe({
-            next: val => {
+          this.authSrv.getUserDetail().subscribe({
+            next: (val: any) => {
               this.detailForm.setValue({
                 userId: val.userId,
                 displayAs: val.displayAs,
@@ -75,7 +75,7 @@ export class UserDetailComponent implements OnInit {
                 this.detailForm.markAsPristine();
               }
             },
-            error: err => {
+            error: (err: any) => {
               this.detailForm.disable();
               // Show error
               this.modalService.error({

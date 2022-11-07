@@ -1,27 +1,10 @@
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { tap, delay } from 'rxjs/operators';
+import { EventTypes, OidcSecurityService, PublicEventsService } from 'angular-auth-oidc-client';
+import { BehaviorSubject, catchError, map, Observable, of, throwError } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { LogLevel, UserAuthInfo } from '../models';
-import { UserManager, Log, MetadataService, User } from 'oidc-client';
-
-const AuthSettings: any = {
-  authority: environment.IDServerUrl,
-  client_id: 'acgallery.app',
-  redirect_uri: environment.AppLoginCallbackUrl,
-  post_logout_redirect_uri: environment.AppLogoutCallbackUrl,
-  response_type: 'id_token token',
-  scope: 'openid profile api.acgallery',
-
-  silent_redirect_uri: environment.AppLoginCallbackUrl,
-  automaticSilentRenew: true,
-  accessTokenExpiringNotificationTime: 4,
-  // silentRequestTimeout:10000,
-
-  filterProtocolClaims: true,
-  loadUserInfo: true,
-};
+import { ConsoleLogTypeEnum, LogLevel, UserAuthInfo, UserDetail, writeConsole } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -29,189 +12,97 @@ const AuthSettings: any = {
 export class AuthService {
   public authSubject: BehaviorSubject<UserAuthInfo> = new BehaviorSubject(new UserAuthInfo());
   public authContent: Observable<UserAuthInfo> = this.authSubject.asObservable();
-  private mgr: UserManager;
-  public userLoadededEvent: EventEmitter<User> = new EventEmitter<User>();
 
-  constructor() {
-    if (environment.loggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Entering AuthService constructor...');
-    }
+  constructor(private http: HttpClient,
+    private authService: OidcSecurityService,
+    private eventService: PublicEventsService,) {
+    writeConsole('ACGallery [Debug]: Entering AuthService constructor...',
+      ConsoleLogTypeEnum.debug);
 
-    this.mgr = new UserManager(AuthSettings);
-
-    let that = this;
-    this.mgr.getUser().then(function (u) {
-      if (u) {
-        if (environment.loggingLevel >= LogLevel.Debug) {
-          console.log(`ACGallery [Debug]: AuthService constructor, user get successfully: ${u}`);
-        }
-
-        // Set the content
-        that.authSubject.value.setContent(u);
-
-        // Broadcast event
-        that.userLoadededEvent.emit(u);
-      }
-      else {
-        that.authSubject.value.cleanContent();
-      }
-
-      that.authSubject.next(that.authSubject.value);
-    }, function (reason) {
-      if (environment.loggingLevel >= LogLevel.Error) {
-        console.error(`ACGallery [Error]: AuthService failed to fetch user: ${reason}`);
-      }
+    this.eventService
+      .registerForEvents()
+      // .pipe(filter((notification) => notification.type === EventTypes.CheckSessionReceived))
+      .subscribe((value) => {
+        switch(value.type) {
+          case EventTypes.CheckSessionReceived:
+            writeConsole('AC_HIH_UI [Debug]: Entering AuthService: Check session received...', ConsoleLogTypeEnum.debug);
+            break;
+          case EventTypes.ConfigLoaded:
+            writeConsole('AC_HIH_UI [Debug]: Entering AuthService: Config loaded...', ConsoleLogTypeEnum.debug);
+            break;
+          case EventTypes.ConfigLoadingFailed:
+            writeConsole('AC_HIH_UI [Debug]: Entering AuthService: Config loading failed...', ConsoleLogTypeEnum.debug);
+            break;            
+          case EventTypes.UserDataChanged:
+            writeConsole('AC_HIH_UI [Debug]: Entering AuthService: User data changed...', ConsoleLogTypeEnum.debug);
+            break;
+          case EventTypes.NewAuthenticationResult:
+            writeConsole('AC_HIH_UI [Debug]: Entering AuthService: New authentication result...', ConsoleLogTypeEnum.debug);
+            break;
+          case EventTypes.TokenExpired:
+            writeConsole('AC_HIH_UI [Debug]: Entering AuthService: Token expired...', ConsoleLogTypeEnum.debug);
+            break;
+          case EventTypes.IdTokenExpired:
+            writeConsole('AC_HIH_UI [Debug]: Entering AuthService: ID token expired...', ConsoleLogTypeEnum.debug);
+            break;
+          case EventTypes.SilentRenewStarted:
+            writeConsole('AC_HIH_UI [Debug]: Entering AuthService: Silent renew started...', ConsoleLogTypeEnum.debug);
+            break;
+          default:
+            break;
+        } 
+        writeConsole(`AC_HIH_UI [Debug]: Entering AuthService: CheckSessionChanged with value: ${value}`, ConsoleLogTypeEnum.debug);
     });
-
-    this.mgr.events.addUserUnloaded(() => {
-      if (environment.loggingLevel >= LogLevel.Debug) {
-        console.log('ACGallery [Debug]: User unloaded');
+    
+    this.authService.checkAuth().subscribe(({ isAuthenticated, userData, accessToken, idToken }) => {
+      writeConsole(`AC_HIH_UI [Debug]: Entering AuthService checkAuth callback with 'IsAuthenticated' = ${isAuthenticated}.`, ConsoleLogTypeEnum.debug);
+      if (isAuthenticated) {
+        this.authSubject.value.setContent({
+          userId: userData.sub,
+          userName: userData.name,
+          accessToken: accessToken,
+        });
+      } else {
+        this.authSubject.value.cleanContent();
       }
-      that.authSubject.value.cleanContent();
-
-      that.authSubject.next(that.authSubject.value);
-    });
-
-    this.mgr.events.addAccessTokenExpiring(function () {
-      if (environment.loggingLevel >= LogLevel.Debug) {
-        console.warn('ACGallery [Warn]: token expiring');
-      }
-    });
-
-    this.mgr.events.addAccessTokenExpired(function () {
-      if (environment.loggingLevel >= LogLevel.Debug) {
-        console.warn('ACGallery [Warn]: token expired');
-      }
-
-      that.doLogin();
     });
   }
 
   public doLogin() {
-    if (environment.loggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Start the login...');
-    }
-
-    if (this.mgr) {
-      this.mgr.signinRedirect().then(function () {
-        if (environment.loggingLevel >= LogLevel.Debug) {
-          console.info('ACGallery [Debug]: Redirecting for login...');
-        }
-      })
-      .catch(function (er) {
-        if (environment.loggingLevel >= LogLevel.Error) {
-          console.error(`ACGallery [Error]: Sign-in error: ${er}`);
-        }
-      });
-    }
+    writeConsole('ACGallery [Debug]: Entering AuthService logon...',
+      ConsoleLogTypeEnum.debug);
+    this.authService.authorize();
   }
 
   public doLogout() {
-    if (environment.loggingLevel >= LogLevel.Debug) {
-      console.log('ACGallery [Debug]: Start the logout...');
-    }
+    writeConsole('ACGallery [Debug]: Entering AuthService doLogout...',
+      ConsoleLogTypeEnum.debug);
+    this.authService.logoffAndRevokeTokens().subscribe(() => {
+      this.authSubject.value.cleanContent();
+    });
+  }
+  
+  public getUserDetail(): Observable<UserDetail> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json')
+              .append('Accept', 'application/json')
+              .append('Authorization', 'Bearer ' + this.authSubject.getValue().getAccessToken());
+    let params: HttpParams = new HttpParams();
+    let apiurl = `${environment.apiRootUrl}UserDetails('${this.authSubject.getValue().getUserId()}')`;
 
-    if (this.mgr) {
-      this.mgr.signoutRedirect().then(function () {
-        if (environment.loggingLevel >= LogLevel.Debug) {
-          console.info('ACGallery [Debug]: redirecting for logout...');
-        }
+    return this.http.get(apiurl, {
+        headers,
+        params,
       })
-      .catch(function (er) {
-        if (environment.loggingLevel >= LogLevel.Error) {
-          console.error(`ACGallery [Error]: Sign-out error: ${er}`);
-        }
-      });
-    }
-  }
+      .pipe(map(response => {
+        let ud: UserDetail = new UserDetail();
+        ud.onSetData(response);        
+        ud.others = '';
 
-  clearState() {
-    this.mgr.clearStaleState().then(function () {
-      if (environment.loggingLevel >= LogLevel.Debug) {
-        console.log('ACGallery [Debug]: clearStateState success');
-      }
-    }).catch(function (e) {
-      if (environment.loggingLevel >= LogLevel.Error) {
-        console.error(`ACGallery [Error]: clearStateState error: ${e}`);
-      }
-    });
-  }
-
-  getUser() {
-    this.mgr.getUser().then((user) => {
-      if (environment.loggingLevel >= LogLevel.Debug) {
-        console.log(`ACGallery [Debug]: got user: ${user}`);
-      }
-
-      this.userLoadededEvent.emit(user!);
-    }).catch(function (err) {
-      if (environment.loggingLevel >= LogLevel.Error) {
-        console.error(`ACGallery [Error]: getUser error: ${err}`);
-      }
-    });
-  }
-
-  removeUser() {
-    this.mgr.removeUser().then(() => {
-      this.userLoadededEvent.emit(undefined);
-      if (environment.loggingLevel >= LogLevel.Debug) {
-        console.log('ACGallery [Debug]: user removed');
-      }
-    }).catch(function (err) {
-      if (environment.loggingLevel >= LogLevel.Error) {
-        console.error(`ACGallery [Error]: removeUser error: ${err}`);
-      }
-    });
-  }
-
-  startSigninMainWindow() {
-    this.mgr.signinRedirect({ data: 'some data' }).then(function () {
-      if (environment.loggingLevel >= LogLevel.Debug) {
-        console.log('ACGallery [Debug]: signinRedirect done');
-      }
-    }).catch(function (err) {
-      if (environment.loggingLevel >= LogLevel.Error) {
-        console.error(`ACGallery [Error]: startSigninMainWindow error: ${err}`);
-      }
-    });
-  }
-
-  endSigninMainWindow() {
-    this.mgr.signinRedirectCallback().then(function (user) {
-      if (environment.loggingLevel >= LogLevel.Debug) {
-        console.log(`ACGallery [Debug]: signed in: ${user}`);
-      }
-    }).catch(function (err) {
-      if (environment.loggingLevel >= LogLevel.Error) {
-        console.error(`ACGallery [Error]: startSigninMainWindow error: ${err}`);
-      }
-    });
-  }
-
-  startSignoutMainWindow() {
-    this.mgr.signoutRedirect().then(function (resp) {
-      if (environment.loggingLevel >= LogLevel.Debug) {
-        console.log(`ACGallery [Debug]: signed out: ${resp}`);
-      }
-      setTimeout(() => {
-        console.log('ACGallery [Debug]: testing to see if fired...');
-      }, 5000);
-    }).catch(function (err) {
-      if (environment.loggingLevel >= LogLevel.Error) {
-        console.error(`ACGallery [Error]: startSignoutMainWindow error: ${err}`);
-      }
-    });
-  }
-
-  endSignoutMainWindow() {
-    this.mgr.signoutRedirectCallback().then(function (resp) {
-      if (environment.loggingLevel >= LogLevel.Debug) {
-        console.log(`ACGallery [Debug]: signed out: ${resp}`);
-      }
-    }).catch(function (err) {
-      if (environment.loggingLevel >= LogLevel.Error) {
-        console.error(`ACGallery [Error]: endSignoutMainWindow error: ${err}`);
-      }
-    });
+        return ud;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => new Error(error.statusText + '; ' + error.error + '; ' + error.message));
+      }));
   }
 }

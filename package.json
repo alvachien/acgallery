@@ -1,6 +1,6 @@
 {
   "name": "acgallery",
-  "version": "0.5.55",
+  "version": "0.5.62",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -31,6 +31,7 @@
     "@angular/router": "^14.2.9",
     "@ngneat/transloco": "^4.1.0",
     "actslib": "^0.5.55",
+    "angular-auth-oidc-client": "14.1.5",
     "ng-gallery": "^6.0.1",
     "ng-zorro-antd": "^14.1.1",
     "rxjs": "^7.4.0",
