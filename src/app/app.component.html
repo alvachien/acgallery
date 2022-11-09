@@ -40,39 +40,31 @@
         </span>
         <div class="app-header-content">
           <nz-space [nzSize]="16">
-            <nz-space>
-              <a nz-dropdown [nzDropdownMenu]="menuLang" [nzClickHide]="false" [(nzVisible)]="visibleMenuLang">                
-                <i nz-icon nzType="translation" nzTheme="outline"></i>
-                {{'Common.Language' | transloco}}
-                <i nz-icon nzType="down"></i>
-              </a>
-              <nz-dropdown-menu #menuLang="nzDropdownMenu">
-                <ul nz-menu>
-                  <li nz-menu-item (click)="onSetLanguage('en')">{{'Language.English' | transloco}}</li>
-                  <li nz-menu-item (click)="onSetLanguage('zh')">{{'Language.SimpChinese' | transloco}}</li>
-                </ul>
-              </nz-dropdown-menu>
-            </nz-space>
-            <nz-space>
-              <a nz-dropdown [nzDropdownMenu]="menuLogin" [nzClickHide]="false" [(nzVisible)]="visibleMenuUser">                
-                <i nz-icon nzType="user" nzTheme="outline"></i>
-                {{'Login.User' | transloco}}
-                <i nz-icon nzType="down"></i>
-              </a>
-              <nz-dropdown-menu #menuLogin="nzDropdownMenu">
-                <ul nz-menu>
-                  <li nz-menu-item *ngIf="!isLoggedIn" (click)="onLogin()">{{'Login.Login' | transloco}}</li>
-                  <li nz-menu-item *ngIf="isLoggedIn" (click)="onUserDetail()">{{'Login.UserDetail' | transloco}}</li>
-                  <li nz-menu-item *ngIf="isLoggedIn" (click)="onLogout()">{{'Login.Logout' | transloco}}</li>
-                </ul>
-              </nz-dropdown-menu>
-            </nz-space>
-            <nz-space>
-              <button nz-button nzGhost (click)="onOpenGithub()"><i nz-icon nzType="github" nzTheme="fill"></i></button>  
-            </nz-space>
-            <nz-space>
-              <span nz-typography nzType="success">{{'Nav.Version' | transloco}}: {{currentVersion}}</span>
-            </nz-space>
+            <a *nzSpaceItem nz-dropdown [nzDropdownMenu]="menuLang" [nzClickHide]="false" [(nzVisible)]="visibleMenuLang">                
+              <i nz-icon nzType="translation" nzTheme="outline"></i>
+              {{'Common.Language' | transloco}}
+              <i nz-icon nzType="down"></i>
+            </a>
+            <nz-dropdown-menu #menuLang="nzDropdownMenu">
+              <ul nz-menu>
+                <li nz-menu-item (click)="onSetLanguage('en')">{{'Language.English' | transloco}}</li>
+                <li nz-menu-item (click)="onSetLanguage('zh')">{{'Language.SimpChinese' | transloco}}</li>
+              </ul>
+            </nz-dropdown-menu>
+            <a *nzSpaceItem nz-dropdown [nzDropdownMenu]="menuLogin" [nzClickHide]="false" [(nzVisible)]="visibleMenuUser">                
+              <i nz-icon nzType="user" nzTheme="outline"></i>
+              {{'Login.User' | transloco}}
+              <i nz-icon nzType="down"></i>
+            </a>
+            <nz-dropdown-menu #menuLogin="nzDropdownMenu">
+              <ul nz-menu>
+                <li nz-menu-item *ngIf="!isLoggedIn" (click)="onLogin()">{{'Login.Login' | transloco}}</li>
+                <li nz-menu-item *ngIf="isLoggedIn" (click)="onUserDetail()">{{'Login.UserDetail' | transloco}}</li>
+                <li nz-menu-item *ngIf="isLoggedIn" (click)="onLogout()">{{'Login.Logout' | transloco}}</li>
+              </ul>
+            </nz-dropdown-menu>
+            <button *nzSpaceItem nz-button (click)="onOpenGithub()"><i nz-icon nzType="github" nzTheme="outline"></i></button>  
+            <span *nzSpaceItem nz-typography nzType="success">{{'Nav.Version' | transloco}}: {{currentVersion}}</span>
           </nz-space>   
         </div>
       </div>

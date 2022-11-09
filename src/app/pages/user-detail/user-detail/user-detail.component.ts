@@ -31,7 +31,7 @@ export class UserDetailComponent implements OnInit {
     this.detailForm = this.fb.group({
       userId: [null, [Validators.required]],
       displayAs: [null],
-      email: [null],
+      // email: [null],
       uploadFileMinSize: [0],
       uploadFileMaxSize: [0],
       albumCreate: [false],
@@ -60,7 +60,7 @@ export class UserDetailComponent implements OnInit {
               this.detailForm.setValue({
                 userId: val.userId,
                 displayAs: val.displayAs,
-                email: val.email,
+                // email: val.email,
                 uploadFileMinSize: val.uploadFileMinSize,
                 uploadFileMaxSize: val.uploadFileMaxSize,
                 albumCreate: val.albumCreate,
