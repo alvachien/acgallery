@@ -7,6 +7,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 import { WelcomeRoutingModule } from './welcome-routing.module';
 import { WelcomeComponent } from './welcome.component';
@@ -23,6 +24,7 @@ import { WelcomeComponent } from './welcome.component';
     NzLayoutModule,
     NzBreadCrumbModule,
     NzPageHeaderModule,
+    NzCardModule,
   ],
   declarations: [
     WelcomeComponent

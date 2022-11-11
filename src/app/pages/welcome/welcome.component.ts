@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { OdataService } from 'src/app/services';
 
 @Component({
@@ -14,7 +16,8 @@ export class WelcomeComponent implements OnInit {
     photoAmountInTop5Album: [],
     photoAmountInTop5Tag: {}
   };
-  constructor(private odataSvc: OdataService) { }
+  constructor(private odataSvc: OdataService,
+    private router: Router) { }
 
   ngOnInit() {
     this.odataSvc.getMetadata().subscribe({
@@ -29,5 +32,11 @@ export class WelcomeComponent implements OnInit {
       },
       error: err => console.error(err),
     });
+  }
+  public onNavigateToPhoto() {
+    this.router.navigate(['photo']);
+  }
+  public onNavigateToAlbum() {
+    this.router.navigate(['album']);
   }
 }

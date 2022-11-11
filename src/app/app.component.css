@@ -62,7 +62,7 @@ nz-header {
   z-index: 2;
 }
 
-.app-header {
+nz-header .app-header {
   position: relative;
   height: 64px;
   padding: 0;
@@ -89,5 +89,6 @@ nz-content {
   /* background: #fff; */
   height: 100%;
   margin-bottom: 16px;
+  overflow:auto;
 }
 
