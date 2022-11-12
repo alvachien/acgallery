@@ -1,15 +1,16 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable, Observer } from 'rxjs';
 import { finalize, map, takeUntil } from 'rxjs/operators';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { translate } from '@ngneat/transloco';
 
 import { Album, Photo, SelectableAlbum, UpdPhoto } from 'src/app/models';
 import { AuthService, CanComponentDeactivate, OdataService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { translate } from '@ngneat/transloco';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 function getBase64(file: File): Promise<string | ArrayBuffer | null> {
   return new Promise((resolve, reject) => {
@@ -50,12 +51,12 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   // Tag
   inputTagValue = '';
 
-  constructor(
-    private modal: NzModalService,
+  constructor(private modal: NzModalService,
     private fb: UntypedFormBuilder,
     private odataSvc: OdataService,
     private router: Router,
-    private authService: AuthService) { 
+    private authService: AuthService,
+    private msg: NzMessageService,) { 
     this.arAssignMode.push({ value: 0, name: 'Photo.Upload_NoAlbum', });
     this.arAssignMode.push({ value: 1, name: 'Photo.Upload_AssignExistAlbum', });
     this.arAssignMode.push({ value: 2, name: 'Photo.Upload_AssignNewAlbum', });
@@ -64,6 +65,17 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   ngOnInit(): void {
     this.clearContent();
 
+    forkJoin([
+      this.odataSvc.getAlbums(),
+      this.authService.getUserDetail()  
+    ]).subscribe({
+      next: val => {
+
+      },
+      error: err => {
+
+      }
+    });
     this.odataSvc.getAlbums().subscribe({
       next: val => {
         // Value
@@ -109,6 +121,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     // // observable which resolves to true or false when the user decides
     // return this.dialogService.confirm('Discard changes?');
 
+    // TBD.
     // if (this.filePhotos.length > 0) {
     //   this.modal.confirm({
     //     nzTitle: 'Photo uploading in process, discard them?',
@@ -186,14 +199,28 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     this.previewVisible = true;
   };
 
+  beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]): Observable<boolean> =>
+    new Observable((observer: Observer<boolean>) => {
+      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+      if (!isJpgOrPng) {
+        this.msg.error('You can only upload JPG file!');
+        observer.complete();
+        return;
+      }
+      const isLt2M = file.size! / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this.msg.error('Image must smaller than 2MB!');
+        observer.complete();
+        return;
+      }
+      observer.next(isJpgOrPng && isLt2M);
+      observer.complete();
+    });
   handleUploadChange({ file, fileList }: NzUploadChangeParam): void {
-    const status = file.status;
-    if (status !== 'uploading') {
-      console.log(file, fileList);
-    }
+    console.log(file);
 
     if (file.status === 'done') {
-      console.log(`${file.name} file uploaded successfully`);
+      this.msg.success(`${file.name} file uploaded successfully`);
       let pobj = new UpdPhoto();
       pobj.uid = file.uid;
       pobj.orgName = file.name;
@@ -212,11 +239,11 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
 
       this.filePhotos.push(pobj);
     } else if (file.status === 'error') {
-      console.error(`${file.name} file upload failed.`);
+      this.msg.error(`${file.name} file upload failed`);
     } else if (file.status === 'removed') {
-      console.error(`${file.name} file upload removed.`);
+      this.msg.info(`${file.name} file removed`);
     } else if (file.status === 'uploading') {
-      console.log(`${file.name} file upload uploading.`);
+      this.msg.info(`${file.name} file uploading`);
     }
   }
 
@@ -245,6 +272,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
           console.debug(`Now Step is ${this.currentStep}`);
         },
         error: (err: any) => {
+          this.msg.error(err);
           console.error(err);
         }
     });
@@ -311,6 +339,8 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
         console.debug(`Now Step is ${this.currentStep}`);
       },
       error: (err) => {
+        this.msg.error(err);
+
         console.error(err);
         this.isErrorOccurred = true;
         this.errorInfo = err;
