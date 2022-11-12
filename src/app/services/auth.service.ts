@@ -12,6 +12,8 @@ import { ConsoleLogTypeEnum, LogLevel, UserAuthInfo, UserDetail, writeConsole } 
 export class AuthService {
   public authSubject: BehaviorSubject<UserAuthInfo> = new BehaviorSubject(new UserAuthInfo());
   public authContent: Observable<UserAuthInfo> = this.authSubject.asObservable();
+  private _isUserDetailLoaded = false;
+  private _userDetail: UserDetail | undefined = undefined;
 
   constructor(private http: HttpClient,
     private authService: OidcSecurityService,
@@ -82,27 +84,33 @@ export class AuthService {
     });
   }
   
-  public getUserDetail(): Observable<UserDetail> {
-    let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('Content-Type', 'application/json')
-              .append('Accept', 'application/json')
-              .append('Authorization', 'Bearer ' + this.authSubject.getValue().getAccessToken());
-    let params: HttpParams = new HttpParams();
-    let apiurl = `${environment.apiRootUrl}UserDetails('${this.authSubject.getValue().getUserId()}')`;
+  public getUserDetail(forceReload = false): Observable<UserDetail> {
+    if (!this._isUserDetailLoaded || forceReload) {
+      let headers: HttpHeaders = new HttpHeaders();
+      headers = headers.append('Content-Type', 'application/json')
+                .append('Accept', 'application/json')
+                .append('Authorization', 'Bearer ' + this.authSubject.getValue().getAccessToken());
+      let params: HttpParams = new HttpParams();
+      let apiurl = `${environment.apiRootUrl}UserDetails('${this.authSubject.getValue().getUserId()}')`;
+  
+      return this.http.get(apiurl, {
+          headers,
+          params,
+        })
+        .pipe(map(response => {
+          this._userDetail = new UserDetail();
+          this._userDetail.onSetData(response);
+          this._userDetail.others = '';
+  
+          this._isUserDetailLoaded = true;
 
-    return this.http.get(apiurl, {
-        headers,
-        params,
-      })
-      .pipe(map(response => {
-        let ud: UserDetail = new UserDetail();
-        ud.onSetData(response);        
-        ud.others = '';
-
-        return ud;
-      }),
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => new Error(error.statusText + '; ' + error.error + '; ' + error.message));
-      }));
+          return this._userDetail;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return throwError(() => new Error(error.statusText + '; ' + error.error + '; ' + error.message));
+        }));  
+    } else {
+      return of(this._userDetail!);
+    }
   }
 }

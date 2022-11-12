@@ -7,7 +7,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { Router } from '@angular/router';
 import { translate } from '@ngneat/transloco';
 
-import { Album, Photo, SelectableAlbum, UpdPhoto } from 'src/app/models';
+import { Album, ConsoleLogTypeEnum, Photo, SelectableAlbum, UpdPhoto, UserDetail, writeConsole } from 'src/app/models';
 import { AuthService, CanComponentDeactivate, OdataService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -30,6 +30,7 @@ function getBase64(file: File): Promise<string | ArrayBuffer | null> {
 export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   // Current step
   currentStep = 0;
+  private _userDetail: UserDetail | undefined = undefined;
   // Step 1. Choose file to upload
   photoFileAPI = environment.apiRootUrl + 'PhotoFile';
   fileUploadList: NzUploadFile[] = [];
@@ -60,6 +61,12 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     this.arAssignMode.push({ value: 0, name: 'Photo.Upload_NoAlbum', });
     this.arAssignMode.push({ value: 1, name: 'Photo.Upload_AssignExistAlbum', });
     this.arAssignMode.push({ value: 2, name: 'Photo.Upload_AssignNewAlbum', });
+
+    this.albumForm = this.fb.group({
+      Title: ['', [Validators.required]],
+      Desp: ['', [Validators.required]],
+      IsPublic: [false]
+    });
   }
 
   ngOnInit(): void {
@@ -70,40 +77,28 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
       this.authService.getUserDetail()  
     ]).subscribe({
       next: val => {
-
-      },
-      error: err => {
-
-      }
-    });
-    this.odataSvc.getAlbums().subscribe({
-      next: val => {
-        // Value
+        // Value 0: albums
         let arAlbums: any[] = [];
-        for(let i = 0; i < val.items.Length(); i++) {
+        for(let i = 0; i < val[0].items.Length(); i++) {
           let selalb = new SelectableAlbum();
-          let alb = val.items.GetElement(i);
+          let alb = val[0].items.GetElement(i);
           selalb.Id = alb!.Id;
           selalb.Title = alb!.Title;
           selalb.Desp = alb!.Desp;
           arAlbums.push(selalb);
         }
         this.listOfAlbums = arAlbums.map(_ => _);
+
+        // value 1: User detail
+        this._userDetail = val[1];
       },
       error: err => {
-        // Error
         this.modal.error({
           nzTitle: translate('Common.Error'),
           nzContent: err,
           nzClosable: true,
         });
       }
-    })
-
-    this.albumForm = this.fb.group({
-      Title: ['', [Validators.required]],
-      Desp: ['', [Validators.required]],
-      IsPublic: [false]
     });
   }
 
@@ -113,6 +108,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     this.setOfChosedAlbumIDs.clear();
     this.isErrorOccurred = false;
     this.errorInfo = '';
+    this.albumForm.reset();
   }
 
   canDeactivate(): Observable<boolean> | boolean {
@@ -133,10 +129,15 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   }
 
   pre(): void {
+    writeConsole('ACGallery [Debug]: Entering PhotoUpload pre()...', ConsoleLogTypeEnum.debug);
+
+    //writeLog();
     this.currentStep -= 1;
   }
 
   next(): void {
+    writeConsole('ACGallery [Debug]: Entering PhotoUpload next()...', ConsoleLogTypeEnum.debug);
+
     if (this.currentStep === 0) {
       // Upload the photo
       this.currentStep ++;
@@ -183,13 +184,6 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     return isenabled;
   }
 
-  // beforeUpload = (file: NzUploadFile): boolean => {
-  //   console.log("Entering beforeUpload");
-
-  //   this.fileList = this.fileList.concat(file);
-  //   return false;
-  // };
-
   // Step 1. Choose photo to upload
   handleUploadPreview = async (file: NzUploadFile) => {
     if (!file.url && !file['preview']) {
@@ -201,23 +195,33 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
 
   beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]): Observable<boolean> =>
     new Observable((observer: Observer<boolean>) => {
+      writeConsole('ACGallery [Debug]: Entering PhotoUpload beforeUpload()...', ConsoleLogTypeEnum.debug);
+
+      if (!this._userDetail?.photoUpload) {
+        this.msg.error('You are not allow to upload file!');
+        observer.complete();
+        return;
+      }
+
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
       if (!isJpgOrPng) {
         this.msg.error('You can only upload JPG file!');
         observer.complete();
         return;
       }
-      const isLt2M = file.size! / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        this.msg.error('Image must smaller than 2MB!');
+
+      const overSize = file.size! / 1024 < this._userDetail?.uploadFileMaxSize!;
+      if (!overSize) {
+        this.msg.error(`Image must smaller than ${this._userDetail?.uploadFileMaxSize} KB!`);
         observer.complete();
         return;
       }
-      observer.next(isJpgOrPng && isLt2M);
+      observer.next(isJpgOrPng && overSize);
       observer.complete();
-    });
+  });
+
   handleUploadChange({ file, fileList }: NzUploadChangeParam): void {
-    console.log(file);
+    writeConsole('ACGallery [Debug]: Entering PhotoUpload handleUploadChange...', ConsoleLogTypeEnum.debug);
 
     if (file.status === 'done') {
       this.msg.success(`${file.name} file uploaded successfully`);
@@ -273,6 +277,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
         },
         error: (err: any) => {
           this.msg.error(err);
+          
           console.error(err);
         }
     });
@@ -334,14 +339,15 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     });
     forkJoin(arreq).subscribe({
       next: (lik) => {
-        console.debug(`Step ${this.currentStep}: Photo assigned to existing albums successfully, go to next step`);
+        writeConsole(`ACGallery [Debug]: Entering PhotoUpload assignPhotoToExistingAlbums, Step ${this.currentStep}: Photo assigned to existing albums successfully, go to next step...`, ConsoleLogTypeEnum.debug);
         this.currentStep ++;
-        console.debug(`Now Step is ${this.currentStep}`);
+        writeConsole(`ACGallery [Debug]: Entering PhotoUpload assignPhotoToExistingAlbums, Now Step is ${this.currentStep}`, ConsoleLogTypeEnum.debug);
       },
       error: (err) => {
         this.msg.error(err);
 
-        console.error(err);
+        writeConsole(`ACGallery [Error]: Entering PhotoUpload assignPhotoToExistingAlbums, forkJoin ${err}`, ConsoleLogTypeEnum.error);
+
         this.isErrorOccurred = true;
         this.errorInfo = err;
       }
@@ -365,19 +371,21 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
         });
         forkJoin(arreq2).subscribe({
           next: (lik) => {
-            console.debug(`Step ${this.currentStep}: Photo assigned to new created album successfully, go to next step`);
+            writeConsole(`ACGallery [Debug]: Entering PhotoUpload assignPhotoToNewAlbum, Step ${this.currentStep}: Photo assigned to new created album successfully, go to next step...`, ConsoleLogTypeEnum.debug);
             this.currentStep ++;
-            console.debug(`Now Step is ${this.currentStep}`);
+            writeConsole(`ACGallery [Debug]: Entering PhotoUpload assignPhotoToNewAlbum, Now Step is ${this.currentStep}`, ConsoleLogTypeEnum.debug);
           },
           error: (err) => {
-            console.error(err);
+            writeConsole(`ACGallery [Error]: Entering PhotoUpload assignPhotoToNewAlbum, forkJoin ${err}`, ConsoleLogTypeEnum.error);
+
             this.isErrorOccurred = true;
             this.errorInfo = err;
           }
         });
       },
       error: (err : any) => {
-        console.error(err);
+        writeConsole(`ACGallery [Error]: Entering PhotoUpload assignPhotoToNewAlbum, createAlbum ${err}`, ConsoleLogTypeEnum.error);
+
         this.isErrorOccurred = true;
         this.errorInfo = err;
       }
