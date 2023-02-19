@@ -40,6 +40,7 @@ export class AuthService {
             break;
           case EventTypes.NewAuthenticationResult:
             writeConsole('AC_HIH_UI [Debug]: Entering AuthService: New authentication result...', ConsoleLogTypeEnum.debug);
+            this.checkAuth();
             break;
           case EventTypes.TokenExpired:
             writeConsole('AC_HIH_UI [Debug]: Entering AuthService: Token expired...', ConsoleLogTypeEnum.debug);
@@ -56,6 +57,10 @@ export class AuthService {
         writeConsole(`AC_HIH_UI [Debug]: Entering AuthService: CheckSessionChanged with value: ${value}`, ConsoleLogTypeEnum.debug);
     });
     
+    this.checkAuth();
+  }
+
+  private checkAuth() {
     this.authService.checkAuth().subscribe(({ isAuthenticated, userData, accessToken, idToken }) => {
       writeConsole(`AC_HIH_UI [Debug]: Entering AuthService checkAuth callback with 'IsAuthenticated' = ${isAuthenticated}.`, ConsoleLogTypeEnum.debug);
       if (isAuthenticated) {
@@ -67,7 +72,7 @@ export class AuthService {
       } else {
         this.authSubject.value.cleanContent();
       }
-    });
+    });    
   }
 
   public doLogin() {

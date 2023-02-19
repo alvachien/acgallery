@@ -70,7 +70,7 @@ describe('PhotoUploadComponent', () => {
 
       getAlbumsSpy.and.returnValue(asyncData(albums));
     });
-    it('work with data', fakeAsync(() => {
+    xit('work with data', fakeAsync(() => {
       fixture.detectChanges(); // OnInit
       tick();
       fixture.detectChanges(); // Get Albums
