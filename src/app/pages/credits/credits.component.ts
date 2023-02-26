@@ -13,7 +13,7 @@ export class CreditsComponent  {
   credits: AppCredits[] = [];
 
   constructor() {
-    this.credits.push({name: '.NET Core',     link: 'https://dot.net' });
+    this.credits.push({name: '.NET',     link: 'https://dot.net' });
     this.credits.push({name: 'Angular',       link: 'https://angular.io' });
     this.credits.push({name: 'Ant Design',    link: 'https://ng.ant.design' });
     this.credits.push({name: 'Typescript',    link: 'https://typescriptlang.org' });

@@ -1,6 +1,6 @@
 {
   "name": "acgallery",
-  "version": "0.5.75",
+  "version": "0.5.80",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
