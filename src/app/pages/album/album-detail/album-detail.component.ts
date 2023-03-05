@@ -10,10 +10,9 @@ import { OdataService, UIInfoService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'album-detail',
   templateUrl: './album-detail.component.html',
-  styleUrls: ['./album-detail.component.less']
+  styleUrls: ['./album-detail.component.less'],
 })
 export class AlbumDetailComponent implements OnInit, OnDestroy {
   private _destroyed$?: ReplaySubject<boolean>;
