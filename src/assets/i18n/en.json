@@ -191,6 +191,7 @@
   },
   "Album":{
     "IsPublic": "Is Public",
+    "NeedAccessCode": "Need Access Code",
     "AccessCode": "Access Code",
     "AccessCodeHint": "Hint for Access Code",
     "ViewPhotos": "View Photos",

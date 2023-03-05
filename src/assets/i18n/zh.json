@@ -191,6 +191,7 @@
   },
   "Album":{
     "IsPublic": "公开访问",
+    "NeedAccessCode": "需要访问码",
     "AccessCode": "访问码",
     "AccessCodeHint": "访问码提示",
     "ViewPhotos": "查看图片",
