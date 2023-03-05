@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  currentVersion: '0.5.82',
+  currentVersion: '0.5.85',
   currentReleaseDate: '2023.12.31',
   loggingLevel: 4, // Debug
   basehref: '/',

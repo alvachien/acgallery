@@ -1,6 +1,6 @@
 {
   "name": "acgallery",
-  "version": "0.5.82",
+  "version": "0.5.85",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -11,7 +11,6 @@
     "devtest": "ng test --code-coverage",
     "test-headless": "ng test --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox",
     "lint": "ng lint",
-    "e2e": "ng e2e",
     "deploy-github": "git push origin :gh-pages && git subtree push --prefix dist origin gh-pages"
   },
   "private": true,
