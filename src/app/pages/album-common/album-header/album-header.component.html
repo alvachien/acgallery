@@ -15,7 +15,7 @@
 
   <div nz-row class="checkbox-margin">
     <div nz-col [nzSpan]="24">
-      <label nz-checkbox formControlName="isPublicCtrl">
+      <label nz-checkbox id="ispublic" name="ispublic" formControlName="isPublicCtrl">
         <span>{{'Album.IsPublic' | transloco}}</span>
       </label>
     </div>
@@ -23,23 +23,23 @@
 
   <div nz-row class="checkbox-margin">
     <div nz-col [nzSpan]="24">
-      <label nz-checkbox formControlName="isPublicCtrl">
+      <label nz-checkbox id="needaccesscode" name="needaccesscode" formControlName="needAccessCodeCtrl">
         <span>{{'Album.NeedAccessCode' | transloco}}</span>
       </label>
     </div>
   </div>
 
-  <nz-form-item nz-row *ngIf="createMode">
+  <nz-form-item nz-row *ngIf="isAccessCodeVisible">
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="accode">{{'Album.AccessCode' | transloco}}</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your access code!">
       <input nz-input id="accode" formControlName="accessCodeCtrl" />
     </nz-form-control>
   </nz-form-item>
 
-  <nz-form-item nz-row *ngIf="createMode">
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="accode">{{'Album.AccessCodeHint' | transloco}}</nz-form-label>
+  <nz-form-item nz-row *ngIf="isAccessCodeVisible">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="accodehint">{{'Album.AccessCodeHint' | transloco}}</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your access code hint!">
-      <input nz-input id="accode" formControlName="accessCodeHintCtrl" />
+      <input nz-input id="accodehint" formControlName="accessCodeHintCtrl" />
     </nz-form-control>
   </nz-form-item>
 </div>

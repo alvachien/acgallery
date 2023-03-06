@@ -1,10 +1,11 @@
 import { Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, 
-  UntypedFormControl, UntypedFormGroup, ValidationErrors, Validator, Validators 
+  UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validator, Validators 
 } from '@angular/forms';
-import { mergeWith } from 'rxjs/operators';
 
 import { Album } from 'src/app/models';
+import { isCreateMode, isUpdateMode, UIMode } from 'actslib';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'acgallery-album-header',
@@ -26,38 +27,48 @@ export class AlbumHeaderComponent implements OnInit, ControlValueAccessor, Valid
   propagateOnChange: (value: any) => void = (_: any) => {};
   propagateOnTouched: (value: any) => void = (_: any) => {};
 
-  public headerFormGroup: UntypedFormGroup = new UntypedFormGroup({
-    titleCtrl: new UntypedFormControl('', [Validators.required]),
-    despCtrl: new UntypedFormControl(''),
-    isPublicCtrl: new UntypedFormControl(false),
-    needAccessCodeCtrl: new UntypedFormControl(false),
-    accessCodeCtrl: new UntypedFormControl({value: undefined, disabled: true}),
-    accessCodeHintCtrl: new UntypedFormControl({value: undefined, disabled: true}),
-  });
+  private destroy$ = new Subject<void>();
+  public headerFormGroup!: UntypedFormGroup;
 
-  // Create mode
-  _createMode = false;
-  @Input() createMode(val: boolean) {
-    this._createMode = val;
+  // UI mode
+  _uiMode: UIMode = UIMode.Invalid;
+  @Input() uiMode(val: UIMode) {
+    console.debug('entering uiMode setter');
+    
+    this._uiMode = val;
 
-    if (!this._createMode) {
+    if (this._uiMode === UIMode.Display) {
       this.headerFormGroup.removeControl('needAccessCodeCtrl');
       this.headerFormGroup.removeControl('accessCodeCtrl');
       this.headerFormGroup.removeControl('accessCodeHintCtrl');
+      this.headerFormGroup.disable();
     } else {
-      //this.headerFormGroup.addControl('needAccessCodeCtrl');
+      this.headerFormGroup.enable();
+      if (this._uiMode === UIMode.Update) {
+        this.headerFormGroup.get('needAccessCodeCtrl')?.disable();
+      }
     }
   }
+  get isAccessCodeVisible(): boolean {
+    return this._uiMode === UIMode.Create || this._uiMode === UIMode.Update;
+  }
 
-  constructor() {
-    const title$ = this.headerFormGroup.get('titleCtrl')?.valueChanges;
-    const desp$ = this.headerFormGroup.get('despCtrl')?.valueChanges;
-    const isPublic$ = this.headerFormGroup.get('isPublicCtrl')?.valueChanges;
+  constructor(private fb: UntypedFormBuilder) {
+  }
+
+  ngOnInit(): void {
+    this.headerFormGroup = this.fb.group({
+      titleCtrl: new UntypedFormControl('', [Validators.required]),
+      despCtrl: new UntypedFormControl(''),
+      isPublicCtrl: new UntypedFormControl(),
+      needAccessCodeCtrl: new UntypedFormControl(),
+      accessCodeCtrl: new UntypedFormControl({value: undefined, disabled: true}),
+      accessCodeHintCtrl: new UntypedFormControl({value: undefined, disabled: true}),
+    });
+
     const needAccessCode$ = this.headerFormGroup.get('needAccessCodeCtrl')?.valueChanges;
-    const accessCode$ = this.headerFormGroup.get('accessCodeCtrl')?.valueChanges;
-    const accessCodeHint$ = this.headerFormGroup.get('accessCodeHintCtrl')?.valueChanges;
 
-    needAccessCode$?.subscribe({
+    needAccessCode$?.pipe(takeUntil(this.destroy$)).subscribe({
       next: val => {
         if (val) {
           this.headerFormGroup.get('accessCodeCtrl')?.enable();
@@ -68,28 +79,31 @@ export class AlbumHeaderComponent implements OnInit, ControlValueAccessor, Valid
       }
     });
 
-    this.headerFormGroup.valueChanges.subscribe({
+    this.headerFormGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: val => {
+        console.debug('Entering valueChange');
         this.propagateOnChange(val);
       }
     })
   }
 
-  ngOnInit(): void {
-    
-  }
-
-  ngOnDestroy(): void {      
+  ngOnDestroy(): void { 
+    this.destroy$.next();
+    this.destroy$.complete();         
   }
 
   writeValue(obj: Album): void {
+    console.debug('entering writeValue');
     // Update value
     if (obj) {
       this.headerFormGroup.get('titleCtrl')?.setValue(obj.Title);
       this.headerFormGroup.get('despCtrl')?.setValue(obj.Desp);
       this.headerFormGroup.get('isPublicCtrl')?.setValue(obj.IsPublic);
+      if (isUpdateMode(this._uiMode) && obj.AccessCode && obj.accessCodeHint) {
+        this.headerFormGroup.get('needAccessCodeCtrl')?.setValue(true);
+      }
       this.headerFormGroup.get('accessCodeCtrl')?.setValue(obj.AccessCode);
-      this.headerFormGroup.get('accessCodeCtrl')?.setValue(obj.accessCodeHint);
+      this.headerFormGroup.get('accessCodeHintCtrl')?.setValue(obj.accessCodeHint);
     }
   }
 
