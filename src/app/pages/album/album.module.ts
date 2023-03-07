@@ -8,6 +8,7 @@ import { AlbumListComponent } from './album-list/album-list.component';
 import { AlbumDetailComponent } from './album-detail/album-detail.component';
 import { UIModulesModule } from 'src/app/ui-modules.module';
 import { PhotoCommonModule } from '../photo-common/photo-common.module';
+import { AlbumCommonModule } from '../album-common/album-common.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { PhotoCommonModule } from '../photo-common/photo-common.module';
     FormsModule,
     ReactiveFormsModule,
     PhotoCommonModule,
+    AlbumCommonModule,
   ]
 })
 export class AlbumModule { }

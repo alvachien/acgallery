@@ -1,4 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { of } from 'rxjs';
 import { OdataService, UIInfoService } from 'src/app/services';
 
@@ -26,6 +33,14 @@ describe('PhotoSearchComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         TestingDependsModule,
+        NzEmptyModule,
+        NzPageHeaderModule,
+        NzBreadCrumbModule,
+        NzFormModule,
+        NzInputModule,
+        NzCheckboxModule,
+        FormsModule,
+        ReactiveFormsModule,
         getTranslocoModule(),
       ],
       declarations: [ PhotoSearchComponent ],

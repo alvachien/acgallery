@@ -1,4 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from 'src/app/services';
 
@@ -21,6 +25,10 @@ describe('WelcomeComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         TestingDependsModule,
+        NzBreadCrumbModule,
+        NzCardModule,
+        NzPageHeaderModule,
+        NzStatisticModule,
         getTranslocoModule(),
       ],
       declarations: [ WelcomeComponent ],

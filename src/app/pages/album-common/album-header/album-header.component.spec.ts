@@ -51,8 +51,21 @@ describe('AlbumHeaderCreateComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-});
 
+  it('shall enable control for editing', fakeAsync(() => {
+    flush();
+
+    const inputTitle = fixture.nativeElement.querySelector('#title');
+    expect(inputTitle.disabled).toBeFalsy();
+    const inputDesp = fixture.nativeElement.querySelector('#desp');
+    expect(inputDesp.disabled).toBeFalsy();
+
+    const inputAccessCode = fixture.nativeElement.querySelector('#accode');
+    expect(inputAccessCode).toBeDefined();
+    const inputAccessCodeHint = fixture.nativeElement.querySelector('#accodehint');
+    expect(inputAccessCodeHint).toBeDefined();
+  }));
+});
 
 describe('AlbumHeaderDisplayComponent', () => {
   let component: AlbumHeaderDisplayComponent;
@@ -116,6 +129,11 @@ describe('AlbumHeaderDisplayComponent', () => {
 	  expect(inputDesp.value).toBe(album.Desp);   
     //expect(chkinputElement.checked).toBeFalse();
     expect(component.headerComponent!.headerFormGroup!.get('isPublicCtrl')!.value).toBeFalse();
+
+    const inputAccessCode = fixture.nativeElement.querySelector('#accode');
+    expect(inputAccessCode).toBeNull();
+    const inputAccessCodeHint = fixture.nativeElement.querySelector('#accodehint');
+    expect(inputAccessCodeHint).toBeNull();
   }));
 });
 
@@ -155,7 +173,7 @@ describe('AlbumHeaderEditComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('shall display data', fakeAsync(() => {
+  it('shall display inital data', fakeAsync(() => {
     flush();
     fixture.detectChanges();
 
@@ -171,20 +189,22 @@ describe('AlbumHeaderEditComponent', () => {
     flush();
     fixture.detectChanges();
 
-    const inputTitle = fixture.nativeElement.querySelector('#title');
+    const inputTitle = fixture.nativeElement.querySelector('#title') as HTMLInputElement;
 	  expect(inputTitle.value).toBe(album.Title);
+    expect(inputTitle.disabled).toBeFalsy();
     const inputDesp = fixture.nativeElement.querySelector('#desp');
 	  expect(inputDesp.value).toBe(album.Desp);
+    expect(inputTitle.disabled).toBeFalsy();
     // const chkComponent = fixture.debugElement.query(By.css('#ispublic'));
     // const chkinputElement = chkComponent.nativeElement.querySelector('input') as HTMLInputElement;
     expect(component.headerComponent!.headerFormGroup!.get('isPublicCtrl')!.value).toBeTrue();
+    
     const inputAccessCode = fixture.nativeElement.querySelector('#accode');
     expect(inputAccessCode.value).toBe(album.AccessCode);
+    expect(inputAccessCode.disabled).toBeFalsy();
     const inputAccessCodeHint = fixture.nativeElement.querySelector('#accodehint');
     expect(inputAccessCodeHint.value).toBe(album.accessCodeHint);
-
-    // Check the need access code
-    expect(component.headerComponent!.headerFormGroup!.get('needAccessCodeCtrl')!.value).toBeTrue();
+    expect(inputAccessCodeHint.disabled).toBeFalsy();
   }));
 });
 
@@ -192,7 +212,7 @@ describe('AlbumHeaderEditComponent', () => {
 @Component({
   template: `
   <form [formGroup]="formGroup">
-    <acgallery-album-header formControlName="headerControl" [uiMode]="1">
+    <acgallery-album-header formControlName="headerControl" [ui-mode]="1">
     </acgallery-album-header>
   </form>
   `
@@ -214,7 +234,7 @@ export class AlbumHeaderCreateComponent implements OnInit {
 @Component({
   template: `
   <form [formGroup]="formGroup">
-    <acgallery-album-header formControlName="headerControl" [uiMode]="3">
+    <acgallery-album-header formControlName="headerControl" [ui-mode]="3">
     </acgallery-album-header>
   </form>
   `
@@ -222,7 +242,7 @@ export class AlbumHeaderCreateComponent implements OnInit {
 export class AlbumHeaderDisplayComponent implements OnInit {
   public formGroup!: UntypedFormGroup;
 
-  @ViewChild(AlbumHeaderComponent, {static: false}) headerComponent: AlbumHeaderComponent | undefined;
+  @ViewChild(AlbumHeaderComponent, {static: true}) headerComponent: AlbumHeaderComponent | undefined;
 
   constructor(private fb: UntypedFormBuilder) {}
 
@@ -240,7 +260,7 @@ export class AlbumHeaderDisplayComponent implements OnInit {
 @Component({
   template: `
   <form [formGroup]="formGroup">
-    <acgallery-album-header formControlName="headerControl" [uiMode]="2">
+    <acgallery-album-header formControlName="headerControl" [ui-mode]="2">
     </acgallery-album-header>
   </form>
   `
@@ -248,7 +268,7 @@ export class AlbumHeaderDisplayComponent implements OnInit {
 export class AlbumHeaderEditComponent implements OnInit {
   public formGroup!: UntypedFormGroup;
 
-  @ViewChild(AlbumHeaderComponent, {static: false}) headerComponent: AlbumHeaderComponent | undefined;
+  @ViewChild(AlbumHeaderComponent, {static: true}) headerComponent: AlbumHeaderComponent | undefined;
 
   constructor(private fb: UntypedFormBuilder) {}
 

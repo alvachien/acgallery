@@ -21,14 +21,6 @@
     </div>
   </div>
 
-  <div nz-row class="checkbox-margin">
-    <div nz-col [nzSpan]="24">
-      <label nz-checkbox id="needaccesscode" name="needaccesscode" formControlName="needAccessCodeCtrl">
-        <span>{{'Album.NeedAccessCode' | transloco}}</span>
-      </label>
-    </div>
-  </div>
-
   <nz-form-item nz-row *ngIf="isAccessCodeVisible">
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="accode">{{'Album.AccessCode' | transloco}}</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your access code!">
