@@ -11,6 +11,7 @@ import { UIModulesModule } from 'src/app/ui-modules.module';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PhotoSearchComponent } from './photo-search';
 import { PhotoCommonModule } from '../photo-common/photo-common.module';
+import { AlbumCommonModule } from '../album-common/album-common.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { PhotoCommonModule } from '../photo-common/photo-common.module';
     ReactiveFormsModule,
     PhotoCommonModule,
     NzEmptyModule,
+    AlbumCommonModule,
   ]
 })
 export class PhotoModule { }

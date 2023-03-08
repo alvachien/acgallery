@@ -63,9 +63,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     this.arAssignMode.push({ value: 2, name: 'Photo.Upload_AssignNewAlbum', });
 
     this.albumForm = this.fb.group({
-      Title: ['', [Validators.required]],
-      Desp: ['', [Validators.required]],
-      IsPublic: [false]
+      headerControl: [new Album(), [Validators.required]]
     });
   }
 
@@ -131,7 +129,6 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   pre(): void {
     writeConsole('ACGallery [Debug]: Entering PhotoUpload pre()...', ConsoleLogTypeEnum.debug);
 
-    //writeLog();
     this.currentStep -= 1;
   }
 
@@ -253,9 +250,10 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
 
   // Step 2. Update photo info
   updatePhotoInfo(): void {
-    let arreqs: any[] = [];
+    let arreqs: Array<Observable<any>> = [];
     this.filePhotos.forEach(updpto => {
       arreqs.push(this.odataSvc.changePhotoInfo(updpto.name, updpto.title, updpto.desp, updpto.isPublic));
+
       if (updpto.tags.length > 0) {
         updpto.tags.forEach(tag => {
           arreqs.push(this.odataSvc.createPhotoTag(updpto.name, tag));
@@ -324,16 +322,15 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
 
   onExistedAlbumSelected(id: number, checked: boolean): void {
     this.updateExistedAlbumSelected(id, checked);
-    // this.refreshCheckedStatus();
   }
   onCurrentPageDataChange($event: ReadonlyArray<Album>): void {
     // this.listOfCurrentPageData = $event;
     // this.refreshCheckedStatus();
   }
   assignPhotoToExistingAlbums(): void {
-    let arreq: any[] = [];
+    const arreq: Array<Observable<any>> = [];
     this.setOfChosedAlbumIDs.forEach(albid => {
-      this.filePhotos.forEach(updpht => {
+      this.filePhotos.forEach((updpht, index) => {
         arreq.push(this.odataSvc.assignPhotoToAlbum(albid, updpht.name));
       });
     });
@@ -355,18 +352,21 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   }
   assignPhotoToNewAlbum(): void {
     // New create album
-    let alb = new Album();
-    alb.Title = this.albumForm.get('Title')?.value;
-    alb.Desp = this.albumForm.get('Desp')?.value;
-    alb.IsPublic = this.albumForm.get('IsPublic')?.value;
+    let alb = new Album();    
+    let headerval = this.albumForm.get('headerControl')?.value;
+    alb.Title = headerval.titleCtrl;
+    alb.Desp = headerval.despCtrl;
+    alb.IsPublic = headerval.isPublicCtrl;
+    alb.AccessCode = headerval.accessCodeCtrl;
+    alb.accessCodeHint = headerval.accessCodeHintCtrl;
 
     this.odataSvc.createAlbum(alb).subscribe({
       next: (val: Album) => {
         alb.Id = val.Id;
 
         // Update the album/photo bindings
-        let arreq2: any[] = [];
-        this.filePhotos.forEach(updpto => {
+        let arreq2: Array<Observable<any>> = [];
+        this.filePhotos.forEach((updpto, index) => {
           arreq2.push(this.odataSvc.assignPhotoToAlbum(alb.Id, updpto.name));
         });
         forkJoin(arreq2).subscribe({

@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, NgZone, ViewChild, Renderer, ElementRef,
   Inject } from '@angular/core';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, finalize } from 'rxjs';
 import { Router } from '@angular/router';
 import { FineUploaderBasic } from 'fine-uploader/lib/core';
 import { AuthService, PhotoService, AlbumService, UserDetailService } from '../services';
@@ -354,44 +354,44 @@ export class PhotouploadComponent implements OnInit, AfterViewInit, OnDestroy {
       rxdata.push(this._photoService.createFile(pht));
     }
 
-    forkJoin(rxdata).subscribe((data: any) => {
-      if (this.assignMode !== 0) {
-        const albumids: number[] = [];
-        if (this.isAssginToNewAlbum()) {
-          albumids.push(this.albumCreate.Id);
-        } else {
-          this.selection.selected.forEach((val: Album) => {
-            albumids.push(val.Id);
-          });
-        }
-
-        const rxdata2: Array<Observable<any>> = [];
-        albumids.forEach((albid: number) => {
-          for (const data_detail of data) {
-            const apl: AlbumPhotoLink = new AlbumPhotoLink();
-            apl.albumID = albid;
-            apl.photoID = data_detail.photoId;
-            rxdata2.push(this._albumService.createAlbumPhotoLink(apl));
+    forkJoin(rxdata).subscribe({
+      next: data => {
+        if (this.assignMode !== 0) {
+          const albumids: number[] = [];
+          if (this.isAssginToNewAlbum()) {
+            albumids.push(this.albumCreate.Id);
+          } else {
+            this.selection.selected.forEach((val: Album) => {
+              albumids.push(val.Id);
+            });
           }
-        });
-
-        forkJoin(rxdata2).subscribe((data3: any) => {
-          // Do nothing
-        }, (error3: any) => {
-          // TBD.
-        }, () => {
+  
+          const rxdata2: Array<Observable<any>> = [];
+          albumids.forEach((albid: number) => {
+            for (const data_detail of data) {
+              const apl: AlbumPhotoLink = new AlbumPhotoLink();
+              apl.albumID = albid;
+              apl.photoID = data_detail.photoId;
+              rxdata2.push(this._albumService.createAlbumPhotoLink(apl));
+            }
+          });
+  
+          forkJoin(rxdata2).pipe(finalize(() => {
+            this.onAfterUploadComplete();
+          })).subscribe({
+            next: () => {},
+            error: () => {}
+          });
+        } else {
           this.onAfterUploadComplete();
+        }  
+      }, 
+      error: er => {
+        this._snackBar.open('Failed: reason: ' + er.toString(), 'Close', {
+          duration: 3000,
         });
-      } else {
-        this.onAfterUploadComplete();
+        this.onAfterUploadComplete();  
       }
-    }, (error: any) => {
-      this._snackBar.open('Failed: reason: ' + error, 'Close', {
-        duration: 3000,
-      });
-      this.onAfterUploadComplete();
-    }, () => {
-      // Do nothing
     });
   }
 

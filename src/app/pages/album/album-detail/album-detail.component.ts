@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UIMode } from 'actslib';
+import { isCreateMode, isDisplayMode, isUIEditable, UIMode } from 'actslib';
 import { ReplaySubject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 
@@ -31,9 +31,9 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
   isAccessCodeSubmitting = false;
   accessCodeInputted = '';
 
-  get isCreateMode(): boolean { return this.uiMode === UIMode.Create; }
-  get isDisplayMode(): boolean { return this.uiMode === UIMode.Display; }
-  get isEditableMode(): boolean { return this.uiMode === UIMode.Create || this.uiMode === UIMode.Update; }
+  get isCreateMode(): boolean { return isCreateMode(this.uiMode); }
+  get isDisplayMode(): boolean { return isDisplayMode(this.uiMode); }
+  get isEditableMode(): boolean { return isUIEditable(this.uiMode); }
 
   constructor(private odataSvc: OdataService,
     public _router: Router,
@@ -41,18 +41,16 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
     private uiSrv: UIInfoService,
     private fb: UntypedFormBuilder) { }
 
-  submitForm(): void {
-    for (const i in this.detailForm.controls) {
-      this.detailForm.controls[i].markAsDirty();
-      this.detailForm.controls[i].updateValueAndValidity();
-    }
-  }
+  // submitForm(): void {
+  //   for (const i in this.detailForm.controls) {
+  //     this.detailForm.controls[i].markAsDirty();
+  //     this.detailForm.controls[i].updateValueAndValidity();
+  //   }
+  // }
 
   ngOnInit(): void {
     this.detailForm = this.fb.group({
-      Title: ['', [Validators.required]],
-      Desp: ['', [Validators.required]],
-      IsPublic: [false]
+      headerControl: [new Album(), [Validators.required]],
     });
     this._destroyed$ = new ReplaySubject(1);
 
@@ -87,16 +85,14 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
               }))
             .subscribe({
               next: rsts => {
-                this.detailForm.get('Title')?.setValue(rsts.Title);
-                this.detailForm.get('Desp')?.setValue(rsts.Desp);
-                this.detailForm.get('IsPublic')?.setValue(rsts.IsPublic);
-                if (this.uiMode === UIMode.Display) {
+                this.detailForm.get('headerControl')?.setValue(rsts);
+                if (this.isDisplayMode) {
                   this.detailForm.disable();
                 } else {
                   this.detailForm.enable();
                 }
 
-                if (this.uiMode === UIMode.Display) {
+                if (this.isDisplayMode) {
                   // Load the photos
                   this.accessCodeHint = rsts.accessCodeHint;
                   if (rsts.accessCodeHint) {
