@@ -20,11 +20,6 @@ export class WelcomeComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.odataSvc.getMetadata().subscribe({
-      next: val => console.log(val),
-      error: err => console.error(err),
-    });
-
     this.odataSvc.getStatistics().subscribe({
       next: val => {
         this.statInfo.photoAmount = val.photoAmount;

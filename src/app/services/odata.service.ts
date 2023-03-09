@@ -36,10 +36,11 @@ export class OdataService {
         })
         .pipe(map(response => {
           this.isMetadataLoaded = true;
-          this.metadataInfo = response as unknown as string;
+          // this.metadataInfo = response as unknown as string;
+          this.metadataInfo = 'OData metadata';
           return this.metadataInfo;
         }),
-        catchError((error: HttpErrorResponse) => throwError(() => new Error(error.statusText + '; ' + error.error + '; ' + error.message))
+        catchError((error: HttpErrorResponse) => throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message))
         ));
     } else {
       return of(this.metadataInfo);
@@ -84,7 +85,7 @@ export class OdataService {
         };
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(() => new Error(error.statusText + '; ' + error.error + '; ' + error.message));
+        return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
       }));
   }
 
@@ -106,7 +107,7 @@ export class OdataService {
       return alb2;
     }),
     catchError((error: HttpErrorResponse) => {
-      return throwError(() => new Error(error.statusText + '; ' + error.error + '; ' + error.message));
+      return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
     }));
   }
 
@@ -137,7 +138,7 @@ export class OdataService {
         return rit;
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(() => new Error(error.statusText + '; ' + error.error + '; ' + error.message));
+        return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
       }));
   }
 
@@ -192,7 +193,7 @@ export class OdataService {
         };
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(() => new Error(error.statusText + '; ' + error.error + '; ' + error.message));
+        return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
       }));
   }
 
@@ -254,7 +255,7 @@ export class OdataService {
         };
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+        return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
       }));
   }
 
@@ -292,7 +293,7 @@ export class OdataService {
         };
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(() => new Error(error.statusText + '; ' + error.error + '; ' + error.message));
+        return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
       }));
   }
 
@@ -356,7 +357,7 @@ export class OdataService {
         };
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(() => new Error(error.statusText + '; ' + error.error + '; ' + error.message));
+        return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
       }));
   }
 
@@ -387,7 +388,7 @@ export class OdataService {
         return pto2;
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+        return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
       }));
   }
 
@@ -413,7 +414,7 @@ export class OdataService {
         return pto2;
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+        return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
       }));
   }
 
@@ -446,7 +447,7 @@ export class OdataService {
         return pto2;
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+        return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
       }));    
   }
 
@@ -473,7 +474,7 @@ export class OdataService {
         return response;
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+        return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
       }));
   }
 
@@ -494,7 +495,7 @@ export class OdataService {
         return response;
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+        return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
       }));
   }
 
@@ -516,7 +517,7 @@ export class OdataService {
         return true;
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+        return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
       }));
   }
 
@@ -549,7 +550,7 @@ export class OdataService {
         return link2;
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+        return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
       }));
   }
 
@@ -568,7 +569,7 @@ export class OdataService {
         return response;
       }),
       catchError((error: HttpErrorResponse) => {
-        return throwError(error.statusText + '; ' + error.error + '; ' + error.message);
+        return throwError(() => new Error(error.statusText + '; ' + error.error.error.toString() + '; ' + error.message));
       }));
   }
 }

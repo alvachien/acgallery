@@ -15,7 +15,7 @@
 
 <nz-image-group>
     <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
-        <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="8" nzXl="6" class="gutter-row" [nzSpan]="6"
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="6" class="gutter-row" [nzSpan]="6"
             *ngFor="let pht of photos">
             <div nz-col class="inner-box">
                 <div nz-row>
@@ -50,11 +50,11 @@
 
 <nz-modal [(nzVisible)]="isExifVisible" nzTitle="EXIF" (nzOnCancel)="handleExifDlgCancel()" (nzOnOk)="handleExifDlgOk()">
     <ng-container *nzModalContent>
-      <p>Camera Maker: {{curExif.CameraMaker}}</p>
-      <p>Camera Model: {{curExif.CameraModel}}</p>
-      <p>Lens Model: {{curExif.LensModel}}</p>
-      <p>Aperture Value: {{curExif.AVNumber}}</p>
-      <p>Shutter Speed: {{curExif.ShutterSpeed}}</p>
-      <p>ISO: {{curExif.ISONumber}}</p>
+      <p>{{'Common.CameraMaker' | transloco}}: {{curExif.CameraMaker}}</p>
+      <p>{{'Common.CameraModel' | transloco}}: {{curExif.CameraModel}}</p>
+      <p>{{'Common.LensModel' | transloco}}: {{curExif.LensModel}}</p>
+      <p>{{'Common.Aperture' | transloco}}: {{curExif.AVNumber}}</p>
+      <p>{{'Common.ShutterSpeed' | transloco}}: {{curExif.ShutterSpeed}}</p>
+      <p>{{'Common.ISO' | transloco}}: {{curExif.ISONumber}}</p>
     </ng-container>
 </nz-modal>
