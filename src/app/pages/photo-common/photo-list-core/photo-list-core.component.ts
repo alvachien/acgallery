@@ -2,7 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { NzImageService } from 'ng-zorro-antd/image';
 
-import { Photo } from 'src/app/models';
+import { ConsoleLogTypeEnum, Photo, writeConsole } from 'src/app/models';
 import { OdataService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 
@@ -39,7 +39,7 @@ export class PhotoListCoreComponent {
         this.isExifVisible = true;
       },
       error: err => {
-        console.error(err);
+        writeConsole(`ACGallery [Error]: Entering PhotoListCoreComponent onPhotoViewEXIF, getPhotoEXIF ${err.toString()}`, ConsoleLogTypeEnum.error);
       }
     });
   }
@@ -63,7 +63,7 @@ export class PhotoListCoreComponent {
         this.totalCount --;
       },
       error: err => {
-        console.error(err);
+        writeConsole(`ACGallery [Error]: Entering PhotoListCoreComponent onDeletePhoto, deletePhoto ${err.toString()}`, ConsoleLogTypeEnum.error);
       }
     })
   }

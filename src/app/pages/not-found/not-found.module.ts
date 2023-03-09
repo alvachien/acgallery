@@ -6,7 +6,6 @@ import { NotFoundComponent } from './';
 import { UIModulesModule } from 'src/app/ui-modules.module';
 import { TranslocoModule } from '@ngneat/transloco';
 
-
 @NgModule({
   declarations: [NotFoundComponent],
   imports: [

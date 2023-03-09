@@ -6,7 +6,6 @@ import { CreditsRoutingModule } from './credits-routing.module';
 import { CreditsComponent } from './';
 import { UIModulesModule } from 'src/app/ui-modules.module';
 
-
 @NgModule({
   declarations: [
     CreditsComponent

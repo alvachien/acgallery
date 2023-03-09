@@ -6,7 +6,6 @@ import { UnauthorizedRoutingModule } from './unauthorized-routing.module';
 import { UnauthorizedComponent } from './unauthorized.component';
 import { NzResultModule } from 'ng-zorro-antd/result';
 
-
 @NgModule({
   declarations: [
     UnauthorizedComponent

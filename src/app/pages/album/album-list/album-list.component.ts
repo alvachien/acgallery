@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Album } from 'src/app/models';
+import { Album, ConsoleLogTypeEnum, writeConsole } from 'src/app/models';
 import { OdataService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'album-list',
   templateUrl: './album-list.component.html',
   styleUrls: ['./album-list.component.less'],
@@ -51,7 +50,7 @@ export class AlbumListComponent implements OnInit {
         }
       },
       error: err => {
-        console.error(err);
+        writeConsole(`ACGallery [Error]: Entering AlbumListComponent onPageIndexChanged ${err.toString()}`, ConsoleLogTypeEnum.error);
       }
     });
   }

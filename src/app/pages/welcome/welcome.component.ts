@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ConsoleLogTypeEnum, writeConsole } from 'src/app/models';
 
 import { OdataService } from 'src/app/services';
 
@@ -25,7 +26,9 @@ export class WelcomeComponent implements OnInit {
         this.statInfo.photoAmount = val.photoAmount;
         this.statInfo.albumAmount = val.albumAmount;
       },
-      error: err => console.error(err),
+      error: err => {
+        writeConsole(`ACGallery [Error]: Entering WelcomePage ngOnInit getStatistics ${err.toString()}`, ConsoleLogTypeEnum.error);
+      }
     });
   }
   public onNavigateToPhoto() {

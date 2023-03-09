@@ -8,7 +8,7 @@
 
   <nz-form-item nz-row>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="desp" nzRequired>{{'Common.Description' | transloco}}</nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your description!">
+    <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="'Message.PleaseInputDescription' | transloco">
       <input nz-input id="desp" formControlName="despCtrl" />
     </nz-form-control>
   </nz-form-item>
@@ -23,14 +23,14 @@
 
   <nz-form-item nz-row *ngIf="isAccessCodeVisible">
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="accode">{{'Album.AccessCode' | transloco}}</nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your access code!">
+    <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="'Message.PleaseInputAccessCode' | transloco">
       <input nz-input id="accode" formControlName="accessCodeCtrl" />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item nz-row *ngIf="isAccessCodeVisible">
     <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="accodehint">{{'Album.AccessCodeHint' | transloco}}</nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your access code hint!">
+    <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="'Message.PleaseInputAccessCodeHint' | transloco">
       <input nz-input id="accodehint" formControlName="accessCodeHintCtrl" />
     </nz-form-control>
   </nz-form-item>

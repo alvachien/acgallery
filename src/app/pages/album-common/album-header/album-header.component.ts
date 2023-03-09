@@ -67,7 +67,6 @@ export class AlbumHeaderComponent implements OnInit, ControlValueAccessor, Valid
 
     this.headerFormGroup.valueChanges.pipe(takeUntil(this.destroy$)).subscribe({
       next: val => {
-        console.debug(`Entering AlbumHeaderComponent's headerFormGroup valueChange callback: ${ val ? JSON.stringify(val) : 'NULL'}`);
         this.propagateOnChange(val);
       }
     });

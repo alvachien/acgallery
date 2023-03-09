@@ -275,8 +275,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
         },
         error: (err: any) => {
           this.msg.error(err);
-          
-          console.error(err);
+          writeConsole(`ACGallery [Error]: Entering AlbumListComponent updatePhotoInfo updatePhotoInfo ${err.toString()}`, ConsoleLogTypeEnum.error);
         }
     });
   }
@@ -376,7 +375,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
             writeConsole(`ACGallery [Debug]: Entering PhotoUpload assignPhotoToNewAlbum, Now Step is ${this.currentStep}`, ConsoleLogTypeEnum.debug);
           },
           error: (err) => {
-            writeConsole(`ACGallery [Error]: Entering PhotoUpload assignPhotoToNewAlbum, forkJoin ${err}`, ConsoleLogTypeEnum.error);
+            writeConsole(`ACGallery [Error]: Entering PhotoUpload assignPhotoToNewAlbum, forkJoin ${err.toString()}`, ConsoleLogTypeEnum.error);
 
             this.isErrorOccurred = true;
             this.errorInfo = err;
@@ -384,7 +383,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
         });
       },
       error: (err : any) => {
-        writeConsole(`ACGallery [Error]: Entering PhotoUpload assignPhotoToNewAlbum, createAlbum ${err}`, ConsoleLogTypeEnum.error);
+        writeConsole(`ACGallery [Error]: Entering PhotoUpload assignPhotoToNewAlbum, createAlbum ${err.toString()}`, ConsoleLogTypeEnum.error);
 
         this.isErrorOccurred = true;
         this.errorInfo = err;

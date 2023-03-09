@@ -5,7 +5,7 @@ import { isCreateMode, isDisplayMode, isUIEditable, UIMode } from 'actslib';
 import { ReplaySubject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 
-import { Album, Photo } from 'src/app/models';
+import { Album, ConsoleLogTypeEnum, Photo, writeConsole } from 'src/app/models';
 import { OdataService, UIInfoService } from 'src/app/services';
 import { environment } from 'src/environments/environment';
 
@@ -103,7 +103,7 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
                 }
               },
               error: err => {
-                console.error(err);
+                writeConsole(`ACGallery [Error]: Entering AlbumDetailComponent ngOnInit, readAlbum ${err.toString()}`, ConsoleLogTypeEnum.error);
               }
             });
           break;
@@ -152,7 +152,7 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
           }
         },
         error: err => {
-          console.error(err);
+          writeConsole(`ACGallery [Error]: Entering AlbumDetail onFetchData: ${err.toString()}`, ConsoleLogTypeEnum.error);          
         }
       });
   }

@@ -22,8 +22,8 @@
                     <img [src]="getFileUrl(pht)" (click)="onStartPreview(pht.photoId)" alt="" />
                 </div>
                 <div nz-row class="button-group-row">
-                    <button nz-button nzType="primary" nzSize="small" nzShape="circle" (click)="onPhotoViewEXIF(pht)" style="margin-right: 4px"><i nz-icon nzType="info"></i></button>
-                    <nz-tag *ngFor="let tag of pht.tags" [nzColor]="'#f50'">{{tag}}</nz-tag>
+                    <button nz-button nzSize="small" nzShape="circle" (click)="onPhotoViewEXIF(pht)" style="margin-right: 4px"><i nz-icon nzType="info"></i></button>
+                    <nz-tag *ngFor="let tag of pht.tags">{{tag}}</nz-tag>
                 </div>
                 <div nz-row *ngIf="viewMode === 'adv'" class="button-group-row">
                     <nz-button-group>

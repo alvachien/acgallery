@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, merge, of as observableOf } from 'rxjs';
 import { catchError, finalize, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
-import { GeneralFilterItem, GeneralFilterOperatorEnum, GeneralFilterValueType, Photo,
-  UIDisplayString, UIDisplayStringUtil } from 'src/app/models';
+import { ConsoleLogTypeEnum, GeneralFilterItem, GeneralFilterOperatorEnum, GeneralFilterValueType, Photo,
+  UIDisplayString, UIDisplayStringUtil, writeConsole } from 'src/app/models';
 import { OdataService, UIInfoService } from 'src/app/services';
 import { PhotoListCoreComponent } from '../../photo-common/photo-list-core';
 
@@ -42,7 +42,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
           this.onSearch();
         },
         error: (err: any) => {
-          console.error(err);
+          writeConsole(`ACGallery [Error]: Entering PhotoSearchComponent content setter ${err.toString()}`, ConsoleLogTypeEnum.error);
         }
       })
     }
@@ -149,7 +149,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
           }
         },
         error: err => {
-          console.error(err);
+          writeConsole(`ACGallery [Error]: Entering PhotoSearchComponent ngAfterViewInit Filter ${err.toString()}`, ConsoleLogTypeEnum.error);
         }
     });
   }

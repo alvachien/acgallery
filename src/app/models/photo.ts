@@ -19,7 +19,6 @@ export class TagCount {
  * Photo
  */
 export class Photo {
-
   public photoId: string = '';
 
   public title: string = '';

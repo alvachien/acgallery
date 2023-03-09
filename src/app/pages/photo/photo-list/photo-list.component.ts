@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Photo } from 'src/app/models';
+import { ConsoleLogTypeEnum, Photo, writeConsole } from 'src/app/models';
 import { OdataService } from 'src/app/services';
 
 @Component({
@@ -21,19 +21,7 @@ export class PhotoListComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.onFetchData(20, 0);
-    // this.odataSvc.getPhotos().subscribe({
-    //   next: val => {
-    //     // console.log(val);
-    //     this.totalCount = val.totalCount;
-    //     for(let i = 0; i < val.items.Length(); i++) {
-    //       this.photos.push(val.items.GetElement(i));
-    //     }
-    //   },
-    //   error: err => {
-    //     console.error(err);
-    //   }
-    // });
+    this.onFetchData(this.pageSize, 0);
   }
 
   onUpload(): void {
@@ -58,7 +46,7 @@ export class PhotoListComponent implements OnInit {
         }
       },
       error: err => {
-        console.error(err);
+        writeConsole(`ACGallery [Error]: Entering PhotoListComponent onFetchData getPhotos: ${err.toString()}`, ConsoleLogTypeEnum.error);
       }
     });
   }
