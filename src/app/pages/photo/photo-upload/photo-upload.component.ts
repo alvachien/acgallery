@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
+import { NzUploadChangeParam, NzUploadFile, NzUploadTransformFileType } from 'ng-zorro-antd/upload';
 import { forkJoin, Observable, Observer } from 'rxjs';
 import { finalize, map, takeUntil } from 'rxjs/operators';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
@@ -93,7 +93,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
       error: err => {
         this.modal.error({
           nzTitle: translate('Common.Error'),
-          nzContent: err,
+          nzContent: err.toString(),
           nzClosable: true,
         });
       }
@@ -247,6 +247,33 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
       this.msg.info(`${file.name} file uploading`);
     }
   }
+
+  handleUploadRemove = (file: NzUploadFile) : boolean | Observable<boolean> => {
+    return true;
+  };
+
+  handleUploadTransformFile = (file: NzUploadFile): Observable<Blob> =>
+    new Observable((observer: Observer<Blob>) => {
+      const reader = new FileReader();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      reader.readAsDataURL(file as any);
+      reader.onload = () => {
+        const canvas = document.createElement('canvas');
+        const img = document.createElement('img');
+        img.src = reader.result as string;
+        img.onload = () => {
+          const ctx = canvas.getContext('2d')!;
+          ctx.drawImage(img, 0, 0);
+          ctx.fillStyle = 'red';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('Ant Design', 20, 20);
+          canvas.toBlob(blob => {
+            observer.next(blob!);
+            observer.complete();
+          });
+        };
+      };
+    });
 
   // Step 2. Update photo info
   updatePhotoInfo(): void {

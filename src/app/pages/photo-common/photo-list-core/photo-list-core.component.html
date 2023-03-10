@@ -4,7 +4,6 @@
         <label nz-radio-button nzValue="adv">{{'Common.Advanced' | transloco}}</label>
     </nz-radio-group>
     <nz-divider nzType="vertical"></nz-divider>
-    <nz-divider nzType="vertical"></nz-divider>
     <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="pageSize" [nzShowTotal]="rangeTemplate"
         nzShowQuickJumper (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
     <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}-{{ range[1] }} of {{ total }} items
@@ -23,7 +22,7 @@
                 </div>
                 <div nz-row class="button-group-row">
                     <button nz-button nzSize="small" nzShape="circle" (click)="onPhotoViewEXIF(pht)" style="margin-right: 4px"><i nz-icon nzType="info"></i></button>
-                    <nz-tag *ngFor="let tag of pht.tags">{{tag}}</nz-tag>
+                    <nz-tag *ngFor="let tag of pht.tags" [nzColor]="'geekblue'">{{tag}}</nz-tag>
                 </div>
                 <div nz-row *ngIf="viewMode === 'adv'" class="button-group-row">
                     <nz-button-group>

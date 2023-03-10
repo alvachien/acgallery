@@ -24,7 +24,9 @@
         [nzBeforeUpload]="beforeUpload"
         (nzChange)="handleUploadChange($event)" [nzMultiple]="true"        
         [nzHeaders]="getUploadHeader"
-        [nzPreview]="handleUploadPreview">
+        [nzPreview]="handleUploadPreview"
+        [nzRemove]="handleUploadRemove"
+        [nzTransformFile]="handleUploadTransformFile">
         <div>
           <i nz-icon nzType="plus"></i>
           <div style="margin-top: 8px">{{'Nav.PhotoUpload' | transloco}}</div>

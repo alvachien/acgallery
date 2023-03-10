@@ -16,7 +16,7 @@
   <div nz-row *ngFor="let filter of filters; let idxfilter = index" class="control-full-width">
     <div nz-col nzSpan="4">
       <nz-form-item>
-        <nz-select nzPlaceHolder="{{'Common.Field' | transloco}}" [(ngModel)]="filter.fieldName" (ngModelChange)="onFieldSelectionChanged(filter)">
+        <nz-select class="filter-field" nzPlaceHolder="{{'Common.Field' | transloco}}" [(ngModel)]="filter.fieldName" (ngModelChange)="onFieldSelectionChanged(filter)">
           <nz-option *ngFor="let field of allFields" [nzValue]="field.value" [nzLabel]="field.displayas | transloco">
           </nz-option>
         </nz-select>
@@ -24,7 +24,7 @@
     </div>
     <div nz-col nzSpan="2">
       <nz-form-item>
-        <nz-select nzPlaceHolder="{{'Common.Operator' | transloco}}" [(ngModel)]="filter.operator">
+        <nz-select class="filter-operator" nzPlaceHolder="{{'Common.Operator' | transloco}}" [(ngModel)]="filter.operator">
           <nz-option *ngFor="let opr of allOperators | operatorFilter: filter.valueType" [nzValue]="opr.value" [nzLabel]="opr.i18nterm | transloco">
           </nz-option>
         </nz-select>
