@@ -1,25 +1,25 @@
-import * as Common from './common';
+import * as Common from "./common";
 
 /**
  * Album
  */
 export class Album {
-  public Id: number = 0;
-  public Title: string = '';
-  public Desp: string = '';
-  public Thumbnail: string = '';
+  public Id = 0;
+  public Title = "";
+  public Desp = "";
+  public Thumbnail = "";
   public CreatedAt: Date = new Date();
-  public CreatedBy: string = '';
+  public CreatedBy = "";
   public IsPublic: boolean;
-  public AccessCode: string = '';
-  public accessCodeHint: string = '';
-  public accessCodeRequired: boolean = false;
+  public AccessCode = "";
+  public accessCodeHint = "";
+  public accessCodeRequired = false;
 
   // Runtime info
   public PhotoIDs: string[] = [];
-  public PhotoCount: number = 0;
+  public PhotoCount = 0;
   public IsPhotoIDFetched: boolean;
-  public AlbumThumnailUrl: string = '';
+  public AlbumThumnailUrl = "";
 
   constructor() {
     this.IsPhotoIDFetched = false;
@@ -35,8 +35,7 @@ export class Album {
   // }
 
   get isValid(): boolean {
-    if (this.Title === undefined
-      || this.Title.length <= 0) {
+    if (this.Title === undefined || this.Title.length <= 0) {
       return false;
     }
     return true;
@@ -89,10 +88,10 @@ export class Album {
       Title: this.Title,
       Desp: this.Desp,
       CreatedBy: this.CreatedBy,
-      IsPublic: this.IsPublic
+      IsPublic: this.IsPublic,
     };
     if (this.CreatedAt) {
-      forJSON.CreatedAt = this.CreatedAt.toISOString().slice(0,10);
+      forJSON.CreatedAt = this.CreatedAt.toISOString().slice(0, 10);
     }
     if (this.Id) {
       forJSON.Id = this.Id;
@@ -110,13 +109,14 @@ export class Album {
 
 export class SelectableAlbum
   extends Album
-  implements Common.SelectableObject<Boolean> {
-  public isSelected: boolean = false;
+  implements Common.SelectableObject<boolean>
+{
+  public isSelected = false;
 }
 
 export class AlbumPhotoLink {
-  albumID: number = 0;
-  photoID: string = '';
+  albumID = 0;
+  photoID = "";
 
   public parseData(data: any): void {
     if (data && data.AlbumID) {
@@ -139,11 +139,11 @@ export class AlbumPhotoLink {
 }
 
 export class AlbumPhotoByAlbum {
-  public albumId: number = 0;
+  public albumId = 0;
   public photoIDList: string[] = [];
 }
 
 export class AlbumPhotoByPhoto {
-  public photoID: string = '';
+  public photoID = "";
   public albumIDList: number[] = [];
 }

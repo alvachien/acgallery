@@ -1,19 +1,22 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
-import { en_US, NzI18nService, zh_CN, } from 'ng-zorro-antd/i18n';
-import { NzBreakpointKey, NzBreakpointService, siderResponsiveMap } from 'ng-zorro-antd/core/services';
-import { Platform } from '@angular/cdk/platform';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { TranslocoService } from "@ngneat/transloco";
+import { en_US, NzI18nService, zh_CN } from "ng-zorro-antd/i18n";
+import {
+  NzBreakpointService,
+  siderResponsiveMap,
+} from "ng-zorro-antd/core/services";
+import { Platform } from "@angular/cdk/platform";
 
-import { environment } from 'src/environments/environment';
-import { AuthService } from './services';
-import { Subject, takeUntil } from 'rxjs';
+import { environment } from "src/environments/environment";
+import { AuthService } from "./services";
+import { Subject, takeUntil } from "rxjs";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'acgallery-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  selector: "acgallery-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
 })
 export class AppComponent implements OnInit, OnDestroy {
   isCollapsed = false;
@@ -23,13 +26,14 @@ export class AppComponent implements OnInit, OnDestroy {
   collpasedWidth = 48;
   private destroy$ = new Subject();
 
-  constructor(private tranService: TranslocoService,
+  constructor(
+    private tranService: TranslocoService,
     private i18n: NzI18nService,
     private router: Router,
     private authService: AuthService,
     private platform: Platform,
-    private bpObserver: NzBreakpointService) {
-  }
+    private bpObserver: NzBreakpointService
+  ) {}
 
   get currentVersion(): string {
     return environment.currentVersion;
@@ -63,7 +67,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.bpObserver
         .subscribe(siderResponsiveMap, true)
         .pipe(takeUntil(this.destroy$))
-        .subscribe(map => {
+        .subscribe((map) => {
           if (map.md) {
             this.visibleMenuLangLabel = true;
             this.visibleMenuUserLabel = true;
@@ -87,22 +91,25 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroy$.next(0);
-    this.destroy$.complete();      
+    this.destroy$.complete();
   }
 
   onSetLanguage(lang: string) {
-    if ((lang === 'en' || lang === 'zh') && this.tranService.getActiveLang() !== lang) {
+    if (
+      (lang === "en" || lang === "zh") &&
+      this.tranService.getActiveLang() !== lang
+    ) {
       this.tranService.setActiveLang(lang);
-      if (lang === 'zh') {
+      if (lang === "zh") {
         this.i18n.setLocale(zh_CN);
-      } else if(lang === 'en') {
+      } else if (lang === "en") {
         this.i18n.setLocale(en_US);
       }
     }
   }
 
   onOpenGithub(): void {
-    window.open('https://www.github.com/alvachien/acgallery', '_blank');
+    window.open("https://www.github.com/alvachien/acgallery", "_blank");
   }
   onLogin(): void {
     this.authService.doLogin();
@@ -111,6 +118,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authService.doLogout();
   }
   onUserDetail(): void {
-    this.router.navigate(['/userdetail/display']);
+    this.router.navigate(["/userdetail/display"]);
   }
 }

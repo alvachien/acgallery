@@ -1,55 +1,55 @@
-import { UserAuthInfo, UserDetail } from './';
+import { UserAuthInfo, UserDetail } from "./";
 
-describe('UserDetail', () => {
+describe("UserDetail", () => {
   let tbcObject: UserDetail;
 
   beforeEach(() => {
     tbcObject = new UserDetail();
   });
 
-  it('shall create success', () => {
+  it("shall create success", () => {
     expect(tbcObject).toBeTruthy();
   });
 
-  it('onSetData', () => {
+  it("onSetData", () => {
     expect(tbcObject).toBeTruthy();
 
     tbcObject.onSetData({
-        "UserID": "Test",
-        "DisplayAs": "Test",
-        "email": "Test",
-        "others": "test",
-        "UploadFileMinSize": 2048,
-        "UploadFileMaxSize": 4096,
-        "AlbumCreate": true,
-        "AlbumChange": true,
-        "AlbumRead": true,
-        "PhotoUpload": true,
-        "PhotoChange": true,
-        "PhotoDelete": true
+      UserID: "Test",
+      DisplayAs: "Test",
+      email: "Test",
+      others: "test",
+      UploadFileMinSize: 2048,
+      UploadFileMaxSize: 4096,
+      AlbumCreate: true,
+      AlbumChange: true,
+      AlbumRead: true,
+      PhotoUpload: true,
+      PhotoChange: true,
+      PhotoDelete: true,
     });
   });
 });
 
-describe('UserAuthInfo', () => {
+describe("UserAuthInfo", () => {
   let authinfo: UserAuthInfo;
   let usrvalue: any;
 
   beforeEach(() => {
     authinfo = new UserAuthInfo();
     usrvalue = {
-        userId: 'user1_sub',
-        userName: 'user1_mail',
-        accessToken: 'user1_access_token',
-      };
+      userId: "user1_sub",
+      userName: "user1_mail",
+      accessToken: "user1_access_token",
+    };
   });
 
-  it('init: not authorized', () => {
+  it("init: not authorized", () => {
     expect(authinfo).toBeTruthy();
     expect(authinfo.isAuthorized).toBeFalsy();
   });
 
-  it('setContent shall work', () => {
+  it("setContent shall work", () => {
     expect(authinfo.isAuthorized).toBeFalsy();
 
     authinfo.setContent(usrvalue);

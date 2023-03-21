@@ -1,15 +1,13 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoModule } from '@ngneat/transloco';
-import { UIModulesModule } from 'src/app/ui-modules.module';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { TranslocoModule } from "@ngneat/transloco";
+import { UIModulesModule } from "src/app/ui-modules.module";
 
-import { PhotoListCoreComponent } from './photo-list-core';
+import { PhotoListCoreComponent } from "./photo-list-core";
 
 @NgModule({
-  declarations: [
-    PhotoListCoreComponent,
-  ],
+  declarations: [PhotoListCoreComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -17,8 +15,6 @@ import { PhotoListCoreComponent } from './photo-list-core';
     TranslocoModule,
     UIModulesModule,
   ],
-  exports: [
-    PhotoListCoreComponent,
-  ]
+  exports: [PhotoListCoreComponent],
 })
-export class PhotoCommonModule { }
+export class PhotoCommonModule {}

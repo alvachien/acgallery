@@ -1,1 +1,1 @@
-export * from './album-header.component';
+export * from "./album-header.component";

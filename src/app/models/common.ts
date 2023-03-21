@@ -19,13 +19,16 @@ export enum LogLevel {
 }
 
 export enum ConsoleLogTypeEnum {
-  log   = 0,
+  log = 0,
   debug = 1,
-  warn  = 2,
+  warn = 2,
   error = 3,
 }
 
-export function writeConsole(log: string, logType: ConsoleLogTypeEnum = ConsoleLogTypeEnum.log): void {
+export function writeConsole(
+  log: string,
+  logType: ConsoleLogTypeEnum = ConsoleLogTypeEnum.log
+): void {
   if (log) {
     switch (logType) {
       case ConsoleLogTypeEnum.debug:
@@ -64,16 +67,16 @@ export function writeConsole(log: string, logType: ConsoleLogTypeEnum = ConsoleL
  * Application language
  */
 export class AppLang {
-  Value = '';
-  DisplayString = '';
+  Value = "";
+  DisplayString = "";
 }
 
 /**
  * Enum for Common Label
  */
 export enum UICommonLabelEnum {
-  UploadedSuccess       = 0,
-  Error                 = 1,
+  UploadedSuccess = 0,
+  Error = 1,
 }
 
 // Filter operator
@@ -99,7 +102,10 @@ export enum UserOperationAuthEnum {
 /**
  * UI Display string Enum
  */
-export type UIDisplayStringEnum = UICommonLabelEnum | GeneralFilterOperatorEnum | UserOperationAuthEnum;
+export type UIDisplayStringEnum =
+  | UICommonLabelEnum
+  | GeneralFilterOperatorEnum
+  | UserOperationAuthEnum;
 
 /**
  * Value type for filter
@@ -115,7 +121,7 @@ export enum GeneralFilterValueType {
  * Filter item
  */
 export class GeneralFilterItem {
-  fieldName: string = '';
+  fieldName = "";
   operator: GeneralFilterOperatorEnum = GeneralFilterOperatorEnum.Equal;
   value: any[];
   valueType: GeneralFilterValueType = GeneralFilterValueType.string;
@@ -130,13 +136,13 @@ export class GeneralFilterItem {
  */
 export class UIDisplayString {
   public value: UIDisplayStringEnum = UICommonLabelEnum.Error;
-  public i18nterm: string = '';
-  public displaystring: string = '';
+  public i18nterm = "";
+  public displaystring = "";
 }
 
 /**
- * Credits 
- *  
+ * Credits
+ *
  */
 export interface AppCredits {
   name: string;
@@ -157,7 +163,7 @@ export class UIDisplayStringUtil {
         arrst.push({
           value: +se,
           i18nterm: UIDisplayStringUtil.getUICommonLabelDisplayString(+se),
-          displaystring: '',
+          displaystring: "",
         });
       }
     }
@@ -174,8 +180,10 @@ export class UIDisplayStringUtil {
       } else {
         arrst.push({
           value: +rfe,
-          i18nterm: UIDisplayStringUtil.getGeneralFilterOperatorDisplayString(+rfe),
-          displaystring: '',
+          i18nterm: UIDisplayStringUtil.getGeneralFilterOperatorDisplayString(
+            +rfe
+          ),
+          displaystring: "",
         });
       }
     }
@@ -193,7 +201,7 @@ export class UIDisplayStringUtil {
         arrst.push({
           value: +rfe,
           i18nterm: UIDisplayStringUtil.getUserOperationAuthDisplayString(+rfe),
-          displaystring: '',
+          displaystring: "",
         });
       }
     }
@@ -204,33 +212,49 @@ export class UIDisplayStringUtil {
   public static getUICommonLabelDisplayString(le: UICommonLabelEnum): string {
     switch (le) {
       case UICommonLabelEnum.UploadedSuccess:
-        return 'Finance.DocumentPosted';
+        return "Finance.DocumentPosted";
 
       case UICommonLabelEnum.Error:
-        return 'Common.Error';
+        return "Common.Error";
 
       default:
-        return '';
+        return "";
     }
   }
-  public static getGeneralFilterOperatorDisplayString(opte: GeneralFilterOperatorEnum): string {
+  public static getGeneralFilterOperatorDisplayString(
+    opte: GeneralFilterOperatorEnum
+  ): string {
     switch (opte) {
-      case GeneralFilterOperatorEnum.Between: return 'Sys.Operator.Between';
-      case GeneralFilterOperatorEnum.Equal: return 'Sys.Operator.Equal';
-      case GeneralFilterOperatorEnum.LargerEqual: return 'Sys.Operator.LargerEqual';
-      case GeneralFilterOperatorEnum.LargerThan: return 'Sys.Operator.LargerThan';
-      case GeneralFilterOperatorEnum.LessEqual: return 'Sys.Operator.LessEqual';
-      case GeneralFilterOperatorEnum.LessThan: return 'Sys.Operator.LessThan';
-      case GeneralFilterOperatorEnum.NotEqual: return 'Sys.Operator.NotEqual';
-      case GeneralFilterOperatorEnum.Like: return 'Sys.Operator.Like';
-      default: return '';
+      case GeneralFilterOperatorEnum.Between:
+        return "Sys.Operator.Between";
+      case GeneralFilterOperatorEnum.Equal:
+        return "Sys.Operator.Equal";
+      case GeneralFilterOperatorEnum.LargerEqual:
+        return "Sys.Operator.LargerEqual";
+      case GeneralFilterOperatorEnum.LargerThan:
+        return "Sys.Operator.LargerThan";
+      case GeneralFilterOperatorEnum.LessEqual:
+        return "Sys.Operator.LessEqual";
+      case GeneralFilterOperatorEnum.LessThan:
+        return "Sys.Operator.LessThan";
+      case GeneralFilterOperatorEnum.NotEqual:
+        return "Sys.Operator.NotEqual";
+      case GeneralFilterOperatorEnum.Like:
+        return "Sys.Operator.Like";
+      default:
+        return "";
     }
   }
-  public static getUserOperationAuthDisplayString(opte: UserOperationAuthEnum): string {
+  public static getUserOperationAuthDisplayString(
+    opte: UserOperationAuthEnum
+  ): string {
     switch (opte) {
-      case UserOperationAuthEnum.All: return 'Sys.UserAuth.All';
-      case UserOperationAuthEnum.OwnerOnly: return 'Sys.UserAuth.OnlyOwner';
-      default: return '';
+      case UserOperationAuthEnum.All:
+        return "Sys.UserAuth.All";
+      case UserOperationAuthEnum.OwnerOnly:
+        return "Sys.UserAuth.OnlyOwner";
+      default:
+        return "";
     }
   }
 }

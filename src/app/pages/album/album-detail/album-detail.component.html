@@ -1,18 +1,45 @@
-<nz-page-header class="site-page-header" [nzTitle]="'Nav.Albums' | transloco" [nzSubtitle]="currentMode | transloco">
+<nz-page-header
+  class="site-page-header"
+  [nzTitle]="'Nav.Albums' | transloco"
+  [nzSubtitle]="currentMode | transloco"
+>
   <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item><a routerLink="/welcome">{{'Common.Dashboard' | transloco}}</a></nz-breadcrumb-item>
-    <nz-breadcrumb-item><a routerLink="/album">{{'Nav.Albums' | transloco}}</a></nz-breadcrumb-item>
-    <nz-breadcrumb-item>{{currentMode | transloco}}</nz-breadcrumb-item>
+    <nz-breadcrumb-item
+      ><a routerLink="/welcome">{{
+        "Common.Dashboard" | transloco
+      }}</a></nz-breadcrumb-item
+    >
+    <nz-breadcrumb-item
+      ><a routerLink="/album">{{
+        "Nav.Albums" | transloco
+      }}</a></nz-breadcrumb-item
+    >
+    <nz-breadcrumb-item>{{ currentMode | transloco }}</nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
-    <button nz-button [disabled]="isEditableMode" (click)="onSearch()">{{'Common.Search' | transloco}}</button>
-    <button nz-button nzType="primary" [disabled]="!isEditableMode" (click)="onSave()">{{'Common.Save' | transloco}}</button>
-  </nz-page-header-extra>  
+    <button nz-button [disabled]="isEditableMode" (click)="onSearch()">
+      {{ "Common.Search" | transloco }}
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      [disabled]="!isEditableMode"
+      (click)="onSave()"
+    >
+      {{ "Common.Save" | transloco }}
+    </button>
+  </nz-page-header-extra>
 </nz-page-header>
-<nz-collapse nzGhost>  
-  <nz-collapse-panel [nzHeader]="'Common.Detail' | transloco" [nzActive]="isEditableMode">
+<nz-collapse nzGhost>
+  <nz-collapse-panel
+    [nzHeader]="'Common.Detail' | transloco"
+    [nzActive]="isEditableMode"
+  >
     <form nz-form [formGroup]="detailForm">
-      <acgallery-album-header formControlName="headerControl" [ui-mode]="uiMode">
+      <acgallery-album-header
+        formControlName="headerControl"
+        [ui-mode]="uiMode"
+      >
       </acgallery-album-header>
     </form>
   </nz-collapse-panel>
@@ -23,15 +50,25 @@
   [nzTitle]="'Album.AccessCode' | transloco"
   (nzOnCancel)="handleAccessCodeDlgCancel()"
   (nzOnOk)="handleAccessCodeDlgOk()"
-  [nzOkLoading]="isAccessCodeSubmitting">
+  [nzOkLoading]="isAccessCodeSubmitting"
+>
   <p *nzModalContent>
-    <input nz-input [placeholder]="accessCodeHint" [(ngModel)]="accessCodeInputted" />   
+    <input
+      nz-input
+      [placeholder]="accessCodeHint"
+      [(ngModel)]="accessCodeInputted"
+    />
   </p>
 </nz-modal>
 
 <div *ngIf="isDisplayMode">
   <nz-divider [nzText]="'Nav.Photos' | transloco"></nz-divider>
 
-  <acgallery-photo-list-core [totalCount]="totalCount" [pageSize]="pageSize" [photos]="photos" (paginationEvent)="onPaginationEvent($event)">    
+  <acgallery-photo-list-core
+    [totalCount]="totalCount"
+    [pageSize]="pageSize"
+    [photos]="photos"
+    (paginationEvent)="onPaginationEvent($event)"
+  >
   </acgallery-photo-list-core>
 </div>

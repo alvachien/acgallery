@@ -1,18 +1,16 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoModule } from '@ngneat/transloco';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
-import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { TranslocoModule } from "@ngneat/transloco";
+import { NzInputModule } from "ng-zorro-antd/input";
+import { NzFormModule } from "ng-zorro-antd/form";
+import { NzCheckboxModule } from "ng-zorro-antd/checkbox";
+import { NzGridModule } from "ng-zorro-antd/grid";
 
-import { AlbumHeaderComponent } from './album-header';
+import { AlbumHeaderComponent } from "./album-header";
 
 @NgModule({
-  declarations: [
-    AlbumHeaderComponent
-  ],
+  declarations: [AlbumHeaderComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -21,11 +19,9 @@ import { AlbumHeaderComponent } from './album-header';
 
     NzFormModule,
     NzInputModule,
-    NzCheckboxModule, 
-    NzGridModule,   
+    NzCheckboxModule,
+    NzGridModule,
   ],
-  exports: [
-    AlbumHeaderComponent,
-  ]
+  exports: [AlbumHeaderComponent],
 })
-export class AlbumCommonModule { }
+export class AlbumCommonModule {}

@@ -1,21 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { TestingDependsModule, getTranslocoModule } from 'src/testing/';
-import { AboutComponent } from './about.component';
+import { TestingDependsModule, getTranslocoModule } from "src/testing/";
+import { AboutComponent } from "./about.component";
 
-describe('AboutComponent', () => {
+describe("AboutComponent", () => {
   let component: AboutComponent;
   let fixture: ComponentFixture<AboutComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        TestingDependsModule,
-        getTranslocoModule(),
-      ],
-      declarations: [ AboutComponent ]
-    })
-    .compileComponents();
+      imports: [TestingDependsModule, getTranslocoModule()],
+      declarations: [AboutComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -24,7 +20,7 @@ describe('AboutComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

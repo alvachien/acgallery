@@ -1,7 +1,7 @@
-import { OperatorFilterPipe } from './operator-filter.pipe';
+import { OperatorFilterPipe } from "./operator-filter.pipe";
 
-describe('OperatorFilterPipe', () => {
-  it('create an instance', () => {
+describe("OperatorFilterPipe", () => {
+  it("create an instance", () => {
     const pipe = new OperatorFilterPipe();
     expect(pipe).toBeTruthy();
   });

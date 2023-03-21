@@ -1,5 +1,9 @@
-<nz-result nzStatus="404" nzTitle="404" [nzSubTitle]="'Message.PageNotFoundContent' | transloco">
+<nz-result
+  nzStatus="404"
+  nzTitle="404"
+  [nzSubTitle]="'Message.PageNotFoundContent' | transloco"
+>
   <div nz-result-extra>
-    <a nz-button routerLink="/" nzType="link">{{'Nav.Home' | transloco}}</a>
+    <a nz-button routerLink="/" nzType="link">{{ "Nav.Home" | transloco }}</a>
   </div>
 </nz-result>

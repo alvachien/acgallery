@@ -1,48 +1,47 @@
 import { AppLang, UIDisplayString, UIDisplayStringUtil } from "./common";
 
-describe('AppLang', () => {
-    let tbcObject: AppLang;
-    
-    beforeEach(() => {
-        tbcObject = new AppLang();
-    });
+describe("AppLang", () => {
+  let tbcObject: AppLang;
 
-    it('create success', () => {
-        expect(tbcObject).toBeTruthy();
-    });
+  beforeEach(() => {
+    tbcObject = new AppLang();
+  });
+
+  it("create success", () => {
+    expect(tbcObject).toBeTruthy();
+  });
 });
 
-describe('UIDisplayString', () => {
-    let tbcObject: UIDisplayString;
-    
-    beforeEach(() => {
-        tbcObject = new UIDisplayString();
-    });
+describe("UIDisplayString", () => {
+  let tbcObject: UIDisplayString;
 
-    it('create success', () => {
-        expect(tbcObject).toBeTruthy();
-    });
+  beforeEach(() => {
+    tbcObject = new UIDisplayString();
+  });
+
+  it("create success", () => {
+    expect(tbcObject).toBeTruthy();
+  });
 });
 
-describe('UIDisplayStringUtil', () => {
-    let tbcObject: UIDisplayStringUtil;
-    
-    beforeEach(() => {
-        tbcObject = new UIDisplayStringUtil();
-    });
+describe("UIDisplayStringUtil", () => {
+  let tbcObject: UIDisplayStringUtil;
 
-    it('create success', () => {
-        expect(tbcObject).toBeTruthy();
-    });
+  beforeEach(() => {
+    tbcObject = new UIDisplayStringUtil();
+  });
 
-    it('getUICommonLabelStrings', () => {
-        let arrst = UIDisplayStringUtil.getUICommonLabelStrings();
-        expect(arrst.length).toBeGreaterThan(0);
-    });
+  it("create success", () => {
+    expect(tbcObject).toBeTruthy();
+  });
 
-    it('getUserOperationAuthDisplayStrings', () => {
-        let arrst = UIDisplayStringUtil.getUserOperationAuthDisplayStrings();
-        expect(arrst.length).toBeGreaterThan(0);
-    });
+  it("getUICommonLabelStrings", () => {
+    const arrst = UIDisplayStringUtil.getUICommonLabelStrings();
+    expect(arrst.length).toBeGreaterThan(0);
+  });
 
+  it("getUserOperationAuthDisplayStrings", () => {
+    const arrst = UIDisplayStringUtil.getUserOperationAuthDisplayStrings();
+    expect(arrst.length).toBeGreaterThan(0);
+  });
 });

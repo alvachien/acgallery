@@ -1,11 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BehaviorSubject } from 'rxjs';
-import { AuthService } from 'src/app/services';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { BehaviorSubject } from "rxjs";
+import { AuthService } from "src/app/services";
 
-import { TestingDependsModule, getTranslocoModule, FakeDataHelper } from 'src/testing/';
-import { UserDetailComponent } from './user-detail.component';
+import {
+  TestingDependsModule,
+  getTranslocoModule,
+  FakeDataHelper,
+} from "src/testing/";
+import { UserDetailComponent } from "./user-detail.component";
 
-describe('UserDetailComponent', () => {
+describe("UserDetailComponent", () => {
   let component: UserDetailComponent;
   let fixture: ComponentFixture<UserDetailComponent>;
   let fakeData: FakeDataHelper;
@@ -20,16 +24,10 @@ describe('UserDetailComponent', () => {
     authServiceStub.authSubject = new BehaviorSubject(fakeData.currentUser!);
 
     await TestBed.configureTestingModule({
-      imports: [
-        TestingDependsModule,
-        getTranslocoModule(),
-      ],
-      declarations: [ UserDetailComponent ],
-      providers: [
-        { provide: AuthService, useValue: authServiceStub }
-      ]
-    })
-    .compileComponents();
+      imports: [TestingDependsModule, getTranslocoModule()],
+      declarations: [UserDetailComponent],
+      providers: [{ provide: AuthService, useValue: authServiceStub }],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -38,7 +36,7 @@ describe('UserDetailComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
