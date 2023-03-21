@@ -1,18 +1,38 @@
-<nz-page-header class="site-page-header" [nzTitle]="'Nav.Albums' | transloco" [nzSubtitle]="'Common.ListView' | transloco">
+<nz-page-header
+  class="site-page-header"
+  [nzTitle]="'Nav.Albums' | transloco"
+  [nzSubtitle]="'Common.ListView' | transloco"
+>
   <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item><a routerLink="/welcome">{{'Common.Dashboard' | transloco}}</a></nz-breadcrumb-item>
-    <nz-breadcrumb-item>{{'Nav.Albums' | transloco}}</nz-breadcrumb-item>
+    <nz-breadcrumb-item
+      ><a routerLink="/welcome">{{
+        "Common.Dashboard" | transloco
+      }}</a></nz-breadcrumb-item
+    >
+    <nz-breadcrumb-item>{{ "Nav.Albums" | transloco }}</nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
-    <button nz-button (click)="onRefresh()">{{'Common.Refresh' | transloco}}</button>
-    <button nz-button (click)="onCreate()">{{'Common.Create' | transloco}}</button>
-  </nz-page-header-extra>  
+    <button nz-button (click)="onRefresh()">
+      {{ "Common.Refresh" | transloco }}
+    </button>
+    <button nz-button (click)="onCreate()">
+      {{ "Common.Create" | transloco }}
+    </button>
+  </nz-page-header-extra>
 </nz-page-header>
 
 <div nz-row nzJustify="center">
-  <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="10" [nzShowTotal]="rangeTemplate" 
-    nzShowQuickJumper (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
-  <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}-{{ range[1] }} of {{ total }} items </ng-template>        
+  <nz-pagination
+    [(nzPageIndex)]="pageIndex"
+    [nzTotal]="totalCount"
+    [nzPageSize]="10"
+    [nzShowTotal]="rangeTemplate"
+    nzShowQuickJumper
+    (nzPageIndexChange)="onPageIndexChanged($event)"
+  ></nz-pagination>
+  <ng-template #rangeTemplate let-range="range" let-total>
+    {{ range[0] }}-{{ range[1] }} of {{ total }} items
+  </ng-template>
 </div>
 
 <nz-divider></nz-divider>
@@ -36,11 +56,32 @@
     </nz-list-item-meta>
     {{ item.Title }}
     <ul nz-list-item-actions>
-      <nz-list-item-action><i nz-icon nzType="flag" style="margin-right: 8px"></i>{{9 * item.PhotoCount}}</nz-list-item-action>
-      <nz-list-item-action><i nz-icon nzType="picture" style="margin-right: 8px"></i>{{item.PhotoCount}}</nz-list-item-action>
-      <nz-list-item-action *ngIf="item.accessCodeHint"><i nz-icon nzType="lock" nzTheme="twotone" style="margin-right: 8px"></i></nz-list-item-action>
-      <nz-list-item-action><a nz-button nzType="link" (click)="onDisplay(item)">{{'Common.Display' | transloco}}</a></nz-list-item-action>
-      <nz-list-item-action><a nz-button nzType="link" (click)="onEdit(item)">{{'Common.Edit' | transloco}}</a></nz-list-item-action>
+      <nz-list-item-action
+        ><i nz-icon nzType="flag" style="margin-right: 8px"></i
+        >{{ 9 * item.PhotoCount }}</nz-list-item-action
+      >
+      <nz-list-item-action
+        ><i nz-icon nzType="picture" style="margin-right: 8px"></i
+        >{{ item.PhotoCount }}</nz-list-item-action
+      >
+      <nz-list-item-action *ngIf="item.accessCodeHint"
+        ><i
+          nz-icon
+          nzType="lock"
+          nzTheme="twotone"
+          style="margin-right: 8px"
+        ></i
+      ></nz-list-item-action>
+      <nz-list-item-action
+        ><a nz-button nzType="link" (click)="onDisplay(item)">{{
+          "Common.Display" | transloco
+        }}</a></nz-list-item-action
+      >
+      <nz-list-item-action
+        ><a nz-button nzType="link" (click)="onEdit(item)">{{
+          "Common.Edit" | transloco
+        }}</a></nz-list-item-action
+      >
     </ul>
     <nz-list-item-extra>
       <img width="272" alt="logo" [src]="greyJpg" />
@@ -51,6 +92,12 @@
 <nz-divider></nz-divider>
 
 <div nz-row nzJustify="center">
-  <nz-pagination [(nzPageIndex)]="pageIndex" [nzTotal]="totalCount" [nzPageSize]="10" [nzShowTotal]="rangeTemplate"
-    nzShowQuickJumper (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
+  <nz-pagination
+    [(nzPageIndex)]="pageIndex"
+    [nzTotal]="totalCount"
+    [nzPageSize]="10"
+    [nzShowTotal]="rangeTemplate"
+    nzShowQuickJumper
+    (nzPageIndexChange)="onPageIndexChanged($event)"
+  ></nz-pagination>
 </div>

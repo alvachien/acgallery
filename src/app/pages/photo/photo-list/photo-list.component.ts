@@ -1,65 +1,55 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 
-import { Photo } from 'src/app/models';
-import { OdataService } from 'src/app/services';
+import { ConsoleLogTypeEnum, Photo, writeConsole } from "src/app/models";
+import { OdataService } from "src/app/services";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'photo-list',
-  templateUrl: './photo-list.component.html',
-  styleUrls: ['./photo-list.component.less'],
+  selector: "photo-list",
+  templateUrl: "./photo-list.component.html",
+  styleUrls: ["./photo-list.component.less"],
 })
 export class PhotoListComponent implements OnInit {
   totalCount = 0;
-  viewMode = 'std';
+  viewMode = "std";
   pageSize = 20;
 
   photos: Photo[] = [];
 
-  constructor(public odataSvc: OdataService, 
-    private router: Router) { }
+  constructor(public odataSvc: OdataService, private router: Router) {}
 
   ngOnInit(): void {
-    this.onFetchData(20, 0);
-    // this.odataSvc.getPhotos().subscribe({
-    //   next: val => {
-    //     // console.log(val);
-    //     this.totalCount = val.totalCount;
-    //     for(let i = 0; i < val.items.Length(); i++) {
-    //       this.photos.push(val.items.GetElement(i));
-    //     }
-    //   },
-    //   error: err => {
-    //     console.error(err);
-    //   }
-    // });
+    this.onFetchData(this.pageSize, 0);
   }
 
   onUpload(): void {
-    this.router.navigate(['/photo/upload']);
+    this.router.navigate(["/photo/upload"]);
   }
   onRefresh(): void {
     // TBD. Refresh
   }
   onSearch(): void {
-    this.router.navigate(['/photo/search']);
+    this.router.navigate(["/photo/search"]);
   }
 
   onFetchData(top: any, skip: any): void {
     this.odataSvc.getPhotos(skip, top).subscribe({
-      next: val => {
+      next: (val) => {
         if (val && val.items) {
           this.totalCount = val.totalCount;
           this.photos = [];
-          for(let i = 0; i < val.items.Length(); i++) {
+          for (let i = 0; i < val.items.Length(); i++) {
             this.photos.push(val.items.GetElement(i)!);
-          }  
+          }
         }
       },
-      error: err => {
-        console.error(err);
-      }
+      error: (err) => {
+        writeConsole(
+          `ACGallery [Error]: Entering PhotoListComponent onFetchData getPhotos: ${err.toString()}`,
+          ConsoleLogTypeEnum.error
+        );
+      },
     });
   }
   onPaginationEvent(pgInfo: any) {

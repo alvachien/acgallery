@@ -1,7 +1,7 @@
 # acgallery
 AC Photo Gallery is an open-source web app, which designed to organize your photos via album and provides powerful authority control for sharing.
 
-***Live application***  hosted in [Azure (will be obseleted soon)](http://acgallery.azurewebsites.net).
+***Live application***  hosted in [AliCloud](http://www.alvachien.com/gallery).
 
 ## Snapshots
 ![Initial page](https://github.com/alvachien/acgallery/blob/master/docs/images/indexpage.JPG)
@@ -57,7 +57,7 @@ AC Photo Gallery web app built with following UI technologies:
 
 
 Besides, it also using the following server side libaries:
-- .NET Core [Link](https://dot.net)
+- .NET [Link](https://dot.net)
 - Magick.NET [Link](https://www.imagemagick.org/)
 
 
@@ -69,7 +69,7 @@ A programmer, and a certificated Advanced Photographer.
 Contact me:
 
 1. Via mail: alvachien@163.com. Or,
-2. [Check my flickr](http://www.flickr.com/photos/alvachien).
+2. [My Website](http://www.alvachien.com).
 
 ## Licence
 MIT

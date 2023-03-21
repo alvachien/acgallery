@@ -158,6 +158,9 @@
   },
   "Message": {
     "TitleIsMust": "Title is manadatory",
+    "PleaseInputDescription": "Please input description",
+    "PleaseInputAccessCode": "Please input your access code",
+    "PleaseInputAccessCodeHint": "Please input hint of the access code",
     "WelcomeTitle": "This is a simple web app for Photo gallery, for the interesting photos, albums and sharing through the websites.",
     "WelcomeTech": "This web app uses tons of new knowledges: ASP.NET Core 2, Angular 5, TypeScript 2, BootStrap 4.0, Angular Material 2",
     "WelcomeTitle1": "Login to enpower",
@@ -184,13 +187,14 @@
     "FeatureSubTitle3": "Easily integration.",
     "FeatureContent3": "Easily integrate with other storage API, such as Azure storage.",
     "Unauthorized": "Unauthorized",
-    "UnauthorizedContent": "Your reached this page indicates you are lack of authority to perform the operations you requested to.",
+    "UnauthorizedContent": "Your reached this page indicates you are either not login or lack of authority to perform the operations you requested to.",
     "PageNotFound": "Page Not Found",
-    "PageNotFoundContent": "The page you requested could not be found, either contact your webmaster or try again. Use back button to navigate to the page you have prevously come from",
+    "PageNotFoundContent": "The page you requested could not be found, either contact your webmaster or try again. Use button below to navigate to home page",
     "UploadingInfo": "Uploading, please wait..."
   },
   "Album":{
     "IsPublic": "Is Public",
+    "NeedAccessCode": "Need Access Code",
     "AccessCode": "Access Code",
     "AccessCodeHint": "Hint for Access Code",
     "ViewPhotos": "View Photos",

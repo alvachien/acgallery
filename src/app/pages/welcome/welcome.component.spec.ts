@@ -1,11 +1,19 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BehaviorSubject } from 'rxjs';
-import { AuthService } from 'src/app/services';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { NzBreadCrumbModule } from "ng-zorro-antd/breadcrumb";
+import { NzCardModule } from "ng-zorro-antd/card";
+import { NzPageHeaderModule } from "ng-zorro-antd/page-header";
+import { NzStatisticModule } from "ng-zorro-antd/statistic";
+import { BehaviorSubject } from "rxjs";
+import { AuthService } from "src/app/services";
 
-import { TestingDependsModule, getTranslocoModule, FakeDataHelper } from 'src/testing/';
-import { WelcomeComponent } from './';
+import {
+  TestingDependsModule,
+  getTranslocoModule,
+  FakeDataHelper,
+} from "src/testing/";
+import { WelcomeComponent } from "./";
 
-describe('WelcomeComponent', () => {
+describe("WelcomeComponent", () => {
   let component: WelcomeComponent;
   let fixture: ComponentFixture<WelcomeComponent>;
   let fakeData: FakeDataHelper;
@@ -21,14 +29,15 @@ describe('WelcomeComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         TestingDependsModule,
+        NzBreadCrumbModule,
+        NzCardModule,
+        NzPageHeaderModule,
+        NzStatisticModule,
         getTranslocoModule(),
       ],
-      declarations: [ WelcomeComponent ],
-      providers: [
-        { provide: AuthService, useValue: authServiceStub }
-      ]
-    })
-    .compileComponents();
+      declarations: [WelcomeComponent],
+      providers: [{ provide: AuthService, useValue: authServiceStub }],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -37,7 +46,7 @@ describe('WelcomeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

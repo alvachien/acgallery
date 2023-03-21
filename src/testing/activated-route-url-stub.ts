@@ -1,5 +1,5 @@
-import { UrlSegment, } from '@angular/router';
-import { ReplaySubject } from 'rxjs';
+import { UrlSegment } from "@angular/router";
+import { ReplaySubject } from "rxjs";
 
 /**
  * An ActivateRoute test double with a `url` observable.

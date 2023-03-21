@@ -1,40 +1,55 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
-import { forkJoin, Observable, Observer } from 'rxjs';
-import { finalize, map, takeUntil } from 'rxjs/operators';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { translate } from '@ngneat/transloco';
+import { Component, OnInit } from "@angular/core";
+import { NzUploadChangeParam, NzUploadFile } from "ng-zorro-antd/upload";
+import { forkJoin, Observable, Observer } from "rxjs";
+import { finalize } from "rxjs/operators";
+import { NzModalService } from "ng-zorro-antd/modal";
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
+import { Router } from "@angular/router";
+import { translate } from "@ngneat/transloco";
 
-import { Album, ConsoleLogTypeEnum, Photo, SelectableAlbum, UpdPhoto, UserDetail, writeConsole } from 'src/app/models';
-import { AuthService, CanComponentDeactivate, OdataService } from 'src/app/services';
-import { environment } from 'src/environments/environment';
-import { NzMessageService } from 'ng-zorro-antd/message';
+import {
+  Album,
+  ConsoleLogTypeEnum,
+  SelectableAlbum,
+  UpdPhoto,
+  UserDetail,
+  writeConsole,
+} from "src/app/models";
+import {
+  AuthService,
+  CanComponentDeactivate,
+  OdataService,
+} from "src/app/services";
+import { environment } from "src/environments/environment";
+import { NzMessageService } from "ng-zorro-antd/message";
 
 function getBase64(file: File): Promise<string | ArrayBuffer | null> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
+    reader.onerror = (error) => reject(error);
   });
 }
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'acgallery-photo-upload',
-  templateUrl: './photo-upload.component.html',
-  styleUrls: ['./photo-upload.component.less'],
+  selector: "acgallery-photo-upload",
+  templateUrl: "./photo-upload.component.html",
+  styleUrls: ["./photo-upload.component.less"],
 })
 export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   // Current step
   currentStep = 0;
   private _userDetail: UserDetail | undefined = undefined;
   // Step 1. Choose file to upload
-  photoFileAPI = environment.apiRootUrl + 'PhotoFile';
+  photoFileAPI = environment.apiRootUrl + "PhotoFile";
   fileUploadList: NzUploadFile[] = [];
-  previewImage: string | undefined = '';
+  previewImage: string | undefined = "";
   previewVisible = false;
   editId: string | null = null;
   // Step 2. Change the info of files
@@ -48,24 +63,24 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   setOfChosedAlbumIDs = new Set<number>();
   // Step 4. Result
   isErrorOccurred = false;
-  errorInfo = '';
+  errorInfo = "";
   // Tag
-  inputTagValue = '';
+  inputTagValue = "";
 
-  constructor(private modal: NzModalService,
+  constructor(
+    private modal: NzModalService,
     private fb: UntypedFormBuilder,
     private odataSvc: OdataService,
     private router: Router,
     private authService: AuthService,
-    private msg: NzMessageService,) { 
-    this.arAssignMode.push({ value: 0, name: 'Photo.Upload_NoAlbum', });
-    this.arAssignMode.push({ value: 1, name: 'Photo.Upload_AssignExistAlbum', });
-    this.arAssignMode.push({ value: 2, name: 'Photo.Upload_AssignNewAlbum', });
+    private msg: NzMessageService
+  ) {
+    this.arAssignMode.push({ value: 0, name: "Photo.Upload_NoAlbum" });
+    this.arAssignMode.push({ value: 1, name: "Photo.Upload_AssignExistAlbum" });
+    this.arAssignMode.push({ value: 2, name: "Photo.Upload_AssignNewAlbum" });
 
     this.albumForm = this.fb.group({
-      Title: ['', [Validators.required]],
-      Desp: ['', [Validators.required]],
-      IsPublic: [false]
+      headerControl: [new Album(), [Validators.required]],
     });
   }
 
@@ -74,31 +89,31 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
 
     forkJoin([
       this.odataSvc.getAlbums(),
-      this.authService.getUserDetail()  
+      this.authService.getUserDetail(),
     ]).subscribe({
-      next: val => {
+      next: (val) => {
         // Value 0: albums
-        let arAlbums: any[] = [];
-        for(let i = 0; i < val[0].items.Length(); i++) {
-          let selalb = new SelectableAlbum();
-          let alb = val[0].items.GetElement(i);
+        const arAlbums: any[] = [];
+        for (let i = 0; i < val[0].items.Length(); i++) {
+          const selalb = new SelectableAlbum();
+          const alb = val[0].items.GetElement(i);
           selalb.Id = alb!.Id;
           selalb.Title = alb!.Title;
           selalb.Desp = alb!.Desp;
           arAlbums.push(selalb);
         }
-        this.listOfAlbums = arAlbums.map(_ => _);
+        this.listOfAlbums = arAlbums.map((_) => _);
 
         // value 1: User detail
         this._userDetail = val[1];
       },
-      error: err => {
+      error: (err) => {
         this.modal.error({
-          nzTitle: translate('Common.Error'),
-          nzContent: err,
+          nzTitle: translate("Common.Error"),
+          nzContent: err.toString(),
           nzClosable: true,
         });
-      }
+      },
     });
   }
 
@@ -107,7 +122,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     this.filePhotos = [];
     this.setOfChosedAlbumIDs.clear();
     this.isErrorOccurred = false;
-    this.errorInfo = '';
+    this.errorInfo = "";
     this.albumForm.reset();
   }
 
@@ -129,18 +144,23 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   }
 
   pre(): void {
-    writeConsole('ACGallery [Debug]: Entering PhotoUpload pre()...', ConsoleLogTypeEnum.debug);
+    writeConsole(
+      "ACGallery [Debug]: Entering PhotoUpload pre()...",
+      ConsoleLogTypeEnum.debug
+    );
 
-    //writeLog();
     this.currentStep -= 1;
   }
 
   next(): void {
-    writeConsole('ACGallery [Debug]: Entering PhotoUpload next()...', ConsoleLogTypeEnum.debug);
+    writeConsole(
+      "ACGallery [Debug]: Entering PhotoUpload next()...",
+      ConsoleLogTypeEnum.debug
+    );
 
     if (this.currentStep === 0) {
       // Upload the photo
-      this.currentStep ++;
+      this.currentStep++;
     } else if (this.currentStep === 1) {
       // Change the title, desp
       this.updatePhotoInfo();
@@ -153,79 +173,95 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   get nextButtonEnabled(): boolean {
     let isenabled = false;
     switch (this.currentStep) {
-      case 0: isenabled = this.fileUploadList.length > 0; break;
-      case 1: {
-        isenabled = true;
-        for (let i = 0; i < this.filePhotos.length; i++) {
-          if (!this.filePhotos[i].isValid) {
-            isenabled = false;
-            break;
+      case 0:
+        isenabled = this.fileUploadList.length > 0;
+        break;
+      case 1:
+        {
+          isenabled = true;
+          for (let i = 0; i < this.filePhotos.length; i++) {
+            if (!this.filePhotos[i].isValid) {
+              isenabled = false;
+              break;
+            }
           }
         }
-      }
-      break;
+        break;
 
-      case 2: {
-        if (this.assignMode === 0) {
-          isenabled = true;
-        } else if (this.assignMode === 1) {
-          // Existing albums
-          isenabled = this.setOfChosedAlbumIDs.size > 0;
-        } else if (this.assignMode === 2) {
-          // New album
-          isenabled = this.albumForm.valid;
+      case 2:
+        {
+          if (this.assignMode === 0) {
+            isenabled = true;
+          } else if (this.assignMode === 1) {
+            // Existing albums
+            isenabled = this.setOfChosedAlbumIDs.size > 0;
+          } else if (this.assignMode === 2) {
+            // New album
+            isenabled = this.albumForm.valid;
+          }
         }
-      }
-      break;
+        break;
 
       default:
-      break;
+        break;
     }
     return isenabled;
   }
 
   // Step 1. Choose photo to upload
   handleUploadPreview = async (file: NzUploadFile) => {
-    if (!file.url && !file['preview']) {
-      file['preview'] = await getBase64(file.originFileObj!);
+    if (!file.url && !file["preview"]) {
+      file["preview"] = await getBase64(file.originFileObj!);
     }
-    this.previewImage = file.url || file['preview'];
+    this.previewImage = file.url || file["preview"];
     this.previewVisible = true;
   };
 
-  beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]): Observable<boolean> =>
+  beforeUpload = (
+    file: NzUploadFile,
+    _fileList: NzUploadFile[]
+  ): Observable<boolean> =>
     new Observable((observer: Observer<boolean>) => {
-      writeConsole('ACGallery [Debug]: Entering PhotoUpload beforeUpload()...', ConsoleLogTypeEnum.debug);
+      writeConsole(
+        "ACGallery [Debug]: Entering PhotoUpload beforeUpload()...",
+        ConsoleLogTypeEnum.debug
+      );
 
       if (!this._userDetail?.photoUpload) {
-        this.msg.error('You are not allow to upload file!');
+        this.msg.error("You are not allow to upload file!");
         observer.complete();
         return;
       }
 
-      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+      const isJpgOrPng =
+        file.type === "image/jpeg" || file.type === "image/png";
       if (!isJpgOrPng) {
-        this.msg.error('You can only upload JPG file!');
+        this.msg.error("You can only upload JPG file!");
         observer.complete();
         return;
       }
 
       const overSize = file.size! / 1024 < this._userDetail?.uploadFileMaxSize!;
       if (!overSize) {
-        this.msg.error(`Image must smaller than ${this._userDetail?.uploadFileMaxSize} KB!`);
+        this.msg.error(
+          `Image must smaller than ${this._userDetail?.uploadFileMaxSize} KB!`
+        );
         observer.complete();
         return;
       }
       observer.next(isJpgOrPng && overSize);
       observer.complete();
-  });
+    });
 
   handleUploadChange({ file, fileList }: NzUploadChangeParam): void {
-    writeConsole('ACGallery [Debug]: Entering PhotoUpload handleUploadChange...', ConsoleLogTypeEnum.debug);
+    writeConsole(
+      "ACGallery [Debug]: Entering PhotoUpload handleUploadChange...",
+      ConsoleLogTypeEnum.debug
+    );
 
-    if (file.status === 'done') {
+    if (file.status === "done") {
       this.msg.success(`${file.name} file uploaded successfully`);
-      let pobj = new UpdPhoto();
+      const pobj = new UpdPhoto();
       pobj.uid = file.uid;
       pobj.orgName = file.name;
       // pobj.imgSrc = environment.apiRootUrl + file.url;
@@ -242,22 +278,57 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
       pobj.desp = pobj.name;
 
       this.filePhotos.push(pobj);
-    } else if (file.status === 'error') {
+    } else if (file.status === "error") {
       this.msg.error(`${file.name} file upload failed`);
-    } else if (file.status === 'removed') {
+    } else if (file.status === "removed") {
       this.msg.info(`${file.name} file removed`);
-    } else if (file.status === 'uploading') {
+    } else if (file.status === "uploading") {
       this.msg.info(`${file.name} file uploading`);
     }
   }
 
+  handleUploadRemove = (file: NzUploadFile): boolean | Observable<boolean> => {
+    return true;
+  };
+
+  handleUploadTransformFile = (file: NzUploadFile): Observable<Blob> =>
+    new Observable((observer: Observer<Blob>) => {
+      const reader = new FileReader();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      reader.readAsDataURL(file as any);
+      reader.onload = () => {
+        const canvas = document.createElement("canvas");
+        const img = document.createElement("img");
+        img.src = reader.result as string;
+        img.onload = () => {
+          const ctx = canvas.getContext("2d")!;
+          ctx.drawImage(img, 0, 0);
+          ctx.fillStyle = "red";
+          ctx.textBaseline = "middle";
+          ctx.fillText("Ant Design", 20, 20);
+          canvas.toBlob((blob) => {
+            observer.next(blob!);
+            observer.complete();
+          });
+        };
+      };
+    });
+
   // Step 2. Update photo info
   updatePhotoInfo(): void {
-    let arreqs: any[] = [];
-    this.filePhotos.forEach(updpto => {
-      arreqs.push(this.odataSvc.changePhotoInfo(updpto.name, updpto.title, updpto.desp, updpto.isPublic));
+    const arreqs: Array<Observable<any>> = [];
+    this.filePhotos.forEach((updpto) => {
+      arreqs.push(
+        this.odataSvc.changePhotoInfo(
+          updpto.name,
+          updpto.title,
+          updpto.desp,
+          updpto.isPublic
+        )
+      );
+
       if (updpto.tags.length > 0) {
-        updpto.tags.forEach(tag => {
+        updpto.tags.forEach((tag) => {
           arreqs.push(this.odataSvc.createPhotoTag(updpto.name, tag));
         });
       }
@@ -268,49 +339,58 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
         // takeUntil(this._destroyed$),
         finalize(() => {
           // this.isLoadingResults = false;
-        }))
+        })
+      )
       .subscribe({
         next: (val: any) => {
-          console.debug(`Step ${this.currentStep}: Photo info updated successfully, go to next step`);
-          this.currentStep ++;
+          console.debug(
+            `Step ${this.currentStep}: Photo info updated successfully, go to next step`
+          );
+          this.currentStep++;
           console.debug(`Now Step is ${this.currentStep}`);
         },
         error: (err: any) => {
           this.msg.error(err);
-          
-          console.error(err);
-        }
-    });
+          writeConsole(
+            `ACGallery [Error]: Entering AlbumListComponent updatePhotoInfo updatePhotoInfo ${err.toString()}`,
+            ConsoleLogTypeEnum.error
+          );
+        },
+      });
   }
 
   // Step 3. Assign to albums
   assignPhotoToAlbum(): void {
     switch (this.assignMode) {
-      case 0: {
-        // No assign to album
-        this.currentStep ++;
-      }
-      break;
+      case 0:
+        {
+          // No assign to album
+          this.currentStep++;
+        }
+        break;
 
-      case 1: {
-        // Assign to existing album
-        this.assignPhotoToExistingAlbums();
-      }
-      break;
+      case 1:
+        {
+          // Assign to existing album
+          this.assignPhotoToExistingAlbums();
+        }
+        break;
 
-      case 2: {
-        // Assign to new album
-        this.assignPhotoToNewAlbum();
-      }
-      break;
+      case 2:
+        {
+          // Assign to new album
+          this.assignPhotoToNewAlbum();
+        }
+        break;
 
       default:
-      break;
+        break;
     }
   }
-  getUploadHeader = (file: NzUploadFile) : Object | Observable<{}> => {
+  getUploadHeader = (file: NzUploadFile): Object | Observable<{}> => {
     return {
-      'Authorization': 'Bearer ' + this.authService.authSubject.getValue().getAccessToken()
+      Authorization:
+        "Bearer " + this.authService.authSubject.getValue().getAccessToken(),
     };
   };
 
@@ -324,77 +404,100 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
 
   onExistedAlbumSelected(id: number, checked: boolean): void {
     this.updateExistedAlbumSelected(id, checked);
-    // this.refreshCheckedStatus();
   }
   onCurrentPageDataChange($event: ReadonlyArray<Album>): void {
     // this.listOfCurrentPageData = $event;
     // this.refreshCheckedStatus();
   }
   assignPhotoToExistingAlbums(): void {
-    let arreq: any[] = [];
-    this.setOfChosedAlbumIDs.forEach(albid => {
-      this.filePhotos.forEach(updpht => {
+    const arreq: Array<Observable<any>> = [];
+    this.setOfChosedAlbumIDs.forEach((albid) => {
+      this.filePhotos.forEach((updpht, index) => {
         arreq.push(this.odataSvc.assignPhotoToAlbum(albid, updpht.name));
       });
     });
     forkJoin(arreq).subscribe({
       next: (lik) => {
-        writeConsole(`ACGallery [Debug]: Entering PhotoUpload assignPhotoToExistingAlbums, Step ${this.currentStep}: Photo assigned to existing albums successfully, go to next step...`, ConsoleLogTypeEnum.debug);
-        this.currentStep ++;
-        writeConsole(`ACGallery [Debug]: Entering PhotoUpload assignPhotoToExistingAlbums, Now Step is ${this.currentStep}`, ConsoleLogTypeEnum.debug);
+        writeConsole(
+          `ACGallery [Debug]: Entering PhotoUpload assignPhotoToExistingAlbums, Step ${this.currentStep}: Photo assigned to existing albums successfully, go to next step...`,
+          ConsoleLogTypeEnum.debug
+        );
+        this.currentStep++;
+        writeConsole(
+          `ACGallery [Debug]: Entering PhotoUpload assignPhotoToExistingAlbums, Now Step is ${this.currentStep}`,
+          ConsoleLogTypeEnum.debug
+        );
       },
       error: (err) => {
         this.msg.error(err);
 
-        writeConsole(`ACGallery [Error]: Entering PhotoUpload assignPhotoToExistingAlbums, forkJoin ${err}`, ConsoleLogTypeEnum.error);
+        writeConsole(
+          `ACGallery [Error]: Entering PhotoUpload assignPhotoToExistingAlbums, forkJoin ${err}`,
+          ConsoleLogTypeEnum.error
+        );
 
         this.isErrorOccurred = true;
         this.errorInfo = err;
-      }
+      },
     });
   }
   assignPhotoToNewAlbum(): void {
     // New create album
-    let alb = new Album();
-    alb.Title = this.albumForm.get('Title')?.value;
-    alb.Desp = this.albumForm.get('Desp')?.value;
-    alb.IsPublic = this.albumForm.get('IsPublic')?.value;
+    const alb = new Album();
+    const headerval = this.albumForm.get("headerControl")?.value;
+    alb.Title = headerval.titleCtrl;
+    alb.Desp = headerval.despCtrl;
+    alb.IsPublic = headerval.isPublicCtrl;
+    alb.AccessCode = headerval.accessCodeCtrl;
+    alb.accessCodeHint = headerval.accessCodeHintCtrl;
 
     this.odataSvc.createAlbum(alb).subscribe({
       next: (val: Album) => {
         alb.Id = val.Id;
 
         // Update the album/photo bindings
-        let arreq2: any[] = [];
-        this.filePhotos.forEach(updpto => {
+        const arreq2: Array<Observable<any>> = [];
+        this.filePhotos.forEach((updpto, index) => {
           arreq2.push(this.odataSvc.assignPhotoToAlbum(alb.Id, updpto.name));
         });
         forkJoin(arreq2).subscribe({
           next: (lik) => {
-            writeConsole(`ACGallery [Debug]: Entering PhotoUpload assignPhotoToNewAlbum, Step ${this.currentStep}: Photo assigned to new created album successfully, go to next step...`, ConsoleLogTypeEnum.debug);
-            this.currentStep ++;
-            writeConsole(`ACGallery [Debug]: Entering PhotoUpload assignPhotoToNewAlbum, Now Step is ${this.currentStep}`, ConsoleLogTypeEnum.debug);
+            writeConsole(
+              `ACGallery [Debug]: Entering PhotoUpload assignPhotoToNewAlbum, Step ${this.currentStep}: Photo assigned to new created album successfully, go to next step...`,
+              ConsoleLogTypeEnum.debug
+            );
+            this.currentStep++;
+            writeConsole(
+              `ACGallery [Debug]: Entering PhotoUpload assignPhotoToNewAlbum, Now Step is ${this.currentStep}`,
+              ConsoleLogTypeEnum.debug
+            );
           },
           error: (err) => {
-            writeConsole(`ACGallery [Error]: Entering PhotoUpload assignPhotoToNewAlbum, forkJoin ${err}`, ConsoleLogTypeEnum.error);
+            writeConsole(
+              `ACGallery [Error]: Entering PhotoUpload assignPhotoToNewAlbum, forkJoin ${err.toString()}`,
+              ConsoleLogTypeEnum.error
+            );
 
             this.isErrorOccurred = true;
             this.errorInfo = err;
-          }
+          },
         });
       },
-      error: (err : any) => {
-        writeConsole(`ACGallery [Error]: Entering PhotoUpload assignPhotoToNewAlbum, createAlbum ${err}`, ConsoleLogTypeEnum.error);
+      error: (err: any) => {
+        writeConsole(
+          `ACGallery [Error]: Entering PhotoUpload assignPhotoToNewAlbum, createAlbum ${err.toString()}`,
+          ConsoleLogTypeEnum.error
+        );
 
         this.isErrorOccurred = true;
         this.errorInfo = err;
-      }
+      },
     });
   }
 
   // Tags
   handleTagClose(pto: UpdPhoto, removedTag: {}): void {
-    pto.tags = pto.tags.filter(tag => tag !== removedTag);
+    pto.tags = pto.tags.filter((tag) => tag !== removedTag);
   }
 
   sliceTagName(tag: string): string {
@@ -406,12 +509,12 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     if (this.inputTagValue && pto.tags.indexOf(this.inputTagValue) === -1) {
       pto.tags = [...pto.tags, this.inputTagValue];
     }
-    this.inputTagValue = '';
+    this.inputTagValue = "";
   }
-  
+
   // Result page
   onGoToPhotoList(): void {
-    this.router.navigate(['photo']);
+    this.router.navigate(["photo"]);
   }
   onUploadFurther(): void {
     this.clearContent();

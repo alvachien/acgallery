@@ -1,4 +1,3 @@
-
 /**
  * UI pagination class
  * Key attributes:
@@ -12,19 +11,19 @@
  *  previousAPIString: URL string for getting previous page
  */
 export class UIPagination {
-  public visPags: Array<number> = new Array();
+  public visPags: Array<number> = [];
   private _totalItems: number;
   private _currentPage: number;
   private _itemsPerPage: number;
   private _maxVisualPage: number;
-  private _totalPages: number = 0;
+  private _totalPages = 0;
 
   /**
    * Constructor
    * @param itemInPage: Record amount per page
    * @param vispage: Visual pages
    */
-  constructor(itemInPage: number = 20, vispage: number = 5) {
+  constructor(itemInPage = 20, vispage = 5) {
     this._itemsPerPage = itemInPage;
     this._maxVisualPage = vispage;
 
@@ -69,15 +68,15 @@ export class UIPagination {
 
   get nextURLString(): string {
     if (this._currentPage === 0) {
-      return '';
+      return "";
     }
 
     const skipamt = (this.currentPage - 1) * this._itemsPerPage;
     if (skipamt === 0) {
-      return '?top=' + this._itemsPerPage;
+      return "?top=" + this._itemsPerPage;
     }
 
-    return '?top=' + this._itemsPerPage + '&skip=' + skipamt;
+    return "?top=" + this._itemsPerPage + "&skip=" + skipamt;
   }
 
   get nextURLParameters(): Map<string, number> {
@@ -86,10 +85,10 @@ export class UIPagination {
       return rst;
     }
 
-    rst.set('top', this._itemsPerPage);
+    rst.set("top", this._itemsPerPage);
     const skipamt = (this.currentPage - 1) * this._itemsPerPage;
     if (skipamt > 0) {
-      rst.set('skip', skipamt);
+      rst.set("skip", skipamt);
     }
 
     return rst;
@@ -97,15 +96,15 @@ export class UIPagination {
 
   get previousURLString(): string {
     if (this._totalItems === 0 || this._currentPage < 2) {
-      return '';
+      return "";
     }
 
     const skipamt = (this.currentPage - 2) * this._itemsPerPage;
     if (skipamt === 0) {
-      return '?top=' + this._itemsPerPage;
+      return "?top=" + this._itemsPerPage;
     }
 
-    return '?top=' + this._itemsPerPage + '&skip=' + skipamt;
+    return "?top=" + this._itemsPerPage + "&skip=" + skipamt;
   }
 
   get previousURLParameters(): Map<string, number> {
@@ -115,10 +114,10 @@ export class UIPagination {
       return rst;
     }
 
-    rst.set('top', this._itemsPerPage);
+    rst.set("top", this._itemsPerPage);
     const skipamt = (this.currentPage - 2) * this._itemsPerPage;
     if (skipamt > 0) {
-      rst.set('skip', skipamt);
+      rst.set("skip", skipamt);
     }
 
     return rst;
@@ -144,7 +143,10 @@ export class UIPagination {
       if (this._totalPages < this._maxVisualPage) {
         startPage = 1;
       } else {
-        startPage = Math.min(this.currentPage, this._totalPages - this._maxVisualPage + 1);
+        startPage = Math.min(
+          this.currentPage,
+          this._totalPages - this._maxVisualPage + 1
+        );
       }
     }
 

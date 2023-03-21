@@ -1,11 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { of } from "rxjs";
 
-import { PhotoListCoreComponent } from './photo-list-core.component';
-import { TestingDependsModule, getTranslocoModule } from 'src/testing/';
-import { OdataService, UIInfoService } from 'src/app/services';
+import { PhotoListCoreComponent } from "./photo-list-core.component";
+import { TestingDependsModule, getTranslocoModule } from "src/testing/";
+import { OdataService, UIInfoService } from "src/app/services";
 
-describe('PhotoListCoreComponent', () => {
+describe("PhotoListCoreComponent", () => {
   let component: PhotoListCoreComponent;
   let fixture: ComponentFixture<PhotoListCoreComponent>;
   let odataService: any;
@@ -13,25 +13,21 @@ describe('PhotoListCoreComponent', () => {
   let getPhotoEXIFSpy: any;
 
   beforeEach(async () => {
-    odataService = jasmine.createSpyObj('OdataService', [
-      'deletePhoto',
-      'getPhotoEXIF'
+    odataService = jasmine.createSpyObj("OdataService", [
+      "deletePhoto",
+      "getPhotoEXIF",
     ]);
     deletePhotoSpy = odataService.deletePhoto.and.returnValue(of(true));
     getPhotoEXIFSpy = odataService.getPhotoEXIF.and.returnValue(of({}));
 
     await TestBed.configureTestingModule({
-      imports: [
-        TestingDependsModule,
-        getTranslocoModule(),
-      ],
-      declarations: [ PhotoListCoreComponent ],
+      imports: [TestingDependsModule, getTranslocoModule()],
+      declarations: [PhotoListCoreComponent],
       providers: [
         { provide: OdataService, useValue: odataService },
         UIInfoService,
-      ]
-    })
-    .compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -40,7 +36,7 @@ describe('PhotoListCoreComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,1 +1,1 @@
-export * from './photo-list-core.component';
+export * from "./photo-list-core.component";

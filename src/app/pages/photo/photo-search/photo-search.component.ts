@@ -1,30 +1,38 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, merge, of as observableOf } from 'rxjs';
-import { catchError, finalize, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { BehaviorSubject, merge, of as observableOf } from "rxjs";
+import { finalize, startWith, switchMap } from "rxjs/operators";
 
-import { GeneralFilterItem, GeneralFilterOperatorEnum, GeneralFilterValueType, Photo,
-  UIDisplayString, UIDisplayStringUtil } from 'src/app/models';
-import { OdataService, UIInfoService } from 'src/app/services';
-import { PhotoListCoreComponent } from '../../photo-common/photo-list-core';
+import {
+  ConsoleLogTypeEnum,
+  GeneralFilterItem,
+  GeneralFilterOperatorEnum,
+  GeneralFilterValueType,
+  Photo,
+  UIDisplayString,
+  UIDisplayStringUtil,
+  writeConsole,
+} from "src/app/models";
+import { OdataService, UIInfoService } from "src/app/services";
+import { PhotoListCoreComponent } from "../../photo-common/photo-list-core";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'acgallery-photo-search',
-  templateUrl: './photo-search.component.html',
-  styleUrls: ['./photo-search.component.less'],
+  selector: "acgallery-photo-search",
+  templateUrl: "./photo-search.component.html",
+  styleUrls: ["./photo-search.component.less"],
 })
 export class PhotoSearchComponent implements OnInit, AfterViewInit {
   // Filters
   filters: GeneralFilterItem[] = [];
   allOperators: UIDisplayString[] = [];
   allFields: any[] = [];
-  filterEditable: boolean = true;
+  filterEditable = true;
   currentAlbumID?: number;
   currentAlbumInfo?: string;
   currentAlbumTitle?: string;
   // Result
-  isLoadingResults: boolean = false;
+  isLoadingResults = false;
   resultsLength: number;
   public subjFilters: BehaviorSubject<any[]> = new BehaviorSubject([] as any[]);
   photos: Photo[] = [];
@@ -33,8 +41,11 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
   // UI
   pageHeader: string;
 
-  @ViewChild(PhotoListCoreComponent) set content(content: PhotoListCoreComponent) {
-    if(content) { // initially setter gets called with undefined
+  @ViewChild(PhotoListCoreComponent) set content(
+    content: PhotoListCoreComponent
+  ) {
+    if (content) {
+      // initially setter gets called with undefined
       this.photoListComponent = content;
       this.photoListComponent.paginationEvent.subscribe({
         next: (val: any) => {
@@ -42,53 +53,67 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
           this.onSearch();
         },
         error: (err: any) => {
-          console.error(err);
-        }
-      })
+          writeConsole(
+            `ACGallery [Error]: Entering PhotoSearchComponent content setter ${err.toString()}`,
+            ConsoleLogTypeEnum.error
+          );
+        },
+      });
     }
   }
 
-  constructor(private odataSvc: OdataService,
+  constructor(
+    private odataSvc: OdataService,
     private activateRoute: ActivatedRoute,
-    private uiSrv: UIInfoService,) {
+    private uiSrv: UIInfoService
+  ) {
     this.resultsLength = 0;
-    this.allOperators = UIDisplayStringUtil.getGeneralFilterOperatorDisplayStrings();
-    this.allFields = [{
-      displayas: 'Common.Title',
-      value: 'Title',
-      valueType: 2,
-    }, {
-      displayas: 'Common.CameraMaker',
-      value: 'CameraMaker',
-      valueType: 2,
-    }, {
-      displayas: 'Common.CameraModel',
-      value: 'CameraModel',
-      valueType: 2,
-    }, {
-      displayas: 'Common.LensModel',
-      value: 'LensModel',
-      valueType: 2,
-    }, {
-      displayas: 'Common.ShutterSpeed',
-      value: 'ShutterSpeed',
-      valueType: 2,
-    }, {
-      displayas: 'Common.Aperture',
-      value: 'AVNumber',
-      valueType: 2,
-    }, {
-      displayas: 'Common.ISO',
-      value: 'ISONumber',
-      valueType: 1,
-    }, {
-      displayas: 'Common.Tags',
-      value: 'Tags',
-      valueType: 2,
-    },
+    this.allOperators =
+      UIDisplayStringUtil.getGeneralFilterOperatorDisplayStrings();
+    this.allFields = [
+      {
+        displayas: "Common.Title",
+        value: "Title",
+        valueType: 2,
+      },
+      {
+        displayas: "Common.CameraMaker",
+        value: "CameraMaker",
+        valueType: 2,
+      },
+      {
+        displayas: "Common.CameraModel",
+        value: "CameraModel",
+        valueType: 2,
+      },
+      {
+        displayas: "Common.LensModel",
+        value: "LensModel",
+        valueType: 2,
+      },
+      {
+        displayas: "Common.ShutterSpeed",
+        value: "ShutterSpeed",
+        valueType: 2,
+      },
+      {
+        displayas: "Common.Aperture",
+        value: "AVNumber",
+        valueType: 2,
+      },
+      {
+        displayas: "Common.ISO",
+        value: "ISONumber",
+        valueType: 1,
+      },
+      {
+        displayas: "Common.Tags",
+        value: "Tags",
+        valueType: 2,
+      },
     ];
 
-    this.pageHeader = 'Common.SearchPhotos';
+    this.pageHeader = "Common.SearchPhotos";
   }
 
   ngOnInit(): void {
@@ -96,10 +121,10 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
 
     this.activateRoute.url.subscribe((x: any) => {
       if (x instanceof Array && x.length > 0) {
-        if (x[0].path === 'search') {
+        if (x[0].path === "search") {
           this.currentAlbumID = undefined;
-          this.pageHeader = 'Common.SearchPhotos';
-        } else if (x[0].path === 'searchinalbum') {
+          this.pageHeader = "Common.SearchPhotos";
+        } else if (x[0].path === "searchinalbum") {
           this.currentAlbumID = +x[1].path;
           if (this.currentAlbumID === +this.uiSrv.AlbumIDForPhotoSearching!) {
             this.currentAlbumInfo = this.uiSrv.AlbumInfoForPhotoSearching;
@@ -108,7 +133,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
           this.uiSrv.AlbumIDForPhotoSearching = undefined;
           this.uiSrv.AlbumInfoForPhotoSearching = undefined;
           this.uiSrv.AlbumTitleForPhotoSearching = undefined;
-          this.pageHeader = 'Common.SearchPhotosInAlbum';
+          this.pageHeader = "Common.SearchPhotosInAlbum";
         }
       }
     });
@@ -127,47 +152,66 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
           this.isLoadingResults = true;
 
           // Prepare filters
-          let filter = this.prepareFilters(this.subjFilters.value);
+          const filter = this.prepareFilters(this.subjFilters.value);
 
           return this.odataSvc.searchPhotos(
-            this.photoListComponent ? (this.photoListComponent.pageIndex - 1) * this.pageSize : 0, 
-            this.pageSize, 
-            filter, 
+            this.photoListComponent
+              ? (this.photoListComponent.pageIndex - 1) * this.pageSize
+              : 0,
+            this.pageSize,
+            filter,
             this.currentAlbumID,
-            this.currentAlbumInfo);
+            this.currentAlbumInfo
+          );
         }),
-        finalize(() => this.isLoadingResults = false),
-      ).subscribe({
-        next: (val : any) => {
+        finalize(() => (this.isLoadingResults = false))
+      )
+      .subscribe({
+        next: (val: any) => {
           if (val === undefined) {
           } else {
             this.resultsLength = val.totalCount;
             this.photos = [];
-            for(let i = 0; i < val.items.Length(); i++) {
+            for (let i = 0; i < val.items.Length(); i++) {
               this.photos.push(val.items.GetElement(i));
-            }  
+            }
           }
         },
-        error: err => {
-          console.error(err);
-        }
-    });
+        error: (err) => {
+          writeConsole(
+            `ACGallery [Error]: Entering PhotoSearchComponent ngAfterViewInit Filter ${err.toString()}`,
+            ConsoleLogTypeEnum.error
+          );
+        },
+      });
   }
   prepareFilters(arFilter: any[]): string {
-    let rstfilter = '';
+    let rstfilter = "";
     arFilter.sort((a, b) => a.fieldName.localeCompare(b.fieldName));
 
-    arFilter.forEach(flt => {
-      if (flt.fieldName === 'Title' || flt.fieldName === 'CameraModel' || flt.fieldName === 'CameraMaker' || flt.fieldName === 'LensModel' || flt.fieldName === 'Tags') {
+    arFilter.forEach((flt) => {
+      if (
+        flt.fieldName === "Title" ||
+        flt.fieldName === "CameraModel" ||
+        flt.fieldName === "CameraMaker" ||
+        flt.fieldName === "LensModel" ||
+        flt.fieldName === "Tags"
+      ) {
         if (flt.operator === GeneralFilterOperatorEnum.Equal) {
           if (flt.lowValue) {
-            rstfilter = rstfilter ? `${rstfilter} and ${flt.fieldName} eq '${flt.lowValue}'` : `${flt.fieldName} eq '${flt.lowValue}'`;
+            rstfilter = rstfilter
+              ? `${rstfilter} and ${flt.fieldName} eq '${flt.lowValue}'`
+              : `${flt.fieldName} eq '${flt.lowValue}'`;
           } else {
-            rstfilter = rstfilter ? `${rstfilter} and ${flt.fieldName} eq null` : `${flt.fieldName} eq null`;
-          }          
-        } else if(flt.operator === GeneralFilterOperatorEnum.Like) {
+            rstfilter = rstfilter
+              ? `${rstfilter} and ${flt.fieldName} eq null`
+              : `${flt.fieldName} eq null`;
+          }
+        } else if (flt.operator === GeneralFilterOperatorEnum.Like) {
           if (flt.lowValue) {
-            rstfilter = rstfilter ? `${rstfilter} and contains(${flt.fieldName},'${flt.lowValue}')` : `contains(${flt.fieldName},'${flt.lowValue}')`;
+            rstfilter = rstfilter
+              ? `${rstfilter} and contains(${flt.fieldName},'${flt.lowValue}')`
+              : `contains(${flt.fieldName},'${flt.lowValue}')`;
           }
         }
       }
@@ -195,20 +239,20 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
 
   onSearch() {
     // Do the translate first
-    let arRealFilter: any[] = [];
+    const arRealFilter: any[] = [];
     this.filters.forEach((value: GeneralFilterItem) => {
-      let val: any = {};
+      const val: any = {};
       val.valueType = +value.valueType;
       switch (value.valueType) {
         case GeneralFilterValueType.boolean: {
           val.fieldName = value.fieldName;
           val.operator = +value.operator;
           if (value.value[0]) {
-            val.lowValue = 'true';
+            val.lowValue = "true";
           } else {
-            val.lowValue = 'false';
+            val.lowValue = "false";
           }
-          val.highValue = '';
+          val.highValue = "";
           break;
         }
 
@@ -231,7 +275,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
           if (value.operator === GeneralFilterOperatorEnum.Between) {
             val.highValue = +value.value[1];
           } else {
-            val.highValue = '';
+            val.highValue = "";
           }
           break;
         }
@@ -243,7 +287,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
           if (value.operator === GeneralFilterOperatorEnum.Between) {
             val.highValue = value.value[1];
           } else {
-            val.highValue = '';
+            val.highValue = "";
           }
           break;
         }
@@ -258,4 +302,3 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
     this.subjFilters.next(arRealFilter!);
   }
 }
-

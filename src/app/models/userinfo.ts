@@ -1,20 +1,20 @@
-import { UserOperationAuthEnum } from './common';
+import { UserOperationAuthEnum } from "./common";
 
 /**
  * User detail
  */
 export class UserDetail {
-  public userId: string = '';
-  public displayAs: string = '';
-  public email: string = '';
-  public others: string = '';
-  public uploadFileMinSize: number = 0;
-  public uploadFileMaxSize: number = 0;
-  public albumCreate: boolean = false;
+  public userId = "";
+  public displayAs = "";
+  public email = "";
+  public others = "";
+  public uploadFileMinSize = 0;
+  public uploadFileMaxSize = 0;
+  public albumCreate = false;
   public albumChange: UserOperationAuthEnum = UserOperationAuthEnum.All;
   public albumDelete: UserOperationAuthEnum = UserOperationAuthEnum.All;
   public albumRead: UserOperationAuthEnum = UserOperationAuthEnum.All;
-  public photoUpload: boolean = false;
+  public photoUpload = false;
   public photoChange: UserOperationAuthEnum = UserOperationAuthEnum.All;
   public photoDelete: UserOperationAuthEnum = UserOperationAuthEnum.All;
 
@@ -70,12 +70,12 @@ export class UserAuthInfo {
   private userMailbox?: string;
   private accessToken?: string;
 
-  public isAuthorized: boolean = false;
+  public isAuthorized = false;
 
   public setContent(user: {
     userId?: string;
     userName?: string;
-    accessToken?: string;  
+    accessToken?: string;
   }): void {
     if (user) {
       this.isAuthorized = true;

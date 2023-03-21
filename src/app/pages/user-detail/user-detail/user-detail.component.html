@@ -1,26 +1,51 @@
-<nz-page-header class="site-page-header" [nzTitle]="'Login.UserDetail' | transloco" [nzSubtitle]="currentMode | transloco">
+<nz-page-header
+  class="site-page-header"
+  [nzTitle]="'Login.UserDetail' | transloco"
+  [nzSubtitle]="currentMode | transloco"
+>
   <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item><a routerLink="/welcome">{{'Common.Dashboard' | transloco}}</a></nz-breadcrumb-item>
+    <nz-breadcrumb-item
+      ><a routerLink="/welcome">{{
+        "Common.Dashboard" | transloco
+      }}</a></nz-breadcrumb-item
+    >
     <nz-breadcrumb-item>
-      <a routerLink="/userdetail/display">{{'Login.UserDetail' | transloco}}</a>
+      <a routerLink="/userdetail/display">{{
+        "Login.UserDetail" | transloco
+      }}</a>
     </nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
-    <button nz-button nzType="primary" [disabled]="!isEditableMode" (click)="onSave()">{{'Common.Save' | transloco}}</button>
-  </nz-page-header-extra>  
+    <button
+      nz-button
+      nzType="primary"
+      [disabled]="!isEditableMode"
+      (click)="onSave()"
+    >
+      {{ "Common.Save" | transloco }}
+    </button>
+  </nz-page-header-extra>
 </nz-page-header>
 
 <form nz-form [formGroup]="detailForm">
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="userId">ID</nz-form-label>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="userId"
+      >ID</nz-form-label
+    >
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not null">
       <input nz-input formControlName="userId" id="userId" />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="displayAs" nzRequired>Display As</nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Display As">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="displayAs" nzRequired>{{
+      "Login.DisplayAs" | transloco
+    }}</nz-form-label>
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="'Login.DisplayAs' | transloco"
+    >
       <input nz-input id="displayAs" formControlName="displayAs" />
     </nz-form-control>
   </nz-form-item>
@@ -33,16 +58,38 @@
   </nz-form-item> -->
 
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="uploadFileMinSize" nzRequired>Upload File Min Size</nz-form-label>
+    <nz-form-label
+      [nzSm]="6"
+      [nzXs]="24"
+      nzFor="uploadFileMinSize"
+      nzRequired
+      >{{ "Photo.UploadMinSize" | transloco }}</nz-form-label
+    >
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Min. Size">
-      <input nz-input type="number" id="uploadFileMinSize" formControlName="uploadFileMinSize" />
+      <input
+        nz-input
+        type="number"
+        id="uploadFileMinSize"
+        formControlName="uploadFileMinSize"
+      />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="uploadFileMaxSize" nzRequired>Upload File Max Size</nz-form-label>
+    <nz-form-label
+      [nzSm]="6"
+      [nzXs]="24"
+      nzFor="uploadFileMaxSize"
+      nzRequired
+      >{{ "Photo.UploadMaxSize" | transloco }}</nz-form-label
+    >
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Max. Size">
-      <input nz-input type="number" id="uploadFileMaxSize" formControlName="uploadFileMaxSize" />
+      <input
+        nz-input
+        type="number"
+        id="uploadFileMaxSize"
+        formControlName="uploadFileMaxSize"
+      />
     </nz-form-control>
   </nz-form-item>
 

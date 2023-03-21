@@ -1,0 +1,66 @@
+<div [formGroup]="headerFormGroup">
+  <nz-form-item nz-row>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title">{{
+      "Common.Title" | transloco
+    }}</nz-form-label>
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="'Message.TitleIsMust' | transloco"
+    >
+      <input nz-input formControlName="titleCtrl" id="title" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="desp" nzRequired>{{
+      "Common.Description" | transloco
+    }}</nz-form-label>
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="'Message.PleaseInputDescription' | transloco"
+    >
+      <input nz-input id="desp" formControlName="despCtrl" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <div nz-row class="checkbox-margin">
+    <div nz-col [nzSpan]="24">
+      <label
+        nz-checkbox
+        id="ispublic"
+        name="ispublic"
+        formControlName="isPublicCtrl"
+      >
+        <span>{{ "Album.IsPublic" | transloco }}</span>
+      </label>
+    </div>
+  </div>
+
+  <nz-form-item nz-row *ngIf="isAccessCodeVisible">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="accode">{{
+      "Album.AccessCode" | transloco
+    }}</nz-form-label>
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="'Message.PleaseInputAccessCode' | transloco"
+    >
+      <input nz-input id="accode" formControlName="accessCodeCtrl" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item nz-row *ngIf="isAccessCodeVisible">
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="accodehint">{{
+      "Album.AccessCodeHint" | transloco
+    }}</nz-form-label>
+    <nz-form-control
+      [nzSm]="14"
+      [nzXs]="24"
+      [nzErrorTip]="'Message.PleaseInputAccessCodeHint' | transloco"
+    >
+      <input nz-input id="accodehint" formControlName="accessCodeHintCtrl" />
+    </nz-form-control>
+  </nz-form-item>
+</div>

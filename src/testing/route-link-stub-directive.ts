@@ -1,6 +1,7 @@
-import {  Directive } from '@angular/core';
+import { Directive } from "@angular/core";
 
 @Directive({
-    selector: '[routerLink], [routerLinkActive]'
+  // eslint-disable-next-line @angular-eslint/directive-selector
+  selector: "[routerLink], [routerLinkActive]",
 })
 export class RouterLinkStubDirective {}

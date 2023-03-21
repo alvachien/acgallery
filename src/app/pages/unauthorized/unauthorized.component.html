@@ -1,5 +1,9 @@
-<nz-result nzStatus="403" nzTitle="403" nzSubTitle="Sorry, you are not authorized to access this page.">
+<nz-result
+  nzStatus="403"
+  nzTitle="403"
+  [nzSubTitle]="'Message.UnauthorizedContent' | transloco"
+>
   <div nz-result-extra>
-    <button nz-button nzType="primary">{{'Nav.Home' | transloco}}</button>
+    <a nz-button routerLink="/" nzType="link">{{ "Nav.Home" | transloco }}</a>
   </div>
 </nz-result>
