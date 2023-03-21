@@ -1,6 +1,6 @@
-import { NgModule } from "@angular/core";
-import { AuthModule, LogLevel } from "angular-auth-oidc-client";
-import { environment } from "src/environments/environment";
+import { NgModule } from '@angular/core';
+import { AuthModule, LogLevel } from 'angular-auth-oidc-client';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   imports: [
@@ -11,9 +11,9 @@ import { environment } from "src/environments/environment";
         redirectUrl: environment.AppHost, // window.location.origin,
         postLogoutRedirectUri: environment.AppHost, // window.location.origin,
 
-        clientId: "acgallery.app",
-        scope: "openid profile api.acgallery offline_access",
-        responseType: "code",
+        clientId: 'acgallery.app',
+        scope: 'openid profile api.acgallery offline_access',
+        responseType: 'code',
 
         silentRenew: true,
         useRefreshToken: true,
@@ -25,8 +25,7 @@ import { environment } from "src/environments/environment";
         // allowUnsafeReuseRefreshToken: true, // this is required if the refresh token is not rotated
         //triggerRefreshWhenIdTokenExpired: false, // required to refresh the browser if id_token is not updated after the first authentication
         //autoUserInfo: false, // if the user endpoint is not supported
-        logLevel:
-          environment.loggingLevel === 2 ? LogLevel.Error : LogLevel.Warn,
+        logLevel: environment.loggingLevel === 2 ? LogLevel.Error : LogLevel.Warn,
       },
     }),
   ],

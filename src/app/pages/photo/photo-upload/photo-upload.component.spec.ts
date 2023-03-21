@@ -1,27 +1,18 @@
-import {
-  ComponentFixture,
-  fakeAsync,
-  flush,
-  TestBed,
-  tick,
-} from "@angular/core/testing";
-import { SequenceList } from "actslib";
-import { BehaviorSubject, of } from "rxjs";
-import { Album } from "src/app/models";
-import { AuthService, OdataService } from "src/app/services";
+import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { SequenceList } from 'actslib';
+import { BehaviorSubject, of } from 'rxjs';
+import { Album } from 'src/app/models';
+import { AuthService, OdataService } from 'src/app/services';
 
-import {
-  TestingDependsModule,
-  getTranslocoModule,
-  asyncData,
-  FakeDataHelper,
-} from "src/testing/";
-import { PhotoUploadComponent } from "./photo-upload.component";
+import { TestingDependsModule, getTranslocoModule, asyncData, FakeDataHelper } from 'src/testing/';
+import { PhotoUploadComponent } from './photo-upload.component';
 
-describe("PhotoUploadComponent", () => {
+describe('PhotoUploadComponent', () => {
   let component: PhotoUploadComponent;
   let fixture: ComponentFixture<PhotoUploadComponent>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let odataService: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let getAlbumsSpy: any;
   let fakeData: FakeDataHelper;
 
@@ -29,7 +20,7 @@ describe("PhotoUploadComponent", () => {
     fakeData = new FakeDataHelper();
     fakeData.buildCurrentUser();
 
-    odataService = jasmine.createSpyObj("OdataService", ["getAlbums"]);
+    odataService = jasmine.createSpyObj('OdataService', ['getAlbums']);
     getAlbumsSpy = odataService.getAlbums.and.returnValue(of([]));
   });
 
@@ -53,11 +44,11 @@ describe("PhotoUploadComponent", () => {
     //fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  describe("work with data", () => {
+  describe('work with data', () => {
     let albums: { totalCount: number; items: SequenceList<Album> };
     beforeEach(() => {
       albums = {
@@ -66,16 +57,16 @@ describe("PhotoUploadComponent", () => {
       };
       let nalbum: Album = new Album();
       nalbum.Id = 2;
-      nalbum.Title = "test2";
+      nalbum.Title = 'test2';
       albums.items.AppendElement(nalbum);
       nalbum = new Album();
       nalbum.Id = 3;
-      nalbum.Title = "test3";
+      nalbum.Title = 'test3';
       albums.items.AppendElement(nalbum);
 
       getAlbumsSpy.and.returnValue(asyncData(albums));
     });
-    xit("work with data", fakeAsync(() => {
+    xit('work with data', fakeAsync(() => {
       fixture.detectChanges(); // OnInit
       tick();
       fixture.detectChanges(); // Get Albums

@@ -1,1 +1,1 @@
-export * from "./photo-search.component";
+export * from './photo-search.component';

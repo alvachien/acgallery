@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TestingDependsModule, getTranslocoModule } from "src/testing/";
-import { PhotoDetailComponent } from "./photo-detail.component";
+import { TestingDependsModule, getTranslocoModule } from 'src/testing/';
+import { PhotoDetailComponent } from './photo-detail.component';
 
-describe("PhotoDetailComponent", () => {
+describe('PhotoDetailComponent', () => {
   let component: PhotoDetailComponent;
   let fixture: ComponentFixture<PhotoDetailComponent>;
 
@@ -20,7 +20,7 @@ describe("PhotoDetailComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

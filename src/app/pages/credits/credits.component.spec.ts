@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TestingDependsModule, getTranslocoModule } from "src/testing/";
-import { CreditsComponent } from "./credits.component";
+import { TestingDependsModule, getTranslocoModule } from 'src/testing/';
+import { CreditsComponent } from './credits.component';
 
-describe("CreditsComponent", () => {
+describe('CreditsComponent', () => {
   let component: CreditsComponent;
   let fixture: ComponentFixture<CreditsComponent>;
 
@@ -20,7 +20,7 @@ describe("CreditsComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

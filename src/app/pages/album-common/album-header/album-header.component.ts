@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -10,16 +10,16 @@ import {
   ValidationErrors,
   Validator,
   Validators,
-} from "@angular/forms";
+} from '@angular/forms';
 
-import { Album } from "src/app/models";
-import { isCreateMode, isUpdateMode, UIMode } from "actslib";
-import { Subject, takeUntil } from "rxjs";
+import { Album } from 'src/app/models';
+import { isCreateMode, isUpdateMode, UIMode } from 'actslib';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-  selector: "acgallery-album-header",
-  templateUrl: "./album-header.component.html",
-  styleUrls: ["./album-header.component.less"],
+  selector: 'acgallery-album-header',
+  templateUrl: './album-header.component.html',
+  styleUrls: ['./album-header.component.less'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -33,10 +33,10 @@ import { Subject, takeUntil } from "rxjs";
     },
   ],
 })
-export class AlbumHeaderComponent
-  implements OnInit, ControlValueAccessor, Validator, OnDestroy
-{
+export class AlbumHeaderComponent implements OnInit, ControlValueAccessor, Validator, OnDestroy {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   propagateOnChange: (value: any) => void = (_: any) => {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   propagateOnTouched: (value: any) => void = (_: any) => {};
 
   private destroy$ = new Subject<void>();
@@ -45,7 +45,7 @@ export class AlbumHeaderComponent
   // UI mode
   _uiMode: UIMode = UIMode.Invalid;
 
-  @Input("ui-mode")
+  @Input('ui-mode')
   get uiMode(): UIMode {
     return this._uiMode;
   }
@@ -69,8 +69,8 @@ export class AlbumHeaderComponent
 
   ngOnInit(): void {
     this.headerFormGroup = this.fb.group({
-      titleCtrl: new UntypedFormControl("", [Validators.required]),
-      despCtrl: new UntypedFormControl(""),
+      titleCtrl: new UntypedFormControl('', [Validators.required]),
+      despCtrl: new UntypedFormControl(''),
       isPublicCtrl: new UntypedFormControl(),
       accessCodeCtrl: new UntypedFormControl({
         value: undefined,
@@ -95,26 +95,22 @@ export class AlbumHeaderComponent
   }
 
   writeValue(obj: Album): void {
-    console.debug(
-      `Entering AlbumHeaderComponent's writeValue: ${
-        obj ? obj.writeJSONString() : "NULL"
-      }`
-    );
+    console.debug(`Entering AlbumHeaderComponent's writeValue: ${obj ? obj.writeJSONString() : 'NULL'}`);
     // Update value
     if (obj) {
-      this.headerFormGroup.get("titleCtrl")?.setValue(obj.Title);
-      this.headerFormGroup.get("despCtrl")?.setValue(obj.Desp);
-      this.headerFormGroup.get("isPublicCtrl")?.setValue(obj.IsPublic);
-      this.headerFormGroup.get("accessCodeCtrl")?.setValue(obj.AccessCode);
-      this.headerFormGroup
-        .get("accessCodeHintCtrl")
-        ?.setValue(obj.accessCodeHint);
+      this.headerFormGroup.get('titleCtrl')?.setValue(obj.Title);
+      this.headerFormGroup.get('despCtrl')?.setValue(obj.Desp);
+      this.headerFormGroup.get('isPublicCtrl')?.setValue(obj.IsPublic);
+      this.headerFormGroup.get('accessCodeCtrl')?.setValue(obj.AccessCode);
+      this.headerFormGroup.get('accessCodeHintCtrl')?.setValue(obj.accessCodeHint);
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   registerOnChange(fn: any): void {
     this.propagateOnChange = fn;
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   registerOnTouched(fn: any): void {
     this.propagateOnTouched = fn;
   }

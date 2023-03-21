@@ -1,20 +1,20 @@
-import { EventEmitter } from "@angular/core";
-import { Component, Input, Output } from "@angular/core";
-import { NzImageService } from "ng-zorro-antd/image";
+import { EventEmitter } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
+import { NzImageService } from 'ng-zorro-antd/image';
 
-import { ConsoleLogTypeEnum, Photo, writeConsole } from "src/app/models";
-import { OdataService } from "src/app/services";
-import { environment } from "src/environments/environment";
+import { ConsoleLogTypeEnum, Photo, writeConsole } from 'src/app/models';
+import { OdataService } from 'src/app/services';
+import { environment } from 'src/environments/environment';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: "acgallery-photo-list-core",
-  templateUrl: "./photo-list-core.component.html",
-  styleUrls: ["./photo-list-core.component.less"],
+  selector: 'acgallery-photo-list-core',
+  templateUrl: './photo-list-core.component.html',
+  styleUrls: ['./photo-list-core.component.less'],
 })
 export class PhotoListCoreComponent {
   @Input() totalCount = 0;
-  viewMode = "std";
+  viewMode = 'std';
   @Input() pageSize = 20;
   pageIndex = 1;
   @Input() photos: Photo[] = [];
@@ -23,17 +23,14 @@ export class PhotoListCoreComponent {
     pageIndex: number;
   }>();
   isExifVisible = false;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   curExif: any = {};
 
-  constructor(
-    public odataSvc: OdataService,
-    private nzImageService: NzImageService
-  ) {}
+  constructor(public odataSvc: OdataService, private nzImageService: NzImageService) {}
 
   getFileUrl(pht: Photo): string {
-    if (pht.fileUrl)
-      return environment.apiRootUrl + "PhotoFile/" + pht.thumbnailFileUrl;
-    return "";
+    if (pht.fileUrl) return environment.apiRootUrl + 'PhotoFile/' + pht.thumbnailFileUrl;
+    return '';
   }
 
   // Command handlers
@@ -63,7 +60,7 @@ export class PhotoListCoreComponent {
   onDeletePhoto(pht: Photo): void {
     // Delete
     this.odataSvc.deletePhoto(pht.photoId).subscribe({
-      next: (val) => {
+      next: () => {
         const pidx = this.photos.findIndex((pt) => pt.photoId === pht.photoId);
         if (pidx !== -1) {
           this.photos.splice(pidx, 1);
@@ -79,7 +76,7 @@ export class PhotoListCoreComponent {
     });
   }
   onPageIndexChanged(pgIdx: number): void {
-    console.log("Photo List Core: Entering onPageIndexChanged");
+    console.log('Photo List Core: Entering onPageIndexChanged');
     this.paginationEvent.emit({
       pageSize: this.pageSize,
       pageIndex: this.pageIndex,
@@ -92,8 +89,7 @@ export class PhotoListCoreComponent {
       let idx2 = idx;
       for (idx2 = idx; idx2 < this.photos.length; idx2++) {
         images.push({
-          src:
-            environment.apiRootUrl + "PhotoFile/" + this.photos[idx2].fileUrl,
+          src: environment.apiRootUrl + 'PhotoFile/' + this.photos[idx2].fileUrl,
           // width: this.photos[idx2].width + 'px',
           // height: this.photos[idx2].height + 'px'
         });
@@ -103,8 +99,7 @@ export class PhotoListCoreComponent {
       let idx3 = 0;
       for (; idx3 < idx; idx3++) {
         images.push({
-          src:
-            environment.apiRootUrl + "PhotoFile/" + this.photos[idx3].fileUrl,
+          src: environment.apiRootUrl + 'PhotoFile/' + this.photos[idx3].fileUrl,
           // width: this.photos[idx3].width + 'px',
           // height: this.photos[idx3].height + 'px'
         });

@@ -1,4 +1,4 @@
-import { UserAuthInfo, Album, Photo } from "../app/models";
+import { UserAuthInfo, Album, Photo } from '../app/models';
 
 /**
  * Fake data helper
@@ -8,8 +8,8 @@ export class FakeDataHelper {
   private _listAlbums: Album[] = [];
   private _listPhotos: Photo[] = [];
 
-  readonly userID1: string = "uttest";
-  readonly userID1Sub: string = "12345abcdefg";
+  readonly userID1: string = 'uttest';
+  readonly userID1Sub: string = '12345abcdefg';
 
   constructor() {
     // Empty
@@ -27,12 +27,13 @@ export class FakeDataHelper {
 
   public buildCurrentUser(): void {
     this._currUser = new UserAuthInfo();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const usr: any = {
       profile: {
         name: this.userID1,
         sub: this.userID1Sub,
-        mail: "test@test.com",
-        access_token: "access_token",
+        mail: 'test@test.com',
+        access_token: 'access_token',
       },
     };
 
@@ -43,14 +44,14 @@ export class FakeDataHelper {
     let alb: Album;
     alb = new Album();
     alb.Id = 1;
-    alb.Title = "Test 1";
-    alb.Desp = "Album 1";
+    alb.Title = 'Test 1';
+    alb.Desp = 'Album 1';
     alb.IsPublic = true;
     this._listAlbums.push(alb);
     alb = new Album();
     alb.Id = 2;
-    alb.Title = "Test 2";
-    alb.Desp = "Album 2";
+    alb.Title = 'Test 2';
+    alb.Desp = 'Album 2';
     alb.IsPublic = false;
     this._listAlbums.push(alb);
   }

@@ -1,5 +1,5 @@
-import { UrlSegment } from "@angular/router";
-import { ReplaySubject } from "rxjs";
+import { UrlSegment } from '@angular/router';
+import { ReplaySubject } from 'rxjs';
 
 /**
  * An ActivateRoute test double with a `url` observable.
@@ -8,9 +8,11 @@ import { ReplaySubject } from "rxjs";
 export class ActivatedRouteUrlStub {
   // Use a ReplaySubject to share previous values with subscribers
   // and pump new values into the `url` observable
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private subject: any = new ReplaySubject<UrlSegment[]>();
 
   /** The mock url observable */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly url: any = this.subject.asObservable();
 
   constructor(initialUrls?: UrlSegment[]) {

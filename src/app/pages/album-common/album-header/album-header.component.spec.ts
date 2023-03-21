@@ -1,32 +1,20 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { Component, OnInit, ViewChild } from "@angular/core";
-import {
-  ComponentFixture,
-  fakeAsync,
-  flush,
-  TestBed,
-  waitForAsync,
-} from "@angular/core/testing";
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  UntypedFormBuilder,
-  UntypedFormGroup,
-} from "@angular/forms";
-import { By } from "@angular/platform-browser";
-import { BrowserDynamicTestingModule } from "@angular/platform-browser-dynamic/testing";
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { RouterTestingModule } from "@angular/router/testing";
-import { NzCheckboxModule } from "ng-zorro-antd/checkbox";
-import { NzFormModule } from "ng-zorro-antd/form";
-import { NzGridModule } from "ng-zorro-antd/grid";
-import { NzInputModule } from "ng-zorro-antd/input";
-import { Album } from "src/app/models";
-import { getTranslocoModule } from "src/testing";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { Album } from 'src/app/models';
+import { getTranslocoModule } from 'src/testing';
 
-import { AlbumHeaderComponent } from "./";
+import { AlbumHeaderComponent } from './';
 
-describe("AlbumHeaderCreateComponent", () => {
+describe('AlbumHeaderCreateComponent', () => {
   let component: AlbumHeaderCreateComponent;
   let fixture: ComponentFixture<AlbumHeaderCreateComponent>;
 
@@ -46,11 +34,7 @@ describe("AlbumHeaderCreateComponent", () => {
         NzGridModule,
         getTranslocoModule(),
       ],
-      declarations: [
-        AlbumHeaderComponent,
-        AlbumHeaderCreateComponent,
-        AlbumHeaderEditComponent,
-      ],
+      declarations: [AlbumHeaderComponent, AlbumHeaderCreateComponent, AlbumHeaderEditComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AlbumHeaderCreateComponent);
@@ -58,27 +42,26 @@ describe("AlbumHeaderCreateComponent", () => {
     fixture.detectChanges();
   }));
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it("shall enable control for editing", fakeAsync(() => {
+  it('shall enable control for editing', fakeAsync(() => {
     flush();
 
-    const inputTitle = fixture.nativeElement.querySelector("#title");
+    const inputTitle = fixture.nativeElement.querySelector('#title');
     expect(inputTitle.disabled).toBeFalsy();
-    const inputDesp = fixture.nativeElement.querySelector("#desp");
+    const inputDesp = fixture.nativeElement.querySelector('#desp');
     expect(inputDesp.disabled).toBeFalsy();
 
-    const inputAccessCode = fixture.nativeElement.querySelector("#accode");
+    const inputAccessCode = fixture.nativeElement.querySelector('#accode');
     expect(inputAccessCode).toBeDefined();
-    const inputAccessCodeHint =
-      fixture.nativeElement.querySelector("#accodehint");
+    const inputAccessCodeHint = fixture.nativeElement.querySelector('#accodehint');
     expect(inputAccessCodeHint).toBeDefined();
   }));
 });
 
-describe("AlbumHeaderDisplayComponent", () => {
+describe('AlbumHeaderDisplayComponent', () => {
   let component: AlbumHeaderDisplayComponent;
   let fixture: ComponentFixture<AlbumHeaderDisplayComponent>;
 
@@ -106,50 +89,45 @@ describe("AlbumHeaderDisplayComponent", () => {
     fixture.detectChanges();
   }));
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it("shall display data", fakeAsync(() => {
+  it('shall display data', fakeAsync(() => {
     flush();
 
     const album: Album = new Album();
-    album.Title = "testTitle";
-    album.Desp = "testDesp";
+    album.Title = 'testTitle';
+    album.Desp = 'testDesp';
     album.IsPublic = true;
     component.setData(album);
 
-    const inputTitle = fixture.nativeElement.querySelector("#title");
+    const inputTitle = fixture.nativeElement.querySelector('#title');
     expect(inputTitle.value).toBe(album.Title);
-    const inputDesp = fixture.nativeElement.querySelector("#desp");
+    const inputDesp = fixture.nativeElement.querySelector('#desp');
     expect(inputDesp.value).toBe(album.Desp);
     // const chkComponent = fixture.debugElement.query(By.css('#ispublic'));
     // const chkinputElement = chkComponent.nativeElement.querySelector('input') as HTMLInputElement;
-    expect(
-      component.headerComponent!.headerFormGroup!.get("isPublicCtrl")!.value
-    ).toBeTrue();
+    expect(component.headerComponent!.headerFormGroup!.get('isPublicCtrl')!.value).toBeTrue();
 
-    album.Title = "testTitle2";
-    album.Desp = "testDesp2";
+    album.Title = 'testTitle2';
+    album.Desp = 'testDesp2';
     album.IsPublic = false;
     component.setData(album);
 
     expect(inputTitle.value).toBe(album.Title);
     expect(inputDesp.value).toBe(album.Desp);
     //expect(chkinputElement.checked).toBeFalse();
-    expect(
-      component.headerComponent!.headerFormGroup!.get("isPublicCtrl")!.value
-    ).toBeFalse();
+    expect(component.headerComponent!.headerFormGroup!.get('isPublicCtrl')!.value).toBeFalse();
 
-    const inputAccessCode = fixture.nativeElement.querySelector("#accode");
+    const inputAccessCode = fixture.nativeElement.querySelector('#accode');
     expect(inputAccessCode).toBeNull();
-    const inputAccessCodeHint =
-      fixture.nativeElement.querySelector("#accodehint");
+    const inputAccessCodeHint = fixture.nativeElement.querySelector('#accodehint');
     expect(inputAccessCodeHint).toBeNull();
   }));
 });
 
-describe("AlbumHeaderEditComponent", () => {
+describe('AlbumHeaderEditComponent', () => {
   let component: AlbumHeaderEditComponent;
   let fixture: ComponentFixture<AlbumHeaderEditComponent>;
 
@@ -177,45 +155,40 @@ describe("AlbumHeaderEditComponent", () => {
     fixture.detectChanges();
   }));
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it("shall display inital data", fakeAsync(() => {
+  it('shall display inital data', fakeAsync(() => {
     flush();
     fixture.detectChanges();
 
     const album: Album = new Album();
-    album.Title = "testTitle";
-    album.Desp = "testDesp";
+    album.Title = 'testTitle';
+    album.Desp = 'testDesp';
     album.IsPublic = true;
-    album.AccessCode = "aaa";
-    album.accessCodeHint = "Hint";
+    album.AccessCode = 'aaa';
+    album.accessCodeHint = 'Hint';
     component.setData(album);
 
     fixture.detectChanges();
     flush();
     fixture.detectChanges();
 
-    const inputTitle = fixture.nativeElement.querySelector(
-      "#title"
-    ) as HTMLInputElement;
+    const inputTitle = fixture.nativeElement.querySelector('#title') as HTMLInputElement;
     expect(inputTitle.value).toBe(album.Title);
     expect(inputTitle.disabled).toBeFalsy();
-    const inputDesp = fixture.nativeElement.querySelector("#desp");
+    const inputDesp = fixture.nativeElement.querySelector('#desp');
     expect(inputDesp.value).toBe(album.Desp);
     expect(inputTitle.disabled).toBeFalsy();
     // const chkComponent = fixture.debugElement.query(By.css('#ispublic'));
     // const chkinputElement = chkComponent.nativeElement.querySelector('input') as HTMLInputElement;
-    expect(
-      component.headerComponent!.headerFormGroup!.get("isPublicCtrl")!.value
-    ).toBeTrue();
+    expect(component.headerComponent!.headerFormGroup!.get('isPublicCtrl')!.value).toBeTrue();
 
-    const inputAccessCode = fixture.nativeElement.querySelector("#accode");
+    const inputAccessCode = fixture.nativeElement.querySelector('#accode');
     expect(inputAccessCode.value).toBe(album.AccessCode);
     expect(inputAccessCode.disabled).toBeFalsy();
-    const inputAccessCodeHint =
-      fixture.nativeElement.querySelector("#accodehint");
+    const inputAccessCodeHint = fixture.nativeElement.querySelector('#accodehint');
     expect(inputAccessCodeHint.value).toBe(album.accessCodeHint);
     expect(inputAccessCodeHint.disabled).toBeFalsy();
   }));
@@ -224,17 +197,14 @@ describe("AlbumHeaderEditComponent", () => {
 @Component({
   template: `
     <form [formGroup]="formGroup">
-      <acgallery-album-header formControlName="headerControl" [ui-mode]="1">
-      </acgallery-album-header>
+      <acgallery-album-header formControlName="headerControl" [ui-mode]="1"> </acgallery-album-header>
     </form>
   `,
 })
 export class AlbumHeaderCreateComponent implements OnInit {
   public formGroup!: UntypedFormGroup;
 
-  @ViewChild(AlbumHeaderComponent, { static: true }) headerComponent:
-    | AlbumHeaderComponent
-    | undefined;
+  @ViewChild(AlbumHeaderComponent, { static: true }) headerComponent: AlbumHeaderComponent | undefined;
 
   constructor(private fb: UntypedFormBuilder) {}
 
@@ -248,17 +218,14 @@ export class AlbumHeaderCreateComponent implements OnInit {
 @Component({
   template: `
     <form [formGroup]="formGroup">
-      <acgallery-album-header formControlName="headerControl" [ui-mode]="3">
-      </acgallery-album-header>
+      <acgallery-album-header formControlName="headerControl" [ui-mode]="3"> </acgallery-album-header>
     </form>
   `,
 })
 export class AlbumHeaderDisplayComponent implements OnInit {
   public formGroup!: UntypedFormGroup;
 
-  @ViewChild(AlbumHeaderComponent, { static: true }) headerComponent:
-    | AlbumHeaderComponent
-    | undefined;
+  @ViewChild(AlbumHeaderComponent, { static: true }) headerComponent: AlbumHeaderComponent | undefined;
 
   constructor(private fb: UntypedFormBuilder) {}
 
@@ -269,24 +236,21 @@ export class AlbumHeaderDisplayComponent implements OnInit {
   }
 
   setData(objAlbum: Album) {
-    this.formGroup.get("headerControl")?.setValue(objAlbum);
+    this.formGroup.get('headerControl')?.setValue(objAlbum);
   }
 }
 
 @Component({
   template: `
     <form [formGroup]="formGroup">
-      <acgallery-album-header formControlName="headerControl" [ui-mode]="2">
-      </acgallery-album-header>
+      <acgallery-album-header formControlName="headerControl" [ui-mode]="2"> </acgallery-album-header>
     </form>
   `,
 })
 export class AlbumHeaderEditComponent implements OnInit {
   public formGroup!: UntypedFormGroup;
 
-  @ViewChild(AlbumHeaderComponent, { static: true }) headerComponent:
-    | AlbumHeaderComponent
-    | undefined;
+  @ViewChild(AlbumHeaderComponent, { static: true }) headerComponent: AlbumHeaderComponent | undefined;
 
   constructor(private fb: UntypedFormBuilder) {}
 
@@ -297,6 +261,6 @@ export class AlbumHeaderEditComponent implements OnInit {
   }
 
   setData(objAlbum: Album) {
-    this.formGroup.get("headerControl")?.setValue(objAlbum);
+    this.formGroup.get('headerControl')?.setValue(objAlbum);
   }
 }

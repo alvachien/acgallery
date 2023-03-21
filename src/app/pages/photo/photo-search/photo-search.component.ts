@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { BehaviorSubject, merge, of as observableOf } from "rxjs";
-import { finalize, startWith, switchMap } from "rxjs/operators";
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, of as observableOf } from 'rxjs';
+import { finalize, startWith, switchMap } from 'rxjs/operators';
 
 import {
   ConsoleLogTypeEnum,
@@ -12,20 +12,21 @@ import {
   UIDisplayString,
   UIDisplayStringUtil,
   writeConsole,
-} from "src/app/models";
-import { OdataService, UIInfoService } from "src/app/services";
-import { PhotoListCoreComponent } from "../../photo-common/photo-list-core";
+} from 'src/app/models';
+import { OdataService, UIInfoService } from 'src/app/services';
+import { PhotoListCoreComponent } from '../../photo-common/photo-list-core';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: "acgallery-photo-search",
-  templateUrl: "./photo-search.component.html",
-  styleUrls: ["./photo-search.component.less"],
+  selector: 'acgallery-photo-search',
+  templateUrl: './photo-search.component.html',
+  styleUrls: ['./photo-search.component.less'],
 })
 export class PhotoSearchComponent implements OnInit, AfterViewInit {
   // Filters
   filters: GeneralFilterItem[] = [];
   allOperators: UIDisplayString[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   allFields: any[] = [];
   filterEditable = true;
   currentAlbumID?: number;
@@ -34,6 +35,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
   // Result
   isLoadingResults = false;
   resultsLength: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public subjFilters: BehaviorSubject<any[]> = new BehaviorSubject([] as any[]);
   photos: Photo[] = [];
   pageSize = 20;
@@ -41,17 +43,16 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
   // UI
   pageHeader: string;
 
-  @ViewChild(PhotoListCoreComponent) set content(
-    content: PhotoListCoreComponent
-  ) {
+  @ViewChild(PhotoListCoreComponent) set content(content: PhotoListCoreComponent) {
     if (content) {
       // initially setter gets called with undefined
       this.photoListComponent = content;
       this.photoListComponent.paginationEvent.subscribe({
-        next: (val: any) => {
+        next: () => {
           // Do the research
           this.onSearch();
         },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         error: (err: any) => {
           writeConsole(
             `ACGallery [Error]: Entering PhotoSearchComponent content setter ${err.toString()}`,
@@ -62,69 +63,65 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
     }
   }
 
-  constructor(
-    private odataSvc: OdataService,
-    private activateRoute: ActivatedRoute,
-    private uiSrv: UIInfoService
-  ) {
+  constructor(private odataSvc: OdataService, private activateRoute: ActivatedRoute, private uiSrv: UIInfoService) {
     this.resultsLength = 0;
-    this.allOperators =
-      UIDisplayStringUtil.getGeneralFilterOperatorDisplayStrings();
+    this.allOperators = UIDisplayStringUtil.getGeneralFilterOperatorDisplayStrings();
     this.allFields = [
       {
-        displayas: "Common.Title",
-        value: "Title",
+        displayas: 'Common.Title',
+        value: 'Title',
         valueType: 2,
       },
       {
-        displayas: "Common.CameraMaker",
-        value: "CameraMaker",
+        displayas: 'Common.CameraMaker',
+        value: 'CameraMaker',
         valueType: 2,
       },
       {
-        displayas: "Common.CameraModel",
-        value: "CameraModel",
+        displayas: 'Common.CameraModel',
+        value: 'CameraModel',
         valueType: 2,
       },
       {
-        displayas: "Common.LensModel",
-        value: "LensModel",
+        displayas: 'Common.LensModel',
+        value: 'LensModel',
         valueType: 2,
       },
       {
-        displayas: "Common.ShutterSpeed",
-        value: "ShutterSpeed",
+        displayas: 'Common.ShutterSpeed',
+        value: 'ShutterSpeed',
         valueType: 2,
       },
       {
-        displayas: "Common.Aperture",
-        value: "AVNumber",
+        displayas: 'Common.Aperture',
+        value: 'AVNumber',
         valueType: 2,
       },
       {
-        displayas: "Common.ISO",
-        value: "ISONumber",
+        displayas: 'Common.ISO',
+        value: 'ISONumber',
         valueType: 1,
       },
       {
-        displayas: "Common.Tags",
-        value: "Tags",
+        displayas: 'Common.Tags',
+        value: 'Tags',
         valueType: 2,
       },
     ];
 
-    this.pageHeader = "Common.SearchPhotos";
+    this.pageHeader = 'Common.SearchPhotos';
   }
 
   ngOnInit(): void {
     this.onAddFilter();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.activateRoute.url.subscribe((x: any) => {
       if (x instanceof Array && x.length > 0) {
-        if (x[0].path === "search") {
+        if (x[0].path === 'search') {
           this.currentAlbumID = undefined;
-          this.pageHeader = "Common.SearchPhotos";
-        } else if (x[0].path === "searchinalbum") {
+          this.pageHeader = 'Common.SearchPhotos';
+        } else if (x[0].path === 'searchinalbum') {
           this.currentAlbumID = +x[1].path;
           if (this.currentAlbumID === +this.uiSrv.AlbumIDForPhotoSearching!) {
             this.currentAlbumInfo = this.uiSrv.AlbumInfoForPhotoSearching;
@@ -133,7 +130,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
           this.uiSrv.AlbumIDForPhotoSearching = undefined;
           this.uiSrv.AlbumInfoForPhotoSearching = undefined;
           this.uiSrv.AlbumTitleForPhotoSearching = undefined;
-          this.pageHeader = "Common.SearchPhotosInAlbum";
+          this.pageHeader = 'Common.SearchPhotosInAlbum';
         }
       }
     });
@@ -155,9 +152,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
           const filter = this.prepareFilters(this.subjFilters.value);
 
           return this.odataSvc.searchPhotos(
-            this.photoListComponent
-              ? (this.photoListComponent.pageIndex - 1) * this.pageSize
-              : 0,
+            this.photoListComponent ? (this.photoListComponent.pageIndex - 1) * this.pageSize : 0,
             this.pageSize,
             filter,
             this.currentAlbumID,
@@ -167,8 +162,10 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
         finalize(() => (this.isLoadingResults = false))
       )
       .subscribe({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         next: (val: any) => {
           if (val === undefined) {
+            // TBD.
           } else {
             this.resultsLength = val.totalCount;
             this.photos = [];
@@ -185,17 +182,18 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
         },
       });
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   prepareFilters(arFilter: any[]): string {
-    let rstfilter = "";
+    let rstfilter = '';
     arFilter.sort((a, b) => a.fieldName.localeCompare(b.fieldName));
 
     arFilter.forEach((flt) => {
       if (
-        flt.fieldName === "Title" ||
-        flt.fieldName === "CameraModel" ||
-        flt.fieldName === "CameraMaker" ||
-        flt.fieldName === "LensModel" ||
-        flt.fieldName === "Tags"
+        flt.fieldName === 'Title' ||
+        flt.fieldName === 'CameraModel' ||
+        flt.fieldName === 'CameraMaker' ||
+        flt.fieldName === 'LensModel' ||
+        flt.fieldName === 'Tags'
       ) {
         if (flt.operator === GeneralFilterOperatorEnum.Equal) {
           if (flt.lowValue) {
@@ -203,9 +201,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
               ? `${rstfilter} and ${flt.fieldName} eq '${flt.lowValue}'`
               : `${flt.fieldName} eq '${flt.lowValue}'`;
           } else {
-            rstfilter = rstfilter
-              ? `${rstfilter} and ${flt.fieldName} eq null`
-              : `${flt.fieldName} eq null`;
+            rstfilter = rstfilter ? `${rstfilter} and ${flt.fieldName} eq null` : `${flt.fieldName} eq null`;
           }
         } else if (flt.operator === GeneralFilterOperatorEnum.Like) {
           if (flt.lowValue) {
@@ -230,6 +226,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
     }
   }
   public onFieldSelectionChanged(filter: GeneralFilterItem): void {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.allFields.forEach((value: any) => {
       if (value.value === filter.fieldName) {
         filter.valueType = value.valueType;
@@ -239,8 +236,10 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
 
   onSearch() {
     // Do the translate first
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const arRealFilter: any[] = [];
     this.filters.forEach((value: GeneralFilterItem) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const val: any = {};
       val.valueType = +value.valueType;
       switch (value.valueType) {
@@ -248,11 +247,11 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
           val.fieldName = value.fieldName;
           val.operator = +value.operator;
           if (value.value[0]) {
-            val.lowValue = "true";
+            val.lowValue = 'true';
           } else {
-            val.lowValue = "false";
+            val.lowValue = 'false';
           }
-          val.highValue = "";
+          val.highValue = '';
           break;
         }
 
@@ -275,7 +274,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
           if (value.operator === GeneralFilterOperatorEnum.Between) {
             val.highValue = +value.value[1];
           } else {
-            val.highValue = "";
+            val.highValue = '';
           }
           break;
         }
@@ -287,7 +286,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
           if (value.operator === GeneralFilterOperatorEnum.Between) {
             val.highValue = value.value[1];
           } else {
-            val.highValue = "";
+            val.highValue = '';
           }
           break;
         }

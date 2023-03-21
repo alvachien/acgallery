@@ -5,21 +5,19 @@
 >
   <nz-breadcrumb nz-page-header-breadcrumb>
     <nz-breadcrumb-item
-      ><a routerLink="/welcome">{{
-        "Common.Dashboard" | transloco
-      }}</a></nz-breadcrumb-item
+      ><a routerLink="/welcome">{{ 'Common.Dashboard' | transloco }}</a></nz-breadcrumb-item
     >
-    <nz-breadcrumb-item>{{ "Nav.Photos" | transloco }}</nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{ 'Nav.Photos' | transloco }}</nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
     <button nz-button (click)="onSearch()">
-      {{ "Common.Search" | transloco }}
+      {{ 'Common.Search' | transloco }}
     </button>
     <button nz-button (click)="onRefresh()">
-      {{ "Common.Refresh" | transloco }}
+      {{ 'Common.Refresh' | transloco }}
     </button>
     <button nz-button nzType="primary" (click)="onUpload()">
-      {{ "Nav.PhotoUpload" | transloco }}
+      {{ 'Nav.PhotoUpload' | transloco }}
     </button>
   </nz-page-header-extra>
 </nz-page-header>

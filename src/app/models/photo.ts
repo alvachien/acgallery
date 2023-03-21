@@ -1,17 +1,17 @@
-import * as Common from "./common";
-import { environment } from "../../environments/environment";
+import * as Common from './common';
+import { environment } from '../../environments/environment';
 
 /**
  * Exif item
  */
 export class PhotoExif {
   public group = 0;
-  public name = "";
-  public value = "";
+  public name = '';
+  public value = '';
 }
 
 export class TagCount {
-  public tagString = "";
+  public tagString = '';
   public count = 0;
 }
 
@@ -19,28 +19,28 @@ export class TagCount {
  * Photo
  */
 export class Photo {
-  public photoId = "";
+  public photoId = '';
 
-  public title = "";
-  public desp = "";
+  public title = '';
+  public desp = '';
   public width = 0;
   public height = 0;
-  public fileUrl = "";
+  public fileUrl = '';
   public thumbWidth = 0;
   public thumbHeight = 0;
 
-  public thumbnailFileUrl = "";
-  public fileFormat = "";
-  public uploadedBy = "";
+  public thumbnailFileUrl = '';
+  public fileFormat = '';
+  public uploadedBy = '';
   public uploadedTime: Date = new Date();
-  public orgFileName = "";
+  public orgFileName = '';
   public isPublic = false;
 
-  public cameraMaker = "";
-  public cameraModel = "";
-  public lensModel = "";
-  public avNumber = "";
-  public shutterSpeed = "";
+  public cameraMaker = '';
+  public cameraModel = '';
+  public lensModel = '';
+  public avNumber = '';
+  public shutterSpeed = '';
   public isoNumber = 0;
 
   public exifTags: PhotoExif[] = [];
@@ -58,6 +58,7 @@ export class Photo {
   //   }
   // }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parseData(data: any) {
     if (data && data.PhotoId) {
       this.photoId = data.PhotoId;
@@ -137,6 +138,7 @@ export class Photo {
       }
     }
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   generateJson(): any {
     return {
       PhotoId: this.photoId,
@@ -153,10 +155,7 @@ export class Photo {
   }
 }
 
-export class SelectablePhoto
-  extends Photo
-  implements Common.SelectableObject<boolean>
-{
+export class SelectablePhoto extends Photo implements Common.SelectableObject<boolean> {
   public isSelected = false;
 }
 
@@ -164,12 +163,12 @@ export class SelectablePhoto
  * Photo for upload
  */
 export class UpdPhoto {
-  public uid = "";
-  public imgFile = "";
-  public thumbFile = "";
+  public uid = '';
+  public imgFile = '';
+  public thumbFile = '';
   public width = 0;
   public height = 0;
-  public size = "";
+  public size = '';
   public thumbWidth = 0;
   public thumbHeight = 0;
   get imgSrc(): string {
@@ -178,16 +177,16 @@ export class UpdPhoto {
   get thumbSrc(): string {
     return `${environment.apiRootUrl}PhotoFile/${this.thumbFile}`;
   }
-  public title = "";
-  public desp = "";
+  public title = '';
+  public desp = '';
   public isPublic = false;
-  public orgName = "";
-  public name = "";
+  public orgName = '';
+  public name = '';
 
   public id = 0;
-  public validInfo = "";
+  public validInfo = '';
   get dimension(): string {
-    return this.width.toString() + " X " + this.height.toString();
+    return this.width.toString() + ' X ' + this.height.toString();
   }
   public tags: string[] = [];
   public rating = 0;

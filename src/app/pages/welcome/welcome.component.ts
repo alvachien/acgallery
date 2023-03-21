@@ -1,16 +1,17 @@
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { ConsoleLogTypeEnum, writeConsole } from "src/app/models";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ConsoleLogTypeEnum, writeConsole } from 'src/app/models';
 
-import { OdataService } from "src/app/services";
+import { OdataService } from 'src/app/services';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: "app-welcome",
-  templateUrl: "./welcome.component.html",
-  styleUrls: ["./welcome.component.css"],
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.css'],
 })
 export class WelcomeComponent implements OnInit {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   statInfo: any = {
     photoAmount: 0,
     albumAmount: 0,
@@ -34,9 +35,9 @@ export class WelcomeComponent implements OnInit {
     });
   }
   public onNavigateToPhoto() {
-    this.router.navigate(["photo"]);
+    this.router.navigate(['photo']);
   }
   public onNavigateToAlbum() {
-    this.router.navigate(["album"]);
+    this.router.navigate(['album']);
   }
 }

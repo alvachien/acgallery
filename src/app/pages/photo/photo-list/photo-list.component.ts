@@ -1,18 +1,18 @@
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { ConsoleLogTypeEnum, Photo, writeConsole } from "src/app/models";
-import { OdataService } from "src/app/services";
+import { ConsoleLogTypeEnum, Photo, writeConsole } from 'src/app/models';
+import { OdataService } from 'src/app/services';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: "photo-list",
-  templateUrl: "./photo-list.component.html",
-  styleUrls: ["./photo-list.component.less"],
+  selector: 'photo-list',
+  templateUrl: './photo-list.component.html',
+  styleUrls: ['./photo-list.component.less'],
 })
 export class PhotoListComponent implements OnInit {
   totalCount = 0;
-  viewMode = "std";
+  viewMode = 'std';
   pageSize = 20;
 
   photos: Photo[] = [];
@@ -24,15 +24,16 @@ export class PhotoListComponent implements OnInit {
   }
 
   onUpload(): void {
-    this.router.navigate(["/photo/upload"]);
+    this.router.navigate(['/photo/upload']);
   }
   onRefresh(): void {
     // TBD. Refresh
   }
   onSearch(): void {
-    this.router.navigate(["/photo/search"]);
+    this.router.navigate(['/photo/search']);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onFetchData(top: any, skip: any): void {
     this.odataSvc.getPhotos(skip, top).subscribe({
       next: (val) => {

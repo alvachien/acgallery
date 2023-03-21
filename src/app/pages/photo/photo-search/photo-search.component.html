@@ -1,35 +1,19 @@
-<nz-page-header
-  class="site-page-header"
-  [nzTitle]="'Nav.Photos' | transloco"
-  [nzSubtitle]="pageHeader | transloco"
->
+<nz-page-header class="site-page-header" [nzTitle]="'Nav.Photos' | transloco" [nzSubtitle]="pageHeader | transloco">
   <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item>{{
-      "Common.Dashboard" | transloco
-    }}</nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{ 'Common.Dashboard' | transloco }}</nz-breadcrumb-item>
     <nz-breadcrumb-item
-      ><a routerLink="/photo">{{
-        "Nav.Photos" | transloco
-      }}</a></nz-breadcrumb-item
+      ><a routerLink="/photo">{{ 'Nav.Photos' | transloco }}</a></nz-breadcrumb-item
     >
     <nz-breadcrumb-item>{{ pageHeader | transloco }}</nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
-    <div *ngIf="currentAlbumID">
-      {{ "Nav.Albums" | transloco }}: {{ currentAlbumTitle }} ({{
-        currentAlbumID
-      }})
-    </div>
+    <div *ngIf="currentAlbumID">{{ 'Nav.Albums' | transloco }}: {{ currentAlbumTitle }} ({{ currentAlbumID }})</div>
   </nz-page-header-extra>
 </nz-page-header>
 
 <!-- Filter -->
 <div>
-  <div
-    nz-row
-    *ngFor="let filter of filters; let idxfilter = index"
-    class="control-full-width"
-  >
+  <div nz-row *ngFor="let filter of filters; let idxfilter = index" class="control-full-width">
     <div nz-col nzSpan="4">
       <nz-form-item>
         <nz-select
@@ -38,11 +22,7 @@
           [(ngModel)]="filter.fieldName"
           (ngModelChange)="onFieldSelectionChanged(filter)"
         >
-          <nz-option
-            *ngFor="let field of allFields"
-            [nzValue]="field.value"
-            [nzLabel]="field.displayas | transloco"
-          >
+          <nz-option *ngFor="let field of allFields" [nzValue]="field.value" [nzLabel]="field.displayas | transloco">
           </nz-option>
         </nz-select>
       </nz-form-item>
@@ -83,10 +63,7 @@
         />
       </nz-form-item>
       <nz-form-item *ngIf="filter.valueType === 3">
-        <nz-range-picker
-          [nzShowTime]="true"
-          [(ngModel)]="filter.value"
-        ></nz-range-picker>
+        <nz-range-picker [nzShowTime]="true" [(ngModel)]="filter.value"></nz-range-picker>
       </nz-form-item>
       <div class="typechkbox" *ngIf="filter.valueType === 4">
         <label nz-checkbox [(ngModel)]="filter.value[0]">Checkbox</label>
@@ -115,7 +92,7 @@
 
   <div nz-row class="control-full-width">
     <button nz-button aria-label="Search" (click)="onSearch()">
-      <i nz-icon nzType="search"></i>{{ "Common.Search" | transloco }}
+      <i nz-icon nzType="search"></i>{{ 'Common.Search' | transloco }}
     </button>
   </div>
 </div>

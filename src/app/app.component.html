@@ -14,42 +14,27 @@
         <h1>AC Photo Gallery</h1>
       </a>
     </div>
-    <ul
-      nz-menu
-      nzTheme="dark"
-      nzMode="inline"
-      [nzInlineCollapsed]="isCollapsed"
-    >
-      <li
-        nz-submenu
-        nzOpen
-        nzTitle="{{ 'Common.Dashboard' | transloco }}"
-        nzIcon="dashboard"
-      >
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu nzOpen nzTitle="{{ 'Common.Dashboard' | transloco }}" nzIcon="dashboard">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/welcome">{{ "Common.Dashboard" | transloco }}</a>
+            <a routerLink="/welcome">{{ 'Common.Dashboard' | transloco }}</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/album">{{ "Nav.Albums" | transloco }}</a>
+            <a routerLink="/album">{{ 'Nav.Albums' | transloco }}</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/photo">{{ "Nav.Photos" | transloco }}</a>
+            <a routerLink="/photo">{{ 'Nav.Photos' | transloco }}</a>
           </li>
         </ul>
       </li>
-      <li
-        nz-submenu
-        nzOpen
-        nzTitle="{{ 'Nav.About' | transloco }}"
-        nzIcon="form"
-      >
+      <li nz-submenu nzOpen nzTitle="{{ 'Nav.About' | transloco }}" nzIcon="form">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/about">{{ "Nav.About" | transloco }}</a>
+            <a routerLink="/about">{{ 'Nav.About' | transloco }}</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/credits">{{ "Nav.Credits" | transloco }}</a>
+            <a routerLink="/credits">{{ 'Nav.Credits' | transloco }}</a>
           </li>
         </ul>
       </li>
@@ -59,58 +44,40 @@
     <nz-header>
       <div class="app-header">
         <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-          <i
-            class="trigger"
-            nz-icon
-            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-          ></i>
+          <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
         </span>
         <div class="app-header-content">
           <nz-space [nzSize]="16">
-            <a
-              *nzSpaceItem
-              nz-dropdown
-              [nzDropdownMenu]="menuLang"
-              [nzClickHide]="false"
-            >
+            <a *nzSpaceItem nz-dropdown [nzDropdownMenu]="menuLang" [nzClickHide]="false">
               <i nz-icon nzType="translation" nzTheme="outline"></i>
-              <span *ngIf="visibleMenuLangLabel">{{
-                "Common.Language" | transloco
-              }}</span>
+              <span *ngIf="visibleMenuLangLabel">{{ 'Common.Language' | transloco }}</span>
               <i nz-icon nzType="down"></i>
             </a>
             <nz-dropdown-menu #menuLang="nzDropdownMenu">
               <ul nz-menu>
                 <li nz-menu-item (click)="onSetLanguage('en')">
-                  {{ "Language.English" | transloco }}
+                  {{ 'Language.English' | transloco }}
                 </li>
                 <li nz-menu-item (click)="onSetLanguage('zh')">
-                  {{ "Language.SimpChinese" | transloco }}
+                  {{ 'Language.SimpChinese' | transloco }}
                 </li>
               </ul>
             </nz-dropdown-menu>
-            <a
-              *nzSpaceItem
-              nz-dropdown
-              [nzDropdownMenu]="menuLogin"
-              [nzClickHide]="false"
-            >
+            <a *nzSpaceItem nz-dropdown [nzDropdownMenu]="menuLogin" [nzClickHide]="false">
               <i nz-icon nzType="user" nzTheme="outline"></i>
-              <span *ngIf="visibleMenuUserLabel">{{
-                "Login.User" | transloco
-              }}</span>
+              <span *ngIf="visibleMenuUserLabel">{{ 'Login.User' | transloco }}</span>
               <i nz-icon nzType="down"></i>
             </a>
             <nz-dropdown-menu #menuLogin="nzDropdownMenu">
               <ul nz-menu>
                 <li nz-menu-item *ngIf="!isLoggedIn" (click)="onLogin()">
-                  {{ "Login.Login" | transloco }}
+                  {{ 'Login.Login' | transloco }}
                 </li>
                 <li nz-menu-item *ngIf="isLoggedIn" (click)="onUserDetail()">
-                  {{ "Login.UserDetail" | transloco }}
+                  {{ 'Login.UserDetail' | transloco }}
                 </li>
                 <li nz-menu-item *ngIf="isLoggedIn" (click)="onLogout()">
-                  {{ "Login.Logout" | transloco }}
+                  {{ 'Login.Logout' | transloco }}
                 </li>
               </ul>
             </nz-dropdown-menu>
@@ -118,9 +85,7 @@
               <i nz-icon nzType="github" nzTheme="outline"></i>
             </button>
             <span *nzSpaceItem nz-typography nzType="success"
-              ><span *ngIf="visibleVersionLabel"
-                >{{ "Nav.Version" | transloco }}: </span
-              >{{ currentVersion }}</span
+              ><span *ngIf="visibleVersionLabel">{{ 'Nav.Version' | transloco }}: </span>{{ currentVersion }}</span
             >
           </nz-space>
         </div>

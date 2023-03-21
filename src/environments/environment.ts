@@ -5,16 +5,16 @@
 
 export const environment = {
   production: false,
-  currentVersion: "0.5.92",
-  currentReleaseDate: "2023.12.31",
+  currentVersion: '0.5.92',
+  currentReleaseDate: '2023.12.31',
   loggingLevel: 4, // Debug
-  basehref: "/",
+  basehref: '/',
   mockdata: false,
 
-  apiRootUrl: "https://localhost:25325/",
+  apiRootUrl: 'https://localhost:25325/',
 
-  IDServerUrl: "https://localhost:44353",
-  AppHost: "https://localhost:16001",
-  AppHIH: "https://localhost:29521",
-  AppMathExercise: "https://localhost:20000",
+  IDServerUrl: 'https://localhost:44353',
+  AppHost: 'https://localhost:16001',
+  AppHIH: 'https://localhost:29521',
+  AppMathExercise: 'https://localhost:20000',
 };

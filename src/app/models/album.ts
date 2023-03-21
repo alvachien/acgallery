@@ -1,25 +1,25 @@
-import * as Common from "./common";
+import * as Common from './common';
 
 /**
  * Album
  */
 export class Album {
   public Id = 0;
-  public Title = "";
-  public Desp = "";
-  public Thumbnail = "";
+  public Title = '';
+  public Desp = '';
+  public Thumbnail = '';
   public CreatedAt: Date = new Date();
-  public CreatedBy = "";
+  public CreatedBy = '';
   public IsPublic: boolean;
-  public AccessCode = "";
-  public accessCodeHint = "";
+  public AccessCode = '';
+  public accessCodeHint = '';
   public accessCodeRequired = false;
 
   // Runtime info
   public PhotoIDs: string[] = [];
   public PhotoCount = 0;
   public IsPhotoIDFetched: boolean;
-  public AlbumThumnailUrl = "";
+  public AlbumThumnailUrl = '';
 
   constructor() {
     this.IsPhotoIDFetched = false;
@@ -41,6 +41,7 @@ export class Album {
     return true;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parseData(data: any) {
     if (data && data.Id) {
       this.Id = data.Id;
@@ -83,7 +84,9 @@ export class Album {
     this.IsPhotoIDFetched = false;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public writeJSONObject(): any {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const forJSON: any = {
       Title: this.Title,
       Desp: this.Desp,
@@ -99,6 +102,7 @@ export class Album {
     return forJSON;
   }
   public writeJSONString(): string {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const forJSON: any = this.writeJSONObject();
     if (forJSON) {
       return JSON && JSON.stringify(forJSON);
@@ -107,17 +111,15 @@ export class Album {
   }
 }
 
-export class SelectableAlbum
-  extends Album
-  implements Common.SelectableObject<boolean>
-{
+export class SelectableAlbum extends Album implements Common.SelectableObject<boolean> {
   public isSelected = false;
 }
 
 export class AlbumPhotoLink {
   albumID = 0;
-  photoID = "";
+  photoID = '';
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public parseData(data: any): void {
     if (data && data.AlbumID) {
       this.albumID = data.AlbumID;
@@ -144,6 +146,6 @@ export class AlbumPhotoByAlbum {
 }
 
 export class AlbumPhotoByPhoto {
-  public photoID = "";
+  public photoID = '';
   public albumIDList: number[] = [];
 }

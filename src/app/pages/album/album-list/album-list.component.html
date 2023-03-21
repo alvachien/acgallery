@@ -5,18 +5,16 @@
 >
   <nz-breadcrumb nz-page-header-breadcrumb>
     <nz-breadcrumb-item
-      ><a routerLink="/welcome">{{
-        "Common.Dashboard" | transloco
-      }}</a></nz-breadcrumb-item
+      ><a routerLink="/welcome">{{ 'Common.Dashboard' | transloco }}</a></nz-breadcrumb-item
     >
-    <nz-breadcrumb-item>{{ "Nav.Albums" | transloco }}</nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{ 'Nav.Albums' | transloco }}</nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
     <button nz-button (click)="onRefresh()">
-      {{ "Common.Refresh" | transloco }}
+      {{ 'Common.Refresh' | transloco }}
     </button>
     <button nz-button (click)="onCreate()">
-      {{ "Common.Create" | transloco }}
+      {{ 'Common.Create' | transloco }}
     </button>
   </nz-page-header-extra>
 </nz-page-header>
@@ -40,8 +38,7 @@
 <nz-list nzItemLayout="vertical">
   <nz-list-item *ngFor="let item of albums">
     <nz-list-item-meta>
-      <nz-list-item-meta-avatar [nzSrc]="item.Thumbnail">
-      </nz-list-item-meta-avatar>
+      <nz-list-item-meta-avatar [nzSrc]="item.Thumbnail"> </nz-list-item-meta-avatar>
       <nz-list-item-meta-title>
         <nz-ribbon *ngIf="item.accessCodeHint" nzText="Access Code Required">
           <a (click)="onDisplay(item)">{{ item.Title }}</a>
@@ -57,30 +54,21 @@
     {{ item.Title }}
     <ul nz-list-item-actions>
       <nz-list-item-action
-        ><i nz-icon nzType="flag" style="margin-right: 8px"></i
-        >{{ 9 * item.PhotoCount }}</nz-list-item-action
+        ><i nz-icon nzType="flag" style="margin-right: 8px"></i>{{ 9 * item.PhotoCount }}</nz-list-item-action
       >
       <nz-list-item-action
-        ><i nz-icon nzType="picture" style="margin-right: 8px"></i
-        >{{ item.PhotoCount }}</nz-list-item-action
+        ><i nz-icon nzType="picture" style="margin-right: 8px"></i>{{ item.PhotoCount }}</nz-list-item-action
       >
       <nz-list-item-action *ngIf="item.accessCodeHint"
-        ><i
-          nz-icon
-          nzType="lock"
-          nzTheme="twotone"
-          style="margin-right: 8px"
-        ></i
+        ><i nz-icon nzType="lock" nzTheme="twotone" style="margin-right: 8px"></i
       ></nz-list-item-action>
       <nz-list-item-action
         ><a nz-button nzType="link" (click)="onDisplay(item)">{{
-          "Common.Display" | transloco
+          'Common.Display' | transloco
         }}</a></nz-list-item-action
       >
       <nz-list-item-action
-        ><a nz-button nzType="link" (click)="onEdit(item)">{{
-          "Common.Edit" | transloco
-        }}</a></nz-list-item-action
+        ><a nz-button nzType="link" (click)="onEdit(item)">{{ 'Common.Edit' | transloco }}</a></nz-list-item-action
       >
     </ul>
     <nz-list-item-extra>

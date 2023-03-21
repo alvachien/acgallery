@@ -1,13 +1,13 @@
-import { UserOperationAuthEnum } from "./common";
+import { UserOperationAuthEnum } from './common';
 
 /**
  * User detail
  */
 export class UserDetail {
-  public userId = "";
-  public displayAs = "";
-  public email = "";
-  public others = "";
+  public userId = '';
+  public displayAs = '';
+  public email = '';
+  public others = '';
   public uploadFileMinSize = 0;
   public uploadFileMaxSize = 0;
   public albumCreate = false;
@@ -18,6 +18,7 @@ export class UserDetail {
   public photoChange: UserOperationAuthEnum = UserOperationAuthEnum.All;
   public photoDelete: UserOperationAuthEnum = UserOperationAuthEnum.All;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public onSetData(data: any) {
     if (data && data.UserID) {
       this.userId = data.UserID;
@@ -72,11 +73,7 @@ export class UserAuthInfo {
 
   public isAuthorized = false;
 
-  public setContent(user: {
-    userId?: string;
-    userName?: string;
-    accessToken?: string;
-  }): void {
+  public setContent(user: { userId?: string; userName?: string; accessToken?: string }): void {
     if (user) {
       this.isAuthorized = true;
 

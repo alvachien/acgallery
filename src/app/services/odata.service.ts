@@ -1,35 +1,31 @@
-import { Injectable } from "@angular/core";
-import {
-  HttpParams,
-  HttpClient,
-  HttpHeaders,
-  HttpErrorResponse,
-} from "@angular/common/http";
-import { Observable, throwError, of } from "rxjs";
-import { map, catchError } from "rxjs/operators";
-import { SequenceList } from "actslib";
+import { Injectable } from '@angular/core';
+import { HttpParams, HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { SequenceList } from 'actslib';
 
-import { environment } from "src/environments/environment";
-import { Album, AlbumPhotoLink, Photo } from "../models";
-import { AuthService } from "./auth.service";
+import { environment } from 'src/environments/environment';
+import { Album, AlbumPhotoLink, Photo } from '../models';
+import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class OdataService {
   apiUrl = `${environment.apiRootUrl}`;
 
   private isMetadataLoaded = false;
-  private metadataInfo = "";
+  private metadataInfo = '';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public getMetadata(forceReload?: boolean): Observable<any> {
     if (!this.isMetadataLoaded || forceReload) {
       let headers: HttpHeaders = new HttpHeaders();
       headers = headers
-        .append("Content-Type", "application/xml,application/json")
-        .append("Accept", "text/html,application/xhtml+xml,application/xml");
+        .append('Content-Type', 'application/xml,application/json')
+        .append('Accept', 'text/html,application/xhtml+xml,application/xml');
 
       let metadataurl = `${this.apiUrl}$metadata`;
       if (environment.mockdata) {
@@ -38,26 +34,17 @@ export class OdataService {
       return this.http
         .get(metadataurl, {
           headers,
-          responseType: "text",
+          responseType: 'text',
         })
         .pipe(
-          map((response) => {
+          map(() => {
             this.isMetadataLoaded = true;
             // this.metadataInfo = response as unknown as string;
-            this.metadataInfo = "OData metadata";
+            this.metadataInfo = 'OData metadata';
             return this.metadataInfo;
           }),
           catchError((error: HttpErrorResponse) =>
-            throwError(
-              () =>
-                new Error(
-                  error.statusText +
-                    "; " +
-                    error.error.toString() +
-                    "; " +
-                    error.message
-                )
-            )
+            throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message))
           )
         );
     } else {
@@ -68,25 +55,17 @@ export class OdataService {
   ///
   /// Albums
   ///
-  public getAlbums(
-    skip = 0,
-    top = 20
-  ): Observable<{ totalCount: number; items: SequenceList<Album> }> {
+  public getAlbums(skip = 0, top = 20): Observable<{ totalCount: number; items: SequenceList<Album> }> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers
-      .append("Content-Type", "application/json")
-      .append("Accept", "application/json");
+    headers = headers.append('Content-Type', 'application/json').append('Accept', 'application/json');
     if (this.authService.authSubject.getValue().isAuthorized) {
-      headers = headers.append(
-        "Authorization",
-        "Bearer " + this.authService.authSubject.getValue().getAccessToken()
-      );
+      headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
     }
 
     let params: HttpParams = new HttpParams();
-    params = params.append("$top", top.toString());
-    params = params.append("$skip", skip.toString());
-    params = params.append("$count", "true");
+    params = params.append('$top', top.toString());
+    params = params.append('$skip', skip.toString());
+    params = params.append('$count', 'true');
     const apiurl = `${this.apiUrl}Albums`;
 
     return this.http
@@ -96,7 +75,9 @@ export class OdataService {
       })
       .pipe(
         map((response) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const rjs = response as any;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const ritems = rjs.value as any[];
           const items: SequenceList<Album> = new SequenceList<Album>();
 
@@ -107,34 +88,20 @@ export class OdataService {
           }
 
           return {
-            totalCount: rjs["@odata.count"],
+            totalCount: rjs['@odata.count'],
             items: items,
           };
         }),
         catchError((error: HttpErrorResponse) => {
-          return throwError(
-            () =>
-              new Error(
-                error.statusText +
-                  "; " +
-                  error.error.toString() +
-                  "; " +
-                  error.message
-              )
-          );
+          return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
         })
       );
   }
 
   public createAlbum(alb: Album): Observable<Album> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers
-      .append("Content-Type", "application/json")
-      .append("Accept", "application/json");
-    headers = headers.append(
-      "Authorization",
-      "Bearer " + this.authService.authSubject.getValue().getAccessToken()
-    );
+    headers = headers.append('Content-Type', 'application/json').append('Accept', 'application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
     const apiurl = `${this.apiUrl}Albums`;
     const jdata = alb.writeJSONString();
@@ -144,36 +111,23 @@ export class OdataService {
       })
       .pipe(
         map((response) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const rjs = response as any;
           const alb2 = new Album();
           alb2.parseData(rjs);
           return alb2;
         }),
         catchError((error: HttpErrorResponse) => {
-          return throwError(
-            () =>
-              new Error(
-                error.statusText +
-                  "; " +
-                  error.error.toString() +
-                  "; " +
-                  error.message
-              )
-          );
+          return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
         })
       );
   }
 
   public readAlbum(albumid: number): Observable<Album> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers
-      .append("Content-Type", "application/json")
-      .append("Accept", "application/json");
+    headers = headers.append('Content-Type', 'application/json').append('Accept', 'application/json');
     if (this.authService.authSubject.getValue().isAuthorized) {
-      headers = headers.append(
-        "Authorization",
-        "Bearer " + this.authService.authSubject.getValue().getAccessToken()
-      );
+      headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
     }
 
     const params: HttpParams = new HttpParams();
@@ -191,22 +145,14 @@ export class OdataService {
       })
       .pipe(
         map((response) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const rjs = response as any;
           const rit: Album = new Album();
           rit.parseData(rjs);
           return rit;
         }),
         catchError((error: HttpErrorResponse) => {
-          return throwError(
-            () =>
-              new Error(
-                error.statusText +
-                  "; " +
-                  error.error.toString() +
-                  "; " +
-                  error.message
-              )
-          );
+          return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
         })
       );
   }
@@ -219,22 +165,17 @@ export class OdataService {
   ): Observable<{ totalCount: number; items: SequenceList<Photo> }> {
     // https://localhost:25325/Albums/GetPhotos(2005)?$count=true&$top=3
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers
-      .append("Content-Type", "application/json")
-      .append("Accept", "application/json");
+    headers = headers.append('Content-Type', 'application/json').append('Accept', 'application/json');
     if (this.authService.authSubject.getValue().isAuthorized) {
-      headers = headers.append(
-        "Authorization",
-        "Bearer " + this.authService.authSubject.getValue().getAccessToken()
-      );
+      headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
     }
 
     let params: HttpParams = new HttpParams();
-    params = params.append("$count", "true");
-    params = params.append("$skip", skip.toString());
-    params = params.append("$top", top.toString());
-    params = params.append("$expand", "Tags");
-    let apiurl = "";
+    params = params.append('$count', 'true');
+    params = params.append('$skip', skip.toString());
+    params = params.append('$top', top.toString());
+    params = params.append('$expand', 'Tags');
+    let apiurl = '';
     if (accessCode) {
       apiurl = `${this.apiUrl}Albums/GetPhotos(AlbumID=${albumid},AccessCode='${accessCode}')`;
     } else {
@@ -253,7 +194,9 @@ export class OdataService {
       })
       .pipe(
         map((response) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const rjs = response as any;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const ritems = rjs.value as any[];
           const items: SequenceList<Photo> = new SequenceList<Photo>();
 
@@ -268,21 +211,12 @@ export class OdataService {
           // }
 
           return {
-            totalCount: rjs["@odata.count"],
+            totalCount: rjs['@odata.count'],
             items: items,
           };
         }),
         catchError((error: HttpErrorResponse) => {
-          return throwError(
-            () =>
-              new Error(
-                error.statusText +
-                  "; " +
-                  error.error.toString() +
-                  "; " +
-                  error.message
-              )
-          );
+          return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
         })
       );
   }
@@ -302,27 +236,19 @@ export class OdataService {
     // }
 
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers
-      .append("Content-Type", "application/json")
-      .append("Accept", "application/json");
+    headers = headers.append('Content-Type', 'application/json').append('Accept', 'application/json');
     if (this.authService.authSubject.getValue().isAuthorized) {
-      headers = headers.append(
-        "Authorization",
-        "Bearer " + this.authService.authSubject.getValue().getAccessToken()
-      );
+      headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
     }
 
     let params: HttpParams = new HttpParams();
-    params = params.append("$top", top.toString());
-    params = params.append("$skip", skip.toString());
-    params = params.append("$count", "true");
-    params = params.append(
-      "$select",
-      "PhotoId,Title,Desp,FileUrl,ThumbnailFileUrl,IsPublic"
-    );
-    params = params.append("$expand", "Tags");
+    params = params.append('$top', top.toString());
+    params = params.append('$skip', skip.toString());
+    params = params.append('$count', 'true');
+    params = params.append('$select', 'PhotoId,Title,Desp,FileUrl,ThumbnailFileUrl,IsPublic');
+    params = params.append('$expand', 'Tags');
     if (filter) {
-      params = params.append("$filter", filter);
+      params = params.append('$filter', filter);
     }
     const apiurl = `${this.apiUrl}Photos`;
     // TBD.
@@ -338,7 +264,9 @@ export class OdataService {
       })
       .pipe(
         map((response) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const rjs = response as any;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const ritems = rjs.value as any[];
           const items: SequenceList<Photo> = new SequenceList<Photo>();
 
@@ -353,36 +281,23 @@ export class OdataService {
           // }
 
           return {
-            totalCount: rjs["@odata.count"],
+            totalCount: rjs['@odata.count'],
             items: items,
           };
         }),
         catchError((error: HttpErrorResponse) => {
-          return throwError(
-            () =>
-              new Error(
-                error.statusText +
-                  "; " +
-                  error.error.toString() +
-                  "; " +
-                  error.message
-              )
-          );
+          return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
         })
       );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public getPhotoEXIF(phtId: string): Observable<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers
-      .append("Content-Type", "application/json")
-      .append("Accept", "application/json");
+    headers = headers.append('Content-Type', 'application/json').append('Accept', 'application/json');
 
     let params: HttpParams = new HttpParams();
-    params = params.append(
-      "$select",
-      "PhotoId,CameraMaker,CameraModel,LensModel,AVNumber,ShutterSpeed,ISONumber"
-    );
+    params = params.append('$select', 'PhotoId,CameraMaker,CameraModel,LensModel,AVNumber,ShutterSpeed,ISONumber');
     const apiurl = `${this.apiUrl}Photos('${phtId}')`;
     // TBD.
     // if (environment.mockdata) {
@@ -397,31 +312,23 @@ export class OdataService {
       })
       .pipe(
         map((response) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const rjs = response as any;
           // if (environment.mockdata) {
           //   this.mockedKnowledgeItem = items.slice();
           // }
 
           return {
-            CameraMaker: rjs["CameraMaker"],
-            CameraModel: rjs["CameraModel"],
-            LensModel: rjs["LensModel"],
-            AVNumber: rjs["AVNumber"],
-            ShutterSpeed: rjs["ShutterSpeed"],
-            ISONumber: rjs["ISONumber"],
+            CameraMaker: rjs['CameraMaker'],
+            CameraModel: rjs['CameraModel'],
+            LensModel: rjs['LensModel'],
+            AVNumber: rjs['AVNumber'],
+            ShutterSpeed: rjs['ShutterSpeed'],
+            ISONumber: rjs['ISONumber'],
           };
         }),
         catchError((error: HttpErrorResponse) => {
-          return throwError(
-            () =>
-              new Error(
-                error.statusText +
-                  "; " +
-                  error.error.toString() +
-                  "; " +
-                  error.message
-              )
-          );
+          return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
         })
       );
   }
@@ -442,32 +349,22 @@ export class OdataService {
     // }
 
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers
-      .append("Content-Type", "application/json")
-      .append("Accept", "application/json");
+    headers = headers.append('Content-Type', 'application/json').append('Accept', 'application/json');
     if (this.authService.authSubject.getValue().isAuthorized) {
-      headers = headers.append(
-        "Authorization",
-        "Bearer " + this.authService.authSubject.getValue().getAccessToken()
-      );
+      headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
     }
 
     let params: HttpParams = new HttpParams();
-    params = params.append("$top", top.toString());
-    params = params.append("$skip", skip.toString());
-    params = params.append("$count", "true");
-    params = params.append(
-      "$select",
-      "PhotoId,Title,Desp,FileUrl,ThumbnailFileUrl,IsPublic"
-    );
+    params = params.append('$top', top.toString());
+    params = params.append('$skip', skip.toString());
+    params = params.append('$count', 'true');
+    params = params.append('$select', 'PhotoId,Title,Desp,FileUrl,ThumbnailFileUrl,IsPublic');
     if (filter) {
-      params = params.append("$filter", filter);
+      params = params.append('$filter', filter);
     }
     let apiurl = `${this.apiUrl}PhotoViews`;
     if (albumId) {
-      apiurl = `${apiurl}/SearchPhotoInAlbum(AlbumID=${albumId},AccessCode='${
-        accessCode ? accessCode : ""
-      }')`;
+      apiurl = `${apiurl}/SearchPhotoInAlbum(AlbumID=${albumId},AccessCode='${accessCode ? accessCode : ''}')`;
     }
 
     // TBD.
@@ -483,7 +380,9 @@ export class OdataService {
       })
       .pipe(
         map((response) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const rjs = response as any;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const ritems = rjs.value as any[];
           const items: SequenceList<Photo> = new SequenceList<Photo>();
 
@@ -498,34 +397,20 @@ export class OdataService {
           // }
 
           return {
-            totalCount: rjs["@odata.count"],
+            totalCount: rjs['@odata.count'],
             items: items,
           };
         }),
         catchError((error: HttpErrorResponse) => {
-          return throwError(
-            () =>
-              new Error(
-                error.statusText +
-                  "; " +
-                  error.error.toString() +
-                  "; " +
-                  error.message
-              )
-          );
+          return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
         })
       );
   }
 
   public createPhoto(pto: Photo): Observable<Photo> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers
-      .append("Content-Type", "application/json")
-      .append("Accept", "application/json");
-    headers = headers.append(
-      "Authorization",
-      "Bearer " + this.authService.authSubject.getValue().getAccessToken()
-    );
+    headers = headers.append('Content-Type', 'application/json').append('Accept', 'application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
     const params: HttpParams = new HttpParams();
     const apiurl = `${this.apiUrl}Photos`;
@@ -543,6 +428,7 @@ export class OdataService {
       })
       .pipe(
         map((response) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const rjs = response as any;
           const pto2 = new Photo();
           pto2.parseData(rjs);
@@ -550,16 +436,7 @@ export class OdataService {
           return pto2;
         }),
         catchError((error: HttpErrorResponse) => {
-          return throwError(
-            () =>
-              new Error(
-                error.statusText +
-                  "; " +
-                  error.error.toString() +
-                  "; " +
-                  error.message
-              )
-          );
+          return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
         })
       );
   }
@@ -567,13 +444,8 @@ export class OdataService {
   // Change photo
   public changePhoto(pto: Photo): Observable<Photo> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers
-      .append("Content-Type", "application/json")
-      .append("Accept", "application/json");
-    headers = headers.append(
-      "Authorization",
-      "Bearer " + this.authService.authSubject.getValue().getAccessToken()
-    );
+    headers = headers.append('Content-Type', 'application/json').append('Accept', 'application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
     const params: HttpParams = new HttpParams();
     const apiurl = `${this.apiUrl}Photos('${pto.photoId}')`;
 
@@ -585,6 +457,7 @@ export class OdataService {
       })
       .pipe(
         map((response) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const rjs = response as any;
           const pto2 = new Photo();
           pto2.parseData(rjs);
@@ -592,16 +465,7 @@ export class OdataService {
           return pto2;
         }),
         catchError((error: HttpErrorResponse) => {
-          return throwError(
-            () =>
-              new Error(
-                error.statusText +
-                  "; " +
-                  error.error.toString() +
-                  "; " +
-                  error.message
-              )
-          );
+          return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
         })
       );
   }
@@ -612,15 +476,11 @@ export class OdataService {
     title: string,
     desp: string,
     ispublic: boolean
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Observable<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers
-      .append("Content-Type", "application/json")
-      .append("Accept", "application/json");
-    headers = headers.append(
-      "Authorization",
-      "Bearer " + this.authService.authSubject.getValue().getAccessToken()
-    );
+    headers = headers.append('Content-Type', 'application/json').append('Accept', 'application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
     const params: HttpParams = new HttpParams();
     const apiurl = `${this.apiUrl}Photos('${photoId}')`;
@@ -639,6 +499,7 @@ export class OdataService {
       })
       .pipe(
         map((response) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const rjs = response as any;
           const pto2 = new Photo();
           pto2.parseData(rjs);
@@ -646,29 +507,16 @@ export class OdataService {
           return pto2;
         }),
         catchError((error: HttpErrorResponse) => {
-          return throwError(
-            () =>
-              new Error(
-                error.statusText +
-                  "; " +
-                  error.error.toString() +
-                  "; " +
-                  error.message
-              )
-          );
+          return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
         })
       );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public createPhotoTag(photoId: string, tags: string): Observable<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers
-      .append("Content-Type", "application/json")
-      .append("Accept", "application/json");
-    headers = headers.append(
-      "Authorization",
-      "Bearer " + this.authService.authSubject.getValue().getAccessToken()
-    );
+    headers = headers.append('Content-Type', 'application/json').append('Accept', 'application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
     const params: HttpParams = new HttpParams();
     const apiurl = `${this.apiUrl}PhotoTags`;
@@ -689,29 +537,16 @@ export class OdataService {
           return response;
         }),
         catchError((error: HttpErrorResponse) => {
-          return throwError(
-            () =>
-              new Error(
-                error.statusText +
-                  "; " +
-                  error.error.toString() +
-                  "; " +
-                  error.message
-              )
-          );
+          return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
         })
       );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public deletePhotoTag(photoId: string, tags: string): Observable<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers
-      .append("Content-Type", "application/json")
-      .append("Accept", "application/json");
-    headers = headers.append(
-      "Authorization",
-      "Bearer " + this.authService.authSubject.getValue().getAccessToken()
-    );
+    headers = headers.append('Content-Type', 'application/json').append('Accept', 'application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
     const params: HttpParams = new HttpParams();
     const apiurl = `${this.apiUrl}PhotoTags(PhotoID='${photoId},TagString='${tags}')`;
@@ -726,16 +561,7 @@ export class OdataService {
           return response;
         }),
         catchError((error: HttpErrorResponse) => {
-          return throwError(
-            () =>
-              new Error(
-                error.statusText +
-                  "; " +
-                  error.error.toString() +
-                  "; " +
-                  error.message
-              )
-          );
+          return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
         })
       );
   }
@@ -743,13 +569,8 @@ export class OdataService {
   // Delete photo
   public deletePhoto(photoId: string): Observable<boolean> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers
-      .append("Content-Type", "application/json")
-      .append("Accept", "application/json");
-    headers = headers.append(
-      "Authorization",
-      "Bearer " + this.authService.authSubject.getValue().getAccessToken()
-    );
+    headers = headers.append('Content-Type', 'application/json').append('Accept', 'application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
     const params: HttpParams = new HttpParams();
     const apiurl = `${this.apiUrl}Photos('${photoId}')`;
@@ -760,33 +581,20 @@ export class OdataService {
         params,
       })
       .pipe(
-        map((response) => {
+        map(() => {
           return true;
         }),
         catchError((error: HttpErrorResponse) => {
-          return throwError(
-            () =>
-              new Error(
-                error.statusText +
-                  "; " +
-                  error.error.toString() +
-                  "; " +
-                  error.message
-              )
-          );
+          return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
         })
       );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public assignPhotoToAlbum(albid: number, photoid: string): Observable<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers
-      .append("Content-Type", "application/json")
-      .append("Accept", "application/json");
-    headers = headers.append(
-      "Authorization",
-      "Bearer " + this.authService.authSubject.getValue().getAccessToken()
-    );
+    headers = headers.append('Content-Type', 'application/json').append('Accept', 'application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.authService.authSubject.getValue().getAccessToken());
 
     const params: HttpParams = new HttpParams();
     const apiurl = `${this.apiUrl}AlbumPhotos`;
@@ -809,29 +617,20 @@ export class OdataService {
       .pipe(
         map((response) => {
           const link2 = new AlbumPhotoLink();
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           link2.parseData(response as any);
           return link2;
         }),
         catchError((error: HttpErrorResponse) => {
-          return throwError(
-            () =>
-              new Error(
-                error.statusText +
-                  "; " +
-                  error.error.toString() +
-                  "; " +
-                  error.message
-              )
-          );
+          return throwError(() => new Error(error.statusText + '; ' + error.error.toString() + '; ' + error.message));
         })
       );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public getStatistics(): Observable<any> {
     let headers: HttpHeaders = new HttpHeaders();
-    headers = headers
-      .append("Content-Type", "application/json")
-      .append("Accept", "application/json");
+    headers = headers.append('Content-Type', 'application/json').append('Accept', 'application/json');
     const params: HttpParams = new HttpParams();
     const apiurl = `${this.apiUrl}api/Statistics`;
 
@@ -846,14 +645,7 @@ export class OdataService {
         }),
         catchError((error: HttpErrorResponse) => {
           return throwError(
-            () =>
-              new Error(
-                error.statusText +
-                  "; " +
-                  error.error.error.toString() +
-                  "; " +
-                  error.message
-              )
+            () => new Error(error.statusText + '; ' + error.error.error.toString() + '; ' + error.message)
           );
         })
       );

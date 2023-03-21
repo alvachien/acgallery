@@ -1,26 +1,22 @@
-import { Component, OnInit } from "@angular/core";
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
-import { translate } from "@ngneat/transloco";
-import { UIMode } from "actslib";
-import { NzModalService } from "ng-zorro-antd/modal";
+import { Component, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { translate } from '@ngneat/transloco';
+import { UIMode } from 'actslib';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { AuthService } from "src/app/services";
+import { AuthService } from 'src/app/services';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: "acgallery-user-detail",
-  templateUrl: "./user-detail.component.html",
-  styleUrls: ["./user-detail.component.less"],
+  selector: 'acgallery-user-detail',
+  templateUrl: './user-detail.component.html',
+  styleUrls: ['./user-detail.component.less'],
 })
 export class UserDetailComponent implements OnInit {
   detailForm!: UntypedFormGroup;
   uiMode = UIMode.Invalid;
-  currentMode = "Common.Display";
+  currentMode = 'Common.Display';
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -44,17 +40,18 @@ export class UserDetailComponent implements OnInit {
       photoUpload: [false],
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.activateRoute.url.subscribe((x: any) => {
       if (x instanceof Array && x.length > 0) {
-        if (x[0].path === "create") {
+        if (x[0].path === 'create') {
           this.uiMode = UIMode.Create;
-          this.currentMode = "Common.Create";
-        } else if (x[0].path === "change") {
+          this.currentMode = 'Common.Create';
+        } else if (x[0].path === 'change') {
           this.uiMode = UIMode.Update;
-          this.currentMode = "Common.Edit";
-        } else if (x[0].path === "display") {
+          this.currentMode = 'Common.Edit';
+        } else if (x[0].path === 'display') {
           this.uiMode = UIMode.Display;
-          this.currentMode = "Common.Display";
+          this.currentMode = 'Common.Display';
         }
       }
 
@@ -62,6 +59,7 @@ export class UserDetailComponent implements OnInit {
         case UIMode.Update:
         case UIMode.Display: {
           this.authSrv.getUserDetail().subscribe({
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             next: (val: any) => {
               this.detailForm.setValue({
                 userId: val.userId,
@@ -81,12 +79,13 @@ export class UserDetailComponent implements OnInit {
                 this.detailForm.markAsPristine();
               }
             },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             error: (err: any) => {
               this.detailForm.disable();
               // Show error
               this.modalService.error({
-                nzTitle: translate("Common.Error"),
-                nzContent: err,
+                nzTitle: translate('Common.Error'),
+                nzContent: err.toString(),
                 nzClosable: true,
               });
             },
@@ -102,5 +101,7 @@ export class UserDetailComponent implements OnInit {
     });
   }
 
-  onSave(): void {}
+  onSave(): void {
+    // TBD.
+  }
 }

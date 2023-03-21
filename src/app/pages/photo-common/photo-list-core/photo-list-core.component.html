@@ -1,11 +1,7 @@
 <div nz-row nzJustify="center">
   <nz-radio-group [(ngModel)]="viewMode">
-    <label nz-radio-button nzValue="std">{{
-      "Common.Standard" | transloco
-    }}</label>
-    <label nz-radio-button nzValue="adv">{{
-      "Common.Advanced" | transloco
-    }}</label>
+    <label nz-radio-button nzValue="std">{{ 'Common.Standard' | transloco }}</label>
+    <label nz-radio-button nzValue="adv">{{ 'Common.Advanced' | transloco }}</label>
   </nz-radio-group>
   <nz-divider nzType="vertical"></nz-divider>
   <nz-pagination
@@ -38,44 +34,22 @@
     >
       <div nz-col class="inner-box">
         <div nz-row>
-          <img
-            [src]="getFileUrl(pht)"
-            (click)="onStartPreview(pht.photoId)"
-            alt=""
-          />
+          <img [src]="getFileUrl(pht)" (click)="onStartPreview(pht.photoId)" alt="" />
         </div>
         <div nz-row class="button-group-row">
-          <button
-            nz-button
-            nzSize="small"
-            nzShape="circle"
-            (click)="onPhotoViewEXIF(pht)"
-            style="margin-right: 4px"
-          >
+          <button nz-button nzSize="small" nzShape="circle" (click)="onPhotoViewEXIF(pht)" style="margin-right: 4px">
             <i nz-icon nzType="info"></i>
           </button>
-          <nz-tag *ngFor="let tag of pht.tags" [nzColor]="'geekblue'">{{
-            tag
-          }}</nz-tag>
+          <nz-tag *ngFor="let tag of pht.tags" [nzColor]="'geekblue'">{{ tag }}</nz-tag>
         </div>
         <div nz-row *ngIf="viewMode === 'adv'" class="button-group-row">
           <nz-button-group>
-            <a
-              nz-button
-              nzType="link"
-              (click)="onChangePhoto(pht)"
-              nzSize="small"
-              nzGhost
-              >{{ "Common.Edit" | transloco }}</a
-            >
-            <a
-              nz-button
-              nzType="link"
-              (click)="onDeletePhoto(pht)"
-              nzSize="small"
-              nzDanger
-              >{{ "Common.Delete" | transloco }}</a
-            >
+            <a nz-button nzType="link" (click)="onChangePhoto(pht)" nzSize="small" nzGhost>{{
+              'Common.Edit' | transloco
+            }}</a>
+            <a nz-button nzType="link" (click)="onDeletePhoto(pht)" nzSize="small" nzDanger>{{
+              'Common.Delete' | transloco
+            }}</a>
           </nz-button-group>
         </div>
       </div>
@@ -87,12 +61,8 @@
 
 <div nz-row nzJustify="center">
   <nz-radio-group [(ngModel)]="viewMode">
-    <label nz-radio-button nzValue="std">{{
-      "Common.Standard" | transloco
-    }}</label>
-    <label nz-radio-button nzValue="adv">{{
-      "Common.Advanced" | transloco
-    }}</label>
+    <label nz-radio-button nzValue="std">{{ 'Common.Standard' | transloco }}</label>
+    <label nz-radio-button nzValue="adv">{{ 'Common.Advanced' | transloco }}</label>
   </nz-radio-group>
   <nz-divider nzType="vertical"></nz-divider>
   <nz-pagination
@@ -112,11 +82,11 @@
   (nzOnOk)="handleExifDlgOk()"
 >
   <ng-container *nzModalContent>
-    <p>{{ "Common.CameraMaker" | transloco }}: {{ curExif.CameraMaker }}</p>
-    <p>{{ "Common.CameraModel" | transloco }}: {{ curExif.CameraModel }}</p>
-    <p>{{ "Common.LensModel" | transloco }}: {{ curExif.LensModel }}</p>
-    <p>{{ "Common.Aperture" | transloco }}: {{ curExif.AVNumber }}</p>
-    <p>{{ "Common.ShutterSpeed" | transloco }}: {{ curExif.ShutterSpeed }}</p>
-    <p>{{ "Common.ISO" | transloco }}: {{ curExif.ISONumber }}</p>
+    <p>{{ 'Common.CameraMaker' | transloco }}: {{ curExif.CameraMaker }}</p>
+    <p>{{ 'Common.CameraModel' | transloco }}: {{ curExif.CameraModel }}</p>
+    <p>{{ 'Common.LensModel' | transloco }}: {{ curExif.LensModel }}</p>
+    <p>{{ 'Common.Aperture' | transloco }}: {{ curExif.AVNumber }}</p>
+    <p>{{ 'Common.ShutterSpeed' | transloco }}: {{ curExif.ShutterSpeed }}</p>
+    <p>{{ 'Common.ISO' | transloco }}: {{ curExif.ISONumber }}</p>
   </ng-container>
 </nz-modal>

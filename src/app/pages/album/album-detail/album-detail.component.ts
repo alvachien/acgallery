@@ -1,23 +1,19 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { isCreateMode, isDisplayMode, isUIEditable, UIMode } from "actslib";
-import { ReplaySubject } from "rxjs";
-import { finalize, takeUntil } from "rxjs/operators";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { isCreateMode, isDisplayMode, isUIEditable, UIMode } from 'actslib';
+import { ReplaySubject } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
 
-import { Album, ConsoleLogTypeEnum, Photo, writeConsole } from "src/app/models";
-import { OdataService, UIInfoService } from "src/app/services";
-import { environment } from "src/environments/environment";
+import { Album, ConsoleLogTypeEnum, Photo, writeConsole } from 'src/app/models';
+import { OdataService, UIInfoService } from 'src/app/services';
+import { environment } from 'src/environments/environment';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: "album-detail",
-  templateUrl: "./album-detail.component.html",
-  styleUrls: ["./album-detail.component.less"],
+  selector: 'album-detail',
+  templateUrl: './album-detail.component.html',
+  styleUrls: ['./album-detail.component.less'],
 })
 export class AlbumDetailComponent implements OnInit, OnDestroy {
   private _destroyed$?: ReplaySubject<boolean>;
@@ -28,13 +24,13 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
   photos: Photo[] = [];
   isLoadingResults = false;
   public routerID = -1; // Current object ID in routing
-  public currentMode = "";
+  public currentMode = '';
   public uiMode: UIMode = UIMode.Create;
   // Access code
-  accessCodeHint = "";
+  accessCodeHint = '';
   isAccessCodeDlgVisible = false;
   isAccessCodeSubmitting = false;
-  accessCodeInputted = "";
+  accessCodeInputted = '';
 
   get isCreateMode(): boolean {
     return isCreateMode(this.uiMode);
@@ -67,21 +63,22 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
     });
     this._destroyed$ = new ReplaySubject(1);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.activateRoute.url.subscribe((x: any) => {
       if (x instanceof Array && x.length > 0) {
-        if (x[0].path === "create") {
+        if (x[0].path === 'create') {
           this.uiMode = UIMode.Create;
-          this.currentMode = "Common.Create";
-        } else if (x[0].path === "change") {
+          this.currentMode = 'Common.Create';
+        } else if (x[0].path === 'change') {
           this.routerID = +x[1].path;
 
           this.uiMode = UIMode.Update;
-          this.currentMode = "Common.Edit";
-        } else if (x[0].path === "display") {
+          this.currentMode = 'Common.Edit';
+        } else if (x[0].path === 'display') {
           this.routerID = +x[1].path;
 
           this.uiMode = UIMode.Display;
-          this.currentMode = "Common.Display";
+          this.currentMode = 'Common.Display';
         }
       }
 
@@ -101,7 +98,7 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
             )
             .subscribe({
               next: (rsts) => {
-                this.detailForm.get("headerControl")?.setValue(rsts);
+                this.detailForm.get('headerControl')?.setValue(rsts);
                 if (this.isDisplayMode) {
                   this.detailForm.disable();
                 } else {
@@ -182,18 +179,19 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  public onSave(): void {}
+  public onSave(): void {
+    // TBD.
+  }
 
   getFileUrl(pht: Photo): string {
-    if (pht.fileUrl) return environment.apiRootUrl + "PhotoFile/" + pht.fileUrl;
-    return "";
+    if (pht.fileUrl) return environment.apiRootUrl + 'PhotoFile/' + pht.fileUrl;
+    return '';
   }
 
   onSearch(): void {
     this.uiSrv.AlbumIDForPhotoSearching = this.routerID;
     this.uiSrv.AlbumInfoForPhotoSearching = this.accessCodeInputted;
-    this.uiSrv.AlbumTitleForPhotoSearching =
-      this.detailForm.get("Title")!.value;
+    this.uiSrv.AlbumTitleForPhotoSearching = this.detailForm.get('Title')!.value;
     this._router.navigate([`/photo/searchinalbum/${this.routerID}`]);
   }
 }

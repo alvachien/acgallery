@@ -4,34 +4,15 @@
   [nzSubtitle]="'Common.KeyFigure' | transloco"
 >
   <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item>{{
-      "Common.Dashboard" | transloco
-    }}</nz-breadcrumb-item>
+    <nz-breadcrumb-item>{{ 'Common.Dashboard' | transloco }}</nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra> </nz-page-header-extra>
 </nz-page-header>
 
-<div
-  nz-row
-  class="welcome-content-row"
-  [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }"
->
-  <div
-    nz-col
-    class="inner-box"
-    nzXs="24"
-    nzSm="12"
-    nzMd="12"
-    nzLg="8"
-    nzXl="6"
-    nzXxl="6"
-  >
+<div nz-row class="welcome-content-row" [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+  <div nz-col class="inner-box" nzXs="24" nzSm="12" nzMd="12" nzLg="8" nzXl="6" nzXxl="6">
     <a (click)="onNavigateToAlbum()">
-      <nz-card
-        nzHoverable
-        [nzBordered]="true"
-        [nzTitle]="'Common.TotalAlbum' | transloco"
-      >
+      <nz-card nzHoverable [nzBordered]="true" [nzTitle]="'Common.TotalAlbum' | transloco">
         <nz-statistic
           [nzValue]="(statInfo.albumAmount | number)!"
           [nzTitle]="'Common.TotalAlbum' | transloco"
@@ -41,22 +22,9 @@
       </nz-card>
     </a>
   </div>
-  <div
-    nz-col
-    class="inner-box"
-    nzXs="24"
-    nzSm="12"
-    nzMd="12"
-    nzLg="8"
-    nzXl="6"
-    nzXxl="6"
-  >
+  <div nz-col class="inner-box" nzXs="24" nzSm="12" nzMd="12" nzLg="8" nzXl="6" nzXxl="6">
     <a (click)="onNavigateToPhoto()">
-      <nz-card
-        nzHoverable
-        [nzBordered]="true"
-        [nzTitle]="'Common.TotalPhoto' | transloco"
-      >
+      <nz-card nzHoverable [nzBordered]="true" [nzTitle]="'Common.TotalPhoto' | transloco">
         <nz-statistic
           [nzValue]="(statInfo.photoAmount! | number)!"
           [nzTitle]="'Common.TotalPhoto' | transloco"

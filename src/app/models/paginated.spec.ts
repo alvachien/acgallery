@@ -1,12 +1,12 @@
-import { UIPagination } from "./paginated";
+import { UIPagination } from './paginated';
 
-describe("UIPagination", () => {
+describe('UIPagination', () => {
   let tbcObject: UIPagination;
   beforeEach(() => {
     tbcObject = new UIPagination(10, 2);
   });
 
-  it("work with data", () => {
+  it('work with data', () => {
     tbcObject.totalCount = 20;
     expect(tbcObject.totalCount).toEqual(20);
 
@@ -30,7 +30,7 @@ describe("UIPagination", () => {
     tbcObject.totalCount = 0;
   });
 
-  it("work with data II", () => {
+  it('work with data II', () => {
     tbcObject.totalCount = 50;
     tbcObject.currentPage = 2;
     expect(tbcObject.isPreviousVisible).toBeTruthy();
