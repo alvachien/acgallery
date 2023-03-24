@@ -17,9 +17,11 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
@@ -27,12 +29,15 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     return this.checkLogin(url);
   }
   canActivateChild(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     childRoute: ActivatedRouteSnapshot,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return true;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   checkLogin(url: string): true | false | UrlTree {
     if (this.authService.authSubject.getValue().isAuthorized) {
       if (environment.loggingLevel >= LogLevel.Debug) {

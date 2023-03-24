@@ -18,7 +18,7 @@ describe('PhotoSearchComponent', () => {
   let fakeData: FakeDataHelper;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let odataSrv: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
   let searchPhotosSpy: any;
 
   beforeAll(() => {

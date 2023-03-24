@@ -17,11 +17,13 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     const authServiceStub: Partial<AuthService> = {};
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     authServiceStub.authSubject = new BehaviorSubject(fakeData.currentUser!);
 
     const userDetailSrv = jasmine.createSpyObj('UserDetailService', ['readDetailInfo']);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     const readDetailInfoSpy = userDetailSrv.readDetailInfo.and.returnValue(of({}));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     const routerSpy: any = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({

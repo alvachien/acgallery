@@ -46,6 +46,7 @@ export class AlbumListComponent implements OnInit {
         this.totalCount = val.totalCount;
         this.albums = []; // Clear it before assign.
         for (let i = 0; i < val.items.Length(); i++) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           this.albums.push(val.items.GetElement(i)!);
         }
       },

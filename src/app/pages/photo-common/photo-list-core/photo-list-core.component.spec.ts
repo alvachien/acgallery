@@ -10,9 +10,9 @@ describe('PhotoListCoreComponent', () => {
   let fixture: ComponentFixture<PhotoListCoreComponent>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let odataService: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
   let deletePhotoSpy: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
   let getPhotoEXIFSpy: any;
 
   beforeEach(async () => {

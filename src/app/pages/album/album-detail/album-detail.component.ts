@@ -91,6 +91,7 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
           this.odataSvc
             .readAlbum(this.routerID)
             .pipe(
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               takeUntil(this._destroyed$!),
               finalize(() => {
                 this.isLoadingResults = false;
@@ -167,6 +168,7 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
           this.totalCount = val.totalCount;
           this.photos = []; // Clear it!
           for (let i = 0; i < val.items.Length(); i++) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             this.photos.push(val.items.GetElement(i)!);
           }
         },
@@ -191,6 +193,7 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
   onSearch(): void {
     this.uiSrv.AlbumIDForPhotoSearching = this.routerID;
     this.uiSrv.AlbumInfoForPhotoSearching = this.accessCodeInputted;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.uiSrv.AlbumTitleForPhotoSearching = this.detailForm.get('Title')!.value;
     this._router.navigate([`/photo/searchinalbum/${this.routerID}`]);
   }

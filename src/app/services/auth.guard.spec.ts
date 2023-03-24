@@ -16,6 +16,7 @@ describe('AuthGuard', () => {
 
   beforeEach(() => {
     const authServiceStub: Partial<AuthService> = {};
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     authServiceStub.authSubject = new BehaviorSubject(fakeData.currentUser!);
 
     TestBed.configureTestingModule({

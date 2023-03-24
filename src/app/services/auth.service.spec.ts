@@ -11,9 +11,9 @@ describe('AuthService', () => {
   let securService: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let eventService: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
   let checkAuthSpy: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
   let registerForEventsSpy: any;
 
   beforeAll(() => {

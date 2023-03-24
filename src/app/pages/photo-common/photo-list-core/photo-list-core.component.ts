@@ -54,6 +54,7 @@ export class PhotoListCoreComponent {
   handleExifDlgOk() {
     this.isExifVisible = false;
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onChangePhoto(pht: Photo): void {
     // Show the dialog
   }
@@ -75,6 +76,7 @@ export class PhotoListCoreComponent {
       },
     });
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onPageIndexChanged(pgIdx: number): void {
     console.log('Photo List Core: Entering onPageIndexChanged');
     this.paginationEvent.emit({

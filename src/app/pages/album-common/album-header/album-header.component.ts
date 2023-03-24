@@ -34,9 +34,9 @@ import { Subject, takeUntil } from 'rxjs';
   ],
 })
 export class AlbumHeaderComponent implements OnInit, ControlValueAccessor, Validator, OnDestroy {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   propagateOnChange: (value: any) => void = (_: any) => {};
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   propagateOnTouched: (value: any) => void = (_: any) => {};
 
   private destroy$ = new Subject<void>();
@@ -122,10 +122,12 @@ export class AlbumHeaderComponent implements OnInit, ControlValueAccessor, Valid
       this.headerFormGroup.enable();
     }
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   validate(control: AbstractControl<any, any>): ValidationErrors | null {
     // throw new Error('Method not implemented.');
     return null;
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   registerOnValidatorChange?(fn: () => void): void {
     //throw new Error('Method not implemented.');
   }

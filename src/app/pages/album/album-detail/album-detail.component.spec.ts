@@ -12,7 +12,7 @@ describe('AlbumDetailComponent', () => {
   let fakeData: FakeDataHelper;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let odataService: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
   let readAlbumSpy: any;
 
   beforeAll(() => {
@@ -25,6 +25,7 @@ describe('AlbumDetailComponent', () => {
 
   beforeEach(async () => {
     const authServiceStub: Partial<AuthService> = {};
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     authServiceStub.authSubject = new BehaviorSubject(fakeData.currentUser!);
 
     await TestBed.configureTestingModule({

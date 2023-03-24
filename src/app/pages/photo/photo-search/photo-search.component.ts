@@ -123,6 +123,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
           this.pageHeader = 'Common.SearchPhotos';
         } else if (x[0].path === 'searchinalbum') {
           this.currentAlbumID = +x[1].path;
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           if (this.currentAlbumID === +this.uiSrv.AlbumIDForPhotoSearching!) {
             this.currentAlbumInfo = this.uiSrv.AlbumInfoForPhotoSearching;
             this.currentAlbumTitle = this.uiSrv.AlbumTitleForPhotoSearching;
@@ -298,6 +299,7 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
     });
 
     // Do the real search
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.subjFilters.next(arRealFilter!);
   }
 }

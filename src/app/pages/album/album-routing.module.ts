@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AlbumDetailComponent } from './album-detail';
 import { AlbumListComponent } from './album-list';
-import { AuthGuard, CanDeactivateGuard } from 'src/app/services';
+import { AuthGuard } from 'src/app/services';
 
 const routes: Routes = [
   { path: '', component: AlbumListComponent },

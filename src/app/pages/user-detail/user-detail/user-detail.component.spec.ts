@@ -17,6 +17,7 @@ describe('UserDetailComponent', () => {
 
   beforeEach(async () => {
     const authServiceStub: Partial<AuthService> = {};
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     authServiceStub.authSubject = new BehaviorSubject(fakeData.currentUser!);
 
     await TestBed.configureTestingModule({

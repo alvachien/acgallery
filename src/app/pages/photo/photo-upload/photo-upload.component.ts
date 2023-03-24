@@ -189,12 +189,14 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   // Step 1. Choose photo to upload
   handleUploadPreview = async (file: NzUploadFile) => {
     if (!file.url && !file['preview']) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       file['preview'] = await getBase64(file.originFileObj!);
     }
     this.previewImage = file.url || file['preview'];
     this.previewVisible = true;
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]): Observable<boolean> =>
     new Observable((observer: Observer<boolean>) => {
       writeConsole('ACGallery [Debug]: Entering PhotoUpload beforeUpload()...', ConsoleLogTypeEnum.debug);
@@ -212,6 +214,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
         return;
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain 
       const overSize = file.size! / 1024 < this._userDetail?.uploadFileMaxSize!;
       if (!overSize) {
         this.msg.error(`Image must smaller than ${this._userDetail?.uploadFileMaxSize} KB!`);
@@ -222,6 +225,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
       observer.complete();
     });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars 
   handleUploadChange({ file, fileList }: NzUploadChangeParam): void {
     writeConsole('ACGallery [Debug]: Entering PhotoUpload handleUploadChange...', ConsoleLogTypeEnum.debug);
 
@@ -253,6 +257,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars 
   handleUploadRemove = (file: NzUploadFile): boolean | Observable<boolean> => {
     return true;
   };
@@ -267,12 +272,14 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
         const img = document.createElement('img');
         img.src = reader.result as string;
         img.onload = () => {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion 
           const ctx = canvas.getContext('2d')!;
           ctx.drawImage(img, 0, 0);
           ctx.fillStyle = 'red';
           ctx.textBaseline = 'middle';
           ctx.fillText('Ant Design', 20, 20);
           canvas.toBlob((blob) => {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion 
             observer.next(blob!);
             observer.complete();
           });
@@ -346,7 +353,8 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
         break;
     }
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, @typescript-eslint/ban-types 
   getUploadHeader = (file: NzUploadFile): Object | Observable<any> => {
     return {
       Authorization: 'Bearer ' + this.authService.authSubject.getValue().getAccessToken(),
@@ -364,6 +372,8 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   onExistedAlbumSelected(id: number, checked: boolean): void {
     this.updateExistedAlbumSelected(id, checked);
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars 
   onCurrentPageDataChange($event: ReadonlyArray<Album>): void {
     // this.listOfCurrentPageData = $event;
     // this.refreshCheckedStatus();

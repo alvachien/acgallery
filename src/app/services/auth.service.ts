@@ -130,6 +130,7 @@ export class AuthService {
           })
         );
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return of(this._userDetail!);
     }
   }

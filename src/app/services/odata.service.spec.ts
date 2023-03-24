@@ -28,6 +28,7 @@ describe('OdataService', () => {
 
   beforeEach(() => {
     const authServiceStub: Partial<AuthService> = {};
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     authServiceStub.authSubject = new BehaviorSubject(fakeData.currentUser!);
 
     TestBed.configureTestingModule({
@@ -42,6 +43,7 @@ describe('OdataService', () => {
   it('should be created without data', () => {
     service = TestBed.inject(OdataService);
     expect(service).toBeTruthy();
+    expect(httpClient).toBeTruthy();
   });
 
   /// OdataService method tests begin ///

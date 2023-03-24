@@ -108,6 +108,7 @@ describe('AlbumHeaderDisplayComponent', () => {
     expect(inputDesp.value).toBe(album.Desp);
     // const chkComponent = fixture.debugElement.query(By.css('#ispublic'));
     // const chkinputElement = chkComponent.nativeElement.querySelector('input') as HTMLInputElement;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     expect(component.headerComponent!.headerFormGroup!.get('isPublicCtrl')!.value).toBeTrue();
 
     album.Title = 'testTitle2';
@@ -118,6 +119,7 @@ describe('AlbumHeaderDisplayComponent', () => {
     expect(inputTitle.value).toBe(album.Title);
     expect(inputDesp.value).toBe(album.Desp);
     //expect(chkinputElement.checked).toBeFalse();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     expect(component.headerComponent!.headerFormGroup!.get('isPublicCtrl')!.value).toBeFalse();
 
     const inputAccessCode = fixture.nativeElement.querySelector('#accode');
@@ -183,6 +185,7 @@ describe('AlbumHeaderEditComponent', () => {
     expect(inputTitle.disabled).toBeFalsy();
     // const chkComponent = fixture.debugElement.query(By.css('#ispublic'));
     // const chkinputElement = chkComponent.nativeElement.querySelector('input') as HTMLInputElement;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     expect(component.headerComponent!.headerFormGroup!.get('isPublicCtrl')!.value).toBeTrue();
 
     const inputAccessCode = fixture.nativeElement.querySelector('#accode');

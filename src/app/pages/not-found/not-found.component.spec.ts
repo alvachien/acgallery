@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TestingDependsModule } from 'src/testing/';
+import { TestingDependsModule, getTranslocoModule } from 'src/testing/';
 import { NotFoundComponent } from './not-found.component';
 
 describe('NotFoundComponent', () => {
@@ -9,7 +9,7 @@ describe('NotFoundComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestingDependsModule],
+      imports: [TestingDependsModule, getTranslocoModule()],
       declarations: [NotFoundComponent],
     }).compileComponents();
   });
