@@ -6,6 +6,12 @@ import { AuthService, OdataService } from 'src/app/services';
 
 import { TestingDependsModule, getTranslocoModule, asyncData, FakeDataHelper } from 'src/testing/';
 import { PhotoUploadComponent } from './photo-upload.component';
+import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
+
+const FILECONTENT = [
+  `iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==`
+];
+const FILE = new File(FILECONTENT, '');
 
 describe('PhotoUploadComponent', () => {
   let component: PhotoUploadComponent;
@@ -93,6 +99,31 @@ describe('PhotoUploadComponent', () => {
       expect(component.currentStep).toEqual(1);
       component.pre();
       expect(component.currentStep).toEqual(0);
+
+      flush();
+    }));
+
+    it('test upload', fakeAsync(() => {
+      fixture.detectChanges(); // OnInit
+      tick();
+      fixture.detectChanges(); // Get Albums
+      tick();
+      fixture.detectChanges();
+
+      let nfile: NzUploadFile = {
+        uid: '1',
+        name: 'xxx.png',
+        status: 'done',
+        response: 'Server Error 500', // custom error message to show
+        url: 'http://www.baidu.com/xxx.png'
+      };
+      let rst = component.handleUploadPreview(nfile);
+      tick();
+      fixture.detectChanges();
+
+      component.handleUploadChange({ file: nfile } as NzUploadChangeParam);
+      tick();
+      fixture.detectChanges();
 
       flush();
     }));
