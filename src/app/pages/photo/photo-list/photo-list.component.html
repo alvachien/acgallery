@@ -1,12 +1,9 @@
 <nz-page-header
   class="site-page-header"
   [nzTitle]="'Nav.Photos' | transloco"
-  [nzSubtitle]="'Common.ListView' | transloco"
->
+  [nzSubtitle]="'Common.ListView' | transloco">
   <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item
-      ><a routerLink="/welcome">{{ 'Common.Dashboard' | transloco }}</a></nz-breadcrumb-item
-    >
+    <nz-breadcrumb-item><a routerLink="/welcome">{{ 'Common.Dashboard' | transloco }}</a></nz-breadcrumb-item>
     <nz-breadcrumb-item>{{ 'Nav.Photos' | transloco }}</nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
@@ -26,6 +23,5 @@
   [totalCount]="totalCount"
   [pageSize]="pageSize"
   [photos]="photos"
-  (paginationEvent)="onPaginationEvent($event)"
->
+  (paginationEvent)="onPaginationEvent($event)">
 </acgallery-photo-list-core>

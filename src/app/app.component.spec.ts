@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, discardPeriodicTasks, fakeAsync, flush, tick } from '@angular/core/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
@@ -9,6 +9,8 @@ import { AuthService } from './services';
 
 describe('AppComponent', () => {
   let fakeData: FakeDataHelper;
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
 
   beforeAll(() => {
     fakeData = new FakeDataHelper();
@@ -34,9 +36,24 @@ describe('AppComponent', () => {
     }).compileComponents();
   });
 
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+  });
+
   it('should create the app', async () => {
-    const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   });
+
+  it('init test', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    expect(component.currentVersion).toBeTruthy();
+
+    flush();
+    discardPeriodicTasks();
+  }));
 });

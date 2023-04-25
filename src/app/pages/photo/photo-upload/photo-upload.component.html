@@ -1,15 +1,10 @@
 <nz-page-header
   class="site-page-header"
   [nzTitle]="'Nav.Photos' | transloco"
-  [nzSubtitle]="'Nav.PhotoUpload' | transloco"
->
+  [nzSubtitle]="'Nav.PhotoUpload' | transloco">
   <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item
-      ><a routerLink="/welcome">{{ 'Common.Dashboard' | transloco }}</a></nz-breadcrumb-item
-    >
-    <nz-breadcrumb-item
-      ><a routerLink="/photo">{{ 'Nav.Photos' | transloco }}</a></nz-breadcrumb-item
-    >
+    <nz-breadcrumb-item><a routerLink="/welcome">{{ 'Common.Dashboard' | transloco }}</a></nz-breadcrumb-item>
+    <nz-breadcrumb-item><a routerLink="/photo">{{ 'Nav.Photos' | transloco }}</a></nz-breadcrumb-item>
     <nz-breadcrumb-item>{{ 'Nav.PhotoUpload' | transloco }}</nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra> </nz-page-header-extra>
@@ -38,8 +33,7 @@
         [nzHeaders]="getUploadHeader"
         [nzPreview]="handleUploadPreview"
         [nzRemove]="handleUploadRemove"
-        [nzTransformFile]="handleUploadTransformFile"
-      >
+        [nzTransformFile]="handleUploadTransformFile">
         <div>
           <i nz-icon nzType="plus"></i>
           <div style="margin-top: 8px">{{ 'Nav.PhotoUpload' | transloco }}</div>
@@ -49,8 +43,7 @@
         [nzVisible]="previewVisible"
         [nzContent]="modalContent"
         [nzFooter]="null"
-        (nzOnCancel)="previewVisible = false"
-      >
+        (nzOnCancel)="previewVisible = false">
         <ng-template #modalContent>
           <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
         </ng-template>
@@ -119,8 +112,7 @@
           nzShowPagination
           nzShowSizeChanger
           [nzData]="listOfAlbums"
-          (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
-        >
+          (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
           <thead>
             <tr>
               <th></th>
@@ -155,8 +147,7 @@
         *ngIf="!isErrorOccurred"
         nzStatus="success"
         nzTitle="Successfully upload photo and assigned to albums!"
-        nzSubTitle="Successfully upload the photos and assigned to albums based on need."
-      >
+        nzSubTitle="Successfully upload the photos and assigned to albums based on need.">
         <div nz-result-extra>
           <button nz-button nzType="primary" (click)="onGoToPhotoList()">Go Photos</button>
           <button nz-button (click)="onUploadFurther()">Upload Further</button>
@@ -166,8 +157,7 @@
         *ngIf="isErrorOccurred"
         nzTitle="Upload Failed"
         nzStatus="error"
-        nzSubTitle="Please check and modify the following information before resubmitting."
-      >
+        nzSubTitle="Please check and modify the following information before resubmitting.">
         <div nz-result-content>
           <div class="desc">
             <h4 nz-title>The content you submitted has the following error:</h4>

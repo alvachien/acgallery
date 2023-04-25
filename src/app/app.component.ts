@@ -78,12 +78,6 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         });
     }
-
-    //   for (const query of Object.keys(result.breakpoints)) {
-    //     if (result.breakpoints[query]) {
-    //       this.currentScreenSize = this.displayNameMap.get(query) ?? 'Unknown';
-    //     }
-    //   }
   }
 
   ngOnDestroy(): void {

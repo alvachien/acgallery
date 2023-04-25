@@ -1,9 +1,7 @@
 <nz-page-header class="site-page-header" [nzTitle]="'Nav.Photos' | transloco" [nzSubtitle]="pageHeader | transloco">
   <nz-breadcrumb nz-page-header-breadcrumb>
     <nz-breadcrumb-item>{{ 'Common.Dashboard' | transloco }}</nz-breadcrumb-item>
-    <nz-breadcrumb-item
-      ><a routerLink="/photo">{{ 'Nav.Photos' | transloco }}</a></nz-breadcrumb-item
-    >
+    <nz-breadcrumb-item><a routerLink="/photo">{{ 'Nav.Photos' | transloco }}</a></nz-breadcrumb-item>
     <nz-breadcrumb-item>{{ pageHeader | transloco }}</nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
@@ -20,8 +18,7 @@
           class="filter-field"
           nzPlaceHolder="{{ 'Common.Field' | transloco }}"
           [(ngModel)]="filter.fieldName"
-          (ngModelChange)="onFieldSelectionChanged(filter)"
-        >
+          (ngModelChange)="onFieldSelectionChanged(filter)">
           <nz-option *ngFor="let field of allFields" [nzValue]="field.value" [nzLabel]="field.displayas | transloco">
           </nz-option>
         </nz-select>
@@ -32,13 +29,11 @@
         <nz-select
           class="filter-operator"
           nzPlaceHolder="{{ 'Common.Operator' | transloco }}"
-          [(ngModel)]="filter.operator"
-        >
+          [(ngModel)]="filter.operator">
           <nz-option
             *ngFor="let opr of allOperators | operatorFilter : filter.valueType"
             [nzValue]="opr.value"
-            [nzLabel]="opr.i18nterm | transloco"
-          >
+            [nzLabel]="opr.i18nterm | transloco">
           </nz-option>
         </nz-select>
       </nz-form-item>
@@ -50,8 +45,7 @@
           type="number"
           placeholder="{{ 'Common.Value' | transloco }}"
           name="lvalue_1"
-          [(ngModel)]="filter.value[0]"
-        />
+          [(ngModel)]="filter.value[0]" />
       </nz-form-item>
       <nz-form-item *ngIf="filter.valueType === 2">
         <input
@@ -59,8 +53,7 @@
           type="text"
           placeholder="{{ 'Common.Value' | transloco }}"
           name="lvalue_2"
-          [(ngModel)]="filter.value[0]"
-        />
+          [(ngModel)]="filter.value[0]" />
       </nz-form-item>
       <nz-form-item *ngIf="filter.valueType === 3">
         <nz-range-picker [nzShowTime]="true" [(ngModel)]="filter.value"></nz-range-picker>
@@ -76,8 +69,7 @@
           type="number"
           placeholder="{{ 'Common.Value' | transloco }}"
           name="hvalue_1"
-          [(ngModel)]="filter.value[1]"
-        />
+          [(ngModel)]="filter.value[1]" />
       </nz-form-item>
     </div>
     <div nz-col nzSpan="4">
@@ -106,6 +98,5 @@
   <acgallery-photo-list-core
     [totalCount]="resultsLength"
     [pageSize]="pageSize"
-    [photos]="photos"
-  ></acgallery-photo-list-core>
+    [photos]="photos"></acgallery-photo-list-core>
 </div>

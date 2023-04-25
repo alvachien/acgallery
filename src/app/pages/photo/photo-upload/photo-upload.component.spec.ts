@@ -1,7 +1,7 @@
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { SequenceList } from 'actslib';
-import { BehaviorSubject, of } from 'rxjs';
-import { Album } from 'src/app/models';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Album, UserDetail } from 'src/app/models';
 import { AuthService, OdataService } from 'src/app/services';
 
 import { TestingDependsModule, getTranslocoModule, asyncData, FakeDataHelper } from 'src/testing/';
@@ -28,6 +28,14 @@ describe('PhotoUploadComponent', () => {
     const authServiceStub: Partial<AuthService> = {};
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     authServiceStub.authSubject = new BehaviorSubject(fakeData.currentUser!);
+    let objud = new UserDetail();
+    objud.userId = 'aaa';
+    objud.displayAs = 'aaa2';
+    objud.email = 'aaa';
+    objud.others = 'aaa';
+    authServiceStub.getUserDetail = (forceReload?: boolean) => {
+        return of(objud);
+    };
 
     await TestBed.configureTestingModule({
       imports: [TestingDependsModule, getTranslocoModule()],
@@ -67,7 +75,8 @@ describe('PhotoUploadComponent', () => {
 
       getAlbumsSpy.and.returnValue(asyncData(albums));
     });
-    xit('work with data', fakeAsync(() => {
+    
+    it('first step shall work', fakeAsync(() => {
       fixture.detectChanges(); // OnInit
       tick();
       fixture.detectChanges(); // Get Albums
@@ -79,6 +88,11 @@ describe('PhotoUploadComponent', () => {
       expect(component.currentStep).toEqual(0);
       const nextButton = component.nextButtonEnabled;
       expect(nextButton).toBeFalse();
+
+      component.next();
+      expect(component.currentStep).toEqual(1);
+      component.pre();
+      expect(component.currentStep).toEqual(0);
 
       flush();
     }));

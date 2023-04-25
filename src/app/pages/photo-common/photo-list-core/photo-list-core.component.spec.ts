@@ -1,9 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { PhotoListCoreComponent } from './photo-list-core.component';
-import { TestingDependsModule, getTranslocoModule } from 'src/testing/';
+import { TestingDependsModule, asyncData, getTranslocoModule } from 'src/testing/';
 import { OdataService, UIInfoService } from 'src/app/services';
+import { Photo } from 'src/app/models';
 
 describe('PhotoListCoreComponent', () => {
   let component: PhotoListCoreComponent;
@@ -36,4 +37,30 @@ describe('PhotoListCoreComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('get EXIF', fakeAsync(() => {
+    getPhotoEXIFSpy.and.returnValue(asyncData({}));
+
+    let pto: Photo = new Photo();
+    component.onPhotoViewEXIF(pto);
+
+    tick();
+    fixture.detectChanges();
+    expect(component.isExifVisible).toBeTrue();
+
+    component.handleExifDlgCancel();
+    tick();
+    fixture.detectChanges();
+  }));
+
+  it('Delete Photo', fakeAsync(() => {
+    deletePhotoSpy.and.returnValue(asyncData(true));
+
+    let pto: Photo = new Photo();
+    pto.photoId = '22';
+    component.onDeletePhoto(pto);
+
+    tick();
+    fixture.detectChanges();
+  }));
 });

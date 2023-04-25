@@ -10,8 +10,7 @@
     [nzPageSize]="pageSize"
     [nzShowTotal]="rangeTemplate"
     nzShowQuickJumper
-    (nzPageIndexChange)="onPageIndexChanged($event)"
-  ></nz-pagination>
+    (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
   <ng-template #rangeTemplate let-range="range" let-total>
     {{ range[0] }}-{{ range[1] }} of {{ total }} items
   </ng-template>
@@ -30,8 +29,7 @@
       nzXl="6"
       class="gutter-row"
       [nzSpan]="6"
-      *ngFor="let pht of photos"
-    >
+      *ngFor="let pht of photos">
       <div nz-col class="inner-box">
         <div nz-row>
           <img [src]="getFileUrl(pht)" (click)="onStartPreview(pht.photoId)" alt="" />
@@ -71,16 +69,14 @@
     [nzPageSize]="pageSize"
     [nzShowTotal]="rangeTemplate"
     nzShowQuickJumper
-    (nzPageIndexChange)="onPageIndexChanged($event)"
-  ></nz-pagination>
+    (nzPageIndexChange)="onPageIndexChanged($event)"></nz-pagination>
 </div>
 
 <nz-modal
   [(nzVisible)]="isExifVisible"
   nzTitle="EXIF"
   (nzOnCancel)="handleExifDlgCancel()"
-  (nzOnOk)="handleExifDlgOk()"
->
+  (nzOnOk)="handleExifDlgOk()">
   <ng-container *nzModalContent>
     <p>{{ 'Common.CameraMaker' | transloco }}: {{ curExif.CameraMaker }}</p>
     <p>{{ 'Common.CameraModel' | transloco }}: {{ curExif.CameraModel }}</p>

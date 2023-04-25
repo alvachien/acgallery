@@ -50,13 +50,6 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
     private fb: UntypedFormBuilder
   ) {}
 
-  // submitForm(): void {
-  //   for (const i in this.detailForm.controls) {
-  //     this.detailForm.controls[i].markAsDirty();
-  //     this.detailForm.controls[i].updateValueAndValidity();
-  //   }
-  // }
-
   ngOnInit(): void {
     this.detailForm = this.fb.group({
       headerControl: [new Album(), [Validators.required]],

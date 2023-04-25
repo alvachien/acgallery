@@ -1,11 +1,7 @@
 <nz-page-header class="site-page-header" [nzTitle]="'Nav.Albums' | transloco" [nzSubtitle]="currentMode | transloco">
   <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item
-      ><a routerLink="/welcome">{{ 'Common.Dashboard' | transloco }}</a></nz-breadcrumb-item
-    >
-    <nz-breadcrumb-item
-      ><a routerLink="/album">{{ 'Nav.Albums' | transloco }}</a></nz-breadcrumb-item
-    >
+    <nz-breadcrumb-item><a routerLink="/welcome">{{ 'Common.Dashboard' | transloco }}</a></nz-breadcrumb-item>
+    <nz-breadcrumb-item><a routerLink="/album">{{ 'Nav.Albums' | transloco }}</a></nz-breadcrumb-item>
     <nz-breadcrumb-item>{{ currentMode | transloco }}</nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
@@ -30,8 +26,7 @@
   [nzTitle]="'Album.AccessCode' | transloco"
   (nzOnCancel)="handleAccessCodeDlgCancel()"
   (nzOnOk)="handleAccessCodeDlgOk()"
-  [nzOkLoading]="isAccessCodeSubmitting"
->
+  [nzOkLoading]="isAccessCodeSubmitting">
   <p *nzModalContent>
     <input nz-input [placeholder]="accessCodeHint" [(ngModel)]="accessCodeInputted" />
   </p>
@@ -44,7 +39,6 @@
     [totalCount]="totalCount"
     [pageSize]="pageSize"
     [photos]="photos"
-    (paginationEvent)="onPaginationEvent($event)"
-  >
+    (paginationEvent)="onPaginationEvent($event)">
   </acgallery-photo-list-core>
 </div>

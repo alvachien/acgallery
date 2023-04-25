@@ -1,10 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, discardPeriodicTasks, fakeAsync, flush, tick } from '@angular/core/testing';
 import { of } from 'rxjs';
 
-import { TestingDependsModule, getTranslocoModule } from 'src/testing/';
+import { TestingDependsModule, asyncData, getTranslocoModule } from 'src/testing/';
 import { PhotoCommonModule } from 'src/app/pages/photo-common/photo-common.module';
 import { PhotoListComponent } from './photo-list.component';
 import { OdataService, UIInfoService } from 'src/app/services';
+import { Photo } from 'src/app/models';
+import { SequenceList } from 'actslib';
 
 describe('PhotoListComponent', () => {
   let component: PhotoListComponent;
@@ -30,10 +32,33 @@ describe('PhotoListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PhotoListComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('init with data', fakeAsync(() => {
+    let listPhotos: SequenceList<Photo> = new SequenceList<Photo>();
+    let epto = new Photo();
+    epto.photoId = 'aaa';
+    listPhotos.AppendElement(epto);
+    epto = new Photo();
+    epto.photoId = 'aaa';
+    listPhotos.AppendElement(epto);
+    getPhotosSpy.and.returnValue(asyncData({
+      totalCount: 2,
+      items: listPhotos,
+    }));
+
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    expect(component.photos.length).toEqual(2);
+
+    flush();
+    discardPeriodicTasks();
+  }));
 });
