@@ -1,3 +1,6 @@
+[![build and test](https://github.com/alvachien/acgallery/actions/workflows/build-test.yml/badge.svg)](https://github.com/alvachien/acgallery/actions/workflows/build-test.yml)
+
+
 # acgallery
 AC Photo Gallery is an open-source web app, which designed to organize your photos via album and provides powerful authority control for sharing.
 
