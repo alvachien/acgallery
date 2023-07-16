@@ -6,6 +6,9 @@
     "photo",
     "photo gallery"
   ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve --ssl true -o --ssl-key ssl/server.key --ssl-cert ssl/server.crt",
