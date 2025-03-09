@@ -1,19 +1,35 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isCreateMode, isDisplayMode, isUIEditable, UIMode } from 'actslib';
 import { ReplaySubject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 
-import { Album, ConsoleLogTypeEnum, Photo, writeConsole } from 'src/app/models';
-import { OdataService, UIInfoService } from 'src/app/services';
-import { environment } from 'src/environments/environment';
+import { Album, ConsoleLogTypeEnum, Photo, writeConsole } from '../../../models';
+import { OdataService, UIInfoService } from '../../../services';
+import { environment } from '../../../../environments/environment';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { TranslocoModule } from '@jsverse/transloco';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'album-detail',
   templateUrl: './album-detail.component.html',
   styleUrls: ['./album-detail.component.less'],
+  imports: [
+    NzPageHeaderModule,
+    NzBreadCrumbModule,
+    NzModalModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NzFormModule,
+    TranslocoModule,
+    NzDividerModule,
+  ]
 })
 export class AlbumDetailComponent implements OnInit, OnDestroy {
   private _destroyed$?: ReplaySubject<boolean>;

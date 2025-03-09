@@ -12,15 +12,36 @@ import {
   UIDisplayString,
   UIDisplayStringUtil,
   writeConsole,
-} from 'src/app/models';
-import { OdataService, UIInfoService } from 'src/app/services';
+} from '../../../models';
+import { OdataService, UIInfoService } from '../../../services';
 import { PhotoListCoreComponent } from '../../photo-common/photo-list-core';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { TranslocoModule } from '@jsverse/transloco';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'acgallery-photo-search',
   templateUrl: './photo-search.component.html',
   styleUrls: ['./photo-search.component.less'],
+  imports: [
+    NzPageHeaderModule,
+    NzBreadCrumbModule,
+    TranslocoModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NzFormModule,
+    NzSelectModule,
+    NzInputModule,
+    NzDividerModule,
+    NzEmptyModule,
+  ]
 })
 export class PhotoSearchComponent implements OnInit, AfterViewInit {
   // Filters

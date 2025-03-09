@@ -1,12 +1,9 @@
 <nz-page-header
   class="site-page-header"
   [nzTitle]="'Login.UserDetail' | transloco"
-  [nzSubtitle]="currentMode | transloco"
->
+  [nzSubtitle]="currentMode | transloco">
   <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item
-      ><a routerLink="/welcome">{{ 'Common.Dashboard' | transloco }}</a></nz-breadcrumb-item
-    >
+    <nz-breadcrumb-item><a routerLink="/welcome">{{ 'Common.Dashboard' | transloco }}</a></nz-breadcrumb-item>
     <nz-breadcrumb-item>
       <a routerLink="/userdetail/display">{{ 'Login.UserDetail' | transloco }}</a>
     </nz-breadcrumb-item>
@@ -27,9 +24,7 @@
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="displayAs" nzRequired>{{
-      'Login.DisplayAs' | transloco
-    }}</nz-form-label>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="displayAs" nzRequired>{{'Login.DisplayAs' | transloco}}</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="'Login.DisplayAs' | transloco">
       <input nz-input id="displayAs" formControlName="displayAs" />
     </nz-form-control>
@@ -43,18 +38,14 @@
   </nz-form-item> -->
 
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="uploadFileMinSize" nzRequired>{{
-      'Photo.UploadMinSize' | transloco
-    }}</nz-form-label>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="uploadFileMinSize" nzRequired>{{'Photo.UploadMinSize' | transloco}}</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Min. Size">
       <input nz-input type="number" id="uploadFileMinSize" formControlName="uploadFileMinSize" />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="uploadFileMaxSize" nzRequired>{{
-      'Photo.UploadMaxSize' | transloco
-    }}</nz-form-label>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="uploadFileMaxSize" nzRequired>{{'Photo.UploadMaxSize' | transloco}}</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Max. Size">
       <input nz-input type="number" id="uploadFileMaxSize" formControlName="uploadFileMaxSize" />
     </nz-form-control>

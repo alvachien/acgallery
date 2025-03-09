@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { EventTypes, OidcSecurityService, PublicEventsService } from 'angular-auth-oidc-client';
 import { BehaviorSubject, catchError, map, Observable, of, throwError } from 'rxjs';
 
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import { ConsoleLogTypeEnum, UserAuthInfo, UserDetail, writeConsole } from '../models';
 
 @Injectable({

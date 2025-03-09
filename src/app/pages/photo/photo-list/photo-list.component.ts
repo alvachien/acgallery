@@ -1,14 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ConsoleLogTypeEnum, Photo, writeConsole } from 'src/app/models';
-import { OdataService } from 'src/app/services';
+import { ConsoleLogTypeEnum, Photo, writeConsole } from '../../../models';
+import { OdataService } from '../../../services';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'photo-list',
   templateUrl: './photo-list.component.html',
   styleUrls: ['./photo-list.component.less'],
+  imports: [
+    NzPageHeaderModule,
+    NzBreadCrumbModule,
+    TranslocoModule,
+  ]
 })
 export class PhotoListComponent implements OnInit {
   totalCount = 0;

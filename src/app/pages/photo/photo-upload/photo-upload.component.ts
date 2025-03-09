@@ -1,16 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
+import { NzUploadChangeParam, NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
 import { forkJoin, Observable, Observer } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { translate } from '@ngneat/transloco';
 
-import { Album, ConsoleLogTypeEnum, SelectableAlbum, UpdPhoto, UserDetail, writeConsole } from 'src/app/models';
-import { AuthService, CanComponentDeactivate, OdataService } from 'src/app/services';
-import { environment } from 'src/environments/environment';
+import { Album, ConsoleLogTypeEnum, SelectableAlbum, UpdPhoto, UserDetail, writeConsole } from '../../../models';
+import { AuthService, CanComponentDeactivate, OdataService } from '../../../services';
+import { environment } from '../../../../environments/environment';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzResultModule } from 'ng-zorro-antd/result';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { TranslocoModule } from '@jsverse/transloco';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 function getBase64(file: File): Promise<string | ArrayBuffer | null> {
   return new Promise((resolve, reject) => {
@@ -26,6 +34,22 @@ function getBase64(file: File): Promise<string | ArrayBuffer | null> {
   selector: 'acgallery-photo-upload',
   templateUrl: './photo-upload.component.html',
   styleUrls: ['./photo-upload.component.less'],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NzPageHeaderModule,
+    NzBreadCrumbModule,
+    NzStepsModule,
+    NzResultModule,
+    NzUploadModule,
+    NzTableModule,
+    NzTagModule,
+    TranslocoModule,
+    NzRadioModule,
+    NzResultModule,
+    NzButtonModule,
+    NzModalModule,
+  ]
 })
 export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   // Current step

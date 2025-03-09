@@ -1,19 +1,33 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { TranslocoService } from '@ngneat/transloco';
+import { Router, RouterModule } from '@angular/router';
 import { en_US, NzI18nService, zh_CN } from 'ng-zorro-antd/i18n';
 import { NzBreakpointService, siderResponsiveMap } from 'ng-zorro-antd/core/services';
 import { Platform } from '@angular/cdk/platform';
 
-import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
 import { AuthService } from './services';
 import { Subject, takeUntil } from 'rxjs';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'acgallery-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
+  imports: [
+    NzLayoutModule,
+    NzSpaceModule,
+    NzIconModule,
+    NzMenuModule,
+    RouterModule,
+    NzDropDownModule,
+    TranslocoModule,
+  ]
 })
 export class AppComponent implements OnInit, OnDestroy {
   isCollapsed = false;

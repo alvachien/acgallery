@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   selector: 'acgallery-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.less'],
+  imports: [
+    NzPageHeaderModule,
+    TranslocoModule,
+  ]
 })
 export class AboutComponent implements OnInit {
   public currentVersion = '';

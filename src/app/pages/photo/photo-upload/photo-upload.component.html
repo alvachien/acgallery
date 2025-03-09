@@ -80,8 +80,7 @@
               <nz-tag
                 *ngFor="let tag of data.tags; let i = index"
                 [nzMode]="'closeable'"
-                (nzOnClose)="handleTagClose(data!, tag)"
-              >
+                (nzOnClose)="handleTagClose(data!, tag)">
                 {{ sliceTagName(tag) }}
               </nz-tag>
               <input
