@@ -1,29 +1,43 @@
-import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { translate } from '@ngneat/transloco';
 import { UIMode } from 'actslib';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { AuthService } from 'src/app/services';
+import { AuthService } from '../../../services';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'acgallery-user-detail',
   templateUrl: './user-detail.component.html',
   styleUrls: ['./user-detail.component.less'],
+  imports: [
+    NzPageHeaderModule,
+    NzBreadCrumbModule,
+    NzButtonModule,
+    NzFormModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslocoModule,
+  ]
 })
 export class UserDetailComponent implements OnInit {
   detailForm!: UntypedFormGroup;
   uiMode = UIMode.Invalid;
   currentMode = 'Common.Display';
 
-  constructor(
-    private fb: UntypedFormBuilder,
-    private authSrv: AuthService,
-    private activateRoute: ActivatedRoute,
-    private modalService: NzModalService
-  ) {}
+  readonly fb = inject(UntypedFormBuilder);
+  readonly authSrv = inject(AuthService);
+  readonly activateRoute = inject(ActivatedRoute);
+  readonly modalService = inject(NzModalService);
+  readonly translateService = inject(TranslocoService);
+
+  constructor() {}
 
   get isEditableMode(): boolean {
     return this.uiMode === UIMode.Update;
@@ -84,7 +98,7 @@ export class UserDetailComponent implements OnInit {
               this.detailForm.disable();
               // Show error
               this.modalService.error({
-                nzTitle: translate('Common.Error'),
+                nzTitle: this.translateService.translate('Common.Error'),
                 nzContent: err.toString(),
                 nzClosable: true,
               });

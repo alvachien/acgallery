@@ -4,7 +4,7 @@ import { en_US, NzI18nService, zh_CN } from 'ng-zorro-antd/i18n';
 import { NzBreakpointService, siderResponsiveMap } from 'ng-zorro-antd/core/services';
 import { Platform } from '@angular/cdk/platform';
 
-import { environment } from '../environments/environment';
+import { environment } from '../environments/environment.development';
 import { AuthService } from './services';
 import { Subject, takeUntil } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
@@ -35,6 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
   visibleMenuUserLabel = true;
   visibleVersionLabel = true;
   collpasedWidth = 48;
+  currentYear = new Date().getFullYear();
   private destroy$ = new Subject();
 
   constructor(

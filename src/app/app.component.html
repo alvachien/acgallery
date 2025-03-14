@@ -49,7 +49,9 @@
           <nz-space [nzSize]="16">
             <a *nzSpaceItem nz-dropdown [nzDropdownMenu]="menuLang" [nzClickHide]="false">
               <i nz-icon nzType="translation" nzTheme="outline"></i>
-              <span *ngIf="visibleMenuLangLabel">{{ 'Common.Language' | transloco }}</span>
+              @if(visibleMenuLangLabel) {
+                <span>{{ 'Common.Language' | transloco }}</span>
+              }              
               <i nz-icon nzType="down"></i>
             </a>
             <nz-dropdown-menu #menuLang="nzDropdownMenu">
@@ -64,28 +66,32 @@
             </nz-dropdown-menu>
             <a *nzSpaceItem nz-dropdown [nzDropdownMenu]="menuLogin" [nzClickHide]="false">
               <i nz-icon nzType="user" nzTheme="outline"></i>
-              <span *ngIf="visibleMenuUserLabel">{{ 'Login.User' | transloco }}</span>
+              @if(visibleMenuUserLabel) {
+                <span>{{ 'Login.User' | transloco }}</span>
+              }
               <i nz-icon nzType="down"></i>
             </a>
             <nz-dropdown-menu #menuLogin="nzDropdownMenu">
               <ul nz-menu>
-                <li nz-menu-item *ngIf="!isLoggedIn" (click)="onLogin()">
-                  {{ 'Login.Login' | transloco }}
-                </li>
-                <li nz-menu-item *ngIf="isLoggedIn" (click)="onUserDetail()">
-                  {{ 'Login.UserDetail' | transloco }}
-                </li>
-                <li nz-menu-item *ngIf="isLoggedIn" (click)="onLogout()">
-                  {{ 'Login.Logout' | transloco }}
-                </li>
+                @if(!isLoggedIn) {
+                  <li nz-menu-item (click)="onLogin()">
+                    {{ 'Login.Login' | transloco }}
+                  </li>  
+                }
+                @if(isLoggedIn) {
+                  <li nz-menu-item (click)="onUserDetail()">
+                    {{ 'Login.UserDetail' | transloco }}
+                  </li>
+                  <li nz-menu-item (click)="onLogout()">
+                    {{ 'Login.Logout' | transloco }}
+                  </li>  
+                }
               </ul>
             </nz-dropdown-menu>
             <button *nzSpaceItem nz-button (click)="onOpenGithub()">
               <i nz-icon nzType="github" nzTheme="outline"></i>
             </button>
-            <span *nzSpaceItem nz-typography nzType="success"
-              ><span *ngIf="visibleVersionLabel">{{ 'Nav.Version' | transloco }}: </span>{{ currentVersion }}</span
-            >
+            <span *nzSpaceItem nz-typography nzType="success">@if(visibleVersionLabel) {<span>{{ 'Nav.Version' | transloco }}: </span>}{{ currentVersion }}</span>
           </nz-space>
         </div>
       </div>
@@ -95,6 +101,6 @@
         <router-outlet></router-outlet>
       </div>
     </nz-content>
-    <nz-footer>© 2016 - 2025, Alva Chien, All rights reserved</nz-footer>
+    <nz-footer>© 2016 - {{currentYear}}, Alva Chien, All rights reserved</nz-footer>
   </nz-layout>
 </nz-layout>

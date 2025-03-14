@@ -1,16 +1,38 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, inject } from '@angular/core';
 import { Component, Input, Output } from '@angular/core';
-import { NzImageService } from 'ng-zorro-antd/image';
+import { NzImageModule, NzImageService } from 'ng-zorro-antd/image';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { TranslocoModule } from '@jsverse/transloco';
 
-import { ConsoleLogTypeEnum, Photo, writeConsole } from 'src/app/models';
-import { OdataService } from 'src/app/services';
-import { environment } from 'src/environments/environment';
+import { ConsoleLogTypeEnum, Photo, writeConsole } from '../../../models';
+import { OdataService } from '../../../services';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'acgallery-photo-list-core',
   templateUrl: './photo-list-core.component.html',
   styleUrls: ['./photo-list-core.component.less'],
+  imports: [
+    NzRadioModule,
+    NzDividerModule,
+    NzPaginationModule,
+    NzImageModule,
+    NzGridModule,
+    NzTagModule,
+    NzButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NzModalModule,
+    TranslocoModule,
+  ]
 })
 export class PhotoListCoreComponent {
   @Input() totalCount = 0;
@@ -25,8 +47,10 @@ export class PhotoListCoreComponent {
   isExifVisible = false;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   curExif: any = {};
+  readonly odataSvc = inject(OdataService);
+  readonly imageService = inject(NzImageService);
 
-  constructor(public odataSvc: OdataService, private nzImageService: NzImageService) {}
+  constructor() {}
 
   getFileUrl(pht: Photo): string {
     if (pht.fileUrl) return environment.apiRootUrl + 'PhotoFile/' + pht.thumbnailFileUrl;
@@ -107,6 +131,6 @@ export class PhotoListCoreComponent {
         });
       }
     }
-    this.nzImageService.preview(images, { nzZoom: 1, nzRotate: 0 });
+    this.imageService.preview(images, { nzZoom: 1, nzRotate: 0 });
   }
 }

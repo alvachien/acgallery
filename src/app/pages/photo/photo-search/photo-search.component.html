@@ -5,82 +5,98 @@
     <nz-breadcrumb-item>{{ pageHeader | transloco }}</nz-breadcrumb-item>
   </nz-breadcrumb>
   <nz-page-header-extra>
-    <div *ngIf="currentAlbumID">{{ 'Nav.Albums' | transloco }}: {{ currentAlbumTitle }} ({{ currentAlbumID }})</div>
+    @if(currentAlbumID) {
+      <div>{{ 'Nav.Albums' | transloco }}: {{ currentAlbumTitle }} ({{ currentAlbumID }})</div>
+    }    
   </nz-page-header-extra>
 </nz-page-header>
 
 <!-- Filter -->
 <div>
-  <div nz-row *ngFor="let filter of filters; let idxfilter = index" class="control-full-width">
-    <div nz-col nzSpan="4">
-      <nz-form-item>
-        <nz-select
-          class="filter-field"
-          nzPlaceHolder="{{ 'Common.Field' | transloco }}"
-          [(ngModel)]="filter.fieldName"
-          (ngModelChange)="onFieldSelectionChanged(filter)">
-          <nz-option *ngFor="let field of allFields" [nzValue]="field.value" [nzLabel]="field.displayas | transloco">
-          </nz-option>
-        </nz-select>
-      </nz-form-item>
-    </div>
-    <div nz-col nzSpan="2">
-      <nz-form-item>
-        <nz-select
-          class="filter-operator"
-          nzPlaceHolder="{{ 'Common.Operator' | transloco }}"
-          [(ngModel)]="filter.operator">
-          <nz-option
-            *ngFor="let opr of allOperators | operatorFilter : filter.valueType"
-            [nzValue]="opr.value"
-            [nzLabel]="opr.i18nterm | transloco">
-          </nz-option>
-        </nz-select>
-      </nz-form-item>
-    </div>
-    <div nz-col nzSpan="4">
-      <nz-form-item *ngIf="filter.valueType === 1">
-        <input
-          nz-input
-          type="number"
-          placeholder="{{ 'Common.Value' | transloco }}"
-          name="lvalue_1"
-          [(ngModel)]="filter.value[0]" />
-      </nz-form-item>
-      <nz-form-item *ngIf="filter.valueType === 2">
-        <input
-          nz-input
-          type="text"
-          placeholder="{{ 'Common.Value' | transloco }}"
-          name="lvalue_2"
-          [(ngModel)]="filter.value[0]" />
-      </nz-form-item>
-      <nz-form-item *ngIf="filter.valueType === 3">
-        <nz-range-picker [nzShowTime]="true" [(ngModel)]="filter.value"></nz-range-picker>
-      </nz-form-item>
-      <div class="typechkbox" *ngIf="filter.valueType === 4">
-        <label nz-checkbox [(ngModel)]="filter.value[0]">Checkbox</label>
+  @for(filter of filters; track $index; let idxfilter = $index) {
+    <div nz-row class="control-full-width">
+      <div nz-col nzSpan="4">
+        <nz-form-item>
+          <nz-select
+            class="filter-field"
+            nzPlaceHolder="{{ 'Common.Field' | transloco }}"
+            [(ngModel)]="filter.fieldName"
+            (ngModelChange)="onFieldSelectionChanged(filter)">
+            @for(field of allFields; track $index) {
+              <nz-option [nzValue]="field.value" [nzLabel]="field.displayas | transloco">
+              </nz-option>
+            }            
+          </nz-select>
+        </nz-form-item>
       </div>
-    </div>
-    <div nz-col nzSpan="4">
-      <nz-form-item *ngIf="filter.valueType === 1">
-        <input
-          nz-input
-          type="number"
-          placeholder="{{ 'Common.Value' | transloco }}"
-          name="hvalue_1"
-          [(ngModel)]="filter.value[1]" />
-      </nz-form-item>
-    </div>
-    <div nz-col nzSpan="4">
-      <button nz-button aria-label="Add" (click)="onAddFilter()">
-        <i nz-icon nzType="plus"></i>
-      </button>
-      <button nz-button aria-label="Clear" (click)="onRemoveFilter(idxfilter)">
-        <i nz-icon nzType="delete"></i>
-      </button>
-    </div>
-  </div>
+      <div nz-col nzSpan="2">
+        <nz-form-item>
+          <nz-select
+            class="filter-operator"
+            nzPlaceHolder="{{ 'Common.Operator' | transloco }}"
+            [(ngModel)]="filter.operator">
+            <nz-option
+              *ngFor="let opr of allOperators | operatorFilter : filter.valueType"
+              [nzValue]="opr.value"
+              [nzLabel]="opr.i18nterm | transloco">
+            </nz-option>
+          </nz-select>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="4">
+        @if(filter.valueType === 1) {
+          <nz-form-item>
+            <input
+              nz-input
+              type="number"
+              placeholder="{{ 'Common.Value' | transloco }}"
+              name="lvalue_1"
+              [(ngModel)]="filter.value[0]" />
+          </nz-form-item>  
+        }
+        @if(filter.valueType === 2) {
+          <nz-form-item>
+            <input
+              nz-input
+              type="text"
+              placeholder="{{ 'Common.Value' | transloco }}"
+              name="lvalue_2"
+              [(ngModel)]="filter.value[0]" />
+          </nz-form-item>  
+        }
+        @if(filter.valueType === 3) {
+          <nz-form-item>
+            <nz-range-picker [nzShowTime]="true" [(ngModel)]="filter.value"></nz-range-picker>
+          </nz-form-item>  
+        }
+        @if(filter.valueType === 4) {
+          <div class="typechkbox">
+            <label nz-checkbox [(ngModel)]="filter.value[0]">Checkbox</label>
+          </div>  
+        }
+      </div>
+      <div nz-col nzSpan="4">
+        @if(filter.valueType === 1) {
+          <nz-form-item>
+            <input
+              nz-input
+              type="number"
+              placeholder="{{ 'Common.Value' | transloco }}"
+              name="hvalue_1"
+              [(ngModel)]="filter.value[1]" />
+          </nz-form-item>  
+        }
+      </div>
+      <div nz-col nzSpan="4">
+        <button nz-button aria-label="Add" (click)="onAddFilter()">
+          <i nz-icon nzType="plus"></i>
+        </button>
+        <button nz-button aria-label="Clear" (click)="onRemoveFilter(idxfilter)">
+          <i nz-icon nzType="delete"></i>
+        </button>
+      </div>
+    </div>  
+  }
 
   <div nz-row class="control-full-width">
     <button nz-button aria-label="Search" (click)="onSearch()">
@@ -91,12 +107,11 @@
 
 <nz-divider></nz-divider>
 
-<div *ngIf="resultsLength <= 0">
+@if(resultsLength <= 0) {
   <nz-empty></nz-empty>
-</div>
-<div *ngIf="resultsLength > 0">
+} @else {
   <acgallery-photo-list-core
     [totalCount]="resultsLength"
     [pageSize]="pageSize"
     [photos]="photos"></acgallery-photo-list-core>
-</div>
+}

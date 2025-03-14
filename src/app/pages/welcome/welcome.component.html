@@ -1,8 +1,7 @@
 <nz-page-header
   class="site-page-header"
   [nzTitle]="'Common.Dashboard' | transloco"
-  [nzSubtitle]="'Common.KeyFigure' | transloco"
->
+  [nzSubtitle]="'Common.KeyFigure' | transloco">
   <nz-breadcrumb nz-page-header-breadcrumb>
     <nz-breadcrumb-item>{{ 'Common.Dashboard' | transloco }}</nz-breadcrumb-item>
   </nz-breadcrumb>
@@ -16,8 +15,7 @@
         <nz-statistic
           [nzValue]="(statInfo.albumAmount | number)!"
           [nzTitle]="'Common.TotalAlbum' | transloco"
-          [nzValueStyle]="{ 'font-size': '36px' }"
-        >
+          [nzValueStyle]="{ 'font-size': '36px' }">
         </nz-statistic>
       </nz-card>
     </a>
@@ -28,8 +26,7 @@
         <nz-statistic
           [nzValue]="(statInfo.photoAmount! | number)!"
           [nzTitle]="'Common.TotalPhoto' | transloco"
-          [nzValueStyle]="{ 'font-size': '36px' }"
-        >
+          [nzValueStyle]="{ 'font-size': '36px' }">
         </nz-statistic>
       </nz-card>
     </a>

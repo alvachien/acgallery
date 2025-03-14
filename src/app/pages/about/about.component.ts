@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.development';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { TranslocoModule } from '@jsverse/transloco';
 

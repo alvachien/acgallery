@@ -1,9 +1,11 @@
-import { Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, forwardRef, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
+  FormsModule,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
@@ -12,14 +14,24 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { Album } from 'src/app/models';
+import { Album } from '../../../models';
 import { isCreateMode, isUpdateMode, UIMode } from 'actslib';
 import { Subject, takeUntil } from 'rxjs';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   selector: 'acgallery-album-header',
   templateUrl: './album-header.component.html',
   styleUrls: ['./album-header.component.less'],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NzFormModule,
+    NzInputModule,
+    TranslocoModule,
+  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -65,7 +77,9 @@ export class AlbumHeaderComponent implements OnInit, ControlValueAccessor, Valid
     return isUpdateMode(this._uiMode) || isCreateMode(this._uiMode);
   }
 
-  constructor(private fb: UntypedFormBuilder) {}
+  readonly fb = inject(UntypedFormBuilder);
+  
+  constructor() {}
 
   ngOnInit(): void {
     this.headerFormGroup = this.fb.group({

@@ -1,9 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { Album, ConsoleLogTypeEnum, writeConsole } from '../../../models';
-import { OdataService } from '../../../services';
-import { environment } from '../../../../environments/environment';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -11,6 +7,11 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { TranslocoModule } from '@jsverse/transloco';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
+
+import { Album, ConsoleLogTypeEnum, writeConsole } from '../../../models';
+import { OdataService } from '../../../services';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -25,6 +26,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     TranslocoModule,
     NzPaginationModule,
     NzDividerModule,
+    NzBadgeModule,
   ]
 })
 export class AlbumListComponent implements OnInit {
@@ -33,7 +35,10 @@ export class AlbumListComponent implements OnInit {
   pageIndex = 1;
   sizePerPage = 10;
 
-  constructor(private odataSvc: OdataService, private router: Router) {}
+  readonly odataSvc = inject(OdataService);
+  readonly router = inject(Router);
+  
+  constructor() {}
 
   ngOnInit(): void {
     this.onPageIndexChanged(1);

@@ -38,14 +38,18 @@
           <button nz-button nzSize="small" nzShape="circle" (click)="onPhotoViewEXIF(pht)" style="margin-right: 4px">
             <i nz-icon nzType="info"></i>
           </button>
-          <nz-tag *ngFor="let tag of pht.tags" [nzColor]="'geekblue'">{{ tag }}</nz-tag>
+          @for(tag of pht.tags; track $index) {
+            <nz-tag [nzColor]="'geekblue'">{{ tag }}</nz-tag>
+          }
         </div>
-        <div nz-row *ngIf="viewMode === 'adv'" class="button-group-row">
-          <nz-button-group>
-            <a nz-button nzType="link" (click)="onChangePhoto(pht)" nzSize="small" nzGhost>{{'Common.Edit' | transloco}}</a>
-            <a nz-button nzType="link" (click)="onDeletePhoto(pht)" nzSize="small" nzDanger>{{'Common.Delete' | transloco}}</a>
-          </nz-button-group>
-        </div>
+        @if(viewMode === 'adv') {
+          <div nz-row class="button-group-row">
+            <nz-button-group>
+              <a nz-button nzType="link" (click)="onChangePhoto(pht)" nzSize="small" nzGhost>{{'Common.Edit' | transloco}}</a>
+              <a nz-button nzType="link" (click)="onDeletePhoto(pht)" nzSize="small" nzDanger>{{'Common.Delete' | transloco}}</a>
+            </nz-button-group>
+          </div>  
+        }
       </div>
     </div>
   </div>

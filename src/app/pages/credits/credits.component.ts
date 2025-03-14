@@ -1,11 +1,19 @@
 import { Component } from '@angular/core';
 
 import { AppCredits } from '../../models';
+import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   selector: 'acgallery-credits',
   templateUrl: './credits.component.html',
   styleUrls: ['./credits.component.less'],
+  imports: [
+    NzPageHeaderModule,
+    NzListModule,
+    TranslocoModule,
+  ]
 })
 export class CreditsComponent {
   credits: AppCredits[] = [];

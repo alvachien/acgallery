@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, of as observableOf } from 'rxjs';
 import { finalize, startWith, switchMap } from 'rxjs/operators';
@@ -24,6 +24,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -41,6 +42,8 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     NzInputModule,
     NzDividerModule,
     NzEmptyModule,
+    PhotoListCoreComponent,
+    NzDatePickerModule,
   ]
 })
 export class PhotoSearchComponent implements OnInit, AfterViewInit {
@@ -84,7 +87,11 @@ export class PhotoSearchComponent implements OnInit, AfterViewInit {
     }
   }
 
-  constructor(private odataSvc: OdataService, private activateRoute: ActivatedRoute, private uiSrv: UIInfoService) {
+  readonly odataSvc = inject(OdataService);
+  readonly activateRoute = inject(ActivatedRoute);
+  readonly uiSrv = inject(UIInfoService);
+  
+  constructor() {
     this.resultsLength = 0;
     this.allOperators = UIDisplayStringUtil.getGeneralFilterOperatorDisplayStrings();
     this.allFields = [

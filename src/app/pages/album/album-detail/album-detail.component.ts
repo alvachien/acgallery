@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isCreateMode, isDisplayMode, isUIEditable, UIMode } from 'actslib';
@@ -7,13 +7,16 @@ import { finalize, takeUntil } from 'rxjs/operators';
 
 import { Album, ConsoleLogTypeEnum, Photo, writeConsole } from '../../../models';
 import { OdataService, UIInfoService } from '../../../services';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../environments/environment.development';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { TranslocoModule } from '@jsverse/transloco';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { PhotoListCoreComponent } from '../../photo-common/photo-list-core';
+import { AlbumHeaderComponent } from '../../album-common/album-header';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -29,6 +32,9 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     NzFormModule,
     TranslocoModule,
     NzDividerModule,
+    NzCollapseModule,
+    PhotoListCoreComponent,
+    AlbumHeaderComponent,
   ]
 })
 export class AlbumDetailComponent implements OnInit, OnDestroy {
@@ -58,12 +64,13 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
     return isUIEditable(this.uiMode);
   }
 
+  readonly odataSvc = inject(OdataService);
+  readonly router = inject(Router);
+  readonly activateRoute = inject(ActivatedRoute);
+  readonly uiSrv = inject(UIInfoService);
+  readonly fb = inject(UntypedFormBuilder);
+
   constructor(
-    private odataSvc: OdataService,
-    public _router: Router,
-    private activateRoute: ActivatedRoute,
-    private uiSrv: UIInfoService,
-    private fb: UntypedFormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -204,6 +211,6 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
     this.uiSrv.AlbumInfoForPhotoSearching = this.accessCodeInputted;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.uiSrv.AlbumTitleForPhotoSearching = this.detailForm.get('Title')!.value;
-    this._router.navigate([`/photo/searchinalbum/${this.routerID}`]);
+    this.router.navigate([`/photo/searchinalbum/${this.routerID}`]);
   }
 }

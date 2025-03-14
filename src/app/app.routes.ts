@@ -4,15 +4,15 @@ export const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: '/welcome' },
     {
       path: 'welcome',
-      loadChildren: () => import('./pages/welcome/welcome.module').then((m) => m.WelcomeModule),
+      loadChildren: () => import('./pages/welcome/welcome.routes').then((m) => m.WELCOME_ROUTES),
     },
     {
       path: 'album',
-      loadChildren: () => import('./pages/album/album.module').then((m) => m.AlbumModule),
+      loadChildren: () => import('./pages/album/album.routes').then((m) => m.ALBUM_ROUTES),
     },
     {
       path: 'photo',
-      loadChildren: () => import('./pages/photo/photo.module').then((m) => m.PhotoModule),
+      loadChildren: () => import('./pages/photo/photo.routes').then((m) => m.PHOTO_ROUTES),
     },
     {
       path: 'about',
@@ -20,19 +20,19 @@ export const routes: Routes = [
     },
     {
       path: 'credits',
-      loadChildren: () => import('./pages/credits/credits.module').then((m) => m.CreditsModule),
+      loadChildren: () => import('./pages/credits/credits.routes').then((m) => m.CREDITS_ROUTES),
     },
     {
       path: 'userdetail',
-      loadChildren: () => import('./pages/user-detail/user-detail.module').then((m) => m.UserDetailModule),
+      loadChildren: () => import('./pages/user-detail/user-detail.routes').then((m) => m.USER_DETAIL_ROUTERS),
     },
     {
       path: 'unauthorized',
-      loadChildren: () => import('./pages/unauthorized/unauthorized.module').then((m) => m.UnauthorizedModule),
+      loadChildren: () => import('./pages/unauthorized/unauthorized.routes').then((m) => m.UNAUTHORIZED_ROUTES),
     },
   
     {
       path: '**',
-      loadChildren: () => import('./pages/not-found/not-found.module').then((m) => m.NotFoundModule),
+      loadChildren: () => import('./pages/not-found/not-found.routes').then((m) => m.NOT_FOUND_ROUTES),
     },  
 ];

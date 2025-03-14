@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpParams, HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { SequenceList } from 'actslib';
 
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment.development';
 import { Album, AlbumPhotoLink, Photo } from '../models';
 import { AuthService } from './auth.service';
 
@@ -17,7 +17,10 @@ export class OdataService {
   private isMetadataLoaded = false;
   private metadataInfo = '';
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  readonly http = inject(HttpClient);
+  readonly authService = inject(AuthService);
+  
+  constructor() {}
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public getMetadata(forceReload?: boolean): Observable<any> {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ConsoleLogTypeEnum, Photo, writeConsole } from '../../../models';
@@ -6,6 +6,7 @@ import { OdataService } from '../../../services';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { TranslocoModule } from '@jsverse/transloco';
+import { PhotoListCoreComponent } from '../../photo-common/photo-list-core';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -16,6 +17,7 @@ import { TranslocoModule } from '@jsverse/transloco';
     NzPageHeaderModule,
     NzBreadCrumbModule,
     TranslocoModule,
+    PhotoListCoreComponent,
   ]
 })
 export class PhotoListComponent implements OnInit {
@@ -25,7 +27,10 @@ export class PhotoListComponent implements OnInit {
 
   photos: Photo[] = [];
 
-  constructor(public odataSvc: OdataService, private router: Router) {}
+  readonly odataSvc = inject(OdataService);
+  readonly router = inject(Router);
+  
+  constructor() {}
 
   ngOnInit(): void {
     this.onFetchData(this.pageSize, 0);

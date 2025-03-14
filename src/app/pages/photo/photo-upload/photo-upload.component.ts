@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NzUploadChangeParam, NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
 import { forkJoin, Observable, Observer } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -8,17 +8,20 @@ import { Router } from '@angular/router';
 
 import { Album, ConsoleLogTypeEnum, SelectableAlbum, UpdPhoto, UserDetail, writeConsole } from '../../../models';
 import { AuthService, CanComponentDeactivate, OdataService } from '../../../services';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../environments/environment.development';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { AlbumHeaderComponent } from '../../album-common/album-header';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NgStyle } from '@angular/common';
 
 function getBase64(file: File): Promise<string | ArrayBuffer | null> {
   return new Promise((resolve, reject) => {
@@ -49,6 +52,9 @@ function getBase64(file: File): Promise<string | ArrayBuffer | null> {
     NzResultModule,
     NzButtonModule,
     NzModalModule,
+    AlbumHeaderComponent,
+    NzImageModule,
+    NgStyle,
   ]
 })
 export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
@@ -77,14 +83,15 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
   // Tag
   inputTagValue = '';
 
-  constructor(
-    private modal: NzModalService,
-    private fb: UntypedFormBuilder,
-    private odataSvc: OdataService,
-    private router: Router,
-    private authService: AuthService,
-    private msg: NzMessageService
-  ) {
+  readonly modal = inject(NzModalService);
+  readonly fb = inject(UntypedFormBuilder);
+  readonly odataSvc = inject(OdataService);
+  readonly router = inject(Router);
+  readonly authService = inject(AuthService);
+  readonly msg = inject(NzMessageService);
+  readonly translocoService = inject(TranslocoService);
+
+  constructor() {
     this.arAssignMode.push({ value: 0, name: 'Photo.Upload_NoAlbum' });
     this.arAssignMode.push({ value: 1, name: 'Photo.Upload_AssignExistAlbum' });
     this.arAssignMode.push({ value: 2, name: 'Photo.Upload_AssignNewAlbum' });
@@ -117,7 +124,7 @@ export class PhotoUploadComponent implements OnInit, CanComponentDeactivate {
       },
       error: (err) => {
         this.modal.error({
-          nzTitle: translate('Common.Error'),
+          nzTitle: this.translocoService.translate('Common.Error'),
           nzContent: err.toString(),
           nzClosable: true,
         });
