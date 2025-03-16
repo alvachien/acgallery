@@ -7,7 +7,7 @@ import { finalize, takeUntil } from 'rxjs/operators';
 
 import { Album, ConsoleLogTypeEnum, Photo, writeConsole } from '../../../models';
 import { OdataService, UIInfoService } from '../../../services';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzModalModule } from 'ng-zorro-antd/modal';

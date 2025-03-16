@@ -11,7 +11,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
 
 import { Album, ConsoleLogTypeEnum, writeConsole } from '../../../models';
 import { OdataService } from '../../../services';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

@@ -1,5 +1,5 @@
 import * as Common from './common';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 /**
  * Exif item

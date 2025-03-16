@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 
 import { Album, ConsoleLogTypeEnum, SelectableAlbum, UpdPhoto, UserDetail, writeConsole } from '../../../models';
 import { AuthService, CanComponentDeactivate, OdataService } from '../../../services';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';

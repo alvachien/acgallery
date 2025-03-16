@@ -4,7 +4,7 @@ import { Observable, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { SequenceList } from 'actslib';
 
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { Album, AlbumPhotoLink, Photo } from '../models';
 import { AuthService } from './auth.service';
 

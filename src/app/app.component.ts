@@ -4,7 +4,7 @@ import { en_US, NzI18nService, zh_CN } from 'ng-zorro-antd/i18n';
 import { NzBreakpointService, siderResponsiveMap } from 'ng-zorro-antd/core/services';
 import { Platform } from '@angular/cdk/platform';
 
-import { environment } from '../environments/environment.development';
+import { environment } from '../environments/environment';
 import { AuthService } from './services';
 import { Subject, takeUntil } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
