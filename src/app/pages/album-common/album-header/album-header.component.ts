@@ -85,7 +85,7 @@ export class AlbumHeaderComponent implements OnInit, ControlValueAccessor, Valid
     this.headerFormGroup = this.fb.group({
       titleCtrl: new UntypedFormControl('', [Validators.required]),
       despCtrl: new UntypedFormControl(''),
-      isPublicCtrl: new UntypedFormControl(),
+      isPublicCtrl: new UntypedFormControl(false),
       accessCodeCtrl: new UntypedFormControl({
         value: undefined,
         disabled: true,

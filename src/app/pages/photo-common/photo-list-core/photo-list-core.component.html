@@ -20,38 +20,39 @@
 
 <nz-image-group>
   <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
-    <div
-      nz-col
-      nzXs="24"
-      nzSm="24"
-      nzMd="12"
-      nzLg="8"
-      nzXl="6"
-      class="gutter-row"
-      [nzSpan]="6"
-      *ngFor="let pht of photos">
-      <div nz-col class="inner-box">
-        <div nz-row>
-          <img [src]="getFileUrl(pht)" (click)="onStartPreview(pht.photoId)" alt="" />
-        </div>
-        <div nz-row class="button-group-row">
-          <button nz-button nzSize="small" nzShape="circle" (click)="onPhotoViewEXIF(pht)" style="margin-right: 4px">
-            <i nz-icon nzType="info"></i>
-          </button>
-          @for(tag of pht.tags; track $index) {
-            <nz-tag [nzColor]="'geekblue'">{{ tag }}</nz-tag>
+    @for(pht of photos; track $index) {
+      <div
+        nz-col
+        nzXs="24"
+        nzSm="24"
+        nzMd="12"
+        nzLg="8"
+        nzXl="6"
+        class="gutter-row"
+        [nzSpan]="6">
+        <div nz-col class="inner-box">
+          <div nz-row>
+            <img [src]="getFileUrl(pht)" (click)="onStartPreview(pht.photoId)" alt="" />
+          </div>
+          <div nz-row class="button-group-row">
+            <button nz-button nzSize="small" nzShape="circle" (click)="onPhotoViewEXIF(pht)" style="margin-right: 4px">
+              <i nz-icon nzType="info"></i>
+            </button>
+            @for(tag of pht.tags; track $index) {
+              <nz-tag [nzColor]="'geekblue'">{{ tag }}</nz-tag>
+            }
+          </div>
+          @if(viewMode === 'adv') {
+            <div nz-row class="button-group-row">
+              <nz-button-group>
+                <a nz-button nzType="link" (click)="onChangePhoto(pht)" nzSize="small" nzGhost>{{'Common.Edit' | transloco}}</a>
+                <a nz-button nzType="link" (click)="onDeletePhoto(pht)" nzSize="small" nzDanger>{{'Common.Delete' | transloco}}</a>
+              </nz-button-group>
+            </div>  
           }
         </div>
-        @if(viewMode === 'adv') {
-          <div nz-row class="button-group-row">
-            <nz-button-group>
-              <a nz-button nzType="link" (click)="onChangePhoto(pht)" nzSize="small" nzGhost>{{'Common.Edit' | transloco}}</a>
-              <a nz-button nzType="link" (click)="onDeletePhoto(pht)" nzSize="small" nzDanger>{{'Common.Delete' | transloco}}</a>
-            </nz-button-group>
-          </div>  
-        }
       </div>
-    </div>
+    }
   </div>
 </nz-image-group>
 

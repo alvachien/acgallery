@@ -37,10 +37,12 @@
       <nz-list-item-meta>
         <nz-list-item-meta-avatar [nzSrc]="item.Thumbnail"> </nz-list-item-meta-avatar>
         <nz-list-item-meta-title>
-          <nz-ribbon *ngIf="item.accessCodeHint" nzText="Access Code Required">
-            <a (click)="onDisplay(item)">{{ item.Title }}</a>
-          </nz-ribbon>
-          @if(!item.accessCodeHint) {
+          @if(item.accessCodeHint) {
+            <nz-ribbon nzText="Access Code Required">
+              <a (click)="onDisplay(item)">{{ item.Title }}</a>
+            </nz-ribbon>  
+          }
+          @else {
             <div>
               <a (click)="onDisplay(item)">{{ item.Title }}</a>
             </div>  

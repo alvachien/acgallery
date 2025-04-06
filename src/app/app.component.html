@@ -88,9 +88,9 @@
                 }
               </ul>
             </nz-dropdown-menu>
-            <button *nzSpaceItem nz-button (click)="onOpenGithub()">
-              <i nz-icon nzType="github" nzTheme="outline"></i>
-            </button>
+            <a *nzSpaceItem (click)="onOpenGithub()">
+              <i nz-icon nzType="github"></i>
+            </a>
             <span *nzSpaceItem nz-typography nzType="success">@if(visibleVersionLabel) {<span>{{ 'Nav.Version' | transloco }}: </span>}{{ currentVersion }}</span>
           </nz-space>
         </div>
